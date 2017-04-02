@@ -10,6 +10,7 @@
     <string name="phone_number_hint">请输入手机号</string>
     <string name="verification_code_hint">请输入验证码</string>
     <string name="get_verification_code">获取验证码</string>
+    <string name="verification_code">验证码</string>
     <string name="login">登陆</string>
     <string name="employee_login_mode">采用员工账号登陆</string>
     <string name="second">秒</string>

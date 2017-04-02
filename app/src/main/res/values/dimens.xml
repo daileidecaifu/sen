@@ -7,11 +7,14 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
-    <dimen name="text_size_s">11sp</dimen>
-    <dimen name="text_size_m">13sp</dimen>
-    <dimen name="text_size_l">15sp</dimen>
-    <dimen name="text_size_xl">17sp</dimen>
+    <dimen name="text_size_s">12sp</dimen>
+    <dimen name="text_size_m">14sp</dimen>
+    <dimen name="text_size_l">16sp</dimen>
+    <dimen name="text_size_xl">18sp</dimen>
 
     <dimen name="titlebar_height">44dp</dimen>
+
+    <dimen name="common_hight">44dp</dimen>
+
 
 </resources>

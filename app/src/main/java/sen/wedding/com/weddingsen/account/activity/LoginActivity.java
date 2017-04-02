@@ -1,9 +1,12 @@
 package sen.wedding.com.weddingsen.account.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -67,6 +70,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 //                showProgressDialog(false);
                 login();
                 break;
+            case R.id.ll_whole:
+                View view = getWindow().peekDecorView();
+                if (view != null) {
+                    InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+                break;
 
         }
     }
@@ -117,13 +127,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         @Override
         public void onFinish() {
             canSendSMS = true;
+            binding.tvGetVerification.setTextColor(getResources().getColor(R.color.theme_color));
             binding.tvGetVerification.setText(getString(R.string.get_verification_code));
 
         }
 
         @Override
         public void onTick(long millisUntilFinished) {
-            binding.tvGetVerification.setText("(" + millisUntilFinished / 1000 + ")" + getString(R.string.second));
+            binding.tvGetVerification.setTextColor(getResources().getColor(R.color.gray_1));
+            binding.tvGetVerification.setText(millisUntilFinished / 1000 + getString(R.string.second));
         }
     }
 }
