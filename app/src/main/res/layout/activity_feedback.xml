@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data class="FeedbackBinding">
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/title_bar"
+            layout="@layout/common_title_bar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingTop="30dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="@string/problem_and_advice"
+                android:textSize="@dimen/text_size_xl" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider_color"></View>
+
+            <EditText
+                android:id="@+id/et_feedback_content"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="@color/transparent"
+                android:gravity="top|left"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="5dp"
+                android:textSize="@dimen/text_size_l" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider_color"></View>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="@string/your_phone_option"
+                android:textSize="@dimen/text_size_xl" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider_color"></View>
+
+            <EditText
+                android:id="@+id/et_feedback_phone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/transparent"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_l" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider_color"></View>
+
+            <TextView
+                android:id="@+id/tv_feedback_submit"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="85dp"
+                android:background="#F0E68C"
+                android:gravity="center"
+                android:onClick="@{clickListener}"
+                android:text="@string/submit_feedback"
+                android:textSize="@dimen/text_size_xl" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</layout>

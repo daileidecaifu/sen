@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data class="PersonalInfoSetBinding">
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/common_title_bar"
+            android:id="@+id/title_bar"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:paddingTop="70dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:background="#F0E68C"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/alipay_account"
+                    android:layout_marginRight="15dp"
+                    />
+
+                <TextView
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="12dp"
+                    android:background="#9E9E9E" />
+
+                <EditText
+                    android:id="@+id/et_alipay_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00000000"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:textColorHint="#A2B5CD"
+                    android:gravity="center_vertical|right"
+                    android:hint="@string/alipay_account_hint"
+                    android:paddingRight="20dp"
+                    android:textSize="@dimen/text_size_l" />
+            </LinearLayout>
+        </LinearLayout>
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="@string/not_set_now"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="50dp"
+            android:gravity="center"
+            android:id="@+id/tv_skip"
+            android:onClick="@{clickListener}"
+            android:layout_height="30dp" />
+    </LinearLayout>
+
+
+</layout>

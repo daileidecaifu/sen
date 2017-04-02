@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data class="ReviewInfoBinding"></data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider_color"></View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_height="30dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="time"
+                    android:id="@+id/tv_review_time"
+                    android:gravity="center_vertical|left"
+                    android:layout_height="match_parent"
+                    android:textSize="@dimen/text_size_m"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:id="@+id/tv_review_status"
+                    android:gravity="center_vertical|right"
+                    android:text="status"
+                    android:textSize="@dimen/text_size_m"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:background="@color/divider_color"></View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_height="60dp">
+
+                <TextView
+                    android:paddingTop="5dp"
+                    android:layout_width="45dp"
+                    android:textSize="@dimen/text_size_m"
+
+                    android:text="@string/note_colon"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:paddingTop="5dp"
+                    android:id="@+id/tv_review_note"
+                    android:textSize="@dimen/text_size_l"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:text="text"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:background="@color/divider_color"></View>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:textSize="@dimen/text_size_l"
+                android:id="@+id/tv_review_hint"
+                android:text="Please Wait"
+                android:layout_height="30dp"></TextView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider_color"></View>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="@color/colorAccent"
+                android:id="@+id/v_review_placeholder"
+                ></View>
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

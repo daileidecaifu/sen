@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data class="EditGuestInfoBinding">
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/title_bar"
+            layout="@layout/common_title_bar" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"></View>
+
+                    <include
+                        android:id="@+id/ll_edit_name"
+                        layout="@layout/view_item_edit" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"></View>
+
+                    <include
+                        android:id="@+id/ll_select_type"
+                        layout="@layout/view_item_select" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"></View>
+
+                    <include
+                        android:id="@+id/ll_edit_phone_number"
+                        layout="@layout/view_item_edit" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"></View>
+
+                    <include
+                        android:id="@+id/ll_select_district"
+                        layout="@layout/view_item_select" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"></View>
+
+                    <include
+                        android:id="@+id/ll_select_hotel"
+                        layout="@layout/view_item_select" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"></View>
+
+                    <include
+                        android:id="@+id/ll_edit_table_count"
+                        layout="@layout/view_item_edit" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"></View>
+
+                    <include
+                        android:id="@+id/ll_edit_budget"
+                        layout="@layout/view_item_edit" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"></View>
+
+                    <include
+                        android:id="@+id/ll_edit_time"
+                        layout="@layout/view_item_edit" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"></View>
+
+                    <include
+                        android:id="@+id/ll_edit_follower"
+                        layout="@layout/view_item_edit" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"></View>
+
+                    <EditText
+                        android:id="@+id/ed_edit_note"
+                        android:gravity="top|left"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:hint="@string/please_write_note"
+                        android:paddingTop="5dp"
+                        android:textColorHint="#A2B5CD"
+                        android:layout_width="match_parent"
+                        android:background="#F0E68C"
+                        android:layout_height="120dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"></View>
+
+                    <TextView
+                        android:id="@+id/tv_edit_submit"
+                        android:background="#F0E68C"
+                        android:textColor="@color/text_common"
+                        android:gravity="center"
+                        android:onClick="@{clickListener}"
+                        android:textSize="@dimen/text_size_xl"
+                        android:text="@string/submit_guest_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"></View>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingLeft="30dp"
+                    android:textSize="@dimen/text_size_xl"
+                    android:text="@string/check_info"
+                    android:gravity="center_vertical"/>
+
+                <sen.wedding.com.weddingsen.component.MeasuredListView
+                    android:id="@+id/lv_review_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@null"/>
+            </LinearLayout>
+        </ScrollView>
+
+
+    </LinearLayout>
+
+
+</layout>
