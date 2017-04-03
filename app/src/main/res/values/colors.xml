@@ -11,8 +11,13 @@
     <color name="text_common">#626266</color>
     <color name="text_hint">#8e8e93</color>
     <color name="divider_color">#e5e5ea</color>
+    <color name="divider_out">#efeff4</color>
+    <color name="divider_list">#ebebf0</color>
+
+    <color name="common_background">#f5f5fa</color>
 
     <color name="gray_1">#c7c7c7</color>
+    <color name="gray_2">#939399</color>
 
 
 </resources>

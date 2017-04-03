@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#545467"
+        android:background="@color/white"
         android:fitsSystemWindows="true"
         android:gravity="center_horizontal"
         android:orientation="vertical">
@@ -23,52 +23,51 @@
             android:id="@+id/iv_avatar"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginTop="50dp"
-            android:background="#ffffff"
+            android:layout_marginTop="70dp"
+            android:background="@mipmap/logo"
             android:gravity="center" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="15800000000"
-            android:textColor="#ffffff"
-            android:textSize="@dimen/text_size_l" />
+            android:textColor="@color/text_common"
+            android:textSize="@dimen/text_size_xxl" />
 
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="50dp"
-            android:background="@color/white" />
 
         <TextView
             android:id="@+id/tv_person_info"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_marginTop="90dp"
             android:text="@string/person_info"
-            android:textColor="#ffffff"
-            android:textSize="@dimen/text_size_xl" />
+            android:textColor="@color/tip_color"
+            android:textSize="@dimen/text_size_xxl" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/white" />
 
         <TextView
             android:id="@+id/tv_user_feedback"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/user_feedback"
-            android:textColor="#ffffff"
-            android:textSize="@dimen/text_size_xl" />
+            android:layout_marginTop="40dp"
+            android:textColor="@color/tip_color"
+            android:textSize="@dimen/text_size_xxl" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/white" />
+            android:layout_weight="1"
+            android:layout_height="wrap_content"></View>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/exit_login"
+            android:layout_marginBottom="50dp"
+            android:textColor="@color/text_common"
+            android:textSize="@dimen/text_size_xxl" />
 
     </LinearLayout>
 

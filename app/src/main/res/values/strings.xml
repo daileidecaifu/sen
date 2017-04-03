@@ -23,6 +23,7 @@
     <string name="user_feedback">用户反馈</string>
     <string name="guest_info_list">客资列表</string>
     <string name="type">类型</string>
+    <string name="select_type_hint">请选择举办宴会类型</string>
     <string name="phone_number">手机号</string>
     <string name="verify_phone_number_hint">请输入受访者手机号</string>
     <string name="verify_now">立即验证</string>
@@ -45,12 +46,16 @@
     <string name="follower">跟踪者</string>
     <string name="follower_hint">请输入跟踪者的账号</string>
     <string name="check_more">查看更多</string>
-    <string name="follower_faction">跟踪方:</string>
-    <string name="contact_person">联系人:</string>
+    <string name="follower_tip">跟踪方</string>
+    <string name="contact_person">联系人</string>
     <string name="check_info">审核信息</string>
     <string name="problem_and_advice">问题和建议</string>
     <string name="your_phone_option">您的联系电话(选填)</string>
     <string name="submit_feedback">提交反馈</string>
     <string name="progress_wait">请稍候...</string>
+    <string name="wedding_banquet">婚宴</string>
+    <string name="business_affairs">会务</string>
+    <string name="birthday_group_baby">生日宴、团宴、宝宝宴</string>
+    <string name="exit_login">退出登录</string>
 
 </resources>

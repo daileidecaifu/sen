@@ -40,7 +40,8 @@
 
         <activity android:name=".account.activity.PersonalInfoSetActivity"></activity>
 
-        <activity android:name=".account.activity.VerifyGuestInfoActivity"></activity>
+        <activity android:name=".account.activity.VerifyGuestInfoActivity"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
 
         <activity
             android:name=".business.activity.EditGuestInfoActivity"

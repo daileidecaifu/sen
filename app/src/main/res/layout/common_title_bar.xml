@@ -7,8 +7,8 @@
 
 
     <TextView
-        android:layout_width="25dp"
-        android:background="@color/white"
+        android:layout_width="16dp"
+        android:background="@mipmap/icon_back"
         android:layout_height="25dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"

@@ -68,14 +68,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
             case R.id.tv_login:
 //                showProgressDialog(false);
-                login();
+//                login();
+                jumpToOtherActivity(PersonalInfoSetActivity.class);
                 break;
             case R.id.ll_whole:
-                View view = getWindow().peekDecorView();
-                if (view != null) {
-                    InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
+                hideSoftKeyBoard();
                 break;
 
         }

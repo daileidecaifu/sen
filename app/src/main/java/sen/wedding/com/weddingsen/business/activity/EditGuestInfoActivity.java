@@ -93,9 +93,9 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
         binding.llEditTime.tvItemEditTitle.setText(getString(R.string.time));
         binding.llEditTime.etItemEditInput.setHint(getString(R.string.time_hint));
 
-        //跟踪者
-        binding.llEditFollower.tvItemEditTitle.setText(getString(R.string.follower));
-        binding.llEditFollower.etItemEditInput.setHint(getString(R.string.follower_hint));
+//        //跟踪者
+//        binding.llEditFollower.tvItemEditTitle.setText(getString(R.string.follower));
+//        binding.llEditFollower.etItemEditInput.setHint(getString(R.string.follower_hint));
     }
 
     private void initListView() {

@@ -2,9 +2,11 @@ package sen.wedding.com.weddingsen.base;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import sen.wedding.com.weddingsen.R;
@@ -69,6 +71,15 @@ public class BaseActivity extends FragmentActivity {
             apiService = SenApplication.getInstance().getApiService();
         }
         return apiService;
+    }
+
+    protected void hideSoftKeyBoard()
+    {
+        View view = getWindow().peekDecorView();
+        if (view != null) {
+            InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     @Override

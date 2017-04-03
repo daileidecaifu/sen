@@ -17,11 +17,11 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/divider_color"></View>
+                android:background="@color/divider_out"></View>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="@dimen/common_hight"
                 android:orientation="horizontal"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp">
@@ -32,8 +32,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical|left"
+                    android:textColor="@color/gray_2"
                     android:text="time"
-                    android:textSize="@dimen/text_size_m" />
+                    android:textSize="@dimen/text_size_s" />
 
                 <TextView
                     android:id="@+id/tv_order_status"
@@ -42,7 +43,7 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical|right"
                     android:text="status"
-                    android:textSize="@dimen/text_size_m" />
+                    android:textSize="@dimen/text_size_s" />
 
             </LinearLayout>
 
@@ -50,94 +51,109 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginLeft="10dp"
-                android:background="@color/divider_color"></View>
+                android:background="@color/divider_list"></View>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <LinearLayout
-                        android:id="@+id/ll_follower"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:orientation="horizontal"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:text="@string/follower_faction"
-                            android:gravity="center_vertical"
-                            android:layout_height="match_parent" />
-
-                        <TextView
-                            android:id="@+id/tv_follower_faction"
-                            android:layout_width="match_parent"
-                            android:text="Test Hotel"
-                            android:gravity="center_vertical"
-                            android:layout_height="match_parent" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_contact_person"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:orientation="horizontal"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:text="@string/contact_person"
-                            android:gravity="center_vertical"
-                            android:layout_height="match_parent" />
-
-                        <TextView
-                            android:id="@+id/tv_contant_person_phone"
-                            android:layout_width="match_parent"
-                            android:text="15800000000"
-                            android:gravity="center_vertical"
-                            android:layout_height="match_parent" />
-                    </LinearLayout>
-
-                </RelativeLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_check_more"
-                    android:layout_width="90dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical|right">
+                    android:id="@+id/ll_follower"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/check_more" />
+                        android:text="@string/follower_tip"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/gray_2"
+                        android:textSize="@dimen/text_size_m"
+                        android:layout_marginRight="50dp"
+                        android:layout_height="wrap_content" />
 
-                    <View
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:background="@color/theme_color"></View>
-
+                    <TextView
+                        android:id="@+id/tv_follower_faction"
+                        android:layout_width="match_parent"
+                        android:text="Test Hotel"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:textColor="@color/tip_color"
+                        android:textSize="@dimen/text_size_m"
+                        android:gravity="center_vertical"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_contact_person"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:text="@string/contact_person"
+                        android:gravity="center_vertical"
+                        android:layout_marginRight="50dp"
+                        android:textColor="@color/gray_2"
+                        android:textSize="@dimen/text_size_m"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/tv_contant_person_phone"
+                        android:layout_width="match_parent"
+                        android:text="15800000000"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:textColor="@color/tip_color"
+                        android:textSize="@dimen/text_size_m"
+                        android:gravity="center_vertical"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+
+
+                <!--<LinearLayout-->
+                <!--android:id="@+id/ll_check_more"-->
+                <!--android:layout_width="90dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:gravity="center_vertical|right">-->
+
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/check_more" />-->
+
+                <!--<View-->
+                <!--android:layout_width="25dp"-->
+                <!--android:layout_height="25dp"-->
+                <!--android:background="@color/theme_color"></View>-->
+
+                <!--</LinearLayout>-->
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/divider_color"></View>
+                android:layout_marginTop="20dp"
+                android:background="@color/transparent"></View>
+
             <View
                 android:id="@+id/v_review_placeholder"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"></View>
+                android:background="@color/common_background"
+                android:layout_height="5dp"></View>
         </LinearLayout>
 
     </LinearLayout>

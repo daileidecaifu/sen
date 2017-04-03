@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import sen.wedding.com.weddingsen.R;
@@ -76,9 +78,17 @@ public class MainActivity extends BaseActivity
 
         //头部title
         RelativeLayout linearLayoutTitle = (RelativeLayout) linearLayoutMain.findViewById(R.id.title_bar);
+
+        TextView textViewLeft = (TextView) linearLayoutTitle.findViewById(R.id.tv_left);
+        TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
+        TextView textViewTitle = (TextView) linearLayoutTitle.findViewById(R.id.tv_title_title);
+
         titleBar = new TitleBar(linearLayoutTitle, TitleBar.Type.CUSTOM_1);
-        titleBar.setTitle(getString(R.string.guest_info_list));
-        titleBar.setRightClickEvent(new View.OnClickListener() {
+        textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_back));
+        textViewRight.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_create));
+
+        textViewTitle.setText(getString(R.string.guest_info_list));
+        textViewRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 jumpToOtherActivity(VerifyGuestInfoActivity.class);
@@ -86,7 +96,7 @@ public class MainActivity extends BaseActivity
             }
         });
 
-        titleBar.setLeftClickEvent(new View.OnClickListener() {
+        textViewLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawer.openDrawer(GravityCompat.START);
@@ -98,17 +108,18 @@ public class MainActivity extends BaseActivity
         ViewPager viewPager = (ViewPager) linearLayoutMain.findViewById(R.id.viewpager);
         viewPager.setAdapter(new TabViewPagerAdapter(getSupportFragmentManager(), this));
 
+        int selectColor = ContextCompat.getColor(this, R.color.theme_color);
         SlidingTabLayout slidingTabLayout = (SlidingTabLayout) linearLayoutMain.findViewById(R.id.sliding_tabs);
-        slidingTabLayout.setTabTitleTextSize(10);//标题字体大小
-        slidingTabLayout.setTitleTextColor(Color.WHITE, 0xFFF8BBD0);//标题字体颜色
+        slidingTabLayout.setTabTitleTextSize(14);//标题字体大小
+        slidingTabLayout.setTitleTextColor(selectColor, ContextCompat.getColor(this, R.color.text_common));//标题字体颜色
         slidingTabLayout.setTabStripWidth(70);//滑动条宽度
-        slidingTabLayout.setSelectedIndicatorColors(Color.WHITE);//滑动条颜色
+        slidingTabLayout.setSelectedIndicatorColors(selectColor);//滑动条颜色
         slidingTabLayout.setForegroundGravity(Gravity.CENTER_VERTICAL);
         slidingTabLayout.setDistributeEvenly(true); //均匀平铺选项卡
         /**
          * 自定义tabview，设置左右padding可实现滑动，当前通过layout为wrap，且设置tabview的margin来动态设置
          */
-        slidingTabLayout.setCustomTabView(R.layout.tv_tab_custom,0);
+        slidingTabLayout.setCustomTabView(R.layout.tv_tab_custom, 0);
         slidingTabLayout.setViewPager(viewPager);//最后调用此方
     }
 
@@ -130,7 +141,7 @@ public class MainActivity extends BaseActivity
 
         private String[] mTabTitle = new String[]{"全部的", "待处理", "跟踪中", "待结算", "已结算", "已取消"};
         private Context mContext;
-        private Fragment[] fragments = new Fragment[]{new GuestInfoFragment(), new GuestInfoFragment(), new GuestInfoFragment(), new GuestInfoFragment(),new GuestInfoFragment(), new GuestInfoFragment()};
+        private Fragment[] fragments = new Fragment[]{new GuestInfoFragment(), new GuestInfoFragment(), new GuestInfoFragment(), new GuestInfoFragment(), new GuestInfoFragment(), new GuestInfoFragment()};
 
         public TabViewPagerAdapter(FragmentManager fm, Context context) {
             super(fm);

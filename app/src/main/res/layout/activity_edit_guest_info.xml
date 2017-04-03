@@ -98,13 +98,13 @@
                         android:id="@+id/ll_edit_time"
                         layout="@layout/view_item_edit" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="20dp"></View>
+                    <!--<View-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="20dp"></View>-->
 
-                    <include
-                        android:id="@+id/ll_edit_follower"
-                        layout="@layout/view_item_edit" />
+                    <!--<include-->
+                        <!--android:id="@+id/ll_edit_follower"-->
+                        <!--layout="@layout/view_item_edit" />-->
 
                     <View
                         android:layout_width="match_parent"

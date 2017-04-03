@@ -43,14 +43,17 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
         });
 
         modelList = Conts.getGuestInfoArray();
-        binding.tvVerifyType.setText(modelList.get(0).getValue());
+//        binding.tvVerifyType.setText(modelList.get(0).getValue());
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ll_select_type:
-                showSelectType(modelList);
+//            case R.id.ll_select_type:
+//                showSelectType(modelList);
+//                break;
+            case R.id.ll_verify_phone:
+                hideSoftKeyBoard();
                 break;
 
             case R.id.tv_verify_now:
@@ -60,27 +63,27 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
         }
     }
 
-    private void showSelectType(List<BaseTypeModel> models) {
-
-        final String[] items = Conts.getShowContentArray(modelList);
-        //dialog参数设置
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);  //先得到构造器
-        builder.setTitle("提示"); //设置标题
-        //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                showToast(modelList.get(which).getValue());
-                binding.tvVerifyType.setText(items[which]);
-            }
-        });
-        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.create().show();
-    }
+//    private void showSelectType(List<BaseTypeModel> models) {
+//
+//        final String[] items = Conts.getShowContentArray(modelList);
+//        //dialog参数设置
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);  //先得到构造器
+//        builder.setTitle("提示"); //设置标题
+//        //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
+//        builder.setItems(items, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//                showToast(modelList.get(which).getValue());
+//                binding.tvVerifyType.setText(items[which]);
+//            }
+//        });
+//        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
+//        builder.create().show();
+//    }
 }
