@@ -12,62 +12,83 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/common_background"
         android:orientation="vertical">
 
-        <include layout="@layout/common_title_bar"
-            android:id="@+id/title_bar"/>
+        <include
+            android:id="@+id/title_bar"
+            layout="@layout/common_title_bar" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:paddingTop="70dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_height="match_parent">
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="10dp"
+                android:background="@color/divider_out"></View>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:gravity="center_vertical"
-                android:background="#F0E68C"
-                android:layout_height="50dp">
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:text="@string/alipay_account"
-                    android:layout_marginRight="15dp"
-                    />
+                    android:textColor="@color/tip_color"
+                    android:text="@string/alipay"
+                    android:textSize="@dimen/text_size_mm"
+                    android:id="@+id/textView2" />
 
-                <TextView
-                    android:layout_width="1px"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="12dp"
-                    android:background="#9E9E9E" />
 
                 <EditText
                     android:id="@+id/et_alipay_input"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#00000000"
-                    android:singleLine="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="75dp"
+                    android:hint="@string/alipay_hint"
                     android:maxLines="1"
-                    android:textColorHint="#A2B5CD"
-                    android:gravity="center_vertical|right"
-                    android:hint="@string/alipay_account_hint"
                     android:paddingRight="20dp"
-                    android:textSize="@dimen/text_size_l" />
+                    android:textColor="@color/text_common"
+                    android:singleLine="true"
+                    android:textColorHint="@color/gray_1"
+                    android:textSize="@dimen/text_size_m" />
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider_out"></View>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:paddingLeft="15dp"
+                android:text="@string/alipay_account_hint"
+                android:textSize="@dimen/text_size_m"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/gray_2"
+                android:layout_height="wrap_content" />
         </LinearLayout>
-        
+
         <TextView
-            android:layout_width="wrap_content"
-            android:text="@string/not_set_now"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="50dp"
-            android:gravity="center"
             android:id="@+id/tv_skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="25dp"
+            android:gravity="center"
             android:onClick="@{clickListener}"
-            android:layout_height="30dp" />
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="@string/not_set_now" />
     </LinearLayout>
 
 

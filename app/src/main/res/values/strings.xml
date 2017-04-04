@@ -16,8 +16,10 @@
     <string name="second">秒</string>
     <string name="next_step">下一步</string>
     <string name="set_personal_info">设定个人信息</string>
+    <string name="alipay">支付宝</string>
     <string name="alipay_account">支付宝账号</string>
-    <string name="alipay_account_hint">只有设定了账号，才能提成哟</string>
+    <string name="alipay_hint">请输入支付宝账号</string>
+    <string name="alipay_account_hint">只有绑定账号，才能提成哟</string>
     <string name="not_set_now">暂不设置，以后再说</string>
     <string name="person_info">个人信息</string>
     <string name="user_feedback">用户反馈</string>
@@ -32,11 +34,12 @@
     <string name="edit_guest_info">填写客资料信息</string>
     <string name="submit_guest_info">提交客资信息</string>
     <string name="note_colon">备注:</string>
+    <string name="note">备注</string>
     <string name="follow_time_colon">跟进时间:</string>
     <string name="status_colon">状态:</string>
     <string name="please_write_note">请填写备注信息</string>
     <string name="district_star">*区域</string>
-    <string name="hotel_star">*区域</string>
+    <string name="hotel_star">*酒店</string>
     <string name="table_count">桌数</string>
     <string name="table_count_hint">请输入预计需要的桌数</string>
     <string name="budget">预算</string>
@@ -50,12 +53,16 @@
     <string name="contact_person">联系人</string>
     <string name="check_info">审核信息</string>
     <string name="problem_and_advice">问题和建议</string>
-    <string name="your_phone_option">您的联系电话(选填)</string>
+    <string name="your_phone_option">联系电话(选填)</string>
     <string name="submit_feedback">提交反馈</string>
     <string name="progress_wait">请稍候...</string>
     <string name="wedding_banquet">婚宴</string>
     <string name="business_affairs">会务</string>
     <string name="birthday_group_baby">生日宴、团宴、宝宝宴</string>
     <string name="exit_login">退出登录</string>
+    <string name="feedback_hint">请描述您的问题</string>
+    <string name="select">选择</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
 
 </resources>

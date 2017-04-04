@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data class="VerifyGuestInfoOldBinding">
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/common_background"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/title_bar"
+            layout="@layout/common_title_bar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+
+                android:paddingLeft="45dp"
+                android:paddingRight="45dp"
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="@string/type"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/text_common"
+                    android:textSize="@dimen/text_size_l"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/gray_2"
+                    android:text="@string/select_type_hint"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:layout_height="36dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:text="@string/wedding_banquet"
+                        android:layout_marginRight="15dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:textColor="@color/theme_color"
+                        android:textSize="@dimen/text_size_m"
+                        android:background="@drawable/buttom_big_round_theme"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:layout_weight="1"
+
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/text_common"
+                        android:text="@string/business_affairs"
+                        android:background="@drawable/buttom_big_round_gray"
+                        android:layout_height="match_parent" />
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="@string/birthday_group_baby"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="40dp"
+                    android:background="@drawable/buttom_big_round_gray"
+                    android:layout_height="36dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_verify_phone"
+                android:background="@color/white"
+                android:layout_marginTop="5dp"
+                android:onClick="@{clickListener}"
+                android:paddingRight="45dp"
+                android:paddingLeft="45dp"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:text="@string/phone_number"
+                    android:textSize="@dimen/text_size_l"
+                    android:layout_height="wrap_content" />
+                <sen.wedding.com.weddingsen.component.ClearEditText
+                    android:id="@+id/et_guest_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/common_hight"
+                    android:inputType="phone"
+                    android:layout_marginTop="10dp"
+
+                    android:maxLength="11"
+                    android:background="#00000000"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:layout_marginLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/text_common"
+                    android:textSize="@dimen/text_size_l" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider_color"></View>
+
+                <TextView
+                    android:id="@+id/tv_verify_now"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="40dp"
+                    android:background="@drawable/buttom_common_background"
+                    android:gravity="center"
+                    android:onClick="@{clickListener}"
+                    android:text="@string/verify_now"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_xl"></TextView>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</layout>

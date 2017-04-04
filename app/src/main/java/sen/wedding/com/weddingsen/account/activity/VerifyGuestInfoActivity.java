@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.view.View;
 
 import java.util.List;
@@ -23,7 +25,7 @@ import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
 public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClickListener {
 
     VerifyGuestInfoBinding binding;
-//    private String[] items;
+    //    private String[] items;
     private List<BaseTypeModel> modelList;
 
     @Override
@@ -43,15 +45,15 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
         });
 
         modelList = Conts.getGuestInfoArray();
-//        binding.tvVerifyType.setText(modelList.get(0).getValue());
+        initComponents();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.ll_select_type:
-//                showSelectType(modelList);
-//                break;
+            case R.id.ll_select_type:
+                showSelectType(modelList);
+                break;
             case R.id.ll_verify_phone:
                 hideSoftKeyBoard();
                 break;
@@ -63,27 +65,40 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
         }
     }
 
-//    private void showSelectType(List<BaseTypeModel> models) {
-//
-//        final String[] items = Conts.getShowContentArray(modelList);
-//        //dialog参数设置
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);  //先得到构造器
-//        builder.setTitle("提示"); //设置标题
-//        //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
-//        builder.setItems(items, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
-//                showToast(modelList.get(which).getValue());
-//                binding.tvVerifyType.setText(items[which]);
-//            }
-//        });
-//        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
-//            }
-//        });
-//        builder.create().show();
-//    }
+    private void initComponents() {
+        //类型
+        binding.llSelectType.setClickListener(this);
+        binding.llSelectType.tvItemSelectTitle.setText(getString(R.string.type));
+        binding.llSelectType.tvItemSelectContent.setText(modelList.get(0).getValue());
+
+        //手机号
+        binding.llEditGuestPhone.tvItemEditTitle.setText(getString(R.string.phone_number));
+        binding.llEditGuestPhone.etItemEditInput.setText(getString(R.string.phone_number_hint));
+        binding.llEditGuestPhone.etItemEditInput.setInputType(InputType.TYPE_CLASS_PHONE);
+        binding.llEditGuestPhone.etItemEditInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
+    }
+
+    private void showSelectType(final List<BaseTypeModel> models) {
+
+        final String[] items = Conts.getShowContentArray(models);
+        //dialog参数设置
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);  //先得到构造器
+        builder.setTitle("提示"); //设置标题
+        //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                showToast(models.get(which).getValue());
+                binding.llSelectType.tvItemSelectContent.setText(items[which]);
+            }
+        });
+        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
 }

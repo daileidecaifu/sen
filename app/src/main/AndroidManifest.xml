@@ -50,6 +50,8 @@
         <activity
             android:name=".account.activity.FeedbackActivity"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
+
+        <activity android:name=".business.activity.SelectOptionActivity"></activity>
     </application>
 
 </manifest>

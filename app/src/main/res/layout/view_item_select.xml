@@ -12,26 +12,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#F0E68C"
+        android:layout_height="@dimen/common_hight"
+        android:background="@color/white"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_item_select_title"
-            android:layout_width="60dp"
+            android:layout_width="90dp"
+            android:textColor="@color/tip_color"
             android:layout_height="match_parent"
-            android:layout_marginRight="10dp"
-            android:gravity="right|center_vertical"
+            android:gravity="center_vertical"
             android:text="title"
-            android:textSize="@dimen/text_size_l" />
-
-        <TextView
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="12dp"
-            android:layout_marginTop="12dp"
-            android:background="#9E9E9E" />
-
+            android:textSize="@dimen/text_size_m" />
 
         <LinearLayout
             android:id="@+id/ll_select_type"
@@ -49,17 +43,18 @@
                 android:background="#00000000"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:paddingLeft="10dp"
+                android:textColor="@color/gray_2"
+                android:hint="hint"
                 android:singleLine="true"
-                android:textColorHint="#A2B5CD"
-                android:textSize="@dimen/text_size_l" />
+                android:textColorHint="@color/gray_1"
+                android:textSize="@dimen/text_size_m" />
 
             <TextView
                 android:id="@+id/tv_item_select_icon"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_margin="10dp"
-                android:background="#F08080" />
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@mipmap/icon_select" />
 
         </LinearLayout>
 
