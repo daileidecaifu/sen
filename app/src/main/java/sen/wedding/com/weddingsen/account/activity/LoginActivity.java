@@ -46,8 +46,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        verificationCountDownTimer.cancel();
-        verificationCountDownTimer = null;
+        if (verificationCountDownTimer != null) {
+            verificationCountDownTimer.cancel();
+            verificationCountDownTimer = null;
+        }
     }
 
     @Override
@@ -96,9 +98,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onRequestFinish(ApiRequest req, ApiResponse resp) {
-        AppLog.e("Status:"+resp.getResultModel().status);
-        AppLog.e("Data:"+resp.getResultModel().data);
-        AppLog.e("Message:"+resp.getResultModel().message);
+        AppLog.e("Status:" + resp.getResultModel().status);
+        AppLog.e("Data:" + resp.getResultModel().data);
+        AppLog.e("Message:" + resp.getResultModel().message);
 
     }
 

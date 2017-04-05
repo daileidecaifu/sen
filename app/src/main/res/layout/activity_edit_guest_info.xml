@@ -67,7 +67,7 @@
                         android:layout_marginLeft="15dp"></View>
 
                     <include
-                        android:id="@+id/ll_select_district"
+                        android:id="@+id/ll_select_specify_type"
                         layout="@layout/view_item_select" />
 
                     <View
@@ -77,7 +77,7 @@
                         android:layout_marginLeft="15dp"></View>
 
                     <include
-                        android:id="@+id/ll_select_hotel"
+                        android:id="@+id/ll_select_specify_item"
                         layout="@layout/view_item_select" />
 
                     <View
@@ -107,8 +107,8 @@
                         android:layout_marginLeft="15dp"></View>
 
                     <include
-                        android:id="@+id/ll_edit_time"
-                        layout="@layout/view_item_edit" />
+                        android:id="@+id/ll_select_time"
+                        layout="@layout/view_item_select" />
 
                     <!--<View-->
                         <!--android:layout_width="match_parent"-->

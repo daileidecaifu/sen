@@ -3,37 +3,52 @@
     android:id="@+id/title_bar"
     style="@style/TitleBar"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/titlebar_height" >
+    android:layout_height="@dimen/titlebar_height">
 
 
-    <TextView
-        android:layout_width="16dp"
-        android:background="@mipmap/icon_back"
-        android:layout_height="25dp"
-        android:layout_centerVertical="true"
+    <LinearLayout
+        android:id="@+id/ll_left"
+        android:layout_width="@dimen/common_hight"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/tv_left" />
+        android:gravity="center_vertical">
 
-    <TextView
-        android:text="TextView"
+        <TextView
+            android:layout_width="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="20dp"
+            android:id="@+id/tv_left"
+            android:background="@mipmap/icon_back" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_right"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:textColor="@color/white"
+        android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
-        android:id="@+id/tv_right" />
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical|right">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_marginRight="15dp"
+            android:id="@+id/tv_right"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
 
     <TextView
-        android:text="TextView"
+        android:id="@+id/tv_title_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:id="@+id/tv_title_title"
-        android:textSize="@dimen/text_size_xl"
-        android:textColor="@color/white"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_xl" />
 </RelativeLayout>

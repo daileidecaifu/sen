@@ -27,13 +27,64 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:visibility="gone"></LinearLayout>
+            android:id="@+id/ll_multi_title"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/hotel_selected"
+                android:textColor="@color/gray_2"
+                android:textSize="@dimen/text_size_mm" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"></View>
+
+            <TextView
+                android:id="@+id/tv_select_count"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="2"
+                android:textColor="@color/theme_color"
+                android:textSize="@dimen/text_size_m" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="3dp"
+                android:gravity="center_vertical"
+                android:text="/"
+                android:textColor="@color/text_common"
+                android:textSize="@dimen/text_size_m" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="3dp"
+                android:gravity="center_vertical"
+                android:text="3"
+                android:textColor="@color/text_common"
+                android:textSize="@dimen/text_size_m" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_list"></View>
 
         <ListView
             android:id="@+id/lv_options"
-            android:divider="@null"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></ListView>
+            android:layout_height="match_parent"
+            android:divider="@null"></ListView>
     </LinearLayout>
 
 

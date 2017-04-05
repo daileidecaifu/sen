@@ -1,6 +1,7 @@
 package sen.wedding.com.weddingsen.component;
 
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import sen.wedding.com.weddingsen.R;
@@ -17,29 +18,23 @@ public class TitleBar {
 
     private Type currentType;
 
-    private TextView textViewLeft;
-    private TextView textViewRight;
+    private LinearLayout layoutLeft;
+    private LinearLayout layoutRight;
     private TextView textViewTitle;
+    private TextView textViewRight;
 
     public TitleBar(View titleView, Type type) {
         currentType = type;
-        textViewLeft = (TextView) titleView.findViewById(R.id.tv_left);
-        textViewRight = (TextView) titleView.findViewById(R.id.tv_right);
+        layoutLeft = (LinearLayout) titleView.findViewById(R.id.ll_left);
+        layoutRight = (LinearLayout) titleView.findViewById(R.id.ll_right);
         textViewTitle = (TextView) titleView.findViewById(R.id.tv_title_title);
-//        switch (type)
-//        {
-//            case COMMON:
-//                break;
-//
-//            case CUSTOM_1:
-//                break;
-//        }
+        textViewRight = (TextView) titleView.findViewById(R.id.tv_right);
 
     }
 
     public void setLeftVisibility(int visibility)
     {
-        textViewLeft.setVisibility(visibility);
+        layoutLeft.setVisibility(visibility);
     }
 
     public void setRightVisibility(int visibility)
@@ -58,12 +53,12 @@ public class TitleBar {
 
     public void setLeftClickEvent(View.OnClickListener listener)
     {
-        textViewLeft.setOnClickListener(listener);
+        layoutLeft.setOnClickListener(listener);
     }
 
     public void setRightClickEvent(View.OnClickListener listener)
     {
-        textViewRight.setOnClickListener(listener);
+        layoutRight.setOnClickListener(listener);
     }
 
 }

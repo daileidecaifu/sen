@@ -18,21 +18,20 @@ public class Conts {
     }
 
     //客资类型
-    public static BaseTypeModel WEDDING_BANQUET_1 = new BaseTypeModel("WeddingBanquet_1", "婚宴1");
-    public static BaseTypeModel WEDDING_BANQUET_2 = new BaseTypeModel("WeddingBanquet_2", "婚宴2");
-    public static BaseTypeModel WEDDING_BANQUET_3 = new BaseTypeModel("WeddingBanquet_3", "婚宴3");
+    public static BaseTypeModel WEDDING_BANQUET_1 = new BaseTypeModel("WeddingBanquet_1", "婚宴");
+    public static BaseTypeModel WEDDING_BANQUET_2 = new BaseTypeModel("WeddingBanquet_2", "会务");
+    public static BaseTypeModel WEDDING_BANQUET_3 = new BaseTypeModel("WeddingBanquet_3", "生日宴、团宴、宝宝宴");
     public static List<BaseTypeModel> typeModels;
-    //区域类型
-    public static BaseTypeModel DISTRICT_1 = new BaseTypeModel("district_1", "区域1");
-    public static BaseTypeModel DISTRICT_2 = new BaseTypeModel("district_2", "区域2");
-    public static BaseTypeModel DISTRICT_3 = new BaseTypeModel("district_3", "区域3");
+    //指定类型
+    public static BaseTypeModel SPECIFY_1 = new BaseTypeModel("specify_1", "指定区域");
+    public static BaseTypeModel SPECIFY_2 = new BaseTypeModel("specify_2", "指定酒店");
     public static List<BaseTypeModel> districtModels;
 
-    //酒店类型
-    public static BaseTypeModel HOTEL_1 = new BaseTypeModel("hotel_1", "酒店1");
-    public static BaseTypeModel HOTEL_2 = new BaseTypeModel("hotel_2", "酒店2");
-    public static BaseTypeModel HOTEL_3 = new BaseTypeModel("hotel_3", "酒店3");
-    public static List<BaseTypeModel> hotelModels;
+//    //酒店类型
+//    public static BaseTypeModel HOTEL_1 = new BaseTypeModel("hotel_1", "酒店1");
+//    public static BaseTypeModel HOTEL_2 = new BaseTypeModel("hotel_2", "酒店2");
+//    public static BaseTypeModel HOTEL_3 = new BaseTypeModel("hotel_3", "酒店3");
+//    public static List<BaseTypeModel> hotelModels;
 
     /**
      * 获取客资信息类型
@@ -51,12 +50,11 @@ public class Conts {
     /**
      * 获取区域类型
      */
-    public static List<BaseTypeModel> getDistrictInfoArray() {
+    public static List<BaseTypeModel> getSpecifyTypeArray() {
         if (districtModels == null) {
             districtModels = new ArrayList<>();
-            districtModels.add(DISTRICT_1);
-            districtModels.add(DISTRICT_2);
-            districtModels.add(DISTRICT_3);
+            districtModels.add(SPECIFY_1);
+            districtModels.add(SPECIFY_2);
         }
         return districtModels;
     }
@@ -64,15 +62,15 @@ public class Conts {
     /**
      * 获取酒店类型
      */
-    public static List<BaseTypeModel> getHotelInfoArray() {
-        if (hotelModels == null) {
-            hotelModels = new ArrayList<>();
-            hotelModels.add(HOTEL_1);
-            hotelModels.add(HOTEL_2);
-            hotelModels.add(HOTEL_3);
-        }
-        return hotelModels;
-    }
+//    public static List<BaseTypeModel> getHotelInfoArray() {
+//        if (hotelModels == null) {
+//            hotelModels = new ArrayList<>();
+//            hotelModels.add(HOTEL_1);
+//            hotelModels.add(HOTEL_2);
+//            hotelModels.add(HOTEL_3);
+//        }
+//        return hotelModels;
+//    }
 
     public static List<BaseTypeModel> getTypeList(BaseTypeModel[] array) {
         return Arrays.asList(array);
@@ -99,4 +97,11 @@ public class Conts {
 
         return items;
     }
+
+    //单选多选
+    public final static int OPTION_SINGLE_SELECT = 0;
+    public final static int OPTION_MULTI_SELECT = 1;
+    //
+    public final static int SELECT_OPTION_REQUEST_CODE = 1;
+
 }

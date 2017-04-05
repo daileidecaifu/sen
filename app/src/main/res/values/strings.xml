@@ -38,8 +38,8 @@
     <string name="follow_time_colon">跟进时间:</string>
     <string name="status_colon">状态:</string>
     <string name="please_write_note">请填写备注信息</string>
-    <string name="district_star">*区域</string>
-    <string name="hotel_star">*酒店</string>
+    <string name="district">区域</string>
+    <string name="hotel">酒店</string>
     <string name="table_count">桌数</string>
     <string name="table_count_hint">请输入预计需要的桌数</string>
     <string name="budget">预算</string>
@@ -64,5 +64,7 @@
     <string name="select">选择</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
+    <string name="hotel_selected">已选酒店</string>
+    <string name="specify_position">指定位置</string>
 
 </resources>

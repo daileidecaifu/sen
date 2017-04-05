@@ -44,7 +44,6 @@
                 android:gravity="center_vertical"
                 android:maxLines="1"
                 android:textColor="@color/gray_2"
-                android:hint="hint"
                 android:singleLine="true"
                 android:textColorHint="@color/gray_1"
                 android:textSize="@dimen/text_size_m" />
