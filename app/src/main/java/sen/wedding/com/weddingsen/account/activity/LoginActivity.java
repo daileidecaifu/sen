@@ -1,27 +1,29 @@
 package sen.wedding.com.weddingsen.account.activity;
 
-import android.app.Activity;
-import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.TextUtils;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
-import java.util.Calendar;
+import java.util.HashMap;
 
 import sen.wedding.com.weddingsen.R;
+import sen.wedding.com.weddingsen.account.model.AccountInfoModel;
 import sen.wedding.com.weddingsen.base.ApiRequest;
 import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BaseActivity;
+import sen.wedding.com.weddingsen.base.BasePreference;
+import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.databinding.LoginActivityBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
-import sen.wedding.com.weddingsen.http.request.BasicHttpRequest;
+import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
-import sen.wedding.com.weddingsen.http.request.HttpRequest;
-import sen.wedding.com.weddingsen.http.response.HttpResponse;
+import sen.wedding.com.weddingsen.main.activity.MainActivity;
 import sen.wedding.com.weddingsen.utils.AppLog;
+import sen.wedding.com.weddingsen.base.Conts;
+import sen.wedding.com.weddingsen.utils.GsonConverter;
 
 /**
  * Created by lorin on 17/3/20.
@@ -34,6 +36,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private LoginActivityBinding binding;
 
     private boolean canSendSMS = true;
+    private ApiRequest getVerificationCodeRequest, loginRequest;
+    private AccountInfoModel accountInfoModel;
+
+    private int requestCodeTotal= 60 * 1000;//验证码间隔60秒
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,19 +65,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 //                Toast.makeText(this, "123", Toast.LENGTH_SHORT).show();
 
                 if (null == verificationCountDownTimer) {
-                    verificationCountDownTimer = new VerificationCountDownTimer(10000, 1000);
+                    verificationCountDownTimer = new VerificationCountDownTimer(requestCodeTotal, 1000);
                 }
 
                 if (canSendSMS) {
-                    verificationCountDownTimer.start();
-                    canSendSMS = false;
+                    getVerificationCode();
                 }
                 break;
 
             case R.id.tv_login:
-//                showProgressDialog(false);
-//                login();
-                jumpToOtherActivity(PersonalInfoSetActivity.class);
+                login();
+//                jumpToOtherActivity(MainActivity.class);
                 break;
             case R.id.ll_whole:
                 hideSoftKeyBoard();
@@ -80,10 +84,58 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
-    private void login() {
-        ApiRequest loginRequest = new ApiRequest("http://dev.meiui.me/index.php?m=app&c=user&f=getPhoneCode", HttpMethod.POST);
-        getApiService().exec(loginRequest, this);
+    private void getVerificationCode() {
 
+        if (TextUtils.isEmpty(binding.etUserName.getText().toString().trim())) {
+            showToast(getString(R.string.phone_number_can_not_empty));
+            return;
+        }
+
+        if (binding.etUserName.getText().toString().trim().length() != 11) {
+            showToast(getString(R.string.phone_number_wrong_format));
+            return;
+        }
+
+        verificationCountDownTimer.start();
+        canSendSMS = false;
+        showProgressDialog(false);
+        getVerificationCodeRequest = new ApiRequest(URLCollection.URL_GET_CODE, HttpMethod.POST);
+        HashMap<String, String> param = new HashMap<>();
+        param.put("mobile", binding.etUserName.getText().toString());
+        getVerificationCodeRequest.setParams(param);
+        getApiService().exec(getVerificationCodeRequest, this);
+
+    }
+
+    private void login() {
+
+        if (TextUtils.isEmpty(binding.etUserName.getText().toString().trim())) {
+            showToast(getString(R.string.phone_number_can_not_empty));
+            return;
+        }
+
+        if (binding.etUserName.getText().toString().trim().length() != 11) {
+            showToast(getString(R.string.phone_number_wrong_format));
+            return;
+        }
+
+        if (TextUtils.isEmpty(binding.etVerification.getText().toString().trim())) {
+            showToast(getString(R.string.code_can_not_empty));
+            return;
+        }
+
+        if (binding.etVerification.getText().toString().trim().length() != 4) {
+            showToast(getString(R.string.code_wrong_format));
+            return;
+        }
+
+        showProgressDialog(false);
+        loginRequest = new ApiRequest(URLCollection.URL_LOGIN, HttpMethod.POST);
+        HashMap<String, String> param = new HashMap<>();
+        param.put("phone", binding.etUserName.getText().toString());
+        param.put("code", binding.etVerification.getText().toString());
+        loginRequest.setParams(param);
+        getApiService().exec(loginRequest, this);
     }
 
     @Override
@@ -98,16 +150,54 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onRequestFinish(ApiRequest req, ApiResponse resp) {
-        AppLog.e("Status:" + resp.getResultModel().status);
-        AppLog.e("Data:" + resp.getResultModel().data);
-        AppLog.e("Message:" + resp.getResultModel().message);
+
+        ResultModel resultModel = resp.getResultModel();
+        closeProgressDialog();
+
+        if (req == getVerificationCodeRequest) {
+            if (resultModel.status == Conts.REQUEST_SUCCESS) {
+                showToast(getString(R.string.verification_send_success));
+            } else {
+                showToast(resultModel.message);
+            }
+        } else if (req == loginRequest) {
+            if (resultModel.status == Conts.REQUEST_SUCCESS) {
+                accountInfoModel = GsonConverter.decode(resultModel.data, AccountInfoModel.class);
+                //保存token和username数据
+                BasePreference.saveToken(accountInfoModel.getAccessToken());
+                BasePreference.saveUserName(accountInfoModel.getNikeName());//返回nikename，实为username
+                BasePreference.saveUserType(accountInfoModel.getUserType());//返回nikename，实为username
+
+                showToast(getString(R.string.login_success));
+
+                if (TextUtils.isEmpty(accountInfoModel.getAlipayAccount())) {
+                    jumpToPersonSetView();
+                } else {
+                    BasePreference.saveAlipayAccount(accountInfoModel.getAlipayAccount());//返回nikename，实为username
+                    jumpToOtherActivity(MainActivity.class);
+                    finish();
+
+                }
+
+            } else {
+                showToast(resultModel.message);
+            }
+        }
 
     }
 
     @Override
     public void onRequestFailed(ApiRequest req, ApiResponse resp) {
-        AppLog.e("Fail");
+        closeProgressDialog();
+        showToast(getString(R.string.request_error_tip));
+    }
 
+    private void jumpToPersonSetView()
+    {
+        Intent intent = new Intent(LoginActivity.this, PersonalInfoSetActivity.class);
+        intent.putExtra("from", Conts.FROM_LOGIN);
+        startActivity(intent);
+        finish();
     }
 
     class VerificationCountDownTimer extends CountDownTimer {
@@ -137,4 +227,5 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             binding.tvGetVerification.setText(millisUntilFinished / 1000 + getString(R.string.second));
         }
     }
+
 }

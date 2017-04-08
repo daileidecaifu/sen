@@ -1,34 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clickable="true"
-    android:fitsSystemWindows="true"
-    android:background="@color/common_background"
-    android:orientation="vertical"
-    tools:context="sen.wedding.com.weddingsen.main.activity.MainActivity">
 
-    <include layout="@layout/custom_title_bar"
-        android:id="@+id/title_bar"/>
-    <sen.wedding.com.weddingsen.component.SlidingTabLayout
-        android:id="@+id/sliding_tabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white" />
-    <View
-        android:layout_width="match_parent"
-        android:background="@color/divider_out"
-        android:layout_height="1px">
-    </View>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_marginTop="7dp"
-        android:layout_weight="1"
-        android:background="@android:color/white" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-</LinearLayout>
+    <data class="AppMainViewBinding">
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/common_background"
+        android:clickable="true"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        tools:context="sen.wedding.com.weddingsen.main.activity.MainActivity">
+
+        <include
+            android:id="@+id/title_bar"
+            layout="@layout/custom_title_bar" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/ll_list_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="70dp"
+                android:background="@color/common_background"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingLeft="45dp"
+                android:paddingRight="45dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/list_no_data_tip"
+                    android:textColor="@color/gray_2"
+                    android:textSize="@dimen/text_size_m" />
+
+                <TextView
+                    android:id="@+id/tv_add_guest_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="22dp"
+                    android:background="@drawable/buttom_common_background"
+                    android:gravity="center"
+                    android:onClick="@{clickListener}"
+                    android:text="@string/add_guest_info"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_xl"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_view_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <sen.wedding.com.weddingsen.component.SlidingTabLayout
+                    android:id="@+id/sliding_tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider_out"></View>
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="0px"
+                    android:layout_marginTop="7dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/white" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>

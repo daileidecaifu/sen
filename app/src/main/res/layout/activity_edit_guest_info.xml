@@ -143,6 +143,8 @@
                             android:id="@+id/ed_edit_note"
                             android:gravity="top|left"
                             android:textSize="@dimen/text_size_m"
+                            android:maxLength="500"
+                            android:hint="@string/please_write_note"
                             android:textColor="@color/gray_2"
                             android:textColorHint="@color/gray_1"
                             android:background="@color/transparent"
@@ -173,7 +175,7 @@
                             android:background="@drawable/buttom_common_background"
                             android:gravity="center"
                             android:onClick="@{clickListener}"
-                            android:text="@string/login"
+                            android:text="@string/submit_guest_info"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_size_xl"></TextView>
 

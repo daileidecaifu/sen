@@ -9,12 +9,20 @@ import sen.wedding.com.weddingsen.base.BaseActivity;
 public class BaseTypeModel {
 
     private String key;
-    private String value;
+    private String content;
+    private int type;
 
-    public BaseTypeModel(String oKey,String oValue)
+    public BaseTypeModel(String oKey,String oContent)
     {
         this.key = oKey;
-        this.value = oValue;
+        this.content = oContent;
+    }
+
+    public BaseTypeModel(String oKey,String oContent,int type)
+    {
+        this.key = oKey;
+        this.content = oContent;
+        this.type = type;
     }
 
     public String getKey() {
@@ -26,10 +34,18 @@ public class BaseTypeModel {
     }
 
     public String getValue() {
-        return value;
+        return content;
     }
 
     public void setValue(String value) {
-        this.value = value;
+        this.content = value;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

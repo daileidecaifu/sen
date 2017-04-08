@@ -66,5 +66,22 @@
     <string name="cancel">取消</string>
     <string name="hotel_selected">已选酒店</string>
     <string name="specify_position">指定位置</string>
+    <string name="list_no_data_tip">一份客资，一份收入</string>
+    <string name="add_guest_info">添加客资信息</string>
+    <string name="verification_send_success">验证码正火速赶来</string>
+    <string name="login_success">登陆成功</string>
+    <string name="phone_number_can_not_empty">手机号不能为空</string>
+    <string name="phone_number_wrong_format">手机号格式错误</string>
+    <string name="code_can_not_empty">验证码不能为空</string>
+    <string name="code_wrong_format">验证码格式错误</string>
+    <string name="save">保存</string>
+    <string name="alipay_empty">支付宝账号不能为空</string>
+    <string name="request_error_tip">请求异常，请稍后再试</string>
+    <string name="bind_alipay_success">支付宝绑定成功</string>
+    <string name="select_order_type_hint">请选择类型</string>
+    <string name="verify_guest_phone">验证受访者手机</string>
+    <string name="verify_success">验证成功</string>
+    <string name="feedback_content_empty">反馈内容为空</string>
+    <string name="feedback_success">反馈成功</string>
 
 </resources>

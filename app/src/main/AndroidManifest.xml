@@ -31,16 +31,13 @@
             android:name=".account.activity.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".account.activity.PersonalInfoSetActivity"></activity>
 
-        <activity android:name=".account.activity.VerifyGuestInfoActivity"
+        <activity
+            android:name=".account.activity.VerifyGuestInfoActivity"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
 
         <activity
@@ -51,7 +48,19 @@
             android:name=".account.activity.FeedbackActivity"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
 
-        <activity android:name=".business.activity.SelectOptionActivity"></activity>
+        <activity android:name=".business.activity.SelectAreaOptionActivity"></activity>
+        <activity android:name=".business.activity.SelectHotelOptionActivity"></activity>
+
+        <activity
+            android:name=".main.activity.WelcomeActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
@@ -18,6 +19,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -25,20 +27,26 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import sen.wedding.com.weddingsen.business.model.AreaModel;
+
 
 public class GsonConverter {
     private static Gson gson = new GsonBuilder().create();
 
     public static void configTypeAdapterFactories(List<TypeAdapterFactory> factoryList) {
-        if(factoryList == null) {
+        if (factoryList == null) {
             factoryList = new ArrayList<>();
         }
 
         GsonBuilder builder = new GsonBuilder();
-        for(TypeAdapterFactory f : factoryList) {
+        for (TypeAdapterFactory f : factoryList) {
             builder.registerTypeAdapterFactory(f);
         }
         changeGson(builder.create());
+    }
+
+    public static <T> T fromJson(String json, Type typeOfT) {
+        return gson.fromJson(json, typeOfT);
     }
 
     public static void configTypeAdapter(Type type, Object typeAdapter) {
@@ -53,6 +61,7 @@ public class GsonConverter {
 
     /**
      * Convert Object To Json
+     *
      * @param object
      * @return
      */
@@ -68,12 +77,12 @@ public class GsonConverter {
      * @return
      */
     public static <T> T decode(JsonElement json, Class<T> classOfT) {
-        if(json == null || json.isJsonNull()) {
+        if (json == null || json.isJsonNull()) {
             json = new JsonObject();
         }
         T result = decode(json.toString(), classOfT);
 
-        if(result == null) {
+        if (result == null) {
             try {
                 result = classOfT.getDeclaredConstructor().newInstance();
             } catch (Exception reflectException) {

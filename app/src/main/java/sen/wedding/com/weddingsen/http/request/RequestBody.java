@@ -78,6 +78,7 @@ public abstract class RequestBody {
         }
     }
 
+
     public static final class JsonBody extends RequestBody {
 
         private Object data;
@@ -107,47 +108,5 @@ public abstract class RequestBody {
         }
     }
 
-
-//    public static final class ImageBody extends RequestBody {
-//
-//        private static final int IMAGE_SIZE = 800;
-//
-//        private String path;
-//        private int orientation;
-//
-//        String BOUNDARY = UUID.randomUUID().toString(); // 边界标识 随机生成
-//        String LINE_END = "\r\n";
-//
-//        public ImageBody(String path, int orientation) {
-//            this.path = path;
-//            this.orientation = orientation;
-//        }
-//
-//        @Override
-//        public String contentType() {
-//            return CONTENT_TYPE_FILE_DESCRIPTION + BOUNDARY;
-//        }
-//
-//        @Override
-//        public void writeTo(OutputStream out) throws IOException {
-//            Bitmap bitmap = ImageUtil.decodeSampledBitmapFromFile(path, IMAGE_SIZE, IMAGE_SIZE, orientation);
-//            ByteArrayOutputStream bitmapOs = new ByteArrayOutputStream();
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 75, bitmapOs);
-//
-//            StringBuffer contentFormStart = new StringBuffer();
-//            contentFormStart.append("--" + BOUNDARY + LINE_END);
-//            contentFormStart.append("Content-Disposition: form-data; name=\"" + "file" + "\"; filename=\"" + "image.jpg" + "\"" + LINE_END);
-//            contentFormStart.append("Content-Type: application/octet-stream" + LINE_END);
-//            contentFormStart.append(LINE_END);
-//
-//            out.write(contentFormStart.toString().getBytes());
-//            //文件内容
-//            out.write(bitmapOs.toByteArray());
-//            out.write(LINE_END.getBytes());
-//
-//            String endMark = "--" + BOUNDARY + "--" + LINE_END + LINE_END;
-//            out.write(endMark.getBytes());
-//        }
-//    }
 
 }

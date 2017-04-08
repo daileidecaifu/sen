@@ -6,27 +6,38 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.View;
 
+import java.util.HashMap;
 import java.util.List;
 
 import sen.wedding.com.weddingsen.R;
+import sen.wedding.com.weddingsen.base.ApiRequest;
+import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BaseActivity;
+import sen.wedding.com.weddingsen.base.BasePreference;
+import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.business.activity.EditGuestInfoActivity;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.VerifyGuestInfoBinding;
-import sen.wedding.com.weddingsen.utils.Conts;
+import sen.wedding.com.weddingsen.base.Conts;
+import sen.wedding.com.weddingsen.http.base.RequestHandler;
+import sen.wedding.com.weddingsen.http.model.ResultModel;
+import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
 
 /**
  * Created by lorin on 17/3/25.
  */
 
-public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClickListener {
+public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClickListener,RequestHandler<ApiRequest, ApiResponse> {
 
     VerifyGuestInfoBinding binding;
     //    private String[] items;
     private List<BaseTypeModel> modelList;
+    private BaseTypeModel selectTypeModel;
+    private ApiRequest verifyGuestRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +46,12 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
         binding.setClickListener(this);
         initTitleBar(binding.titleBar, TitleBar.Type.COMMON);
         getTitleBar().setCommonRightText(getString(R.string.next_step));
-        getTitleBar().setTitle(getString(R.string.set_personal_info));
+        getTitleBar().setTitle(getString(R.string.verify_guest_phone));
         getTitleBar().setRightVisibility(View.GONE);
-        getTitleBar().setLeftClickEvent(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        getTitleBar().setLeftClickEvent(this);
 
         modelList = Conts.getGuestInfoArray();
+        selectTypeModel = modelList.get(0);
         initComponents();
     }
 
@@ -59,10 +66,37 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
                 break;
 
             case R.id.tv_verify_now:
-                jumpToOtherActivity(EditGuestInfoActivity.class);
+                verifyGuest();
+                break;
+
+            case R.id.ll_left:
+                finish();
                 break;
 
         }
+    }
+
+    private void verifyGuest()
+    {
+        if (TextUtils.isEmpty(binding.llEditGuestPhone.etItemEditInput.getText().toString().trim())) {
+            showToast(getString(R.string.phone_number_can_not_empty));
+            return;
+        }
+
+        if (binding.llEditGuestPhone.etItemEditInput.getText().toString().trim().length() != 11) {
+            showToast(getString(R.string.phone_number_wrong_format));
+            return;
+        }
+
+        showProgressDialog(false);
+        verifyGuestRequest = new ApiRequest(URLCollection.URL_VERIFY_GUEST_PHONE, HttpMethod.POST);
+        HashMap<String, String> param = new HashMap<>();
+        param.put("access_token", BasePreference.getToken());
+        param.put("order_type", selectTypeModel.getType()+"");
+        param.put("order_phone", binding.llEditGuestPhone.etItemEditInput.getText().toString().trim());
+
+        verifyGuestRequest.setParams(param);
+        getApiService().exec(verifyGuestRequest, this);
     }
 
     private void initComponents() {
@@ -73,7 +107,7 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
 
         //手机号
         binding.llEditGuestPhone.tvItemEditTitle.setText(getString(R.string.phone_number));
-        binding.llEditGuestPhone.etItemEditInput.setText(getString(R.string.phone_number_hint));
+        binding.llEditGuestPhone.etItemEditInput.setHint(getString(R.string.verify_phone_number_hint));
         binding.llEditGuestPhone.etItemEditInput.setInputType(InputType.TYPE_CLASS_PHONE);
         binding.llEditGuestPhone.etItemEditInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
     }
@@ -83,14 +117,14 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
         final String[] items = Conts.getShowContentArray(models);
         //dialog参数设置
         AlertDialog.Builder builder = new AlertDialog.Builder(this);  //先得到构造器
-        builder.setTitle("提示"); //设置标题
+        builder.setTitle(getString(R.string.select_order_type_hint)); //设置标题
         //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                showToast(models.get(which).getValue());
-                binding.llSelectType.tvItemSelectContent.setText(items[which]);
+                selectTypeModel = models.get(which);
+                binding.llSelectType.tvItemSelectContent.setText(selectTypeModel.getValue());
             }
         });
         builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
@@ -100,5 +134,36 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
             }
         });
         builder.create().show();
+    }
+
+    @Override
+    public void onRequestStart(ApiRequest req) {
+
+    }
+
+    @Override
+    public void onRequestProgress(ApiRequest req, int count, int total) {
+
+    }
+
+    @Override
+    public void onRequestFinish(ApiRequest req, ApiResponse resp) {
+        ResultModel resultModel = resp.getResultModel();
+        closeProgressDialog();
+
+        if (req == verifyGuestRequest) {
+            if (resultModel.status == Conts.REQUEST_SUCCESS) {
+                showToast(getString(R.string.verify_success));
+                jumpToOtherActivity(EditGuestInfoActivity.class);
+            } else {
+                showToast(resultModel.message);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestFailed(ApiRequest req, ApiResponse resp) {
+        closeProgressDialog();
+        showToast(getString(R.string.request_error_tip));
     }
 }

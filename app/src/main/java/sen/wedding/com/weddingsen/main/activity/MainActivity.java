@@ -23,16 +23,18 @@ import android.widget.Toast;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.account.activity.FeedbackActivity;
+import sen.wedding.com.weddingsen.account.activity.LoginActivity;
 import sen.wedding.com.weddingsen.account.activity.PersonalInfoSetActivity;
 import sen.wedding.com.weddingsen.account.activity.VerifyGuestInfoActivity;
 import sen.wedding.com.weddingsen.base.BaseActivity;
+import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.component.SlidingTabLayout;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.MainActivityBinding;
 import sen.wedding.com.weddingsen.main.fragment.GuestInfoFragment;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     DrawerLayout drawer;
     TitleBar titleBar;
@@ -57,20 +59,9 @@ public class MainActivity extends BaseActivity
     }
 
     private void initSildMenu() {
-        mainActivityBinding.llSliderMenu.tvPersonInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                jumpToOtherActivity(PersonalInfoSetActivity.class);
-                Toast.makeText(MainActivity.this, "PersonalInfo", Toast.LENGTH_LONG).show();
-            }
-        });
-        mainActivityBinding.llSliderMenu.tvUserFeedback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                jumpToOtherActivity(FeedbackActivity.class);
-                Toast.makeText(MainActivity.this, "UserFeedback", Toast.LENGTH_LONG).show();
-            }
-        });
+
+        mainActivityBinding.llSliderMenu.setClickListener(this);
+
     }
 
     private void initMainView() {
@@ -84,7 +75,7 @@ public class MainActivity extends BaseActivity
         TextView textViewTitle = (TextView) linearLayoutTitle.findViewById(R.id.tv_title_title);
 
         titleBar = new TitleBar(linearLayoutTitle, TitleBar.Type.CUSTOM_1);
-        textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_back));
+        textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_my_center));
         textViewRight.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_create));
 
         textViewTitle.setText(getString(R.string.guest_info_list));
@@ -121,6 +112,33 @@ public class MainActivity extends BaseActivity
          */
         slidingTabLayout.setCustomTabView(R.layout.tv_tab_custom, 0);
         slidingTabLayout.setViewPager(viewPager);//最后调用此方
+
+        mainActivityBinding.llAppBarMain.setClickListener(this);
+        //空数据状态
+//        mainActivityBinding.llAppBarMain.llListEmpty.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_add_guest_info:
+                jumpToOtherActivity(VerifyGuestInfoActivity.class);
+                break;
+            case R.id.tv_logout:
+                logout();
+                break;
+
+            case R.id.tv_user_feedback:
+                jumpToOtherActivity(FeedbackActivity.class);
+                Toast.makeText(MainActivity.this, "UserFeedback", Toast.LENGTH_LONG).show();
+                break;
+
+            case R.id.tv_person_info:
+                jumpToOtherActivity(PersonalInfoSetActivity.class);
+                Toast.makeText(MainActivity.this, "PersonalInfo", Toast.LENGTH_LONG).show();
+
+                break;
+        }
     }
 
     @Override
@@ -163,4 +181,16 @@ public class MainActivity extends BaseActivity
             return mTabTitle[position];
         }
     }
+
+
+    private void logout() {
+        BasePreference.saveAlipayAccount("");
+        BasePreference.saveUserType("");
+        BasePreference.saveToken("");
+        BasePreference.saveUserName("");
+        jumpToOtherActivity(LoginActivity.class);
+        finish();
+    }
+
+
 }

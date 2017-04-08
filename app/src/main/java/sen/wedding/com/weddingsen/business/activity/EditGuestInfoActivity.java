@@ -14,18 +14,19 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.business.adapter.ReviewInfoAdapter;
-import sen.wedding.com.weddingsen.business.model.ReviewInfoModel;
-import sen.wedding.com.weddingsen.business.model.SelectOptionModel;
+import sen.wedding.com.weddingsen.business.adapter.SelectHotelAdapter;
+import sen.wedding.com.weddingsen.business.model.AreaModel;
+import sen.wedding.com.weddingsen.business.model.HotelModel;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.EditGuestInfoBinding;
-import sen.wedding.com.weddingsen.utils.Conts;
+import sen.wedding.com.weddingsen.base.Conts;
+import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.StringUtil;
 import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
 
@@ -38,18 +39,17 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
     private EditGuestInfoBinding binding;
 
     private ReviewInfoAdapter adapter;
-    //    private String items[];
-    private List<BaseTypeModel> typeModels;
-    private final int TYPE_DISCTRICT = 0;
-    private final int TYPE_HOTEL = 1;
-    private int currentSelectType;
+    private List<BaseTypeModel> models;
+
     private List<BaseTypeModel> specifyModels;
-    //    private List<BaseTypeModel> hotelModels;
-    private Gson gson;
+    private BaseTypeModel selectTypeModel;
+
     StringBuffer sbType;
     StringBuffer sbItemHotel;
     StringBuffer sbItemDistrict;
-    List<SelectOptionModel> selectList;
+
+    List<AreaModel> selectAreaList;
+    List<HotelModel> selectHotelList;
 
 
     @Override
@@ -58,7 +58,6 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_guest_info);
         binding.setClickListener(this);
 
-        gson = new Gson();
         initTitleBar(binding.titleBar, TitleBar.Type.COMMON);
         getTitleBar().setTitle(getString(R.string.edit_guest_info));
         getTitleBar().setRightVisibility(View.GONE);
@@ -80,8 +79,9 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
     }
 
     private void initData() {
-        typeModels = Conts.getGuestInfoArray();
+        models = Conts.getGuestInfoArray();
         specifyModels = Conts.getSpecifyTypeArray();
+        selectTypeModel = specifyModels.get(0);
 
         sbType = new StringBuffer();
         sbType.append(StringUtil.createHtml(getString(R.string.specify_position), "#313133"));
@@ -94,8 +94,7 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
         sbItemDistrict = new StringBuffer();
         sbItemDistrict.append(StringUtil.createHtml(getString(R.string.district), "#313133"));
         sbItemDistrict.append(StringUtil.createHtml("*", "#fa4b4b"));
-//        hotelModels = Conts.getHotelInfoArray();
-//        items = Conts.getShowContentArray(modelList);
+
     }
 
     private void initComponents() {
@@ -106,7 +105,7 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
         //类型
         binding.llSelectType.tvItemSelectTitle.setText(getString(R.string.type));
         binding.llSelectType.tvItemSelectIcon.setVisibility(View.INVISIBLE);
-        binding.llSelectType.tvItemSelectContent.setText(typeModels.get(0).getValue());
+        binding.llSelectType.tvItemSelectContent.setText(models.get(0).getValue());
 
         //手机号
         binding.llEditPhoneNumber.tvItemEditTitle.setText(getString(R.string.phone_number));
@@ -127,15 +126,24 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
 
         //指定item
 
-        binding.llSelectSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemHotel.toString()));
+        binding.llSelectSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemDistrict.toString()));
 //        binding.llSelectSpecifyItem.tvItemSelectContent.setText(hotelModels.get(0).getValue());
         binding.llSelectSpecifyItem.setClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                jumpToOtherActivity(SelectOptionActivity.class);
-                Intent intent = new Intent(EditGuestInfoActivity.this, SelectOptionActivity.class);
-                intent.putExtra("select_type", currentSelectType);
-                startActivityForResult(intent, Conts.SELECT_OPTION_REQUEST_CODE);
+
+                switch (selectTypeModel.getType()) {
+                    case Conts.OPTION_DISTRICT_SELECT:
+                        Intent intent = new Intent(EditGuestInfoActivity.this, SelectAreaOptionActivity.class);
+                        startActivityForResult(intent, Conts.SELECT_OPTION_REQUEST_CODE);
+                        break;
+
+                    case Conts.OPTION_HOTEL_SELECT:
+                        Intent intent2 = new Intent(EditGuestInfoActivity.this, SelectHotelOptionActivity.class);
+                        startActivityForResult(intent2, Conts.SELECT_OPTION_REQUEST_CODE);
+                        break;
+                }
+
             }
         });
         //桌数
@@ -195,14 +203,18 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 binding.llSelectSpecifyType.tvItemSelectContent.setText(items[which]);
-                switch (which) {
-                    case 0:
-                        currentSelectType = Conts.OPTION_SINGLE_SELECT;
+                BaseTypeModel tempTypeModel = specifyModels.get(which);
+                //必须将选项和districts array一一按照顺序匹配
+                if (tempTypeModel.getType() != selectTypeModel.getType()) {
+                    binding.llSelectSpecifyItem.tvItemSelectContent.setText("");
+                }
+                selectTypeModel = tempTypeModel;
+                switch (selectTypeModel.getType()) {
+                    case Conts.OPTION_DISTRICT_SELECT:
                         binding.llSelectSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemDistrict.toString()));
                         break;
 
-                    case 1:
-                        currentSelectType = Conts.OPTION_MULTI_SELECT;
+                    case Conts.OPTION_HOTEL_SELECT:
                         binding.llSelectSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemHotel.toString()));
                         break;
                 }
@@ -245,30 +257,12 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-
-        // 根据上面发送过去的请求吗来区别
         switch (requestCode) {
             case Conts.SELECT_OPTION_REQUEST_CODE:
 
                 if (resultCode == RESULT_OK) {
                     String resultJsonStr = data.getStringExtra("result");
-                    selectList = gson.fromJson(resultJsonStr,
-                            new TypeToken<List<SelectOptionModel>>() {
-                            }.getType());
-
-                    StringBuffer sb = new StringBuffer();
-
-                    for(int i =0;i<selectList.size();i++)
-                    {
-                        sb.append(selectList.get(i).getContent());
-                        if(i!=(selectList.size()-1))
-                        {
-                            sb.append(",");
-                        }
-                    }
-
-                    binding.llSelectSpecifyItem.tvItemSelectContent.setText(sb.toString());
-
+                    receiveDataAndProcess(resultJsonStr);
                 }
 
                 break;
@@ -276,6 +270,52 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
             default:
                 break;
         }
+    }
+
+    private void receiveDataAndProcess(String str) {
+        switch (selectTypeModel.getType()) {
+            case Conts.OPTION_DISTRICT_SELECT:
+                showAreaContent(str);
+                break;
+
+            case Conts.OPTION_HOTEL_SELECT:
+                showHotelContent(str);
+                break;
+        }
+    }
+
+    private void showAreaContent(String str) {
+        selectAreaList = GsonConverter.fromJson(str,
+                new TypeToken<List<AreaModel>>() {
+                }.getType());
+
+        StringBuffer sb = new StringBuffer();
+
+        for (int i = 0; i < selectAreaList.size(); i++) {
+            sb.append(selectAreaList.get(i).getAreaName());
+            if (i != (selectAreaList.size() - 1)) {
+                sb.append(",");
+            }
+        }
+
+        binding.llSelectSpecifyItem.tvItemSelectContent.setText(sb.toString());
+    }
+
+    private void showHotelContent(String str) {
+        selectHotelList = GsonConverter.fromJson(str,
+                new TypeToken<List<HotelModel>>() {
+                }.getType());
+
+        StringBuffer sb = new StringBuffer();
+
+        for (int i = 0; i < selectHotelList.size(); i++) {
+            sb.append(selectHotelList.get(i).getHotelName());
+            if (i != (selectHotelList.size() - 1)) {
+                sb.append(",");
+            }
+        }
+
+        binding.llSelectSpecifyItem.tvItemSelectContent.setText(sb.toString());
     }
 
 }

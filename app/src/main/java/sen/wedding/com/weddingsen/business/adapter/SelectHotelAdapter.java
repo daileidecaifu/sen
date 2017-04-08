@@ -2,7 +2,6 @@ package sen.wedding.com.weddingsen.business.adapter;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +10,20 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 
 import sen.wedding.com.weddingsen.R;
-import sen.wedding.com.weddingsen.business.model.ReviewInfoModel;
 import sen.wedding.com.weddingsen.business.model.AreaModel;
+import sen.wedding.com.weddingsen.business.model.HotelModel;
 import sen.wedding.com.weddingsen.databinding.ItemOptionBinding;
-import sen.wedding.com.weddingsen.databinding.ReviewInfoBinding;
 
 /**
  * Created by lorin on 17/4/5.
  */
 
-public class SelectOptionAdapter extends BaseAdapter {
+public class SelectHotelAdapter extends BaseAdapter {
 
     Context context;
-    ArrayList<AreaModel> list;
+    ArrayList<HotelModel> list;
 
-    public SelectOptionAdapter(Context context) {
+    public SelectHotelAdapter(Context context) {
         this.context = context;
         this.list = new ArrayList<>();
     }
@@ -35,7 +33,7 @@ public class SelectOptionAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void notifyDataChanged(ArrayList<AreaModel> dataList) {
+    public void notifyDataChanged(ArrayList<HotelModel> dataList) {
 
         list.clear();
         list.addAll(dataList);
@@ -65,9 +63,9 @@ public class SelectOptionAdapter extends BaseAdapter {
         } else {
             binding = DataBindingUtil.getBinding(convertView);
         }
-        AreaModel model = list.get(position);
+        HotelModel model = list.get(position);
 
-        binding.tvOptionContent.setText(model.getAreaName());
+        binding.tvOptionContent.setText(model.getHotelName());
         if (model.isSelect()) {
             binding.tvIconSelect.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.icon_check));
 

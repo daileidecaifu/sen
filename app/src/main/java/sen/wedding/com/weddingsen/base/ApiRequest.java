@@ -14,8 +14,8 @@ import sen.wedding.com.weddingsen.http.request.RequestBody;
 
 public class ApiRequest extends BasicHttpRequest {
 
-    Map<String, Object> params;
-    Object data;
+//    Map<String, String> params;
+//    Object data;
 
     public ApiRequest(String url) {
         this(url, HttpMethod.POST, DEFAULT_TIMEOUT);
@@ -30,30 +30,34 @@ public class ApiRequest extends BasicHttpRequest {
         super(url, method, timeout);
     }
 
-    public Map<String, Object> getParams() {
-        return params;
+    public Map<String, String> getParams() {
+        return ((RequestBody.FormBody) getBody()).getParams();
     }
 
-    public void setParams(Map<String, Object> params) {
-        this.params = params;
+
+    public void setParams(Map<String, String> params) {
+//        this.params = params;
+        RequestBody.FormBody formBody = new RequestBody.FormBody(params);
+        setBody(formBody);
     }
 
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
+//    public Object getData() {
+//        return data;
+//    }
+//
+//    public void setData(Object data) {
+//        this.data = data;
+//    }
 
     public void formatRequestParams() {
 
         addHeader("Accept", "application/json");
-        if (params != null) {
-            setBody(new RequestBody.JsonBody(params));
-        } else {
-            setBody(new RequestBody.JsonBody(data));
-        }
+
+//        if (params != null) {
+//            setBody(new RequestBody.JsonBody(params));
+//        } else {
+//            setBody(new RequestBody.JsonBody(data));
+//        }
     }
 
 }
