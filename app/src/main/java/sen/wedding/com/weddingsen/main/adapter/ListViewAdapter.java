@@ -9,12 +9,15 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import sen.wedding.com.weddingsen.R;
+import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.business.model.ReviewInfoModel;
 import sen.wedding.com.weddingsen.databinding.MainInfoBinding;
 import sen.wedding.com.weddingsen.databinding.ReviewInfoBinding;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
+import sen.wedding.com.weddingsen.utils.DateUtil;
 
 
 public class ListViewAdapter extends BaseAdapter {
@@ -70,17 +73,14 @@ public class ListViewAdapter extends BaseAdapter {
         }
         OrderInfoModel model = list.get(position);
 
-        binding.tvOrderTime.setText(model.getTime());
-        binding.tvOrderStatus.setText(model.getStatus());
-        binding.tvContantPersonPhone.setText(model.getContactPersonPhone());
-        binding.tvFollowerFaction.setText(model.getFollowerFaction());
+        long time = Long.parseLong(model.getCreateTime()) * 1000;
+        binding.tvOrderTime.setText(DateUtil.convertDateToString(new Date(time),DateUtil.FORMAT_COMMON_Y_M_D));
+        binding.tvOrderStatus.setText(Conts.getorderStatusMap().get(model.getOrderStatus()));
+        binding.tvContantPersonPhone.setText(model.getOrderPhone());
+        binding.tvFollowerFaction.setText(model.getWatchUser());
 
         return binding.getRoot();
 
     }
 
-    class ViewHolder {
-        TextView share_app_text;
-
-    }
 }

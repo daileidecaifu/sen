@@ -50,7 +50,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:background="@color/divider_list"></View>
 
             <LinearLayout
@@ -73,7 +74,8 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="@string/follower_tip"
+                        android:text="@string/contact_person"
+
                         android:gravity="center_vertical"
                         android:textColor="@color/gray_2"
                         android:textSize="@dimen/text_size_m"
@@ -81,9 +83,8 @@
                         android:layout_height="wrap_content" />
 
                     <TextView
-                        android:id="@+id/tv_follower_faction"
+                        android:id="@+id/tv_contant_person_phone"
                         android:layout_width="match_parent"
-                        android:text="Test Hotel"
                         android:singleLine="true"
                         android:maxLines="1"
                         android:textColor="@color/tip_color"
@@ -104,7 +105,7 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="@string/contact_person"
+                        android:text="@string/follower_tip"
                         android:gravity="center_vertical"
                         android:layout_marginRight="50dp"
                         android:textColor="@color/gray_2"
@@ -112,9 +113,8 @@
                         android:layout_height="match_parent" />
 
                     <TextView
-                        android:id="@+id/tv_contant_person_phone"
+                        android:id="@+id/tv_follower_faction"
                         android:layout_width="match_parent"
-                        android:text="15800000000"
                         android:singleLine="true"
                         android:maxLines="1"
                         android:textColor="@color/tip_color"
@@ -153,7 +153,7 @@
                 android:id="@+id/v_review_placeholder"
                 android:layout_width="match_parent"
                 android:background="@color/common_background"
-                android:layout_height="5dp"></View>
+                android:layout_height="7dp"></View>
         </LinearLayout>
 
     </LinearLayout>

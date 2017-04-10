@@ -1,45 +1,64 @@
 package sen.wedding.com.weddingsen.main.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by lorin on 17/3/30.
  */
 
 public class OrderInfoModel {
 
-    private String time;
-    private String status;
-    private String contactPersonPhone;
-    private String followerFaction;
+    private int id;
 
-    public String getTime() {
-        return time;
+    @SerializedName("create_time")
+    private String createTime;
+
+    @SerializedName("order_status")
+    private int orderStatus;
+
+    @SerializedName("order_phone")
+    private String orderPhone;
+
+    @SerializedName("watch_user")
+    private String watchUser;
+
+    public int getId() {
+        return id;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getStatus() {
-        return status;
+    public String getCreateTime() {
+        return createTime;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
-    public String getContactPersonPhone() {
-        return contactPersonPhone;
+    public int getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setContactPersonPhone(String contactPersonPhone) {
-        this.contactPersonPhone = contactPersonPhone;
+    public void setOrderStatus(int orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
-    public String getFollowerFaction() {
-        return followerFaction;
+    public String getOrderPhone() {
+        return orderPhone;
     }
 
-    public void setFollowerFaction(String followerFaction) {
-        this.followerFaction = followerFaction;
+    public void setOrderPhone(String orderPhone) {
+        this.orderPhone = orderPhone;
+    }
+
+    public String getWatchUser() {
+        return watchUser;
+    }
+
+    public void setWatchUser(String watchUser) {
+        this.watchUser = watchUser;
     }
 }

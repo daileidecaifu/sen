@@ -28,6 +28,7 @@ import sen.wedding.com.weddingsen.account.activity.PersonalInfoSetActivity;
 import sen.wedding.com.weddingsen.account.activity.VerifyGuestInfoActivity;
 import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.base.BasePreference;
+import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.component.SlidingTabLayout;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.MainActivityBinding;
@@ -98,6 +99,7 @@ public class MainActivity extends BaseActivity
 
         ViewPager viewPager = (ViewPager) linearLayoutMain.findViewById(R.id.viewpager);
         viewPager.setAdapter(new TabViewPagerAdapter(getSupportFragmentManager(), this));
+        viewPager.setOffscreenPageLimit(6);
 
         int selectColor = ContextCompat.getColor(this, R.color.theme_color);
         SlidingTabLayout slidingTabLayout = (SlidingTabLayout) linearLayoutMain.findViewById(R.id.sliding_tabs);
@@ -157,9 +159,21 @@ public class MainActivity extends BaseActivity
 
     private class TabViewPagerAdapter extends FragmentPagerAdapter {
 
-        private String[] mTabTitle = new String[]{"全部的", "待处理", "跟踪中", "待结算", "已结算", "已取消"};
+        private String[] mTabTitle = new String[]{Conts.getorderStatusMap().get(1),
+                Conts.getorderStatusMap().get(2),
+                Conts.getorderStatusMap().get(3),
+                Conts.getorderStatusMap().get(4),
+                Conts.getorderStatusMap().get(5),
+                Conts.getorderStatusMap().get(6)};
         private Context mContext;
-        private Fragment[] fragments = new Fragment[]{new GuestInfoFragment(), new GuestInfoFragment(), new GuestInfoFragment(), new GuestInfoFragment(), new GuestInfoFragment(), new GuestInfoFragment()};
+        private Fragment[] fragments = new Fragment[]{
+                GuestInfoFragment.newInstance(1),
+                GuestInfoFragment.newInstance(2),
+                GuestInfoFragment.newInstance(3),
+                GuestInfoFragment.newInstance(4),
+                GuestInfoFragment.newInstance(5),
+                GuestInfoFragment.newInstance(6)
+        };
 
         public TabViewPagerAdapter(FragmentManager fm, Context context) {
             super(fm);

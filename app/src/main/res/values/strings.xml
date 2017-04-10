@@ -83,5 +83,10 @@
     <string name="verify_success">验证成功</string>
     <string name="feedback_content_empty">反馈内容为空</string>
     <string name="feedback_success">反馈成功</string>
+    <string name="name_empty_hint">姓名不能为空</string>
+    <string name="area_or_hotel_not_select">区域或酒店未选择</string>
+    <string name="create_success">创建成功</string>
+    <string name="guest_info_processing">客资信息正在处理，请耐心等候</string>
+    <string name="guest_info_detail">客资详情</string>
 
 </resources>

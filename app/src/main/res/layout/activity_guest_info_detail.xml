@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data class="EditGuestInfoBinding">
+    <data class="GuestInfoDetailBinding">
 
         <variable
             name="clickListener"
@@ -37,19 +37,31 @@
 
 
                     <include
-                        android:id="@+id/ll_edit_name"
-                        layout="@layout/view_item_edit" />
+                        android:id="@+id/ll_show_name"
+                        layout="@layout/view_item_select" />
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1px"
                         android:layout_marginRight="15dp"
 
+                        android:layout_height="1px"
                         android:background="@color/common_background"
                         android:layout_marginLeft="15dp"></View>
 
                     <include
-                        android:id="@+id/ll_select_type"
+                        android:id="@+id/ll_show_type"
+                        layout="@layout/view_item_select" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_marginRight="15dp"
+
+                        android:layout_height="1px"
+                        android:background="@color/common_background"
+                        android:layout_marginLeft="15dp"></View>
+
+                    <include
+                        android:id="@+id/ll_show_phone_number"
                         layout="@layout/view_item_select" />
 
                     <View
@@ -61,7 +73,43 @@
                         android:layout_marginLeft="15dp"></View>
 
                     <include
-                        android:id="@+id/ll_select_phone_number"
+                        android:id="@+id/ll_show_specify_type"
+                        layout="@layout/view_item_select" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_marginRight="15dp"
+
+                        android:layout_height="1px"
+                        android:background="@color/common_background"
+                        android:layout_marginLeft="15dp"></View>
+
+                    <include
+                        android:id="@+id/ll_show_specify_item"
+                        layout="@layout/view_item_select" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_marginRight="15dp"
+
+                        android:layout_height="1px"
+                        android:background="@color/common_background"
+                        android:layout_marginLeft="15dp"></View>
+
+                    <include
+                        android:id="@+id/ll_show_table_count"
+                        layout="@layout/view_item_select" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_marginRight="15dp"
+
+                        android:layout_height="1px"
+                        android:background="@color/common_background"
+                        android:layout_marginLeft="15dp"></View>
+
+                    <include
+                        android:id="@+id/ll_show_budget"
                         layout="@layout/view_item_select" />
 
                     <View
@@ -73,55 +121,7 @@
                         android:layout_marginLeft="15dp"></View>
 
                     <include
-                        android:id="@+id/ll_select_specify_type"
-                        layout="@layout/view_item_select" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1px"
-                        android:layout_marginRight="15dp"
-
-                        android:background="@color/common_background"
-                        android:layout_marginLeft="15dp"></View>
-
-                    <include
-                        android:id="@+id/ll_select_specify_item"
-                        layout="@layout/view_item_select" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1px"
-                        android:layout_marginRight="15dp"
-
-                        android:background="@color/common_background"
-                        android:layout_marginLeft="15dp"></View>
-
-                    <include
-                        android:id="@+id/ll_edit_table_count"
-                        layout="@layout/view_item_edit" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1px"
-                        android:layout_marginRight="15dp"
-
-                        android:background="@color/common_background"
-                        android:layout_marginLeft="15dp"></View>
-
-                    <include
-                        android:id="@+id/ll_edit_budget"
-                        layout="@layout/view_item_edit" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_marginRight="15dp"
-
-                        android:layout_height="1px"
-                        android:background="@color/common_background"
-                        android:layout_marginLeft="15dp"></View>
-
-                    <include
-                        android:id="@+id/ll_select_time"
+                        android:id="@+id/ll_show_time"
                         layout="@layout/view_item_select" />
 
                     <!--<View-->
@@ -155,12 +155,11 @@
                             android:textColor="@color/tip_color"
                             android:text="@string/note"
                             android:layout_height="wrap_content" />
-                        <EditText
-                            android:id="@+id/et_edit_note"
+                        <TextView
+                            android:id="@+id/tv_show_note"
                             android:gravity="top|left"
                             android:textSize="@dimen/text_size_m"
                             android:maxLength="500"
-                            android:hint="@string/please_write_note"
                             android:textColor="@color/gray_2"
                             android:textColorHint="@color/gray_1"
                             android:background="@color/transparent"
@@ -177,33 +176,41 @@
                         android:background="@color/common_background"
                         android:layout_marginLeft="15dp"></View>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:background="@color/common_background"></View>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:background="@color/white"
+                        android:orientation="vertical"
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/tv_edit_submit"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_marginRight="45dp"
-                            android:layout_marginLeft="45dp"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginBottom="30dp"
-                            android:background="@drawable/buttom_common_background"
-                            android:gravity="center"
-                            android:onClick="@{clickListener}"
-                            android:text="@string/submit_guest_info"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_xl"></TextView>
-
+                            android:text="@string/check_info"
+                            android:layout_marginLeft="15dp"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/gray_2"
+                            android:textSize="@dimen/text_size_mm"
+                            android:layout_height="50dp" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:layout_marginRight="15dp"
+                            android:background="@color/common_background"
+                            android:layout_marginLeft="15dp"></View>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="25dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginBottom="35dp"
+                            android:text="@string/guest_info_processing"
+                            android:textColor="@color/text_common"
+                            android:textSize="@dimen/text_size_m"
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:background="@color/common_background"
-                        android:layout_height="20dp"></View>
                 </LinearLayout>
 
                 <!--<TextView-->

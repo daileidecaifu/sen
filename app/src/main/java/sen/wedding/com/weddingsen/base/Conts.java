@@ -1,7 +1,10 @@
 package sen.wedding.com.weddingsen.base;
 
+import android.content.Intent;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,10 +30,26 @@ public class Conts {
     public static BaseTypeModel SPECIFY_HOTEL = new BaseTypeModel("hotel", "指定酒店", 2);
     public static List<BaseTypeModel> specifyModels;
 
+    //订单状态
+    public static Map<Integer, String> orderStatusMap;
+
+    public static Map<Integer, String> getorderStatusMap() {
+        if (orderStatusMap == null) {
+            orderStatusMap = new HashMap<>();
+            orderStatusMap.put(1, "全部");
+            orderStatusMap.put(2, "待处理");
+            orderStatusMap.put(3, "跟踪中");
+            orderStatusMap.put(4, "待结算");
+            orderStatusMap.put(5, "已结算");
+            orderStatusMap.put(6, "已取消");
+        }
+        return orderStatusMap;
+    }
+
     /**
      * 获取客资信息类型
      */
-    public static List<BaseTypeModel> getGuestInfoArray() {
+    public static List<BaseTypeModel> getOrderTypeArray() {
 
         if (typeModels == null) {
             typeModels = new ArrayList<>();

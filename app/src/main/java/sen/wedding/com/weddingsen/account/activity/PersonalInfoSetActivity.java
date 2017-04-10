@@ -64,6 +64,11 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
 
                 break;
         }
+
+        if(!TextUtils.isEmpty(BasePreference.getAlipayAccount()))
+        {
+            binding.etAlipayInput.setText(BasePreference.getAlipayAccount());
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 package sen.wedding.com.weddingsen.account.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -25,18 +26,19 @@ import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
+import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
 
 /**
  * Created by lorin on 17/3/25.
  */
 
-public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClickListener,RequestHandler<ApiRequest, ApiResponse> {
+public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClickListener, RequestHandler<ApiRequest, ApiResponse> {
 
     VerifyGuestInfoBinding binding;
     //    private String[] items;
     private List<BaseTypeModel> modelList;
-    private BaseTypeModel selectTypeModel;
+    private BaseTypeModel selectOrderTypeModel;
     private ApiRequest verifyGuestRequest;
 
     @Override
@@ -50,8 +52,8 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
         getTitleBar().setRightVisibility(View.GONE);
         getTitleBar().setLeftClickEvent(this);
 
-        modelList = Conts.getGuestInfoArray();
-        selectTypeModel = modelList.get(0);
+        modelList = Conts.getOrderTypeArray();
+        selectOrderTypeModel = modelList.get(0);
         initComponents();
     }
 
@@ -76,8 +78,7 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
         }
     }
 
-    private void verifyGuest()
-    {
+    private void verifyGuest() {
         if (TextUtils.isEmpty(binding.llEditGuestPhone.etItemEditInput.getText().toString().trim())) {
             showToast(getString(R.string.phone_number_can_not_empty));
             return;
@@ -92,7 +93,7 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
         verifyGuestRequest = new ApiRequest(URLCollection.URL_VERIFY_GUEST_PHONE, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
-        param.put("order_type", selectTypeModel.getType()+"");
+        param.put("order_type", selectOrderTypeModel.getType() + "");
         param.put("order_phone", binding.llEditGuestPhone.etItemEditInput.getText().toString().trim());
 
         verifyGuestRequest.setParams(param);
@@ -123,8 +124,8 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                selectTypeModel = models.get(which);
-                binding.llSelectType.tvItemSelectContent.setText(selectTypeModel.getValue());
+                selectOrderTypeModel = models.get(which);
+                binding.llSelectType.tvItemSelectContent.setText(selectOrderTypeModel.getValue());
             }
         });
         builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
@@ -154,7 +155,13 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
         if (req == verifyGuestRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 showToast(getString(R.string.verify_success));
-                jumpToOtherActivity(EditGuestInfoActivity.class);
+
+                Intent intent = new Intent(VerifyGuestInfoActivity.this, EditGuestInfoActivity.class);
+                intent.putExtra("select_type", GsonConverter.toJson(selectOrderTypeModel));
+                intent.putExtra("verify_phone", binding.llEditGuestPhone.etItemEditInput.getText().toString().trim());
+
+                startActivity(intent);
+                finish();
             } else {
                 showToast(resultModel.message);
             }
