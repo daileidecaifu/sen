@@ -88,5 +88,8 @@
     <string name="create_success">创建成功</string>
     <string name="guest_info_processing">客资信息正在处理，请耐心等候</string>
     <string name="guest_info_detail">客资详情</string>
+    <string name="schedule_loading">努力加载中...</string>
+    <string name="loading_failed">数据加载错误，点击重试</string>
+    <string name="no_more_data">没有更多订单了</string>
 
 </resources>

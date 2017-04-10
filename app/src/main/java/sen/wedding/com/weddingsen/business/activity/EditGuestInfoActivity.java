@@ -104,7 +104,7 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
         verifyPhone = getIntent().getStringExtra("verify_phone");
 
         specifyModels = Conts.getSpecifyTypeArray();
-        selectTypeModel = specifyModels.get(0);
+        selectTypeModel = specifyModels.get(1);
 
         sbType = new StringBuffer();
         sbType.append(StringUtil.createHtml(getString(R.string.specify_position), "#313133"));
@@ -138,7 +138,7 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
         //指定类型
 
         binding.llSelectSpecifyType.tvItemSelectTitle.setText(Html.fromHtml(sbType.toString()));
-        binding.llSelectSpecifyType.tvItemSelectContent.setText(specifyModels.get(0).getValue());
+        binding.llSelectSpecifyType.tvItemSelectContent.setText(specifyModels.get(1).getValue());
         binding.llSelectSpecifyType.setClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

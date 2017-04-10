@@ -2,12 +2,18 @@ package sen.wedding.com.weddingsen.main.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.dinuscxj.refresh.RecyclerRefreshLayout;
 
 import java.util.HashMap;
 
@@ -19,6 +25,7 @@ import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.business.activity.GuestInfoDetailActivity;
+import sen.wedding.com.weddingsen.component.LoadMoreView;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
@@ -27,7 +34,9 @@ import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 
-public class GuestInfoFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>, AdapterView.OnItemClickListener {
+public class GuestInfoFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>,
+        AdapterView.OnItemClickListener, RecyclerRefreshLayout.OnRefreshListener,
+        LoadMoreView.OnLoadMoreListener {
 
     ListView listView;
     ListViewAdapter listViewAdapter;
@@ -35,6 +44,13 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
 
     private GuestInfosResModel model;
     private int currentStatus;
+
+    /**
+     * 刷新加载更多逻辑
+     */
+    RecyclerRefreshLayout recyclerRefreshLayout;
+    private boolean mIsLoading;
+    private LoadMoreView loadMoreView;
 
     public static GuestInfoFragment newInstance(int orderStatus) {
 
@@ -54,7 +70,7 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_main, null);
+        View view = inflater.inflate(R.layout.fragment_order_list, null);
         initViews(view);
         return view;
 
@@ -65,12 +81,34 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
         listViewAdapter = new ListViewAdapter(getActivity());
         listView.setAdapter(listViewAdapter);
         listView.setOnItemClickListener(this);
+//        listView.setOnScrollListener(this);
 
+        loadMoreView = new LoadMoreView(getActivity());
+        loadMoreView.setOnLoadMoreListener(this);
+        loadMoreView.attach(listView);
+
+        recyclerRefreshLayout = (RecyclerRefreshLayout) view.findViewById(R.id.refresh_layout);
+        recyclerRefreshLayout.setOnRefreshListener(this);
+        recyclerRefreshLayout.setBackgroundColor(getResources().getColor(R.color.common_background));
         getGuestInfoList();
-//        listViewAdapter.notifyDataChanged(getFakeData());
     }
 
-//    private ArrayList<OrderInfoModel> getFakeData() {
+//    @Override
+//    public void onScrollStateChanged(AbsListView view, int scrollState) {
+//        if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+//            // 判断是否滚动到底部
+//            if (view.getLastVisiblePosition() == view.getCount() - 1) {
+//                showToast("load more");
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//
+//    }
+
+    //    private ArrayList<OrderInfoModel> getFakeData() {
 //        ArrayList<OrderInfoModel> fakeList = new ArrayList<>();
 //
 //        for (int i = 0; i < 8; i++) {
@@ -108,7 +146,7 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
     @Override
     public void onRequestFinish(ApiRequest req, ApiResponse resp) {
         ResultModel resultModel = resp.getResultModel();
-
+        requestComplete();
         if (req == getListRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
@@ -130,8 +168,36 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getAdapter().getItem(position) instanceof OrderInfoModel) {
             Intent intent = new Intent(getActivity(), GuestInfoDetailActivity.class);
-            intent.putExtra("order_id",model.getOrderList().get(position).getId());
+            intent.putExtra("order_id", model.getOrderList().get(position).getId());
             getActivity().startActivity(intent);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        getGuestInfoList();
+    }
+
+    protected void requestComplete() {
+        mIsLoading = false;
+
+        if (recyclerRefreshLayout != null) {
+            recyclerRefreshLayout.setRefreshing(false);
+        }
+
+    }
+
+    @Override
+    public void onLoadMore() {
+        showToast("load more");
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadMoreView.showNoMore();
+            }
+        },2000);
+
     }
 }

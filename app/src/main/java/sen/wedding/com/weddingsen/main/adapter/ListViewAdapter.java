@@ -40,6 +40,7 @@ public class ListViewAdapter extends BaseAdapter {
 
         list.clear();
         list.addAll(dataList);
+
         notifyDataSetChanged();
     }
 
@@ -72,6 +73,15 @@ public class ListViewAdapter extends BaseAdapter {
             binding = DataBindingUtil.getBinding(convertView);
         }
         OrderInfoModel model = list.get(position);
+
+        if(position==0)
+        {
+            binding.vReviewPlaceholderHead.setVisibility(View.VISIBLE);
+        }else
+        {
+            binding.vReviewPlaceholderHead.setVisibility(View.GONE);
+
+        }
 
         long time = Long.parseLong(model.getCreateTime()) * 1000;
         binding.tvOrderTime.setText(DateUtil.convertDateToString(new Date(time),DateUtil.FORMAT_COMMON_Y_M_D));

@@ -18,5 +18,11 @@ public class URLCollection {
 
     public final static String URL_FEEDBACK = "http://dev.51isen.com/index.php?m=app&c=feedback&f=create";
 
+    public final static String URL_CREATE_GUEST_INFO = "http://dev.51isen.com/index.php?m=app&c=order&f=createKeZi";
+
+    public final static String URL_GET_GUEST_INFO_LIST = "http://dev.51isen.com/index.php?m=app&c=order&f=orderKeZiList";
+
+    public final static String URL_SHOW_GUEST_INFO_DETAIL = "http://dev.51isen.com/index.php?m=app&c=order&f=orderKeZiDetail";
+
 
 }

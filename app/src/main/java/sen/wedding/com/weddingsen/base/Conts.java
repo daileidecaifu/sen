@@ -106,7 +106,7 @@ public class Conts {
     public final static int SELECT_OPTION_REQUEST_CODE = 1;
 
     //返回成功状态码
-    public final static int REQUEST_SUCCESS = 200;
+    public final static int REQUEST_SUCCESS = 1000;
     //支付宝设置页面来源
     public final static int FROM_LOGIN = 0;//login页面
     public final static int FROM_MAIN = 1;//main页面
