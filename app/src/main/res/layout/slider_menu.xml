@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="15800000000"
+            android:id="@+id/tv_phone_number"
             android:textColor="@color/text_common"
             android:textSize="@dimen/text_size_xxl" />
 

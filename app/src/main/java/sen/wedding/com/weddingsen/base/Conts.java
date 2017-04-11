@@ -107,6 +107,8 @@ public class Conts {
 
     //返回成功状态码
     public final static int REQUEST_SUCCESS = 1000;
+    public final static int REQUEST_LOGIN_INVALID = 997;
+
     //支付宝设置页面来源
     public final static int FROM_LOGIN = 0;//login页面
     public final static int FROM_MAIN = 1;//main页面

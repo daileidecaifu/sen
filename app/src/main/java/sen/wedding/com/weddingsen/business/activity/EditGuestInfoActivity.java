@@ -124,7 +124,7 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
         //姓名
         binding.llEditName.tvItemEditTitle.setText(getString(R.string.name));
         binding.llEditName.etItemEditInput.setHint(getString(R.string.edit_name_hint));
-
+        binding.llEditName.etItemEditInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
         //类型
         binding.llSelectType.tvItemSelectTitle.setText(getString(R.string.type));
         binding.llSelectType.tvItemSelectIcon.setVisibility(View.INVISIBLE);

@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity
     private void initSildMenu() {
 
         mainActivityBinding.llSliderMenu.setClickListener(this);
-
+        mainActivityBinding.llSliderMenu.tvPhoneNumber.setText(BasePreference.getUserName());
     }
 
     private void initMainView() {

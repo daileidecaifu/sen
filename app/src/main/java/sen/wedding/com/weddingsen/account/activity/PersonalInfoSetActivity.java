@@ -68,6 +68,7 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
         if(!TextUtils.isEmpty(BasePreference.getAlipayAccount()))
         {
             binding.etAlipayInput.setText(BasePreference.getAlipayAccount());
+            binding.etAlipayInput.setSelection(binding.etAlipayInput.getText().toString().length());
         }
     }
 

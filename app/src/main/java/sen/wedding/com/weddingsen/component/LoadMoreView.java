@@ -27,8 +27,7 @@ public class LoadMoreView extends LinearLayout {
     private OnLoadMoreListener onLoadMoreListener;
 
     private boolean isScrollActive = true;
-    private boolean canEffect = true;
-
+    private boolean isLoading = false;
 
     public LoadMoreView(Context context) {
         this(context, null);
@@ -60,14 +59,12 @@ public class LoadMoreView extends LinearLayout {
     }
 
     public void dismissLoading() {
-        canEffect = true;
-        isScrollActive = false;
+        isScrollActive = true;
         llContainer.setVisibility(GONE);
         setOnClickListener(null);
     }
 
     public void showLoading() {
-        canEffect = false;
         isScrollActive = true;
         llContainer.setVisibility(View.VISIBLE);
         pbLoading.setVisibility(View.VISIBLE);
@@ -78,7 +75,6 @@ public class LoadMoreView extends LinearLayout {
     }
 
     public void showFailed() {
-        canEffect = false;
         isScrollActive = false;
         llContainer.setVisibility(VISIBLE);
         pbLoading.setVisibility(GONE);
@@ -90,7 +86,6 @@ public class LoadMoreView extends LinearLayout {
 
     public void showNoMore() {
 
-        canEffect = false;
         isScrollActive = false;
         llContainer.setVisibility(VISIBLE);
         pbLoading.setVisibility(GONE);
@@ -133,7 +128,7 @@ public class LoadMoreView extends LinearLayout {
         @Override
         public void onScrollStateChanged(AbsListView listView, int scrollState) {
             if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && listView.getLastVisiblePosition() >= listView.getCount() - 1) {// 如果滚动到最后一行
-                if (isScrollActive && onLoadMoreListener != null && canEffect) {
+                if (isScrollActive && onLoadMoreListener != null &&!isLoading) {
                     showLoading();
                     listView.setSelection(listView.getBottom());
                     onLoadMoreListener.onLoadMore();
@@ -152,5 +147,7 @@ public class LoadMoreView extends LinearLayout {
         void onLoadMore();
     }
 
-
+    public void setLoading(boolean loading) {
+        isLoading = loading;
+    }
 }

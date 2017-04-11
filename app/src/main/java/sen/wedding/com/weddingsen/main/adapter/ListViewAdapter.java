@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,10 +41,16 @@ public class ListViewAdapter extends BaseAdapter {
 
         list.clear();
         list.addAll(dataList);
-
+        Toast.makeText(currentContext,list.size()+"",Toast.LENGTH_LONG).show();
         notifyDataSetChanged();
     }
 
+    public void notifyMoreDataChanged(ArrayList<OrderInfoModel> dataList) {
+
+        list.addAll(dataList);
+        Toast.makeText(currentContext,list.size()+"",Toast.LENGTH_LONG).show();
+        notifyDataSetChanged();
+    }
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
@@ -93,4 +100,7 @@ public class ListViewAdapter extends BaseAdapter {
 
     }
 
+    public ArrayList<OrderInfoModel> getList() {
+        return list;
+    }
 }

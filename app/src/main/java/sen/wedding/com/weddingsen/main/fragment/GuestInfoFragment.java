@@ -40,10 +40,11 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
 
     ListView listView;
     ListViewAdapter listViewAdapter;
-    private ApiRequest getListRequest;
+    private ApiRequest getListRequest,loadMoreRequest;
 
     private GuestInfosResModel model;
     private int currentStatus;
+    private int currentPage;
 
     /**
      * 刷新加载更多逻辑
@@ -65,6 +66,7 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         currentStatus = getArguments().getInt("order_status");
+
     }
 
     @Override
@@ -123,14 +125,30 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
 //    }
 
     private void getGuestInfoList() {
+            currentPage = 1;
+            getListRequest = new ApiRequest(URLCollection.URL_GET_GUEST_INFO_LIST, HttpMethod.POST);
+            HashMap<String, String> param = new HashMap<>();
+            param.put("access_token", BasePreference.getToken());
+            param.put("order_status", currentStatus + "");
+            param.put("order_page", currentPage + "");
 
-        getListRequest = new ApiRequest(URLCollection.URL_GET_GUEST_INFO_LIST, HttpMethod.POST);
-        HashMap<String, String> param = new HashMap<>();
-        param.put("access_token", BasePreference.getToken());
-        param.put("order_status", currentStatus + "");
+            getListRequest.setParams(param);
+            getApiService().exec(getListRequest, this);
 
-        getListRequest.setParams(param);
-        getApiService().exec(getListRequest, this);
+    }
+
+    private void loadMoreInfoList() {
+
+            currentPage = currentPage + 1;
+            loadMoreRequest = new ApiRequest(URLCollection.URL_GET_GUEST_INFO_LIST, HttpMethod.POST);
+            HashMap<String, String> param = new HashMap<>();
+            param.put("access_token", BasePreference.getToken());
+            param.put("order_status", currentStatus + "");
+            param.put("order_page", currentPage + "");
+
+            loadMoreRequest.setParams(param);
+            getApiService().exec(loadMoreRequest, this);
+
     }
 
     @Override
@@ -146,12 +164,26 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
     @Override
     public void onRequestFinish(ApiRequest req, ApiResponse resp) {
         ResultModel resultModel = resp.getResultModel();
-        requestComplete();
         if (req == getListRequest) {
+            requestComplete();
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     listViewAdapter.notifyDataChanged(model.getOrderList());
+                }
+            } else {
+                showToast(resultModel.message);
+            }
+        }else if(req == loadMoreRequest)
+        {
+            if (resultModel.status == Conts.REQUEST_SUCCESS) {
+                model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
+                if (model.getOrderList() != null && model.getOrderList().size() > 0) {
+                    listViewAdapter.notifyMoreDataChanged(model.getOrderList());
+                    loadMoreComplete();
+                }else
+                {
+                    loadMoreView.showNoMore();
                 }
             } else {
                 showToast(resultModel.message);
@@ -168,18 +200,21 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getAdapter().getItem(position) instanceof OrderInfoModel) {
             Intent intent = new Intent(getActivity(), GuestInfoDetailActivity.class);
-            intent.putExtra("order_id", model.getOrderList().get(position).getId());
+            intent.putExtra("order_id", listViewAdapter.getList().get(position).getId());
             getActivity().startActivity(intent);
         }
     }
 
     @Override
     public void onRefresh() {
+        mIsLoading = true;
+        loadMoreView.setLoading(mIsLoading);
         getGuestInfoList();
     }
 
     protected void requestComplete() {
         mIsLoading = false;
+        loadMoreView.setLoading(mIsLoading);
 
         if (recyclerRefreshLayout != null) {
             recyclerRefreshLayout.setRefreshing(false);
@@ -187,17 +222,18 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
 
     }
 
+    protected void loadMoreComplete() {
+
+        if (loadMoreView != null) {
+            loadMoreView.dismissLoading();
+        }
+
+    }
+
     @Override
     public void onLoadMore() {
-        showToast("load more");
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loadMoreView.showNoMore();
-            }
-        },2000);
+            showToast("load more");
+            loadMoreInfoList();
 
     }
 }

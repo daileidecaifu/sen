@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import sen.wedding.com.weddingsen.R;
+import sen.wedding.com.weddingsen.account.model.AccountInfoModel;
 import sen.wedding.com.weddingsen.base.ApiRequest;
 import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BaseActivity;
@@ -22,6 +24,7 @@ import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.business.adapter.SelectOptionAdapter;
 import sen.wedding.com.weddingsen.business.model.AreaModel;
+import sen.wedding.com.weddingsen.business.model.AreaOrHotelResModel;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.SelectOptionBinding;
 import sen.wedding.com.weddingsen.base.Conts;
@@ -171,11 +174,16 @@ public class SelectAreaOptionActivity extends BaseActivity implements View.OnCli
 
         if (req == searchRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
-                list = GsonConverter.fromJson(resultModel.data.toString(),
-                        new TypeToken<List<AreaModel>>() {
-                        }.getType());
-                adapter.notifyDataChanged(list);
 
+                AreaOrHotelResModel areaOrHotelResModel = GsonConverter.decode(resultModel.data, AreaOrHotelResModel.class);
+
+                list = areaOrHotelResModel.getAreaList();
+                if(list!=null&&list.size()>0) {
+                    adapter.notifyDataChanged(list);
+                }else
+                {
+                    showToast(getString(R.string.empty_data));
+                }
             } else {
                 showToast(resultModel.message);
             }

@@ -21,6 +21,7 @@ import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.business.adapter.SelectHotelAdapter;
 import sen.wedding.com.weddingsen.business.adapter.SelectOptionAdapter;
+import sen.wedding.com.weddingsen.business.model.AreaOrHotelResModel;
 import sen.wedding.com.weddingsen.business.model.HotelModel;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.SelectOptionBinding;
@@ -187,10 +188,14 @@ public class SelectHotelOptionActivity extends BaseActivity implements View.OnCl
 
         if (req == searchRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
-                list = GsonConverter.fromJson(resultModel.data.toString(),
-                        new TypeToken<List<HotelModel>>() {
-                        }.getType());
-                adapter.notifyDataChanged(list);
+                AreaOrHotelResModel areaOrHotelResModel = GsonConverter.decode(resultModel.data, AreaOrHotelResModel.class);
+
+                list = areaOrHotelResModel.getHotelList();
+                if (list != null && list.size() > 0) {
+                    adapter.notifyDataChanged(list);
+                } else {
+                    showToast(getString(R.string.empty_data));
+                }
 
             } else {
                 showToast(resultModel.message);
