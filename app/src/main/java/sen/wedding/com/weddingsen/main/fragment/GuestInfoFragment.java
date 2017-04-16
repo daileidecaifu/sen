@@ -40,12 +40,11 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
 
     ListView listView;
     ListViewAdapter listViewAdapter;
-    private ApiRequest getListRequest,loadMoreRequest;
+    private ApiRequest getListRequest, loadMoreRequest;
 
     private GuestInfosResModel model;
     private int currentStatus;
     private int currentPage;
-
     /**
      * 刷新加载更多逻辑
      */
@@ -125,29 +124,29 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
 //    }
 
     private void getGuestInfoList() {
-            currentPage = 1;
-            getListRequest = new ApiRequest(URLCollection.URL_GET_GUEST_INFO_LIST, HttpMethod.POST);
-            HashMap<String, String> param = new HashMap<>();
-            param.put("access_token", BasePreference.getToken());
-            param.put("order_status", currentStatus + "");
-            param.put("order_page", currentPage + "");
+        currentPage = 1;
+        getListRequest = new ApiRequest(URLCollection.URL_GET_GUEST_INFO_LIST, HttpMethod.POST);
+        HashMap<String, String> param = new HashMap<>();
+        param.put("access_token", BasePreference.getToken());
+        param.put("order_status", currentStatus + "");
+        param.put("order_page", currentPage + "");
 
-            getListRequest.setParams(param);
-            getApiService().exec(getListRequest, this);
+        getListRequest.setParams(param);
+        getApiService().exec(getListRequest, this);
 
     }
 
     private void loadMoreInfoList() {
 
-            currentPage = currentPage + 1;
-            loadMoreRequest = new ApiRequest(URLCollection.URL_GET_GUEST_INFO_LIST, HttpMethod.POST);
-            HashMap<String, String> param = new HashMap<>();
-            param.put("access_token", BasePreference.getToken());
-            param.put("order_status", currentStatus + "");
-            param.put("order_page", currentPage + "");
+        int loadmorePage = currentPage + 1;
+        loadMoreRequest = new ApiRequest(URLCollection.URL_GET_GUEST_INFO_LIST, HttpMethod.POST);
+        HashMap<String, String> param = new HashMap<>();
+        param.put("access_token", BasePreference.getToken());
+        param.put("order_status", currentStatus + "");
+        param.put("order_page", loadmorePage + "");
 
-            loadMoreRequest.setParams(param);
-            getApiService().exec(loadMoreRequest, this);
+        loadMoreRequest.setParams(param);
+        getApiService().exec(loadMoreRequest, this);
 
     }
 
@@ -174,15 +173,14 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
             } else {
                 showToast(resultModel.message);
             }
-        }else if(req == loadMoreRequest)
-        {
+        } else if (req == loadMoreRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
+                currentPage = Integer.parseInt(((ApiRequest) req).getParams().get("page"));
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     listViewAdapter.notifyMoreDataChanged(model.getOrderList());
                     loadMoreComplete();
-                }else
-                {
+                } else {
                     loadMoreView.showNoMore();
                 }
             } else {
@@ -232,8 +230,8 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
 
     @Override
     public void onLoadMore() {
-            showToast("load more");
-            loadMoreInfoList();
+        showToast("load more");
+        loadMoreInfoList();
 
     }
 }
