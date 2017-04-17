@@ -33,6 +33,7 @@ import sen.wedding.com.weddingsen.component.SlidingTabLayout;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.MainActivityBinding;
 import sen.wedding.com.weddingsen.main.fragment.GuestInfoFragment;
+import sen.wedding.com.weddingsen.main.fragment.OpenProjectNormalFragment;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -168,7 +169,7 @@ public class MainActivity extends BaseActivity
         private Context mContext;
         private Fragment[] fragments = new Fragment[]{
                 GuestInfoFragment.newInstance(1),
-                GuestInfoFragment.newInstance(2),
+                new OpenProjectNormalFragment(),
                 GuestInfoFragment.newInstance(3),
                 GuestInfoFragment.newInstance(4),
                 GuestInfoFragment.newInstance(5),

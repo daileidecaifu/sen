@@ -176,7 +176,7 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
         } else if (req == loadMoreRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
-                currentPage = Integer.parseInt(((ApiRequest) req).getParams().get("page"));
+                currentPage = Integer.parseInt(((ApiRequest) req).getParams().get("order_page"));
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     listViewAdapter.notifyMoreDataChanged(model.getOrderList());
                     loadMoreComplete();

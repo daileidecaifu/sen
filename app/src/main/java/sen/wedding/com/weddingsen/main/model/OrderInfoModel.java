@@ -2,11 +2,13 @@ package sen.wedding.com.weddingsen.main.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import sen.wedding.com.weddingsen.component.refresh.CursorModel;
+
 /**
  * Created by lorin on 17/3/30.
  */
 
-public class OrderInfoModel {
+public class OrderInfoModel implements CursorModel{
 
     private int id;
 
@@ -60,5 +62,10 @@ public class OrderInfoModel {
 
     public void setWatchUser(String watchUser) {
         this.watchUser = watchUser;
+    }
+
+    @Override
+    public boolean hasMore() {
+        return true;
     }
 }
