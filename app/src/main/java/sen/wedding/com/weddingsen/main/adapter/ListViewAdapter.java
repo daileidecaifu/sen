@@ -103,4 +103,8 @@ public class ListViewAdapter extends BaseAdapter {
     public ArrayList<OrderInfoModel> getList() {
         return list;
     }
+
+    public boolean isEmpty() {
+        return getCount() == 0;
+    }
 }

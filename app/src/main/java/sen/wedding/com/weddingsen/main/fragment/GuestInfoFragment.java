@@ -49,7 +49,7 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
      * 刷新加载更多逻辑
      */
     RecyclerRefreshLayout recyclerRefreshLayout;
-    private boolean mIsLoading;
+    boolean isLoadMore = false;//是否请求下一页数据
     private LoadMoreView loadMoreView;
 
     public static GuestInfoFragment newInstance(int orderStatus) {
@@ -137,7 +137,7 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
     }
 
     private void loadMoreInfoList() {
-
+        isLoadMore = true;
         int loadmorePage = currentPage + 1;
         loadMoreRequest = new ApiRequest(URLCollection.URL_GET_GUEST_INFO_LIST, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
@@ -169,7 +169,13 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
                 model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     listViewAdapter.notifyDataChanged(model.getOrderList());
+                    if (model.getCount() < 10) {
+                        loadMoreView.showNoMore();
+                    }
+                } else {
+                    // TODO: 17/4/21 背景替换为空
                 }
+
             } else {
                 showToast(resultModel.message);
             }
@@ -179,8 +185,9 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
                 currentPage = Integer.parseInt(((ApiRequest) req).getParams().get("order_page"));
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     listViewAdapter.notifyMoreDataChanged(model.getOrderList());
-                    loadMoreComplete();
-                } else {
+                }
+
+                if (model.getCount() < currentPage * 10) {
                     loadMoreView.showNoMore();
                 }
             } else {
@@ -191,7 +198,12 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
 
     @Override
     public void onRequestFailed(ApiRequest req, ApiResponse resp) {
-        showToast(getString(R.string.request_error_tip));
+        if (listViewAdapter.isEmpty()) {
+            loadMoreView.dismissLoading();
+        } else {
+            loadMoreView.showFailed();
+            showToast(getString(R.string.abnormal));
+        }
     }
 
     @Override
@@ -205,33 +217,19 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
 
     @Override
     public void onRefresh() {
-        mIsLoading = true;
-        loadMoreView.setLoading(mIsLoading);
         getGuestInfoList();
     }
 
     protected void requestComplete() {
-        mIsLoading = false;
-        loadMoreView.setLoading(mIsLoading);
-
         if (recyclerRefreshLayout != null) {
             recyclerRefreshLayout.setRefreshing(false);
         }
 
     }
 
-    protected void loadMoreComplete() {
-
-        if (loadMoreView != null) {
-            loadMoreView.dismissLoading();
-        }
-
-    }
 
     @Override
     public void onLoadMore() {
-        showToast("load more");
         loadMoreInfoList();
-
     }
 }

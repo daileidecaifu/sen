@@ -181,6 +181,11 @@ public abstract class RecyclerFragment<MODEL extends CursorModel> extends Fragme
 
     public abstract class InteractionListener {
         public void requestRefresh() {
+
+        }
+
+        public void requestRefreshAciton()
+        {
             requestComplete();
 
             if (mOriginAdapter.isEmpty()) {
@@ -193,9 +198,12 @@ public abstract class RecyclerFragment<MODEL extends CursorModel> extends Fragme
         }
 
         public void requestMore() {
-            requestComplete();
         }
 
+        public void requestMoreAction()
+        {
+            requestComplete();
+        }
         public void requestFailure() {
             requestComplete();
             mTipsHelper.showError(isFirstPage(), new Exception("net error"));
@@ -211,6 +219,18 @@ public abstract class RecyclerFragment<MODEL extends CursorModel> extends Fragme
             mTipsHelper.hideError();
             mTipsHelper.hideEmpty();
             mTipsHelper.hideLoading();
+        }
+
+        public void showNoMore()
+        {
+            mTipsHelper.hideHasMore();
+            mIsLoading = false;
+        }
+
+        public void showEmpty()
+        {
+            mTipsHelper.showEmpty();
+
         }
 
         protected boolean hasMore() {

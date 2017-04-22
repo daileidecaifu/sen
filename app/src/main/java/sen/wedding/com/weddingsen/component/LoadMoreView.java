@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import sen.wedding.com.weddingsen.R;
 
+
 /**
  * Created by sunyun on 16/9/12.
  */
@@ -24,10 +25,11 @@ public class LoadMoreView extends LinearLayout {
     private ImageView ivFailed;
     private TextView tvLoadMore;
 
+//    private CommonShadowView shadowView;
+
     private OnLoadMoreListener onLoadMoreListener;
 
     private boolean isScrollActive = true;
-    private boolean isLoading = false;
 
     public LoadMoreView(Context context) {
         this(context, null);
@@ -46,6 +48,8 @@ public class LoadMoreView extends LinearLayout {
         pbLoading = (ProgressBar) findViewById(R.id.pb_loading);
         ivFailed = (ImageView) findViewById(R.id.iv_failed);
         tvLoadMore = (TextView) findViewById(R.id.tv_load_more);
+//        shadowView = (CommonShadowView) findViewById(R.id.shadow_view);
+
     }
 
     public void setOnLoadMoreListener(OnLoadMoreListener listener) {
@@ -59,8 +63,9 @@ public class LoadMoreView extends LinearLayout {
     }
 
     public void dismissLoading() {
-        isScrollActive = true;
+        isScrollActive = false;
         llContainer.setVisibility(GONE);
+//        shadowView.setVisibility(GONE);
         setOnClickListener(null);
     }
 
@@ -71,6 +76,7 @@ public class LoadMoreView extends LinearLayout {
         ivFailed.setVisibility(View.GONE);
         tvLoadMore.setText(getResources().getString(R.string.schedule_loading));
 
+//        shadowView.setVisibility(View.GONE);
         setOnClickListener(null);
     }
 
@@ -82,15 +88,17 @@ public class LoadMoreView extends LinearLayout {
         tvLoadMore.setText(getResources().getString(R.string.loading_failed));
         setOnClickListener(onClickLoadMoreListener);
 
+//        shadowView.setVisibility(GONE);
+
     }
 
     public void showNoMore() {
-
         isScrollActive = false;
         llContainer.setVisibility(VISIBLE);
         pbLoading.setVisibility(GONE);
-        ivFailed.setVisibility(GONE);
-        tvLoadMore.setText(getResources().getString(R.string.no_more_data));
+        tvLoadMore.setText("没有更多");
+
+//        shadowView.setVisibility(GONE);
         setOnClickListener(null);
     }
 
@@ -127,12 +135,9 @@ public class LoadMoreView extends LinearLayout {
 
         @Override
         public void onScrollStateChanged(AbsListView listView, int scrollState) {
-            if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && listView.getLastVisiblePosition() >= listView.getCount() - 1) {// 如果滚动到最后一行
-                if (isScrollActive && onLoadMoreListener != null &&!isLoading) {
-                    showLoading();
-                    listView.setSelection(listView.getBottom());
+            if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && listView.getLastVisiblePosition() + 1 >= listView.getCount() - 1) {// 如果滚动到最后一行
+                if (isScrollActive && onLoadMoreListener != null) {
                     onLoadMoreListener.onLoadMore();
-
                 }
             }
         }
@@ -147,7 +152,5 @@ public class LoadMoreView extends LinearLayout {
         void onLoadMore();
     }
 
-    public void setLoading(boolean loading) {
-        isLoading = loading;
-    }
+
 }

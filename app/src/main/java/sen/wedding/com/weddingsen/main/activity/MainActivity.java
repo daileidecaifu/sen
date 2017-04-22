@@ -169,7 +169,7 @@ public class MainActivity extends BaseActivity
         private Context mContext;
         private Fragment[] fragments = new Fragment[]{
                 GuestInfoFragment.newInstance(1),
-                new OpenProjectNormalFragment(),
+                OpenProjectNormalFragment.newInstance(1),
                 GuestInfoFragment.newInstance(3),
                 GuestInfoFragment.newInstance(4),
                 GuestInfoFragment.newInstance(5),

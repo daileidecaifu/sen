@@ -54,14 +54,22 @@ public class OpenProjectNormalFragment extends RecyclerFragment<OrderInfoModel> 
 
     private InteractionListener itemInteractionListener;
 
-    public static OpenProjectNormalFragment newInstance() {
-        return new OpenProjectNormalFragment();
+    public static OpenProjectNormalFragment newInstance(int orderStatus) {
+
+        Bundle args = new Bundle();
+        args.putInt("order_status", orderStatus);
+        OpenProjectNormalFragment fragment = new OpenProjectNormalFragment();
+        fragment.setArguments(args);
+        return fragment;
+
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
+        currentStatus = getArguments().getInt("order_status");
+
     }
 
 
@@ -69,7 +77,6 @@ public class OpenProjectNormalFragment extends RecyclerFragment<OrderInfoModel> 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        itemInteractionListener = createInteraction();
         getOriginAdapter().setItemList(mItemList);
         getHeaderAdapter().notifyDataSetChanged();
         getRecyclerRefreshLayout().setDragDistanceConverter(new DragDistanceConverterEg());
@@ -103,87 +110,59 @@ public class OpenProjectNormalFragment extends RecyclerFragment<OrderInfoModel> 
 
     @Override
     protected InteractionListener createInteraction() {
-        return new ItemInteractionListener();
+
+        if (itemInteractionListener == null) {
+            itemInteractionListener = new ItemInteractionListener();
+        }
+        return itemInteractionListener;
     }
 
-    private void simulateNetworkRequest(final RequestListener listener) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(REQUEST_DURATION);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//    private void simulateNetworkRequest(final RequestListener listener) {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(REQUEST_DURATION);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                if (isAdded()) {
+//                    mHandler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            if (mSimulateStatus == SIMULATE_FRESH_FAILURE) {
+//                                listener.onFailed();
+//                            } else if (mSimulateStatus == SIMULATE_FRESH_NO_DATA) {
+//                                listener.onSuccess(Collections.EMPTY_LIST);
+//                            } else {
+//                                listener.onSuccess(getFakeData());
+//                            }
+//
+//                            mSimulateStatus = SIMULATE_UNSPECIFIED;
+//                        }
+//                    });
+//                }
+//            }
+//        }).start();
+//    }
 
-                if (isAdded()) {
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (mSimulateStatus == SIMULATE_FRESH_FAILURE) {
-                                listener.onFailed();
-                            } else if (mSimulateStatus == SIMULATE_FRESH_NO_DATA) {
-                                listener.onSuccess(Collections.EMPTY_LIST);
-                            } else {
-                                listener.onSuccess(getFakeData());
-                            }
-
-                            mSimulateStatus = SIMULATE_UNSPECIFIED;
-                        }
-                    });
-                }
-            }
-        }).start();
-    }
-
-    private interface RequestListener {
-        void onSuccess(List<OrderInfoModel> openProjectModels);
-
-        void onFailed();
-    }
+//    private interface RequestListener {
+//        void onSuccess(List<OrderInfoModel> openProjectModels);
+//
+//        void onFailed();
+//    }
 
     private class ItemInteractionListener extends InteractionListener {
 
-        ItemInteractionListener itemInteractionListener;
-
-        public ItemInteractionListener()
-        {
-            itemInteractionListener = this;
-        }
-
         @Override
         public void requestRefresh() {
-            simulateNetworkRequest(new RequestListener() {
-                @Override
-                public void onSuccess(List<OrderInfoModel> openProjectModels) {
-                    mItemList.clear();
-                    mItemList.addAll(openProjectModels);
-                    getHeaderAdapter().notifyDataSetChanged();
-                    ItemInteractionListener.super.requestRefresh();
-                }
-
-                @Override
-                public void onFailed() {
-                    ItemInteractionListener.super.requestFailure();
-                }
-            });
+            getGuestInfoList();
         }
 
         @Override
         public void requestMore() {
-            simulateNetworkRequest(new RequestListener() {
-                @Override
-                public void onSuccess(List<OrderInfoModel> openProjectModels) {
-                    mItemList.addAll(openProjectModels);
-                    getHeaderAdapter().notifyDataSetChanged();
-                    ItemInteractionListener.super.requestMore();
-                }
-
-                @Override
-                public void onFailed() {
-                    ItemInteractionListener.super.requestFailure();
-                }
-            });
+            loadMoreInfoList();
         }
     }
 
@@ -277,7 +256,9 @@ public class OpenProjectNormalFragment extends RecyclerFragment<OrderInfoModel> 
                     mItemList.clear();
                     mItemList.addAll(model.getOrderList());
                     getHeaderAdapter().notifyDataSetChanged();
-                    getmInteractionListener().requestRefresh();
+                    itemInteractionListener.requestRefreshAciton();
+                }else {
+                    itemInteractionListener.showEmpty();
                 }
             } else {
                 showToast(resultModel.message);
@@ -289,9 +270,11 @@ public class OpenProjectNormalFragment extends RecyclerFragment<OrderInfoModel> 
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     mItemList.addAll(model.getOrderList());
                     getHeaderAdapter().notifyDataSetChanged();
-                    this.super.requestMore();
+                    itemInteractionListener.requestMoreAction();
                 } else {
-                    loadMoreView.showNoMore();
+                    itemInteractionListener.showNoMore();
+                    showToast("No More");
+
                 }
             } else {
                 showToast(resultModel.message);
@@ -304,19 +287,5 @@ public class OpenProjectNormalFragment extends RecyclerFragment<OrderInfoModel> 
 
     }
 
-    private ArrayList<OrderInfoModel> getFakeData() {
-        ArrayList<OrderInfoModel> fakeList = new ArrayList<>();
-
-        for (int i = 0; i < 8; i++) {
-            OrderInfoModel orderInfoModel = new OrderInfoModel();
-            orderInfoModel.setCreateTime("2017-02-0" + i);
-            orderInfoModel.setId(i);
-            orderInfoModel.setOrderPhone("1580000000" + i);
-            orderInfoModel.setOrderStatus(i);
-            orderInfoModel.setWatchUser("It's a hotel" + i);
-            fakeList.add(orderInfoModel);
-        }
-        return fakeList;
-    }
 
 }
