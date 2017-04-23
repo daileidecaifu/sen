@@ -41,7 +41,7 @@ public class ListViewAdapter extends BaseAdapter {
 
         list.clear();
         list.addAll(dataList);
-        Toast.makeText(currentContext,list.size()+"",Toast.LENGTH_LONG).show();
+//        Toast.makeText(currentContext,list.size()+"",Toast.LENGTH_LONG).show();
         notifyDataSetChanged();
     }
 
@@ -90,8 +90,10 @@ public class ListViewAdapter extends BaseAdapter {
 
         }
 
-        long time = Long.parseLong(model.getCreateTime()) * 1000;
-        binding.tvOrderTime.setText(DateUtil.convertDateToString(new Date(time),DateUtil.FORMAT_COMMON_Y_M_D));
+//        long time = Long.parseLong(model.getCreateTime()) * 1000;
+//        binding.tvOrderTime.setText(DateUtil.convertDateToString(new Date(time),DateUtil.FORMAT_COMMON_Y_M_D));
+        //testFake
+        binding.tvOrderTime.setText(model.getCreateTime());
         binding.tvOrderStatus.setText(Conts.getorderStatusMap().get(model.getOrderStatus()));
         binding.tvContantPersonPhone.setText(model.getOrderPhone());
         binding.tvFollowerFaction.setText(model.getWatchUser());

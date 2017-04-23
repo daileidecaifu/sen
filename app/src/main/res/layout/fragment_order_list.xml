@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.dinuscxj.refresh.RecyclerRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/refresh_layout"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/listView"
+    <com.dinuscxj.refresh.RecyclerRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@null"></ListView>
-</com.dinuscxj.refresh.RecyclerRefreshLayout>
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"></ListView>
+    </com.dinuscxj.refresh.RecyclerRefreshLayout>
+</FrameLayout>

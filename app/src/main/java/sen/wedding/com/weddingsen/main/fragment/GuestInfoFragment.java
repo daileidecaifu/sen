@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.dinuscxj.refresh.RecyclerRefreshLayout;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import sen.wedding.com.weddingsen.R;
@@ -109,19 +110,25 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
 //
 //    }
 
-    //    private ArrayList<OrderInfoModel> getFakeData() {
-//        ArrayList<OrderInfoModel> fakeList = new ArrayList<>();
-//
-//        for (int i = 0; i < 8; i++) {
-//            OrderInfoModel orderInfoModel = new OrderInfoModel();
-//            orderInfoModel.setTime("2017-02-0" + i);
-//            orderInfoModel.setStatus("状态" + i);
-//            orderInfoModel.setContactPersonPhone("1580000000" + i);
-//            orderInfoModel.setFollowerFaction("It's a hotel" + i);
-//            fakeList.add(orderInfoModel);
-//        }
-//        return fakeList;
-//    }
+    private GuestInfosResModel getFakeData() {
+
+        GuestInfosResModel guestInfosResModel = new GuestInfosResModel();
+        guestInfosResModel.setCount(30);
+        ArrayList<OrderInfoModel> fakeList = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            OrderInfoModel orderInfoModel = new OrderInfoModel();
+            orderInfoModel.setCreateTime("2017-02-0" + i);
+            orderInfoModel.setOrderStatus(1);
+            orderInfoModel.setOrderPhone("1580000000" + i);
+            orderInfoModel.setWatchUser("It's a hotel" + i);
+            fakeList.add(orderInfoModel);
+        }
+
+        guestInfosResModel.setOrderList(fakeList);
+
+        return guestInfosResModel;
+    }
 
     private void getGuestInfoList() {
         currentPage = 1;
@@ -166,11 +173,15 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
         if (req == getListRequest) {
             requestComplete();
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
-                model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
+                //testFake
+                model = getFakeData();
+//                model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     listViewAdapter.notifyDataChanged(model.getOrderList());
                     if (model.getCount() < 10) {
                         loadMoreView.showNoMore();
+                    } else {
+                        loadMoreView.showLoading();
                     }
                 } else {
                     // TODO: 17/4/21 背景替换为空
@@ -181,14 +192,18 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
             }
         } else if (req == loadMoreRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
-                model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
+                //testFake
+                model = getFakeData();
+//                model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
                 currentPage = Integer.parseInt(((ApiRequest) req).getParams().get("order_page"));
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     listViewAdapter.notifyMoreDataChanged(model.getOrderList());
                 }
 
-                if (model.getCount() < currentPage * 10) {
+                if (model.getCount() <= currentPage * 10) {
                     loadMoreView.showNoMore();
+                } else {
+                    loadMoreView.showLoading();
                 }
             } else {
                 showToast(resultModel.message);
