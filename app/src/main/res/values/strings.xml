@@ -93,5 +93,7 @@
     <string name="no_more_data">没有更多订单了</string>
     <string name="empty_data">没有数据</string>
     <string name="abnormal">网络异常,请稍后重试</string>
+    <string name="refresh">刷新</string>
+    <string name="request_error">请求异常，请稍后重试</string>
 
 </resources>

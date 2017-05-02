@@ -53,7 +53,12 @@
 
         <activity
             android:name=".main.activity.WelcomeActivity"
-            android:theme="@android:style/Theme.NoTitleBar">
+            android:theme="@android:style/Theme.NoTitleBar"></activity>
+
+        <activity android:name=".business.activity.GuestInfoDetailActivity"></activity>
+
+        <activity android:name=".business.activity.ContractInfoActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -61,8 +66,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".business.activity.GuestInfoDetailActivity"></activity>
+        <activity
+            android:name="me.iwf.photopicker.PhotoPickerActivity"
+            android:theme="@style/customTheme" />
 
+        <activity
+            android:name="me.iwf.photopicker.PhotoPagerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>
 
 </manifest>

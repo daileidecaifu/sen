@@ -20,4 +20,14 @@
     <style name="TitleBar">
         <item name="android:background">@color/theme_color</item>
     </style>
+
+    <style name="actionBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
+    <style name="customTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="actionBarTheme">@style/actionBarTheme</item>
+        <item name="colorPrimary">@color/theme_color</item>
+        <item name="actionBarSize">44dp</item>
+        <item name="colorPrimaryDark">@color/theme_color</item>
+    </style>
 </resources>

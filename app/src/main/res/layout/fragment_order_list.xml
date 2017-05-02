@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:orientation="horizontal"
     android:layout_height="match_parent">
+
+    <sen.wedding.com.weddingsen.component.KeZiLoadingView
+        android:id="@+id/loading_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </sen.wedding.com.weddingsen.component.KeZiLoadingView>
 
     <com.dinuscxj.refresh.RecyclerRefreshLayout
         android:id="@+id/refresh_layout"
@@ -15,4 +22,4 @@
             android:layout_height="match_parent"
             android:divider="@null"></ListView>
     </com.dinuscxj.refresh.RecyclerRefreshLayout>
-</FrameLayout>
+</LinearLayout>

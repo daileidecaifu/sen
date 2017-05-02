@@ -124,9 +124,6 @@ public class MainActivity extends BaseActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_add_guest_info:
-                jumpToOtherActivity(VerifyGuestInfoActivity.class);
-                break;
             case R.id.tv_logout:
                 logout();
                 break;
@@ -160,16 +157,12 @@ public class MainActivity extends BaseActivity
 
     private class TabViewPagerAdapter extends FragmentPagerAdapter {
 
-        private String[] mTabTitle = new String[]{Conts.getorderStatusMap().get(1),
-                Conts.getorderStatusMap().get(2),
-                Conts.getorderStatusMap().get(3),
+        private String[] mTabTitle = new String[]{Conts.getorderStatusMap().get(3),
                 Conts.getorderStatusMap().get(4),
                 Conts.getorderStatusMap().get(5),
                 Conts.getorderStatusMap().get(6)};
         private Context mContext;
         private Fragment[] fragments = new Fragment[]{
-                GuestInfoFragment.newInstance(1),
-                OpenProjectNormalFragment.newInstance(1),
                 GuestInfoFragment.newInstance(3),
                 GuestInfoFragment.newInstance(4),
                 GuestInfoFragment.newInstance(5),

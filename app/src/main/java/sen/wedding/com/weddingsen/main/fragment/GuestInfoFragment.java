@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import sen.wedding.com.weddingsen.R;
+import sen.wedding.com.weddingsen.account.activity.VerifyGuestInfoActivity;
 import sen.wedding.com.weddingsen.base.ApiRequest;
 import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BaseFragment;
@@ -26,6 +27,7 @@ import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.business.activity.GuestInfoDetailActivity;
+import sen.wedding.com.weddingsen.component.KeZiLoadingView;
 import sen.wedding.com.weddingsen.component.LoadMoreView;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
@@ -46,6 +48,8 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
     private GuestInfosResModel model;
     private int currentStatus;
     private int currentPage;
+    KeZiLoadingView loadingView;
+
     /**
      * 刷新加载更多逻辑
      */
@@ -92,6 +96,22 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
         recyclerRefreshLayout = (RecyclerRefreshLayout) view.findViewById(R.id.refresh_layout);
         recyclerRefreshLayout.setOnRefreshListener(this);
         recyclerRefreshLayout.setBackgroundColor(getResources().getColor(R.color.common_background));
+
+        loadingView = (KeZiLoadingView) view.findViewById(R.id.loading_view);
+        loadingView.setLoadingViewClickListener(new KeZiLoadingView.OnLoadingViewClickListener() {
+            @Override
+            public void OnLoadingFailedClick(View view) {
+                getGuestInfoList();
+            }
+
+            @Override
+            public void OnLoadingEmptyClick(View view) {
+                Intent intent = new Intent(getActivity(), VerifyGuestInfoActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+
+        loadingView.showLoading();
         getGuestInfoList();
     }
 
@@ -174,9 +194,11 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
             requestComplete();
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 //testFake
-                model = getFakeData();
-//                model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
+//                model = getFakeData();
+                model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
+                    loadingView.dismiss();
+
                     listViewAdapter.notifyDataChanged(model.getOrderList());
                     if (model.getCount() < 10) {
                         loadMoreView.showNoMore();
@@ -184,7 +206,7 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
                         loadMoreView.showLoading();
                     }
                 } else {
-                    // TODO: 17/4/21 背景替换为空
+                    loadingView.showLoadingEmpty();
                 }
 
             } else {
@@ -193,8 +215,8 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
         } else if (req == loadMoreRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 //testFake
-                model = getFakeData();
-//                model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
+//                model = getFakeData();
+                model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
                 currentPage = Integer.parseInt(((ApiRequest) req).getParams().get("order_page"));
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     listViewAdapter.notifyMoreDataChanged(model.getOrderList());
@@ -213,6 +235,13 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
 
     @Override
     public void onRequestFailed(ApiRequest req, ApiResponse resp) {
+
+        if (req == getListRequest) {
+            loadingView.showLoadingFailed();
+        } else if (req == loadMoreRequest) {
+
+        }
+
         if (listViewAdapter.isEmpty()) {
             loadMoreView.dismissLoading();
         } else {
