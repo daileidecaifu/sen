@@ -21,6 +21,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
+import java.util.List;
+
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.account.activity.FeedbackActivity;
 import sen.wedding.com.weddingsen.account.activity.LoginActivity;
@@ -30,6 +33,7 @@ import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.component.SlidingTabLayout;
+import sen.wedding.com.weddingsen.component.SwitchButton;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.MainActivityBinding;
 import sen.wedding.com.weddingsen.main.fragment.GuestInfoFragment;
@@ -45,7 +49,6 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
         mainActivityBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         initBaseView();
@@ -67,7 +70,37 @@ public class MainActivity extends BaseActivity
     }
 
     private void initMainView() {
+
         LinearLayout linearLayoutMain = (LinearLayout) findViewById(R.id.ll_app_bar_main);
+
+        initGuestTitle(linearLayoutMain);
+        initFollowerTitle(linearLayoutMain);
+        //列表主体
+
+        ViewPager viewPager = (ViewPager) linearLayoutMain.findViewById(R.id.viewpager);
+        viewPager.setAdapter(new TabViewPagerAdapter(getSupportFragmentManager(), this));
+        viewPager.setOffscreenPageLimit(6);
+
+        int selectColor = ContextCompat.getColor(this, R.color.theme_color);
+        SlidingTabLayout slidingTabLayout = (SlidingTabLayout) linearLayoutMain.findViewById(R.id.sliding_tabs);
+        slidingTabLayout.setTabTitleTextSize(14);//标题字体大小
+        slidingTabLayout.setTitleTextColor(selectColor, ContextCompat.getColor(this, R.color.text_common));//标题字体颜色
+        slidingTabLayout.setTabStripWidth(70);//滑动条宽度
+        slidingTabLayout.setSelectedIndicatorColors(selectColor);//滑动条颜色
+        slidingTabLayout.setForegroundGravity(Gravity.CENTER_VERTICAL);
+        slidingTabLayout.setDistributeEvenly(true); //均匀平铺选项卡
+        /**
+         * 自定义tabview，设置左右padding可实现滑动，当前通过layout为wrap，且设置tabview的margin来动态设置
+         */
+        slidingTabLayout.setCustomTabView(R.layout.tv_tab_custom, 0);
+        slidingTabLayout.setViewPager(viewPager);//最后调用此方
+
+        mainActivityBinding.llAppBarMain.setClickListener(this);
+        //空数据状态
+//        mainActivityBinding.llAppBarMain.llListEmpty.setVisibility(View.GONE);
+    }
+
+    private void initGuestTitle(LinearLayout linearLayoutMain) {
 
         //头部title
         RelativeLayout linearLayoutTitle = (RelativeLayout) linearLayoutMain.findViewById(R.id.title_bar);
@@ -95,30 +128,43 @@ public class MainActivity extends BaseActivity
                 drawer.openDrawer(GravityCompat.START);
             }
         });
+    }
 
-        //列表主体
+    private void initFollowerTitle(LinearLayout linearLayoutMain) {
 
-        ViewPager viewPager = (ViewPager) linearLayoutMain.findViewById(R.id.viewpager);
-        viewPager.setAdapter(new TabViewPagerAdapter(getSupportFragmentManager(), this));
-        viewPager.setOffscreenPageLimit(6);
+        List<String> tabTextList = Arrays.asList(getString(R.string.guest_info), getString(R.string.contract_review));
+        //头部title
+        RelativeLayout linearLayoutTitle = (RelativeLayout) linearLayoutMain.findViewById(R.id.title_follower);
 
-        int selectColor = ContextCompat.getColor(this, R.color.theme_color);
-        SlidingTabLayout slidingTabLayout = (SlidingTabLayout) linearLayoutMain.findViewById(R.id.sliding_tabs);
-        slidingTabLayout.setTabTitleTextSize(14);//标题字体大小
-        slidingTabLayout.setTitleTextColor(selectColor, ContextCompat.getColor(this, R.color.text_common));//标题字体颜色
-        slidingTabLayout.setTabStripWidth(70);//滑动条宽度
-        slidingTabLayout.setSelectedIndicatorColors(selectColor);//滑动条颜色
-        slidingTabLayout.setForegroundGravity(Gravity.CENTER_VERTICAL);
-        slidingTabLayout.setDistributeEvenly(true); //均匀平铺选项卡
-        /**
-         * 自定义tabview，设置左右padding可实现滑动，当前通过layout为wrap，且设置tabview的margin来动态设置
-         */
-        slidingTabLayout.setCustomTabView(R.layout.tv_tab_custom, 0);
-        slidingTabLayout.setViewPager(viewPager);//最后调用此方
+        TextView textViewLeft = (TextView) linearLayoutTitle.findViewById(R.id.tv_left);
+        TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
+        SwitchButton switchButton = (SwitchButton) linearLayoutTitle.findViewById(R.id.sb_main_follower);
 
-        mainActivityBinding.llAppBarMain.setClickListener(this);
-        //空数据状态
-//        mainActivityBinding.llAppBarMain.llListEmpty.setVisibility(View.GONE);
+        titleBar = new TitleBar(linearLayoutTitle, TitleBar.Type.CUSTOM_1);
+        textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_my_center));
+        textViewRight.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_create));
+
+        switchButton.setText(tabTextList);
+        switchButton.setOnSwitchListener(new SwitchButton.OnSwitchListener() {
+            @Override
+            public void onSwitch(int position, String tabText) {
+                showToast(""+position);
+            }
+        });
+        textViewRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                jumpToOtherActivity(VerifyGuestInfoActivity.class);
+
+            }
+        });
+
+        textViewLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(GravityCompat.START);
+            }
+        });
     }
 
     @Override

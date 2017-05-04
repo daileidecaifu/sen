@@ -102,6 +102,15 @@ public class LoadMoreView extends LinearLayout {
         setOnClickListener(null);
     }
 
+    public void showNoMoreInFirst() {
+        isScrollActive = false;
+        llContainer.setVisibility(GONE);
+        pbLoading.setVisibility(GONE);
+
+//        shadowView.setVisibility(GONE);
+        setOnClickListener(null);
+    }
+
     protected View.OnClickListener onClickLoadMoreListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

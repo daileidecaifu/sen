@@ -201,7 +201,7 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
 
                     listViewAdapter.notifyDataChanged(model.getOrderList());
                     if (model.getCount() < 10) {
-                        loadMoreView.showNoMore();
+                        loadMoreView.showNoMoreInFirst();
                     } else {
                         loadMoreView.showLoading();
                     }

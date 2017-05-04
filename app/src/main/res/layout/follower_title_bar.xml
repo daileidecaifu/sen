@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/title_bar"
+    style="@style/TitleBar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/titlebar_height">
+
+
+    <LinearLayout
+        android:id="@+id/ll_left"
+        android:layout_width="@dimen/common_hight"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="20dp"
+            android:id="@+id/tv_left"
+            android:background="@mipmap/icon_back" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical|right">
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_height="20dp"
+            android:id="@+id/tv_right"
+            android:background="@mipmap/icon_create" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@color/theme_color"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content">
+        <sen.wedding.com.weddingsen.component.SwitchButton
+            android:id="@+id/sb_main_follower"
+            android:layout_width="160dp"
+            android:layout_height="30dp"
+            app:strokeRadius="5dp"
+            app:strokeWidth="1dp"
+            app:selectedTab="0"
+            app:unSelectedColor="@color/theme_color"
+            app:selectedColor="@color/white"
+            app:textSize="14sp"
+            />
+    </LinearLayout>
+
+
+</RelativeLayout>
