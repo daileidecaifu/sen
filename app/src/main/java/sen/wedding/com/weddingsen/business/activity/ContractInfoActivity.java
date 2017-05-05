@@ -47,25 +47,25 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         binding.rvPicSelect.setLayoutManager(new StaggeredGridLayoutManager(4, OrientationHelper.VERTICAL));
         binding.rvPicSelect.setAdapter(photoAdapter);
 
-        binding.rvPicSelect.addOnItemTouchListener(new RecyclerItemClickListener(this,
-                new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        if (photoAdapter.getItemViewType(position) == PhotoAdapter.TYPE_ADD) {
-                            PhotoPicker.builder()
-                                    .setPhotoCount(PhotoAdapter.MAX)
-                                    .setShowCamera(true)
-                                    .setPreviewEnabled(false)
-                                    .setSelected(selectedPhotos)
-                                    .start(ContractInfoActivity.this);
-                        } else {
-                            PhotoPreview.builder()
-                                    .setPhotos(selectedPhotos)
-                                    .setCurrentItem(position)
-                                    .start(ContractInfoActivity.this);
-                        }
-                    }
-                }));
+//        binding.rvPicSelect.addOnItemTouchListener(new RecyclerItemClickListener(this,
+//                new RecyclerItemClickListener.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(View view, int position) {
+//                        if (photoAdapter.getItemViewType(position) == PhotoAdapter.TYPE_ADD) {
+//                            PhotoPicker.builder()
+//                                    .setPhotoCount(PhotoAdapter.MAX)
+//                                    .setShowCamera(true)
+//                                    .setPreviewEnabled(false)
+//                                    .setSelected(selectedPhotos)
+//                                    .start(ContractInfoActivity.this);
+//                        } else {
+//                            PhotoPreview.builder()
+//                                    .setPhotos(selectedPhotos)
+//                                    .setCurrentItem(position)
+//                                    .start(ContractInfoActivity.this);
+//                        }
+//                    }
+//                }));
     }
 
     @Override
