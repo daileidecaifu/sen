@@ -39,7 +39,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private ApiRequest getVerificationCodeRequest, loginRequest;
     private AccountInfoModel accountInfoModel;
 
-    private int requestCodeTotal= 60 * 1000;//验证码间隔60秒
+    private int requestCodeTotal = 60 * 1000;//验证码间隔60秒
+
+    private String loginType = Conts.LOGIN_MODEL_PHONE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.ll_whole:
                 hideSoftKeyBoard();
+                break;
+
+            case R.id.tv_switch:
+                if (loginType.equals(Conts.LOGIN_MODEL_PHONE)) {
+                    loginType = Conts.LOGIN_MODEL_ACCOUNT;
+                    binding.llAccount.setVisibility(View.VISIBLE);
+                    binding.llPassword.setVisibility(View.VISIBLE);
+                    binding.llPhone.setVisibility(View.GONE);
+                    binding.llProviderVerification.setVisibility(View.GONE);
+                } else if (loginType.equals(Conts.LOGIN_MODEL_ACCOUNT)) {
+                    loginType = Conts.LOGIN_MODEL_PHONE;
+                    binding.llAccount.setVisibility(View.GONE);
+                    binding.llPassword.setVisibility(View.GONE);
+                    binding.llPhone.setVisibility(View.VISIBLE);
+                    binding.llProviderVerification.setVisibility(View.VISIBLE);
+                }
                 break;
 
         }
@@ -192,8 +210,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         showToast(getString(R.string.request_error_tip));
     }
 
-    private void jumpToPersonSetView()
-    {
+    private void jumpToPersonSetView() {
         Intent intent = new Intent(LoginActivity.this, PersonalInfoSetActivity.class);
         intent.putExtra("from", Conts.FROM_LOGIN);
         startActivity(intent);

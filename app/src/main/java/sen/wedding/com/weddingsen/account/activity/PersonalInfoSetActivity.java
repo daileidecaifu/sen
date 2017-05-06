@@ -70,6 +70,15 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
             binding.etAlipayInput.setText(BasePreference.getAlipayAccount());
             binding.etAlipayInput.setSelection(binding.etAlipayInput.getText().toString().length());
         }
+
+        binding.scvAysn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isOpened = binding.scvAysn.isOpened();
+                showToast(""+isOpened);
+
+            }
+        });
     }
 
     @Override

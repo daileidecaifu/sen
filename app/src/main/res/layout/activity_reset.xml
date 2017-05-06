@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data class="ResetActivityBinding">
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/title_bar"
+            layout="@layout/common_title_bar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:paddingLeft="15dp">
+
+            <include
+                android:id="@+id/ll_edit_password_original"
+                layout="@layout/view_item_edit" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/common_background"></View>
+
+            <include
+                android:id="@+id/ll_edit_password_new"
+                layout="@layout/view_item_edit" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/common_background"></View>
+
+            <include
+                android:id="@+id/ll_edit_password_confirm"
+                layout="@layout/view_item_edit" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/common_background"></View>
+
+        <TextView
+            android:id="@+id/tv_login"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:background="@drawable/buttom_common_background"
+            android:gravity="center"
+            android:onClick="@{clickListener}"
+            android:text="@string/reset"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_xl"></TextView>
+
+    </LinearLayout>
+
+</layout>

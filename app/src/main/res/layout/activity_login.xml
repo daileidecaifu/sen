@@ -49,17 +49,19 @@
             android:paddingRight="45dp"
             android:paddingTop="60dp">
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/common_hight"
+                android:id="@+id/ll_phone"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="42dp"
-                    android:gravity="center"
+                    android:layout_marginRight="35dp"
+                    android:gravity="center_vertical"
                     android:text="@string/phone_number"
                     android:textColor="@color/text_common"
                     android:textSize="@dimen/text_size_l" />
@@ -70,6 +72,40 @@
                     android:layout_height="match_parent"
                     android:inputType="phone"
                     android:hint="@string/phone_number_hint"
+                    android:maxLength="11"
+                    android:background="#00000000"
+                    android:gravity="center_vertical"
+                    android:textColorHint="@color/gray_1"
+                    android:maxLines="1"
+                    android:paddingRight="10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/text_common"
+                    android:textSize="@dimen/text_size_m" />
+            </LinearLayout>
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:id="@+id/ll_account"
+                android:layout_height="@dimen/common_hight"
+                android:gravity="center_vertical"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="35dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/account"
+                    android:textColor="@color/text_common"
+                    android:textSize="@dimen/text_size_l" />
+
+                <sen.wedding.com.weddingsen.component.ClearEditText
+                    android:id="@+id/et_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="phone"
+                    android:hint="@string/account_hint"
                     android:maxLength="11"
                     android:background="#00000000"
                     android:gravity="center_vertical"
@@ -95,10 +131,10 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="42dp"
-                    android:gravity="center"
+                    android:layout_marginRight="35dp"
+                    android:gravity="center_vertical"
                     android:text="@string/verification_code"
                     android:textColor="@color/text_common"
                     android:textSize="@dimen/text_size_l" />
@@ -128,6 +164,41 @@
                     android:text="@string/get_verification_code"
                     android:textColor="@color/theme_color" />
             </LinearLayout>
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:id="@+id/ll_password"
+                android:visibility="gone"
+                android:layout_marginTop="22dp"
+                android:layout_height="@dimen/common_hight"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="35dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/password"
+                    android:textColor="@color/text_common"
+                    android:textSize="@dimen/text_size_l" />
+
+                <sen.wedding.com.weddingsen.component.ClearEditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="phone"
+                    android:hint="@string/password_hint"
+                    android:maxLength="11"
+                    android:background="#00000000"
+                    android:gravity="center_vertical"
+                    android:textColorHint="@color/gray_1"
+                    android:maxLines="1"
+                    android:paddingRight="10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/text_common"
+                    android:textSize="@dimen/text_size_m" />
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -152,10 +223,12 @@
                 android:layout_weight="1"></View>
             <TextView
                 android:id="@+id/tv_switch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:layout_marginBottom="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:onClick="@{clickListener}"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
                 android:text="@string/employee_login_mode"
                 android:textColor="@color/tip_color" />
         </LinearLayout>
