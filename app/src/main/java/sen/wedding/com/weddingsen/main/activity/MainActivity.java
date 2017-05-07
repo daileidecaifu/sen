@@ -28,6 +28,7 @@ import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.account.activity.FeedbackActivity;
 import sen.wedding.com.weddingsen.account.activity.LoginActivity;
 import sen.wedding.com.weddingsen.account.activity.PersonalInfoSetActivity;
+import sen.wedding.com.weddingsen.account.activity.ResetPasswordActivity;
 import sen.wedding.com.weddingsen.account.activity.VerifyGuestInfoActivity;
 import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.base.BasePreference;
@@ -170,19 +171,24 @@ public class MainActivity extends BaseActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_logout:
+            case R.id.ll_logout:
                 logout();
                 break;
 
-            case R.id.tv_user_feedback:
+            case R.id.ll_user_feedback:
                 jumpToOtherActivity(FeedbackActivity.class);
-                Toast.makeText(MainActivity.this, "UserFeedback", Toast.LENGTH_LONG).show();
                 break;
 
-            case R.id.tv_person_info:
+            case R.id.ll_person_info:
                 jumpToOtherActivity(PersonalInfoSetActivity.class);
-                Toast.makeText(MainActivity.this, "PersonalInfo", Toast.LENGTH_LONG).show();
+                break;
 
+            case R.id.ll_info_provide:
+                break;
+            case R.id.ll_info_follow:
+                break;
+            case R.id.ll_password_reset:
+                jumpToOtherActivity(ResetPasswordActivity.class);
                 break;
         }
     }

@@ -17,6 +17,7 @@
         android:fitsSystemWindows="true"
         tools:openDrawer="start">
 
+
         <include
             android:id="@+id/ll_app_bar_main"
             layout="@layout/app_bar_main"

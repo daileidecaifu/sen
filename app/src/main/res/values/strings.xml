@@ -23,6 +23,7 @@
     <string name="alipay_account_hint">只有绑定账号，才能提成哟</string>
     <string name="not_set_now">暂不设置，以后再说</string>
     <string name="person_info">个人信息</string>
+    <string name="person_center">个人中心</string>
     <string name="user_feedback">用户反馈</string>
     <string name="guest_info_list">客资列表</string>
     <string name="type">类型</string>
@@ -111,5 +112,11 @@
     <string name="password_confirm_hint">请再次确认新密码</string>
     <string name="reset">重置</string>
     <string name="receive_kezi_asyn">接收客资同步信息</string>
+    <string name="follow_log">跟进日志</string>
+    <string name="next_follow">下次跟进</string>
+    <string name="note_content">备注内容</string>
+    <string name="note_time">备注时间</string>
+    <string name="info_provide">信息提供</string>
+    <string name="info_follow">信息跟进</string>
 
 </resources>

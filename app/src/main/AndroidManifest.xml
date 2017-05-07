@@ -35,12 +35,6 @@
         </activity>
 
         <activity android:name=".account.activity.PersonalInfoSetActivity">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
@@ -62,6 +56,11 @@
             android:name=".main.activity.WelcomeActivity"
             android:theme="@android:style/Theme.NoTitleBar">
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".business.activity.GuestInfoDetailActivity"></activity>
@@ -78,7 +77,9 @@
             android:name="me.iwf.photopicker.PhotoPagerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
-        <activity android:name=".account.activity.ResetPasswordActivity">
+        <activity android:name=".account.activity.ResetPasswordActivity"></activity>
+
+        <activity android:name=".business.activity.LogInfoActivity">
 
         </activity>
     </application>

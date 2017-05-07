@@ -38,50 +38,151 @@
             android:textColor="@color/text_common"
             android:textSize="@dimen/text_size_xxl" />
 
-
-        <TextView
-            android:id="@+id/tv_person_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="80dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:text="@string/person_info"
-            android:onClick="@{clickListener}"
-            android:textColor="@color/tip_color"
-            android:textSize="@dimen/text_size_xxl" />
-
-
-        <TextView
-            android:id="@+id/tv_user_feedback"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/user_feedback"
-            android:onClick="@{clickListener}"
-            android:layout_marginTop="30dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:textColor="@color/tip_color"
-            android:textSize="@dimen/text_size_xxl" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"></View>
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:gravity="center"
-            android:id="@+id/tv_logout"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:layout_marginTop="50dp"
             android:onClick="@{clickListener}"
-            android:layout_height="wrap_content"
-            android:text="@string/exit_login"
-            android:layout_marginBottom="40dp"
-            android:textColor="@color/text_common"
-            android:textSize="@dimen/text_size_xxl" />
+            android:id="@+id/ll_info_provide"
+            android:layout_height="35dp">
+
+            <View
+                android:layout_width="23dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/theme_color"
+                android:layout_height="23dp"></View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/info_provide"
+                android:textColor="@color/text_common"
+                android:textSize="@dimen/text_size_xxl" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:onClick="@{clickListener}"
+            android:id="@+id/ll_info_follow"
+            android:layout_height="35dp">
+
+            <View
+                android:layout_width="23dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/theme_color"
+                android:layout_height="23dp"></View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/info_follow"
+                android:textColor="@color/text_common"
+                android:textSize="@dimen/text_size_xxl" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:onClick="@{clickListener}"
+            android:id="@+id/ll_person_info"
+            android:layout_height="35dp">
+
+            <View
+                android:layout_width="23dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/theme_color"
+                android:layout_height="23dp"></View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/person_center"
+                android:textColor="@color/text_common"
+                android:textSize="@dimen/text_size_xxl" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:onClick="@{clickListener}"
+            android:id="@+id/ll_password_reset"
+            android:layout_height="35dp">
+
+            <View
+                android:layout_width="23dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/theme_color"
+                android:layout_height="23dp"></View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/password_reset"
+                android:textColor="@color/text_common"
+                android:textSize="@dimen/text_size_xxl" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:id="@+id/ll_user_feedback"
+            android:onClick="@{clickListener}"
+            android:layout_height="35dp">
+
+            <View
+                android:layout_width="23dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/theme_color"
+                android:layout_height="23dp"></View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/user_feedback"
+                android:textColor="@color/text_common"
+                android:textSize="@dimen/text_size_xxl" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="50dp"
+            android:id="@+id/ll_logout"
+            android:onClick="@{clickListener}"
+            android:layout_height="35dp">
+
+            <View
+                android:layout_width="23dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/theme_color"
+                android:layout_height="23dp"></View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/exit_login"
+                android:textColor="@color/text_common"
+                android:textSize="@dimen/text_size_xxl" />
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
 
