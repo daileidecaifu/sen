@@ -6,8 +6,14 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/ll_app_bar_main"
-        layout="@layout/app_bar_main"
+        android:id="@+id/ll_app_bar_follow"
+        layout="@layout/app_bar_follow"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:gravity="center"-->
+        <!--android:text="123123"-->
+        <!--android:layout_height="match_parent" />-->
+
 </LinearLayout>

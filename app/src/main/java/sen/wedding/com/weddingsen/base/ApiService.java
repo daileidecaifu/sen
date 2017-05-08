@@ -8,6 +8,7 @@ import java.util.concurrent.Executor;
 
 import sen.wedding.com.weddingsen.http.base.DataService;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
+import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.response.HttpResponse;
 import sen.wedding.com.weddingsen.http.service.ExecutorUtil;
 import sen.wedding.com.weddingsen.http.service.HttpEngine;
@@ -115,9 +116,15 @@ public class ApiService implements DataService<ApiRequest, ApiResponse> {
                         return;
                     }
                 }
-
+                ResultModel resultModel = response.getResultModel();
                 if(handler != null) {
-                    handler.onRequestFinish(req, response);
+                    if(resultModel.status==997)
+                    {
+                        SenApplication.getInstance().logout();
+                    }else
+                    {
+                        handler.onRequestFinish(req, response);
+                    }
                 }
             } else {
                 if (handler != null) {

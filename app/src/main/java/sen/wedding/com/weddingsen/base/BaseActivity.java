@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -83,9 +85,18 @@ public class BaseActivity extends FragmentActivity {
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        SenApplication.getInstance().addActivity(this);
+
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        SenApplication.getInstance().removeActivity(this);
         titleBar = null;
         progressDialog = null;
+
     }
 }

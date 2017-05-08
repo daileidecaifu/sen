@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
@@ -37,21 +38,25 @@ import sen.wedding.com.weddingsen.component.SlidingTabLayout;
 import sen.wedding.com.weddingsen.component.SwitchButton;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.MainActivityBinding;
+import sen.wedding.com.weddingsen.main.fragment.FollowerFragment;
 import sen.wedding.com.weddingsen.main.fragment.GuestInfoFragment;
 import sen.wedding.com.weddingsen.main.fragment.OpenProjectNormalFragment;
+import sen.wedding.com.weddingsen.main.fragment.ProvideFragment;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements View.OnClickListener {
 
     DrawerLayout drawer;
-    TitleBar titleBar;
     MainActivityBinding mainActivityBinding;
+    ProvideFragment provideFragment;
+    FollowerFragment followerFragment;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mainActivityBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
+        fragmentManager = getSupportFragmentManager();
         initBaseView();
 
     }
@@ -60,112 +65,15 @@ public class MainActivity extends BaseActivity
     private void initBaseView() {
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         initSildMenu();
-        initMainView();
+        setTabSelection(0);
+//        initMainView();
 
     }
 
     private void initSildMenu() {
-
+        getSupportFragmentManager();
         mainActivityBinding.llSliderMenu.setClickListener(this);
         mainActivityBinding.llSliderMenu.tvPhoneNumber.setText(BasePreference.getUserName());
-    }
-
-    private void initMainView() {
-
-        LinearLayout linearLayoutMain = (LinearLayout) findViewById(R.id.ll_app_bar_main);
-
-        initGuestTitle(linearLayoutMain);
-        initFollowerTitle(linearLayoutMain);
-        //列表主体
-
-        ViewPager viewPager = (ViewPager) linearLayoutMain.findViewById(R.id.viewpager);
-        viewPager.setAdapter(new TabViewPagerAdapter(getSupportFragmentManager(), this));
-        viewPager.setOffscreenPageLimit(6);
-
-        int selectColor = ContextCompat.getColor(this, R.color.theme_color);
-        SlidingTabLayout slidingTabLayout = (SlidingTabLayout) linearLayoutMain.findViewById(R.id.sliding_tabs);
-        slidingTabLayout.setTabTitleTextSize(14);//标题字体大小
-        slidingTabLayout.setTitleTextColor(selectColor, ContextCompat.getColor(this, R.color.text_common));//标题字体颜色
-        slidingTabLayout.setTabStripWidth(70);//滑动条宽度
-        slidingTabLayout.setSelectedIndicatorColors(selectColor);//滑动条颜色
-        slidingTabLayout.setForegroundGravity(Gravity.CENTER_VERTICAL);
-        slidingTabLayout.setDistributeEvenly(true); //均匀平铺选项卡
-        /**
-         * 自定义tabview，设置左右padding可实现滑动，当前通过layout为wrap，且设置tabview的margin来动态设置
-         */
-        slidingTabLayout.setCustomTabView(R.layout.tv_tab_custom, 0);
-        slidingTabLayout.setViewPager(viewPager);//最后调用此方
-
-        mainActivityBinding.llAppBarMain.setClickListener(this);
-        //空数据状态
-//        mainActivityBinding.llAppBarMain.llListEmpty.setVisibility(View.GONE);
-    }
-
-    private void initGuestTitle(LinearLayout linearLayoutMain) {
-
-        //头部title
-        RelativeLayout linearLayoutTitle = (RelativeLayout) linearLayoutMain.findViewById(R.id.title_bar);
-
-        TextView textViewLeft = (TextView) linearLayoutTitle.findViewById(R.id.tv_left);
-        TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
-        TextView textViewTitle = (TextView) linearLayoutTitle.findViewById(R.id.tv_title_title);
-
-        titleBar = new TitleBar(linearLayoutTitle, TitleBar.Type.CUSTOM_1);
-        textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_my_center));
-        textViewRight.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_create));
-
-        textViewTitle.setText(getString(R.string.guest_info_list));
-        textViewRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                jumpToOtherActivity(VerifyGuestInfoActivity.class);
-
-            }
-        });
-
-        textViewLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawer.openDrawer(GravityCompat.START);
-            }
-        });
-    }
-
-    private void initFollowerTitle(LinearLayout linearLayoutMain) {
-
-        List<String> tabTextList = Arrays.asList(getString(R.string.guest_info), getString(R.string.contract_review));
-        //头部title
-        RelativeLayout linearLayoutTitle = (RelativeLayout) linearLayoutMain.findViewById(R.id.title_follower);
-
-        TextView textViewLeft = (TextView) linearLayoutTitle.findViewById(R.id.tv_left);
-        TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
-        SwitchButton switchButton = (SwitchButton) linearLayoutTitle.findViewById(R.id.sb_main_follower);
-
-        titleBar = new TitleBar(linearLayoutTitle, TitleBar.Type.CUSTOM_1);
-        textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_my_center));
-        textViewRight.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_create));
-
-        switchButton.setText(tabTextList);
-        switchButton.setOnSwitchListener(new SwitchButton.OnSwitchListener() {
-            @Override
-            public void onSwitch(int position, String tabText) {
-                showToast(""+position);
-            }
-        });
-        textViewRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                jumpToOtherActivity(VerifyGuestInfoActivity.class);
-
-            }
-        });
-
-        textViewLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawer.openDrawer(GravityCompat.START);
-            }
-        });
     }
 
     @Override
@@ -184,8 +92,10 @@ public class MainActivity extends BaseActivity
                 break;
 
             case R.id.ll_info_provide:
+                setTabSelection(0);
                 break;
             case R.id.ll_info_follow:
+                setTabSelection(1);
                 break;
             case R.id.ll_password_reset:
                 jumpToOtherActivity(ResetPasswordActivity.class);
@@ -202,46 +112,6 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
-    }
-
-    private class TabViewPagerAdapter extends FragmentPagerAdapter {
-
-        private String[] mTabTitle = new String[]{Conts.getorderStatusMap().get(3),
-                Conts.getorderStatusMap().get(4),
-                Conts.getorderStatusMap().get(5),
-                Conts.getorderStatusMap().get(6)};
-        private Context mContext;
-        private Fragment[] fragments = new Fragment[]{
-                GuestInfoFragment.newInstance(3),
-                GuestInfoFragment.newInstance(4),
-                GuestInfoFragment.newInstance(5),
-                GuestInfoFragment.newInstance(6)
-        };
-
-        public TabViewPagerAdapter(FragmentManager fm, Context context) {
-            super(fm);
-            this.mContext = context;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return fragments[position];
-        }
-
-        @Override
-        public int getCount() {
-            return fragments.length;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mTabTitle[position];
-        }
-    }
-
 
     private void logout() {
         BasePreference.saveAlipayAccount("");
@@ -250,6 +120,55 @@ public class MainActivity extends BaseActivity
         BasePreference.saveUserName("");
         jumpToOtherActivity(LoginActivity.class);
         finish();
+    }
+
+    public void openMenu() {
+        drawer.openDrawer(GravityCompat.START);
+
+    }
+
+    private void setTabSelection(int index) {
+        // 开启一个Fragment事务
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
+        hideFragments(transaction);
+        switch (index) {
+            case 0:
+
+                if (provideFragment == null) {
+                    // 如果MessageFragment为空，则创建一个并添加到界面上
+                    provideFragment = ProvideFragment.newInstance();
+                    transaction.add(R.id.fl_content, provideFragment);
+                } else {
+                    // 如果MessageFragment不为空，则直接将它显示出来
+                    transaction.show(provideFragment);
+                }
+                break;
+            case 1:
+
+                if (followerFragment == null) {
+                    // 如果MessageFragment为空，则创建一个并添加到界面上
+                    followerFragment = FollowerFragment.newInstance();
+                    transaction.add(R.id.fl_content, followerFragment);
+                } else {
+                    // 如果MessageFragment不为空，则直接将它显示出来
+                    transaction.show(followerFragment);
+                }
+                break;
+
+        }
+        transaction.commit();
+    }
+
+    private void hideFragments(FragmentTransaction transaction) {
+        if (provideFragment != null) {
+            transaction.hide(provideFragment);
+        }
+
+        if (followerFragment != null) {
+            transaction.hide(followerFragment);
+        }
+
     }
 
 

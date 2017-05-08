@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,25 +20,27 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Arrays;
+import java.util.List;
+
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.account.activity.VerifyGuestInfoActivity;
 import sen.wedding.com.weddingsen.base.BaseFragment;
 import sen.wedding.com.weddingsen.base.Conts;
-import sen.wedding.com.weddingsen.business.activity.GuestInfoDetailActivity;
 import sen.wedding.com.weddingsen.component.SlidingTabLayout;
-import sen.wedding.com.weddingsen.component.TitleBar;
+import sen.wedding.com.weddingsen.component.SwitchButton;
 import sen.wedding.com.weddingsen.main.activity.MainActivity;
 
 /**
  * Created by lorin on 17/5/8.
  */
 
-public class ProvideFragment extends BaseFragment implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener{
+public class FollowerFragment extends BaseFragment implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener{
 
-    public static ProvideFragment newInstance() {
+    public static FollowerFragment newInstance() {
 
         Bundle args = new Bundle();
-        ProvideFragment fragment = new ProvideFragment();
+        FollowerFragment fragment = new FollowerFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,7 +54,7 @@ public class ProvideFragment extends BaseFragment implements NavigationView.OnNa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_provide, null);
+        View view = inflater.inflate(R.layout.fragment_follow, null);
         initMainView(view);
         return view;
 
@@ -61,9 +62,9 @@ public class ProvideFragment extends BaseFragment implements NavigationView.OnNa
 
     private void initMainView(View view) {
 
-        LinearLayout linearLayoutMain = (LinearLayout) view.findViewById(R.id.ll_app_bar_main);
+        LinearLayout linearLayoutMain = (LinearLayout) view.findViewById(R.id.ll_app_bar_follow);
 
-        initGuestTitle(linearLayoutMain);
+        initFollowerTitle(linearLayoutMain);
         //列表主体
 
         ViewPager viewPager = (ViewPager) linearLayoutMain.findViewById(R.id.viewpager);
@@ -89,19 +90,27 @@ public class ProvideFragment extends BaseFragment implements NavigationView.OnNa
 //        mainActivityBinding.llAppBarMain.llListEmpty.setVisibility(View.GONE);
     }
 
-    private void initGuestTitle(LinearLayout linearLayoutMain) {
+    private void initFollowerTitle(LinearLayout linearLayoutMain) {
 
+        List<String> tabTextList = Arrays.asList(getString(R.string.guest_info), getString(R.string.contract_review));
         //头部title
-        RelativeLayout linearLayoutTitle = (RelativeLayout) linearLayoutMain.findViewById(R.id.title_bar);
+        RelativeLayout linearLayoutTitle = (RelativeLayout) linearLayoutMain.findViewById(R.id.title_follower);
 
         TextView textViewLeft = (TextView) linearLayoutTitle.findViewById(R.id.tv_left);
         TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
-        TextView textViewTitle = (TextView) linearLayoutTitle.findViewById(R.id.tv_title_title);
+        SwitchButton switchButton = (SwitchButton) linearLayoutTitle.findViewById(R.id.sb_main_follower);
 
         textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_my_center));
         textViewRight.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_create));
 
-        textViewTitle.setText(getString(R.string.guest_info_list));
+        switchButton.setText(tabTextList);
+        switchButton.setOnSwitchListener(new SwitchButton.OnSwitchListener() {
+            @Override
+            public void onSwitch(int position, String tabText) {
+                showToast(""+position);
+            }
+        });
+
         textViewRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,10 +141,10 @@ public class ProvideFragment extends BaseFragment implements NavigationView.OnNa
                 Conts.getorderStatusMap().get(6)};
         private Context mContext;
         private Fragment[] fragments = new Fragment[]{
-                GuestInfoFragment.newInstance(3),
-                GuestInfoFragment.newInstance(4),
-                GuestInfoFragment.newInstance(5),
-                GuestInfoFragment.newInstance(6)
+                GuestInfoFragment2.newInstance(3),
+                GuestInfoFragment2.newInstance(4),
+                GuestInfoFragment2.newInstance(5),
+                GuestInfoFragment2.newInstance(6)
         };
 
         public TabViewPagerAdapter(FragmentManager fm, Context context) {
@@ -164,3 +173,5 @@ public class ProvideFragment extends BaseFragment implements NavigationView.OnNa
 
     }
 }
+
+

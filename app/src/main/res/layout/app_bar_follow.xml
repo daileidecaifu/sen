@@ -3,7 +3,7 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data class="AppMainViewBinding">
+    <data class="AppFollowBinding">
 
         <variable
             name="clickListener"
@@ -21,9 +21,8 @@
         tools:context="sen.wedding.com.weddingsen.main.activity.MainActivity">
 
         <include
-            android:id="@+id/title_bar"
-            layout="@layout/custom_title_bar" />
-
+            android:id="@+id/title_follower"
+            layout="@layout/follower_title_bar" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">

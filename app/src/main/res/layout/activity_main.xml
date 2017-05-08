@@ -18,11 +18,10 @@
         tools:openDrawer="start">
 
 
-        <include
-            android:id="@+id/ll_app_bar_main"
-            layout="@layout/app_bar_main"
+        <FrameLayout
+            android:id="@+id/fl_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"></FrameLayout>
 
         <include
             android:id="@+id/ll_slider_menu"
