@@ -36,7 +36,7 @@ public class Conts {
     public static Map<Integer, String> getorderStatusMap() {
         if (orderStatusMap == null) {
             orderStatusMap = new HashMap<>();
-            orderStatusMap.put(1, "全部");
+            orderStatusMap.put(1, "全部的");
             orderStatusMap.put(2, "待处理");
             orderStatusMap.put(3, "跟踪中");
             orderStatusMap.put(4, "待结算");

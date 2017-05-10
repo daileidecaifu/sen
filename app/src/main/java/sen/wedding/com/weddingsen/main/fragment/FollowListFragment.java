@@ -1,7 +1,6 @@
 package sen.wedding.com.weddingsen.main.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,28 +16,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import sen.wedding.com.weddingsen.R;
-import sen.wedding.com.weddingsen.account.activity.VerifyGuestInfoActivity;
 import sen.wedding.com.weddingsen.base.BaseFragment;
 import sen.wedding.com.weddingsen.base.Conts;
-import sen.wedding.com.weddingsen.business.activity.GuestInfoDetailActivity;
 import sen.wedding.com.weddingsen.component.SlidingTabLayout;
-import sen.wedding.com.weddingsen.component.TitleBar;
-import sen.wedding.com.weddingsen.main.activity.MainActivity;
 
 /**
  * Created by lorin on 17/5/8.
  */
 
-public class ProvideFragment extends BaseFragment implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener{
+public class FollowListFragment extends BaseFragment implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener{
 
-    public static ProvideFragment newInstance() {
+    public static FollowListFragment newInstance() {
 
         Bundle args = new Bundle();
-        ProvideFragment fragment = new ProvideFragment();
+        FollowListFragment fragment = new FollowListFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,7 +45,7 @@ public class ProvideFragment extends BaseFragment implements NavigationView.OnNa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_provide, null);
+        View view = inflater.inflate(R.layout.fragment_follow_list, null);
         initMainView(view);
         return view;
 
@@ -63,7 +55,6 @@ public class ProvideFragment extends BaseFragment implements NavigationView.OnNa
 
         LinearLayout linearLayoutMain = (LinearLayout) view.findViewById(R.id.ll_app_bar_main);
 
-        initGuestTitle(linearLayoutMain);
         //列表主体
 
         ViewPager viewPager = (ViewPager) linearLayoutMain.findViewById(R.id.viewpager);
@@ -89,36 +80,6 @@ public class ProvideFragment extends BaseFragment implements NavigationView.OnNa
 //        mainActivityBinding.llAppBarMain.llListEmpty.setVisibility(View.GONE);
     }
 
-    private void initGuestTitle(LinearLayout linearLayoutMain) {
-
-        //头部title
-        RelativeLayout linearLayoutTitle = (RelativeLayout) linearLayoutMain.findViewById(R.id.title_bar);
-
-        TextView textViewLeft = (TextView) linearLayoutTitle.findViewById(R.id.tv_left);
-        TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
-        TextView textViewTitle = (TextView) linearLayoutTitle.findViewById(R.id.tv_title_title);
-
-        textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_my_center));
-        textViewRight.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_create));
-
-        textViewTitle.setText(getString(R.string.guest_info_list));
-        textViewRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), VerifyGuestInfoActivity.class);
-                getActivity().startActivity(intent);
-
-            }
-        });
-
-        textViewLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity)getActivity()).openMenu();
-            }
-        });
-    }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
@@ -126,16 +87,21 @@ public class ProvideFragment extends BaseFragment implements NavigationView.OnNa
 
     private class TabViewPagerAdapter extends FragmentPagerAdapter {
 
-        private String[] mTabTitle = new String[]{Conts.getorderStatusMap().get(3),
+        private String[] mTabTitle = new String[]{
+                Conts.getorderStatusMap().get(1),
+                Conts.getorderStatusMap().get(2),
+                Conts.getorderStatusMap().get(3),
                 Conts.getorderStatusMap().get(4),
                 Conts.getorderStatusMap().get(5),
                 Conts.getorderStatusMap().get(6)};
         private Context mContext;
         private Fragment[] fragments = new Fragment[]{
-                GuestInfoFragment.newInstance(3),
-                GuestInfoFragment.newInstance(4),
-                GuestInfoFragment.newInstance(5),
-                GuestInfoFragment.newInstance(6)
+                FollowInfoFragment.newInstance(1),
+                FollowInfoFragment.newInstance(2),
+                FollowInfoFragment.newInstance(3),
+                FollowInfoFragment.newInstance(4),
+                FollowInfoFragment.newInstance(5),
+                FollowInfoFragment.newInstance(6)
         };
 
         public TabViewPagerAdapter(FragmentManager fm, Context context) {
@@ -164,3 +130,5 @@ public class ProvideFragment extends BaseFragment implements NavigationView.OnNa
 
     }
 }
+
+

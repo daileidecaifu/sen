@@ -1,55 +1,31 @@
 package sen.wedding.com.weddingsen.main.activity;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.Arrays;
-import java.util.List;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.account.activity.FeedbackActivity;
 import sen.wedding.com.weddingsen.account.activity.LoginActivity;
 import sen.wedding.com.weddingsen.account.activity.PersonalInfoSetActivity;
 import sen.wedding.com.weddingsen.account.activity.ResetPasswordActivity;
-import sen.wedding.com.weddingsen.account.activity.VerifyGuestInfoActivity;
 import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.base.BasePreference;
-import sen.wedding.com.weddingsen.base.Conts;
-import sen.wedding.com.weddingsen.component.SlidingTabLayout;
-import sen.wedding.com.weddingsen.component.SwitchButton;
-import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.MainActivityBinding;
-import sen.wedding.com.weddingsen.main.fragment.FollowerFragment;
-import sen.wedding.com.weddingsen.main.fragment.GuestInfoFragment;
-import sen.wedding.com.weddingsen.main.fragment.OpenProjectNormalFragment;
-import sen.wedding.com.weddingsen.main.fragment.ProvideFragment;
+import sen.wedding.com.weddingsen.main.fragment.InfoProvideFragment;
+import sen.wedding.com.weddingsen.main.fragment.InfoFollowFragment;
 
 public class MainActivity extends BaseActivity
         implements View.OnClickListener {
 
     DrawerLayout drawer;
     MainActivityBinding mainActivityBinding;
-    ProvideFragment provideFragment;
-    FollowerFragment followerFragment;
+    InfoFollowFragment infoFollowFragment;
+    InfoProvideFragment infoProvideFragment;
     private FragmentManager fragmentManager;
 
     @Override
@@ -135,24 +111,26 @@ public class MainActivity extends BaseActivity
         switch (index) {
             case 0:
 
-                if (provideFragment == null) {
+                if (infoProvideFragment == null) {
                     // 如果MessageFragment为空，则创建一个并添加到界面上
-                    provideFragment = ProvideFragment.newInstance();
-                    transaction.add(R.id.fl_content, provideFragment);
+                    infoProvideFragment = InfoProvideFragment.newInstance();
+                    transaction.add(R.id.fl_content, infoProvideFragment);
                 } else {
                     // 如果MessageFragment不为空，则直接将它显示出来
-                    transaction.show(provideFragment);
+                    transaction.show(infoProvideFragment);
                 }
                 break;
+
             case 1:
 
-                if (followerFragment == null) {
+
+                if (infoFollowFragment == null) {
                     // 如果MessageFragment为空，则创建一个并添加到界面上
-                    followerFragment = FollowerFragment.newInstance();
-                    transaction.add(R.id.fl_content, followerFragment);
+                    infoFollowFragment = InfoFollowFragment.newInstance();
+                    transaction.add(R.id.fl_content, infoFollowFragment);
                 } else {
                     // 如果MessageFragment不为空，则直接将它显示出来
-                    transaction.show(followerFragment);
+                    transaction.show(infoFollowFragment);
                 }
                 break;
 
@@ -161,12 +139,12 @@ public class MainActivity extends BaseActivity
     }
 
     private void hideFragments(FragmentTransaction transaction) {
-        if (provideFragment != null) {
-            transaction.hide(provideFragment);
+        if (infoFollowFragment != null) {
+            transaction.hide(infoFollowFragment);
         }
 
-        if (followerFragment != null) {
-            transaction.hide(followerFragment);
+        if (infoProvideFragment != null) {
+            transaction.hide(infoProvideFragment);
         }
 
     }

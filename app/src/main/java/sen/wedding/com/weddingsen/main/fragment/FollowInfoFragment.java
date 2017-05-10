@@ -33,7 +33,7 @@ import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 
-public class GuestInfoFragment2 extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>,
+public class FollowInfoFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>,
         AdapterView.OnItemClickListener, RecyclerRefreshLayout.OnRefreshListener,
         LoadMoreView.OnLoadMoreListener {
 
@@ -53,11 +53,11 @@ public class GuestInfoFragment2 extends BaseFragment implements RequestHandler<A
     boolean isLoadMore = false;//是否请求下一页数据
     private LoadMoreView loadMoreView;
 
-    public static GuestInfoFragment2 newInstance(int orderStatus) {
+    public static FollowInfoFragment newInstance(int orderStatus) {
 
         Bundle args = new Bundle();
         args.putInt("order_status", orderStatus);
-        GuestInfoFragment2 fragment = new GuestInfoFragment2();
+        FollowInfoFragment fragment = new FollowInfoFragment();
         fragment.setArguments(args);
         return fragment;
     }
