@@ -76,7 +76,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 break;
 
             case R.id.tv_login:
-                login();
+                if (loginType.equals(Conts.LOGIN_MODEL_PHONE)) {
+                    login();
+                } else if (loginType.equals(Conts.LOGIN_MODEL_ACCOUNT)) {
+                    loginByAccount();
+                }
 //                jumpToOtherActivity(MainActivity.class);
                 break;
             case R.id.ll_whole:
@@ -156,6 +160,27 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         getApiService().exec(loginRequest, this);
     }
 
+    private void loginByAccount() {
+        if (TextUtils.isEmpty(binding.etAccount.getText().toString().trim())) {
+            showToast(getString(R.string.account_can_not_empty));
+            return;
+        }
+
+        if (TextUtils.isEmpty(binding.etAccount.getText().toString().trim())) {
+            showToast(getString(R.string.password_can_not_empty));
+            return;
+        }
+
+        showProgressDialog(false);
+        loginRequest = new ApiRequest(URLCollection.URL_ACCOUNT_LOGIN, HttpMethod.POST);
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_name", binding.etAccount.getText().toString());
+        param.put("password", binding.etPassword.getText().toString());
+        loginRequest.setParams(param);
+        getApiService().exec(loginRequest, this);
+
+    }
+
     @Override
     public void onRequestStart(ApiRequest req) {
 
@@ -184,7 +209,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 //保存token和username数据
                 BasePreference.saveToken(accountInfoModel.getAccessToken());
                 BasePreference.saveUserName(accountInfoModel.getNikeName());//返回nikename，实为username
-                BasePreference.saveUserType(accountInfoModel.getUserType());//返回nikename，实为username
+                BasePreference.saveUserType(accountInfoModel.getUserType());
 
                 showToast(getString(R.string.login_success));
 

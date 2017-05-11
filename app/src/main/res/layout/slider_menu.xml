@@ -15,11 +15,11 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/white"
-        android:onClick="@{clickListener}"
-        android:soundEffectsEnabled="false"
         android:fitsSystemWindows="true"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:onClick="@{clickListener}"
+        android:orientation="vertical"
+        android:soundEffectsEnabled="false">
 
         <ImageView
             android:id="@+id/iv_avatar"
@@ -30,27 +30,30 @@
             android:gravity="center" />
 
         <TextView
+            android:id="@+id/tv_phone_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="15800000000"
-            android:id="@+id/tv_phone_number"
             android:textColor="@color/text_common"
             android:textSize="@dimen/text_size_xxl" />
 
-        <LinearLayout
+        <View
             android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_marginTop="50dp"
-            android:onClick="@{clickListener}"
+            android:layout_height="50dp"></View>
+
+        <LinearLayout
             android:id="@+id/ll_info_provide"
-            android:layout_height="35dp">
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:onClick="@{clickListener}">
 
             <View
                 android:layout_width="23dp"
+                android:layout_height="23dp"
                 android:layout_marginRight="15dp"
-                android:background="@color/theme_color"
-                android:layout_height="23dp"></View>
+                android:background="@color/theme_color"></View>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -63,18 +66,18 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_marginTop="12dp"
-            android:onClick="@{clickListener}"
             android:id="@+id/ll_info_follow"
-            android:layout_height="35dp">
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:onClick="@{clickListener}">
 
             <View
                 android:layout_width="23dp"
+                android:layout_height="23dp"
                 android:layout_marginRight="15dp"
-                android:background="@color/theme_color"
-                android:layout_height="23dp"></View>
+                android:background="@color/theme_color"></View>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -87,18 +90,18 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_marginTop="12dp"
-            android:onClick="@{clickListener}"
             android:id="@+id/ll_person_info"
-            android:layout_height="35dp">
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:onClick="@{clickListener}">
 
             <View
                 android:layout_width="23dp"
+                android:layout_height="23dp"
                 android:layout_marginRight="15dp"
-                android:background="@color/theme_color"
-                android:layout_height="23dp"></View>
+                android:background="@color/theme_color"></View>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -111,18 +114,18 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_marginTop="12dp"
-            android:onClick="@{clickListener}"
             android:id="@+id/ll_password_reset"
-            android:layout_height="35dp">
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:onClick="@{clickListener}">
 
             <View
                 android:layout_width="23dp"
+                android:layout_height="23dp"
                 android:layout_marginRight="15dp"
-                android:background="@color/theme_color"
-                android:layout_height="23dp"></View>
+                android:background="@color/theme_color"></View>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -135,18 +138,18 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_marginTop="12dp"
             android:id="@+id/ll_user_feedback"
-            android:onClick="@{clickListener}"
-            android:layout_height="35dp">
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:onClick="@{clickListener}">
 
             <View
                 android:layout_width="23dp"
+                android:layout_height="23dp"
                 android:layout_marginRight="15dp"
-                android:background="@color/theme_color"
-                android:layout_height="23dp"></View>
+                android:background="@color/theme_color"></View>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -158,19 +161,23 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <View
+            android:id="@+id/v_logout_margin_top"
             android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_marginTop="50dp"
+            android:layout_height="50dp"></View>
+
+        <LinearLayout
             android:id="@+id/ll_logout"
-            android:onClick="@{clickListener}"
-            android:layout_height="35dp">
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:onClick="@{clickListener}">
 
             <View
                 android:layout_width="23dp"
+                android:layout_height="23dp"
                 android:layout_marginRight="15dp"
-                android:background="@color/theme_color"
-                android:layout_height="23dp"></View>
+                android:background="@color/theme_color"></View>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -181,7 +188,6 @@
                 android:textSize="@dimen/text_size_xxl" />
 
         </LinearLayout>
-
 
 
     </LinearLayout>

@@ -1,10 +1,12 @@
 package sen.wedding.com.weddingsen.main.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +19,18 @@ import java.util.List;
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.account.activity.VerifyGuestInfoActivity;
 import sen.wedding.com.weddingsen.base.BaseFragment;
+import sen.wedding.com.weddingsen.base.BasePreference;
+import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.component.SwitchButton;
 import sen.wedding.com.weddingsen.main.activity.MainActivity;
+import sen.wedding.com.weddingsen.utils.ScreenUtil;
+import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
 
 /**
  * Created by lorin on 17/5/8.
  */
 
-public class InfoProvideFragment extends BaseFragment implements View.OnClickListener{
+public class InfoProvideFragment extends BaseFragment implements View.OnClickListener {
 
     private FragmentManager fragmentManager;
     private KeziListFragment keziListFragment;
@@ -48,11 +54,23 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
 
         View view = inflater.inflate(R.layout.fragment_provide, null);
         fragmentManager = getChildFragmentManager();
-        initSwitchTitle(view);
-        initTitle(view);
+
+        checkTitle(view);
         addMainView();
         return view;
 
+    }
+
+    private void checkTitle(View view) {
+        switch (BasePreference.getUserType()) {
+            case Conts.LOGIN_MODEL_PHONE:
+                initTitle(view);
+                break;
+
+            case Conts.LOGIN_MODEL_ACCOUNT:
+                initSwitchTitle(view);
+                break;
+        }
     }
 
 
@@ -73,15 +91,14 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
         switchButton.setOnSwitchListener(new SwitchButton.OnSwitchListener() {
             @Override
             public void onSwitch(int position, String tabText) {
-                showToast(""+position);
+                showToast("" + position);
             }
         });
 
         textViewRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), VerifyGuestInfoActivity.class);
-                getActivity().startActivity(intent);
+                showSelectType();
 
             }
         });
@@ -89,9 +106,11 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
         textViewLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).openMenu();
+                ((MainActivity) getActivity()).openMenu();
             }
         });
+
+        linearLayoutTitle.setVisibility(View.VISIBLE);
     }
 
     private void initTitle(View view) {
@@ -119,9 +138,11 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
         textViewLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).openMenu();
+                ((MainActivity) getActivity()).openMenu();
             }
         });
+
+        linearLayoutTitle.setVisibility(View.VISIBLE);
 
     }
 
@@ -140,6 +161,40 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
             transaction.add(R.id.fl_replace, keziListFragment);
         }
         transaction.commit();
+    }
+
+    private void showSelectType() {
+
+        final String[] items = new String[]
+                {getActivity().getString(R.string.create_kezi_info),
+                        getActivity().getString(R.string.create_build_info)};
+        //dialog参数设置
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());  //先得到构造器
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                switch (which) {
+                    case 0:
+                        Intent intent = new Intent(getActivity(), VerifyGuestInfoActivity.class);
+                        getActivity().startActivity(intent);
+
+                        break;
+                    case 1:
+
+                        break;
+                }
+
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 
 }

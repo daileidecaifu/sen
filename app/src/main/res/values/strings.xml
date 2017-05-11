@@ -74,6 +74,8 @@
     <string name="verification_send_success">验证码正火速赶来</string>
     <string name="login_success">登陆成功</string>
     <string name="phone_number_can_not_empty">手机号不能为空</string>
+    <string name="account_can_not_empty">账户不能为空</string>
+    <string name="password_can_not_empty">密码不能为空</string>
     <string name="phone_number_wrong_format">手机号格式错误</string>
     <string name="code_can_not_empty">验证码不能为空</string>
     <string name="code_wrong_format">验证码格式错误</string>
@@ -118,5 +120,7 @@
     <string name="note_time">备注时间</string>
     <string name="info_provide">信息提供</string>
     <string name="info_follow">信息跟进</string>
+    <string name="create_kezi_info">新建客资信息</string>
+    <string name="create_build_info">新建搭建信息</string>
 
 </resources>

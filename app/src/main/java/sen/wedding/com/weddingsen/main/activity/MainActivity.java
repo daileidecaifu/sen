@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.ViewGroup;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.account.activity.FeedbackActivity;
@@ -15,9 +16,11 @@ import sen.wedding.com.weddingsen.account.activity.PersonalInfoSetActivity;
 import sen.wedding.com.weddingsen.account.activity.ResetPasswordActivity;
 import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.base.BasePreference;
+import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.databinding.MainActivityBinding;
 import sen.wedding.com.weddingsen.main.fragment.InfoProvideFragment;
 import sen.wedding.com.weddingsen.main.fragment.InfoFollowFragment;
+import sen.wedding.com.weddingsen.utils.ScreenUtil;
 
 public class MainActivity extends BaseActivity
         implements View.OnClickListener {
@@ -27,27 +30,42 @@ public class MainActivity extends BaseActivity
     InfoFollowFragment infoFollowFragment;
     InfoProvideFragment infoProvideFragment;
     private FragmentManager fragmentManager;
+    private String userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mainActivityBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         fragmentManager = getSupportFragmentManager();
+        initData();
         initBaseView();
 
     }
 
+    private void initData() {
+        userType = BasePreference.getUserType();
+    }
 
     private void initBaseView() {
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         initSildMenu();
         setTabSelection(0);
-//        initMainView();
 
     }
 
     private void initSildMenu() {
-        getSupportFragmentManager();
+
+        switch (userType) {
+            case Conts.LOGIN_MODEL_PHONE:
+                mainActivityBinding.llSliderMenu.llInfoFollow.setVisibility(View.GONE);
+                mainActivityBinding.llSliderMenu.llInfoProvide.setVisibility(View.GONE);
+                mainActivityBinding.llSliderMenu.llPasswordReset.setVisibility(View.GONE);
+                ViewGroup.LayoutParams para = mainActivityBinding.llSliderMenu.vLogoutMarginTop.getLayoutParams();
+                para.height = ScreenUtil.dip2px(this, 180);
+                mainActivityBinding.llSliderMenu.vLogoutMarginTop.setLayoutParams(para);
+                break;
+        }
+
         mainActivityBinding.llSliderMenu.setClickListener(this);
         mainActivityBinding.llSliderMenu.tvPhoneNumber.setText(BasePreference.getUserName());
     }

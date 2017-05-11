@@ -8,6 +8,8 @@ public class URLCollection {
 
     public final static String URL_LOGIN = "http://dev.51isen.com/index.php?m=app&c=user&f=login";
 
+    public final static String URL_ACCOUNT_LOGIN = "http://dev.51isen.com/index.php?m=app&c=user&f=loginByUser";
+
     public final static String URL_GET_CODE = "http://dev.51isen.com/index.php?m=app&c=user&f=getPhoneCode";
 
     public final static String URL_BIND_ALIPAY = "http://dev.51isen.com/index.php?m=app&c=user&f=alipayBind";

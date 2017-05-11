@@ -119,7 +119,7 @@ public class Conts {
     public final static int ORDER_TYPE_BABY_BIRTHDAY_GROUP = 3;
 
     //登陆类型
-    public final static String LOGIN_MODEL_ACCOUNT = "ACCOUNT";
-    public final static String LOGIN_MODEL_PHONE = "PHONE";
+    public final static String LOGIN_MODEL_ACCOUNT = "4";
+    public final static String LOGIN_MODEL_PHONE = "3";
 
 }
