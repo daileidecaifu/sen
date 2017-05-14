@@ -19,7 +19,7 @@ import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.databinding.MainActivityBinding;
 import sen.wedding.com.weddingsen.main.fragment.InfoProvideFragment;
-import sen.wedding.com.weddingsen.main.fragment.InfoFollowFragment;
+import sen.wedding.com.weddingsen.main.fragment.InfoFollowUpFragment;
 import sen.wedding.com.weddingsen.utils.ScreenUtil;
 
 public class MainActivity extends BaseActivity
@@ -27,7 +27,7 @@ public class MainActivity extends BaseActivity
 
     DrawerLayout drawer;
     MainActivityBinding mainActivityBinding;
-    InfoFollowFragment infoFollowFragment;
+    InfoFollowUpFragment infoFollowUpFragment;
     InfoProvideFragment infoProvideFragment;
     private FragmentManager fragmentManager;
     private String userType;
@@ -72,6 +72,9 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onClick(View v) {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
         switch (v.getId()) {
             case R.id.ll_logout:
                 logout();
@@ -142,13 +145,13 @@ public class MainActivity extends BaseActivity
             case 1:
 
 
-                if (infoFollowFragment == null) {
+                if (infoFollowUpFragment == null) {
                     // 如果MessageFragment为空，则创建一个并添加到界面上
-                    infoFollowFragment = InfoFollowFragment.newInstance();
-                    transaction.add(R.id.fl_content, infoFollowFragment);
+                    infoFollowUpFragment = InfoFollowUpFragment.newInstance();
+                    transaction.add(R.id.fl_content, infoFollowUpFragment);
                 } else {
                     // 如果MessageFragment不为空，则直接将它显示出来
-                    transaction.show(infoFollowFragment);
+                    transaction.show(infoFollowUpFragment);
                 }
                 break;
 
@@ -157,8 +160,8 @@ public class MainActivity extends BaseActivity
     }
 
     private void hideFragments(FragmentTransaction transaction) {
-        if (infoFollowFragment != null) {
-            transaction.hide(infoFollowFragment);
+        if (infoFollowUpFragment != null) {
+            transaction.hide(infoFollowUpFragment);
         }
 
         if (infoProvideFragment != null) {

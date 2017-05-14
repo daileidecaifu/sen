@@ -2,6 +2,7 @@ package sen.wedding.com.weddingsen.main.adapter;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,17 +20,20 @@ import sen.wedding.com.weddingsen.databinding.MainInfoBinding;
 import sen.wedding.com.weddingsen.databinding.ReviewInfoBinding;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.utils.DateUtil;
+import sen.wedding.com.weddingsen.utils.StringUtil;
 
 
-public class ListViewAdapter extends BaseAdapter {
+public class GuestInfoAdapter extends BaseAdapter {
 
     ArrayList<OrderInfoModel> list;
-
     private Context currentContext;
+    //默认type为跟踪中
+    private int infoType = 3;
 
-    public ListViewAdapter(Context context) {
+    public GuestInfoAdapter(Context context, int type) {
         this.currentContext = context;
         this.list = new ArrayList<>();
+        this.infoType = type;
     }
 
     public void clearData() {
@@ -48,9 +52,10 @@ public class ListViewAdapter extends BaseAdapter {
     public void notifyMoreDataChanged(ArrayList<OrderInfoModel> dataList) {
 
         list.addAll(dataList);
-        Toast.makeText(currentContext,list.size()+"",Toast.LENGTH_LONG).show();
+        Toast.makeText(currentContext, list.size() + "", Toast.LENGTH_LONG).show();
         notifyDataSetChanged();
     }
+
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
@@ -81,11 +86,9 @@ public class ListViewAdapter extends BaseAdapter {
         }
         OrderInfoModel model = list.get(position);
 
-        if(position==0)
-        {
+        if (position == 0) {
             binding.vReviewPlaceholderHead.setVisibility(View.VISIBLE);
-        }else
-        {
+        } else {
             binding.vReviewPlaceholderHead.setVisibility(View.GONE);
 
         }
@@ -93,10 +96,31 @@ public class ListViewAdapter extends BaseAdapter {
         //testFake
 //        binding.tvOrderTime.setText(model.getCreateTime());
         long time = Long.parseLong(model.getCreateTime()) * 1000;
-        binding.tvOrderTime.setText(DateUtil.convertDateToString(new Date(time),DateUtil.FORMAT_COMMON_Y_M_D));
-        binding.tvOrderStatus.setText(Conts.getorderStatusMap().get(model.getOrderStatus()));
+        binding.tvOrderTime.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
+        binding.tvOrderStatus.setText(Conts.getOrderStatusMap().get(model.getOrderStatus()));
         binding.tvContantPersonPhone.setText(model.getOrderPhone());
         binding.tvFollowerFaction.setText(model.getWatchUser());
+
+        switch (infoType) {
+            case 3:
+                binding.llTip.setVisibility(View.GONE);
+                break;
+
+            case 4:
+                binding.llTip.setVisibility(View.VISIBLE);
+                binding.tvTip.setText(currentContext.getString(R.string.tip_order_waiting_for_settlement));
+                break;
+
+            case 5:
+                binding.llTip.setVisibility(View.VISIBLE);
+                binding.tvTip.setText(currentContext.getString(R.string.tip_order_settlemented));
+                break;
+
+            case 6:
+                binding.llTip.setVisibility(View.VISIBLE);
+                binding.tvTip.setText(currentContext.getString(R.string.tip_order_cancel));
+                break;
+        }
 
         return binding.getRoot();
 

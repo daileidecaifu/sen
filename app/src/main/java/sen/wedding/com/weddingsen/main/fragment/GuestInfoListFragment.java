@@ -26,12 +26,12 @@ import sen.wedding.com.weddingsen.component.SlidingTabLayout;
  * Created by lorin on 17/5/8.
  */
 
-public class KeziListFragment extends BaseFragment implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener{
+public class GuestInfoListFragment extends BaseFragment implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener{
 
-    public static KeziListFragment newInstance() {
+    public static GuestInfoListFragment newInstance() {
 
         Bundle args = new Bundle();
-        KeziListFragment fragment = new KeziListFragment();
+        GuestInfoListFragment fragment = new GuestInfoListFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -87,16 +87,16 @@ public class KeziListFragment extends BaseFragment implements NavigationView.OnN
 
     private class TabViewPagerAdapter extends FragmentPagerAdapter {
 
-        private String[] mTabTitle = new String[]{Conts.getorderStatusMap().get(3),
-                Conts.getorderStatusMap().get(4),
-                Conts.getorderStatusMap().get(5),
-                Conts.getorderStatusMap().get(6)};
+        private String[] mTabTitle = new String[]{Conts.getOrderStatusMap().get(3),
+                Conts.getOrderStatusMap().get(4),
+                Conts.getOrderStatusMap().get(5),
+                Conts.getOrderStatusMap().get(6)};
         private Context mContext;
         private Fragment[] fragments = new Fragment[]{
-                FollowInfoFragment.newInstance(3),
-                FollowInfoFragment.newInstance(4),
-                FollowInfoFragment.newInstance(5),
-                FollowInfoFragment.newInstance(6)
+                GuestInfoFragment.newInstance(3),
+                GuestInfoFragment.newInstance(4),
+                GuestInfoFragment.newInstance(5),
+                GuestInfoFragment.newInstance(6)
         };
 
         public TabViewPagerAdapter(FragmentManager fm, Context context) {

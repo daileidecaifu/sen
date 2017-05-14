@@ -82,6 +82,7 @@
         <activity android:name=".business.activity.LogInfoActivity">
 
         </activity>
+        <activity android:name=".business.activity.FollowUpDetailActivity"></activity>
     </application>
 
 </manifest>

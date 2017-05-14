@@ -195,7 +195,7 @@ public class OpenProjectNormalFragment extends RecyclerFragment<OrderInfoModel> 
 
 //            long time = Long.parseLong(item.getCreateTime()) * 1000;
             tvOrderTime.setText(item.getCreateTime());
-            tvOrderStatus.setText(Conts.getorderStatusMap().get(item.getOrderStatus()));
+            tvOrderStatus.setText(Conts.getOrderStatusMap().get(item.getOrderStatus()));
             tvContantPerson.setText(item.getOrderPhone());
             tvFollower.setText(item.getWatchUser());
 

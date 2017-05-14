@@ -1,6 +1,5 @@
 package sen.wedding.com.weddingsen.main.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -12,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import sen.wedding.com.weddingsen.R;
-import sen.wedding.com.weddingsen.account.activity.VerifyGuestInfoActivity;
 import sen.wedding.com.weddingsen.base.BaseFragment;
 import sen.wedding.com.weddingsen.main.activity.MainActivity;
 
@@ -20,15 +18,15 @@ import sen.wedding.com.weddingsen.main.activity.MainActivity;
  * Created by lorin on 17/5/8.
  */
 
-public class InfoFollowFragment extends BaseFragment implements View.OnClickListener{
+public class InfoFollowUpFragment extends BaseFragment implements View.OnClickListener{
 
     private FragmentManager fragmentManager;
     private FollowListFragment followListFragment;
 
-    public static InfoFollowFragment newInstance() {
+    public static InfoFollowUpFragment newInstance() {
 
         Bundle args = new Bundle();
-        InfoFollowFragment fragment = new InfoFollowFragment();
+        InfoFollowUpFragment fragment = new InfoFollowUpFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,7 +61,7 @@ public class InfoFollowFragment extends BaseFragment implements View.OnClickList
         textViewRight.setVisibility(View.GONE);
         textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_my_center));
 
-        textViewTitle.setText(getString(R.string.guest_info_list));
+        textViewTitle.setText(getString(R.string.kezi_follow));
 
         textViewLeft.setOnClickListener(new View.OnClickListener() {
             @Override

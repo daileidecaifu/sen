@@ -16,9 +16,6 @@ import sen.wedding.com.weddingsen.business.model.LogInfoModel;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.LogInfoActivityBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
-import sen.wedding.com.weddingsen.main.adapter.ListViewAdapter;
-import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
-import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 
 /**
  * Created by lorin on 17/5/7.
@@ -56,6 +53,7 @@ public class LogInfoActivity extends BaseActivity implements View.OnClickListene
         binding.lvLog.setOnItemClickListener(this);
 
         adapter.notifyDataChanged(getFakeData());
+//        binding.loadingView.showLoading();
     }
 
     @Override

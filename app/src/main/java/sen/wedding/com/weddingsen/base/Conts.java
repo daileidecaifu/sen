@@ -33,7 +33,10 @@ public class Conts {
     //订单状态
     public static Map<Integer, String> orderStatusMap;
 
-    public static Map<Integer, String> getorderStatusMap() {
+    //跟踪状态
+    public static Map<Integer, String> followStatusMap;
+
+    public static Map<Integer, String> getOrderStatusMap() {
         if (orderStatusMap == null) {
             orderStatusMap = new HashMap<>();
             orderStatusMap.put(1, "全部的");
@@ -44,6 +47,19 @@ public class Conts {
             orderStatusMap.put(6, "已取消");
         }
         return orderStatusMap;
+    }
+
+    public static Map<Integer, String> getFollowStatusMap() {
+        if (followStatusMap == null) {
+            followStatusMap = new HashMap<>();
+            followStatusMap.put(1, "待处理");
+            followStatusMap.put(2, "待审核");
+            followStatusMap.put(3, "待结算");
+            followStatusMap.put(4, "已结算");
+            followStatusMap.put(5, "已驳回");
+            followStatusMap.put(6, "已取消");
+        }
+        return followStatusMap;
     }
 
     /**

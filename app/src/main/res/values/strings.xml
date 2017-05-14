@@ -122,5 +122,16 @@
     <string name="info_follow">信息跟进</string>
     <string name="create_kezi_info">新建客资信息</string>
     <string name="create_build_info">新建搭建信息</string>
+    <string name="kezi_follow">客资跟进</string>
+    <string name="build_info">搭建信息</string>
+    <string name="tip_order_waiting_for_settlement">客资订单已生效，奖励将通过支付宝发放</string>
+    <string name="tip_order_settlemented">客资奖励已发放</string>
+    <string name="tip_order_cancel">客资信息已终止跟进</string>
+    <string name="modify_and_resubmit">修改并重新提交</string>
+    <string name="process_status">处理状态</string>
+    <string name="process_schedule">处理进度</string>
+    <string name="process_time">处理时间</string>
+    <string name="no_data">暂无数据</string>
+    <string name="contact_clients">联系客户</string>
 
 </resources>

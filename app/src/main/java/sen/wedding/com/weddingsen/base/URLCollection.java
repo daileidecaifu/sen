@@ -26,5 +26,6 @@ public class URLCollection {
 
     public final static String URL_SHOW_GUEST_INFO_DETAIL = "http://dev.51isen.com/index.php?m=app&c=order&f=orderKeZiDetail";
 
+    public final static String URL_follow_handler_list = "http://dev.51isen.com/index.php?m=app&c=order&f=orderKeZiList";
 
 }

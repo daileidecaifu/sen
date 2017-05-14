@@ -26,7 +26,7 @@ import sen.wedding.com.weddingsen.component.SlidingTabLayout;
  * Created by lorin on 17/5/8.
  */
 
-public class FollowListFragment extends BaseFragment implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener{
+public class FollowListFragment extends BaseFragment implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     public static FollowListFragment newInstance() {
 
@@ -88,12 +88,12 @@ public class FollowListFragment extends BaseFragment implements NavigationView.O
     private class TabViewPagerAdapter extends FragmentPagerAdapter {
 
         private String[] mTabTitle = new String[]{
-                Conts.getorderStatusMap().get(1),
-                Conts.getorderStatusMap().get(2),
-                Conts.getorderStatusMap().get(3),
-                Conts.getorderStatusMap().get(4),
-                Conts.getorderStatusMap().get(5),
-                Conts.getorderStatusMap().get(6)};
+                Conts.getFollowStatusMap().get(1),
+                Conts.getFollowStatusMap().get(2),
+                Conts.getFollowStatusMap().get(3),
+                Conts.getFollowStatusMap().get(4),
+                Conts.getFollowStatusMap().get(5),
+                Conts.getFollowStatusMap().get(6)};
         private Context mContext;
         private Fragment[] fragments = new Fragment[]{
                 FollowInfoFragment.newInstance(1),

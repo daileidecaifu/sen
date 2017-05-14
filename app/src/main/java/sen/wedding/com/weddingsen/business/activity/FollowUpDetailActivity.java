@@ -1,18 +1,11 @@
 package sen.wedding.com.weddingsen.business.activity;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.text.Html;
-import android.text.InputType;
 import android.view.View;
+import android.widget.Toast;
 
-import com.google.gson.reflect.TypeToken;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,19 +18,14 @@ import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.business.adapter.ReviewInfoAdapter;
-import sen.wedding.com.weddingsen.business.model.AreaModel;
 import sen.wedding.com.weddingsen.business.model.DetailResModel;
-import sen.wedding.com.weddingsen.business.model.HotelModel;
 import sen.wedding.com.weddingsen.business.model.OrderItemModel;
 import sen.wedding.com.weddingsen.component.TitleBar;
-import sen.wedding.com.weddingsen.databinding.EditGuestInfoBinding;
+import sen.wedding.com.weddingsen.databinding.FollowUpDetailBinding;
 import sen.wedding.com.weddingsen.databinding.GuestInfoDetailBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
-import sen.wedding.com.weddingsen.main.fragment.GuestInfoFragment;
-import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
-import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.utils.DateUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.StringUtil;
@@ -47,9 +35,9 @@ import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
  * Created by lorin on 17/3/25.
  */
 
-public class GuestInfoDetailActivity extends BaseActivity implements View.OnClickListener, RequestHandler<ApiRequest, ApiResponse> {
+public class FollowUpDetailActivity extends BaseActivity implements View.OnClickListener, RequestHandler<ApiRequest, ApiResponse> {
 
-    private GuestInfoDetailBinding binding;
+    private FollowUpDetailBinding binding;
 
     private ReviewInfoAdapter adapter;
 
@@ -69,7 +57,7 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_guest_info_detail);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_follow_up_detail);
         binding.setClickListener(this);
 
         initTitleBar(binding.titleBar, TitleBar.Type.COMMON);
@@ -90,7 +78,7 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
 
         initData();
         initComponents();
-        getGuestInfo();
+//        getFollowUp();
     }
 
     @Override
@@ -133,8 +121,15 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
 
         //手机号
         binding.llShowPhoneNumber.tvItemSelectTitle.setText(getString(R.string.phone_number));
-        binding.llShowPhoneNumber.tvItemSelectIcon.setVisibility(View.INVISIBLE);
-
+        binding.llShowPhoneNumber.tvItemSelectIcon.setVisibility(View.GONE);
+        binding.llShowPhoneNumber.tvItemSelectRightText.setVisibility(View.VISIBLE);
+        binding.llShowPhoneNumber.tvItemSelectRightText.setText(getString(R.string.contact_clients));
+        binding.llShowPhoneNumber.tvItemSelectRightText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast("Call");
+            }
+        });
         //指定类型
         binding.llShowSpecifyType.tvItemSelectTitle.setText(Html.fromHtml(sbType.toString()));
         binding.llShowSpecifyType.tvItemSelectIcon.setVisibility(View.INVISIBLE);
@@ -155,13 +150,22 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
         binding.llShowTime.tvItemSelectTitle.setText(getString(R.string.time));
         binding.llShowTime.tvItemSelectIcon.setVisibility(View.INVISIBLE);
 
-        //处理进度
-        binding.llProcessSchedule.tvItemSelectTitle.setText(getString(R.string.process_schedule));
-        binding.llProcessSchedule.tvItemSelectIcon.setVisibility(View.INVISIBLE);
-
-        //处理时间
-        binding.llProcessTime.tvItemSelectTitle.setText(getString(R.string.process_time));
-        binding.llProcessTime.tvItemSelectIcon.setVisibility(View.INVISIBLE);
+        //类型
+        binding.llActionType.tvItemSelectTitle.setText(getString(R.string.type));
+        binding.llActionType.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast("Type");
+            }
+        });
+        //下次跟进
+        binding.llFollowUpTime.tvItemSelectTitle.setText(getString(R.string.next_follow));
+        binding.llFollowUpTime.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast("Follow Up");
+            }
+        });
     }
 
     private void fillData(OrderItemModel orderItemModel) {
@@ -190,7 +194,7 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
         binding.tvShowNote.setText(orderItemModel.getOrderDesc());
     }
 
-    private void getGuestInfo() {
+    private void getFollowUp() {
         if (orderId != -1) {
             getOrderDetailRequest = new ApiRequest(URLCollection.URL_SHOW_GUEST_INFO_DETAIL, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();

@@ -23,8 +23,6 @@ import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.component.SwitchButton;
 import sen.wedding.com.weddingsen.main.activity.MainActivity;
-import sen.wedding.com.weddingsen.utils.ScreenUtil;
-import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
 
 /**
  * Created by lorin on 17/5/8.
@@ -33,7 +31,7 @@ import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
 public class InfoProvideFragment extends BaseFragment implements View.OnClickListener {
 
     private FragmentManager fragmentManager;
-    private KeziListFragment keziListFragment;
+    private GuestInfoListFragment guestInfoListFragment;
 
     public static InfoProvideFragment newInstance() {
 
@@ -76,7 +74,7 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
 
     private void initSwitchTitle(View view) {
 
-        List<String> tabTextList = Arrays.asList(getString(R.string.guest_info), getString(R.string.contract_review));
+        List<String> tabTextList = Arrays.asList(getString(R.string.guest_info), getString(R.string.build_info));
         //头部title
         RelativeLayout linearLayoutTitle = (RelativeLayout) view.findViewById(R.id.title_switch);
 
@@ -155,10 +153,10 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
     private void addMainView() {
         // 开启一个Fragment事务
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        if (keziListFragment == null) {
+        if (guestInfoListFragment == null) {
             // 如果MessageFragment为空，则创建一个并添加到界面上
-            keziListFragment = KeziListFragment.newInstance();
-            transaction.add(R.id.fl_replace, keziListFragment);
+            guestInfoListFragment = GuestInfoListFragment.newInstance();
+            transaction.add(R.id.fl_replace, guestInfoListFragment);
         }
         transaction.commit();
     }

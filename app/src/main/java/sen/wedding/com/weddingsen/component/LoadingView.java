@@ -1,7 +1,6 @@
 package sen.wedding.com.weddingsen.component;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,7 +14,7 @@ import sen.wedding.com.weddingsen.R;
 /**
  * Created by chen on 15/4/24.
  */
-public class KeZiLoadingView extends FrameLayout implements View.OnClickListener {
+public class LoadingView extends FrameLayout implements View.OnClickListener {
 
     public static final int TYPE_EMPTY_COST = 0;
     public static final int TYPE_EMPTY_SCHEDULE = 1;
@@ -43,11 +42,11 @@ public class KeZiLoadingView extends FrameLayout implements View.OnClickListener
         return currentStatus;
     }
 
-    public KeZiLoadingView(Context context) {
+    public LoadingView(Context context) {
         this(context, null);
     }
 
-    public KeZiLoadingView(Context context, AttributeSet attrs) {
+    public LoadingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         currentStatus = STATUS_IDLE;
         setBackgroundColor(getResources().getColor(R.color.white));
@@ -74,7 +73,7 @@ public class KeZiLoadingView extends FrameLayout implements View.OnClickListener
 //        setVisibility(VISIBLE);
 //    }
 
-    public void showLoadingFailed() {
+    public void showGuestInfoLoadingFailed() {
         currentStatus = STATUS_FAILED;
         removeAllViews();
         LayoutInflater.from(getContext()).inflate(R.layout.loading_kezi_unnormal_layout, this, true);
@@ -105,7 +104,7 @@ public class KeZiLoadingView extends FrameLayout implements View.OnClickListener
     }
 
 
-    public void showLoadingEmpty() {
+    public void showGuestInfoLoadingEmpty() {
         setVisibility(VISIBLE);
         currentStatus = STATUS_EMPTY;
         removeAllViews();
@@ -118,6 +117,21 @@ public class KeZiLoadingView extends FrameLayout implements View.OnClickListener
         click.setText(getContext().getString(R.string.add_guest_info));
 
         click.setOnClickListener(this);
+
+        setVisibility(View.VISIBLE);
+    }
+
+    public void showLoadingEmpty() {
+        setVisibility(VISIBLE);
+        currentStatus = STATUS_EMPTY;
+        removeAllViews();
+        LayoutInflater.from(getContext()).inflate(R.layout.loading_kezi_unnormal_layout, this, true);
+
+        TextView title = (TextView) findViewById(R.id.tv_title);
+        TextView click = ((TextView) findViewById(R.id.tv_action));
+
+        click.setVisibility(GONE);
+        title.setText(getContext().getString(R.string.no_data));
 
         setVisibility(View.VISIBLE);
     }

@@ -2,16 +2,12 @@ package sen.wedding.com.weddingsen.main.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.dinuscxj.refresh.RecyclerRefreshLayout;
 
@@ -27,12 +23,12 @@ import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.business.activity.GuestInfoDetailActivity;
-import sen.wedding.com.weddingsen.component.KeZiLoadingView;
+import sen.wedding.com.weddingsen.component.LoadingView;
 import sen.wedding.com.weddingsen.component.LoadMoreView;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
-import sen.wedding.com.weddingsen.main.adapter.ListViewAdapter;
+import sen.wedding.com.weddingsen.main.adapter.GuestInfoAdapter;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
@@ -42,13 +38,13 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
         LoadMoreView.OnLoadMoreListener {
 
     ListView listView;
-    ListViewAdapter listViewAdapter;
+    GuestInfoAdapter guestInfoAdapter;
     private ApiRequest getListRequest, loadMoreRequest;
 
     private GuestInfosResModel model;
     private int currentStatus;
     private int currentPage;
-    KeZiLoadingView loadingView;
+    LoadingView loadingView;
 
     /**
      * 刷新加载更多逻辑
@@ -84,8 +80,8 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
 
     private void initViews(View view) {
         listView = (ListView) view.findViewById(R.id.listView);
-        listViewAdapter = new ListViewAdapter(getActivity());
-        listView.setAdapter(listViewAdapter);
+        guestInfoAdapter = new GuestInfoAdapter(getActivity(),currentStatus);
+        listView.setAdapter(guestInfoAdapter);
         listView.setOnItemClickListener(this);
 //        listView.setOnScrollListener(this);
 
@@ -97,8 +93,8 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
         recyclerRefreshLayout.setOnRefreshListener(this);
         recyclerRefreshLayout.setBackgroundColor(getResources().getColor(R.color.common_background));
 
-        loadingView = (KeZiLoadingView) view.findViewById(R.id.loading_view);
-        loadingView.setLoadingViewClickListener(new KeZiLoadingView.OnLoadingViewClickListener() {
+        loadingView = (LoadingView) view.findViewById(R.id.loading_view);
+        loadingView.setLoadingViewClickListener(new LoadingView.OnLoadingViewClickListener() {
             @Override
             public void OnLoadingFailedClick(View view) {
                 getGuestInfoList();
@@ -133,12 +129,12 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
     private GuestInfosResModel getFakeData() {
 
         GuestInfosResModel guestInfosResModel = new GuestInfosResModel();
-        guestInfosResModel.setCount(30);
+        guestInfosResModel.setCount(2);
         ArrayList<OrderInfoModel> fakeList = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 2; i++) {
             OrderInfoModel orderInfoModel = new OrderInfoModel();
-            orderInfoModel.setCreateTime("2017-02-0" + i);
+            orderInfoModel.setCreateTime("1494748078");
             orderInfoModel.setOrderStatus(1);
             orderInfoModel.setOrderPhone("1580000000" + i);
             orderInfoModel.setWatchUser("It's a hotel" + i);
@@ -199,14 +195,14 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     loadingView.dismiss();
 
-                    listViewAdapter.notifyDataChanged(model.getOrderList());
+                    guestInfoAdapter.notifyDataChanged(model.getOrderList());
                     if (model.getCount() < 10) {
                         loadMoreView.showNoMoreInFirst();
                     } else {
                         loadMoreView.showLoading();
                     }
                 } else {
-                    loadingView.showLoadingEmpty();
+                    loadingView.showGuestInfoLoadingEmpty();
                 }
 
             } else {
@@ -219,7 +215,7 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
                 model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
                 currentPage = Integer.parseInt(((ApiRequest) req).getParams().get("order_page"));
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
-                    listViewAdapter.notifyMoreDataChanged(model.getOrderList());
+                    guestInfoAdapter.notifyMoreDataChanged(model.getOrderList());
                 }
 
                 if (model.getCount() <= currentPage * 10) {
@@ -237,12 +233,12 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
     public void onRequestFailed(ApiRequest req, ApiResponse resp) {
 
         if (req == getListRequest) {
-            loadingView.showLoadingFailed();
+            loadingView.showGuestInfoLoadingFailed();
         } else if (req == loadMoreRequest) {
 
         }
 
-        if (listViewAdapter.isEmpty()) {
+        if (guestInfoAdapter.isEmpty()) {
             loadMoreView.dismissLoading();
         } else {
             loadMoreView.showFailed();
@@ -254,7 +250,7 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getAdapter().getItem(position) instanceof OrderInfoModel) {
             Intent intent = new Intent(getActivity(), GuestInfoDetailActivity.class);
-            intent.putExtra("order_id", listViewAdapter.getList().get(position).getId());
+            intent.putExtra("order_id", guestInfoAdapter.getList().get(position).getId());
             getActivity().startActivity(intent);
         }
     }

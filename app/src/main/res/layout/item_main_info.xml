@@ -17,9 +17,9 @@
             <View
                 android:id="@+id/v_review_placeholder_head"
                 android:layout_width="match_parent"
-                android:visibility="gone"
+                android:layout_height="7dp"
                 android:background="@color/common_background"
-                android:layout_height="7dp"></View>
+                android:visibility="gone"></View>
 
             <View
                 android:layout_width="match_parent"
@@ -39,8 +39,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical|left"
-                    android:textColor="@color/gray_2"
                     android:text="time"
+                    android:textColor="@color/gray_2"
                     android:textSize="@dimen/text_size_s" />
 
                 <TextView
@@ -73,61 +73,61 @@
                     android:id="@+id/ll_follower"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="20dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true">
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="@string/contact_person"
+                        android:layout_height="wrap_content"
 
-                        android:gravity="center_vertical"
-                        android:textColor="@color/gray_2"
-                        android:textSize="@dimen/text_size_m"
                         android:layout_marginRight="50dp"
-                        android:layout_height="wrap_content" />
+                        android:gravity="center_vertical"
+                        android:text="@string/contact_person"
+                        android:textColor="@color/gray_2"
+                        android:textSize="@dimen/text_size_m" />
 
                     <TextView
                         android:id="@+id/tv_contant_person_phone"
                         android:layout_width="match_parent"
-                        android:singleLine="true"
-                        android:maxLines="1"
-                        android:textColor="@color/tip_color"
-                        android:textSize="@dimen/text_size_m"
+                        android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:layout_height="wrap_content" />
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/tip_color"
+                        android:textSize="@dimen/text_size_m" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_contact_person"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal"
-                    android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true">
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="@string/follower_tip"
-                        android:gravity="center_vertical"
+                        android:layout_height="match_parent"
                         android:layout_marginRight="50dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/follower_tip"
                         android:textColor="@color/gray_2"
-                        android:textSize="@dimen/text_size_m"
-                        android:layout_height="match_parent" />
+                        android:textSize="@dimen/text_size_m" />
 
                     <TextView
                         android:id="@+id/tv_follower_faction"
                         android:layout_width="match_parent"
-                        android:singleLine="true"
-                        android:maxLines="1"
-                        android:textColor="@color/tip_color"
-                        android:textSize="@dimen/text_size_m"
+                        android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:layout_height="match_parent" />
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/tip_color"
+                        android:textSize="@dimen/text_size_m" />
                 </LinearLayout>
 
 
@@ -152,15 +152,45 @@
 
             <View
                 android:layout_width="match_parent"
+                android:layout_height="20dp"></View>
+
+            <View
+                android:id="@+id/v_tip_divider"
+                android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginTop="20dp"
-                android:background="@color/transparent"></View>
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/divider_list"></View>
+
+            <LinearLayout
+                android:id="@+id/ll_tip"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_tip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_2"
+                    android:textSize="@dimen/text_size_s" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider_list"></View>
 
             <View
                 android:id="@+id/v_review_placeholder"
                 android:layout_width="match_parent"
-                android:background="@color/common_background"
-                android:layout_height="7dp"></View>
+                android:layout_height="7dp"
+                android:background="@color/common_background"></View>
         </LinearLayout>
 
     </LinearLayout>

@@ -22,13 +22,15 @@ import sen.wedding.com.weddingsen.base.BaseFragment;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
+import sen.wedding.com.weddingsen.business.activity.FollowUpDetailActivity;
 import sen.wedding.com.weddingsen.business.activity.GuestInfoDetailActivity;
-import sen.wedding.com.weddingsen.component.KeZiLoadingView;
+import sen.wedding.com.weddingsen.component.LoadingView;
 import sen.wedding.com.weddingsen.component.LoadMoreView;
+import sen.wedding.com.weddingsen.databinding.FollowUpDetailBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
-import sen.wedding.com.weddingsen.main.adapter.ListViewAdapter;
+import sen.wedding.com.weddingsen.main.adapter.FollowUpAdapter;
 import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
@@ -38,13 +40,13 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
         LoadMoreView.OnLoadMoreListener {
 
     ListView listView;
-    ListViewAdapter listViewAdapter;
+    FollowUpAdapter followUpAdapter;
     private ApiRequest getListRequest, loadMoreRequest;
 
     private GuestInfosResModel model;
     private int currentStatus;
     private int currentPage;
-    KeZiLoadingView loadingView;
+    LoadingView loadingView;
 
     /**
      * 刷新加载更多逻辑
@@ -80,8 +82,8 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
 
     private void initViews(View view) {
         listView = (ListView) view.findViewById(R.id.listView);
-        listViewAdapter = new ListViewAdapter(getActivity());
-        listView.setAdapter(listViewAdapter);
+        followUpAdapter = new FollowUpAdapter(getActivity(),currentStatus);
+        listView.setAdapter(followUpAdapter);
         listView.setOnItemClickListener(this);
 //        listView.setOnScrollListener(this);
 
@@ -93,8 +95,8 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
         recyclerRefreshLayout.setOnRefreshListener(this);
         recyclerRefreshLayout.setBackgroundColor(getResources().getColor(R.color.common_background));
 
-        loadingView = (KeZiLoadingView) view.findViewById(R.id.loading_view);
-        loadingView.setLoadingViewClickListener(new KeZiLoadingView.OnLoadingViewClickListener() {
+        loadingView = (LoadingView) view.findViewById(R.id.loading_view);
+        loadingView.setLoadingViewClickListener(new LoadingView.OnLoadingViewClickListener() {
             @Override
             public void OnLoadingFailedClick(View view) {
                 getGuestInfoList();
@@ -129,12 +131,12 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
     private GuestInfosResModel getFakeData() {
 
         GuestInfosResModel guestInfosResModel = new GuestInfosResModel();
-        guestInfosResModel.setCount(30);
+        guestInfosResModel.setCount(3);
         ArrayList<OrderInfoModel> fakeList = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
             OrderInfoModel orderInfoModel = new OrderInfoModel();
-            orderInfoModel.setCreateTime("2017-02-0" + i);
+            orderInfoModel.setCreateTime("1494748078");
             orderInfoModel.setOrderStatus(1);
             orderInfoModel.setOrderPhone("1580000000" + i);
             orderInfoModel.setWatchUser("It's a hotel" + i);
@@ -148,7 +150,7 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
 
     private void getGuestInfoList() {
         currentPage = 1;
-        getListRequest = new ApiRequest(URLCollection.URL_GET_GUEST_INFO_LIST, HttpMethod.POST);
+        getListRequest = new ApiRequest(URLCollection.URL_follow_handler_list, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("order_status", currentStatus + "");
@@ -162,7 +164,7 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
     private void loadMoreInfoList() {
         isLoadMore = true;
         int loadmorePage = currentPage + 1;
-        loadMoreRequest = new ApiRequest(URLCollection.URL_GET_GUEST_INFO_LIST, HttpMethod.POST);
+        loadMoreRequest = new ApiRequest(URLCollection.URL_follow_handler_list, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("order_status", currentStatus + "");
@@ -190,19 +192,19 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
             requestComplete();
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 //testFake
-//                model = getFakeData();
-                model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
+                model = getFakeData();
+//                model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     loadingView.dismiss();
 
-                    listViewAdapter.notifyDataChanged(model.getOrderList());
+                    followUpAdapter.notifyDataChanged(model.getOrderList());
                     if (model.getCount() < 10) {
                         loadMoreView.showNoMoreInFirst();
                     } else {
                         loadMoreView.showLoading();
                     }
                 } else {
-                    loadingView.showLoadingEmpty();
+                    loadingView.showGuestInfoLoadingEmpty();
                 }
 
             } else {
@@ -215,7 +217,7 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
                 model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
                 currentPage = Integer.parseInt(((ApiRequest) req).getParams().get("order_page"));
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
-                    listViewAdapter.notifyMoreDataChanged(model.getOrderList());
+                    followUpAdapter.notifyMoreDataChanged(model.getOrderList());
                 }
 
                 if (model.getCount() <= currentPage * 10) {
@@ -233,12 +235,12 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
     public void onRequestFailed(ApiRequest req, ApiResponse resp) {
 
         if (req == getListRequest) {
-            loadingView.showLoadingFailed();
+            loadingView.showGuestInfoLoadingFailed();
         } else if (req == loadMoreRequest) {
 
         }
 
-        if (listViewAdapter.isEmpty()) {
+        if (followUpAdapter.isEmpty()) {
             loadMoreView.dismissLoading();
         } else {
             loadMoreView.showFailed();
@@ -249,8 +251,8 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getAdapter().getItem(position) instanceof OrderInfoModel) {
-            Intent intent = new Intent(getActivity(), GuestInfoDetailActivity.class);
-            intent.putExtra("order_id", listViewAdapter.getList().get(position).getId());
+            Intent intent = new Intent(getActivity(), FollowUpDetailActivity.class);
+            intent.putExtra("order_id", followUpAdapter.getList().get(position).getId());
             getActivity().startActivity(intent);
         }
     }
