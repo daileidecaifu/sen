@@ -23,6 +23,7 @@ import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.business.adapter.PhotoAdapter;
 import sen.wedding.com.weddingsen.business.utils.RecyclerItemClickListener;
+import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.component.compress.CompressHelper;
 import sen.wedding.com.weddingsen.databinding.ContractInfoBinding;
 
@@ -41,6 +42,16 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_contract_info);
         binding.setClickListener(this);
+
+        initTitleBar(binding.titleBar, TitleBar.Type.COMMON);
+        getTitleBar().setTitle(getString(R.string.confirm_sign));
+        getTitleBar().setRightVisibility(View.GONE);
+        getTitleBar().setLeftClickEvent(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         photoAdapter = new PhotoAdapter(this, selectedPhotos);
 

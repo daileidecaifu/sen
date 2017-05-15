@@ -1,11 +1,14 @@
 package sen.wedding.com.weddingsen.business.activity;
 
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,15 +48,14 @@ public class FollowUpDetailActivity extends BaseActivity implements View.OnClick
     StringBuffer sbItemHotel;
     StringBuffer sbItemDistrict;
 
-    private List<BaseTypeModel> specifyModels;
-    private BaseTypeModel selectOrderTypeModel;
-    private String verifyPhone;
-
     private ApiRequest getOrderDetailRequest;
     private DetailResModel detailResModel;
 
     private int orderId;
-
+    private String[] nextFollowUpItems;
+    private List<BaseTypeModel> specifyModels;
+    private String[] typeArray;
+    private int actionType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,10 +91,10 @@ public class FollowUpDetailActivity extends BaseActivity implements View.OnClick
     private void initData() {
 
         orderId = getIntent().getIntExtra("order_id", -1);
+        nextFollowUpItems = getResources().getStringArray(R.array.next_follow_up_item);
 
-        String orderTypeStr = getIntent().getStringExtra("select_type");
-        selectOrderTypeModel = GsonConverter.fromJson(orderTypeStr, BaseTypeModel.class);
-        verifyPhone = getIntent().getStringExtra("verify_phone");
+        typeArray = new String[Conts.getFollowActionStatusMap().size()];
+        Conts.getFollowActionStatusMap().values().toArray(typeArray);
 
         specifyModels = Conts.getSpecifyTypeArray();
 
@@ -155,15 +157,17 @@ public class FollowUpDetailActivity extends BaseActivity implements View.OnClick
         binding.llActionType.setClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast("Type");
+                showActionType();
             }
         });
+        binding.llActionType.tvItemSelectContent.setText(typeArray[0]);
+
         //下次跟进
         binding.llFollowUpTime.tvItemSelectTitle.setText(getString(R.string.next_follow));
         binding.llFollowUpTime.setClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast("Follow Up");
+                showSelectAfterDays();
             }
         });
     }
@@ -210,6 +214,71 @@ public class FollowUpDetailActivity extends BaseActivity implements View.OnClick
     @Override
     public void onClick(View v) {
 
+        switch (v.getId())
+        {
+            case R.id.tv_follow_up_submit:
+
+                switch (actionType)
+                {
+                    case 0:
+                        showToast("0");
+                        break;
+                    case 1:
+                        showToast("1");
+                        break;
+                    case 2:
+                        showToast("2");
+                        break;
+                }
+
+                break;
+        }
+
+    }
+
+    private void showActionType() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);  //先得到构造器
+        builder.setTitle(getString(R.string.select_next_follow_up)); //设置标题
+        //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
+        builder.setItems(typeArray, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                switchShowAction(which);
+
+            }
+        });
+        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
+    private void showSelectAfterDays() {
+
+        //dialog参数设置
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);  //先得到构造器
+        builder.setTitle(getString(R.string.select_next_follow_up)); //设置标题
+        //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
+        builder.setItems(nextFollowUpItems, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                binding.llFollowUpTime.tvItemSelectContent.setText(nextFollowUpItems[which]);
+
+            }
+        });
+        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 
 
@@ -243,5 +312,33 @@ public class FollowUpDetailActivity extends BaseActivity implements View.OnClick
     public void onRequestFailed(ApiRequest req, ApiResponse resp) {
         closeProgressDialog();
         showToast(getString(R.string.request_error_tip));
+    }
+
+    private void switchShowAction(int type)
+    {
+        binding.llActionType.tvItemSelectContent.setText(typeArray[type]);
+        switch (type)
+        {
+            case 0:
+                binding.llFollowUpTime.getRoot().setVisibility(View.VISIBLE);
+                binding.llFollowUpNote.setVisibility(View.VISIBLE);
+                binding.tvFollowUpSubmit.setText(getString(R.string.confirm));
+                actionType = type;
+                break;
+
+            case 1:
+                binding.llFollowUpTime.getRoot().setVisibility(View.GONE);
+                binding.llFollowUpNote.setVisibility(View.VISIBLE);
+                binding.tvFollowUpSubmit.setText(getString(R.string.confirm));
+                actionType = type;
+                break;
+
+            case 2:
+                binding.llFollowUpTime.getRoot().setVisibility(View.GONE);
+                binding.llFollowUpNote.setVisibility(View.GONE);
+                binding.tvFollowUpSubmit.setText(getString(R.string.submit_certificate));
+                actionType = type;
+                break;
+        }
     }
 }

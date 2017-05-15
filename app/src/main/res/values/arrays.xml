@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="next_follow_up_item">
+        <item>1天后</item>
+        <item>2天后</item>
+        <item>3天后</item>
+        <item>4天后</item>
+        <item>5天后</item>
+        <item>6天后</item>
+        <item>7天后</item>
+        <item>8天后</item>
+        <item>9天后</item>
+        <item>10天后</item>
+
+    </string-array>
+
+</resources>

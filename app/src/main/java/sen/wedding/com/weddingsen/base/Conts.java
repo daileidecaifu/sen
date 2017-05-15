@@ -36,6 +36,9 @@ public class Conts {
     //跟踪状态
     public static Map<Integer, String> followStatusMap;
 
+    //跟踪操作类型
+    public static Map<Integer, String> followActionStatusMap;
+
     public static Map<Integer, String> getOrderStatusMap() {
         if (orderStatusMap == null) {
             orderStatusMap = new HashMap<>();
@@ -60,6 +63,17 @@ public class Conts {
             followStatusMap.put(6, "已取消");
         }
         return followStatusMap;
+    }
+
+    public static Map<Integer, String> getFollowActionStatusMap() {
+        if (followActionStatusMap == null) {
+            followActionStatusMap = new HashMap<>();
+            followActionStatusMap.put(1, "信息有效");
+            followActionStatusMap.put(2, "信息无效");
+            followActionStatusMap.put(3, "确认签单");
+
+        }
+        return followActionStatusMap;
     }
 
     /**
