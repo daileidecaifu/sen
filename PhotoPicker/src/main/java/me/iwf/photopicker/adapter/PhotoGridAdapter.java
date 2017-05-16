@@ -108,11 +108,10 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
         glide
                 .load(new File(photo.getPath()))
                 .centerCrop()
-                .dontAnimate()
-                .thumbnail(0.5f)
+                .thumbnail(0.1f)
                 .override(imageSize, imageSize)
-                .placeholder(R.drawable.__picker_ic_photo_black_48dp)
-                .error(R.drawable.__picker_ic_broken_image_black_48dp)
+                .placeholder(R.drawable.picture_new2)
+                .error(R.drawable.picture_new2)
                 .into(holder.ivPhoto);
       }
 

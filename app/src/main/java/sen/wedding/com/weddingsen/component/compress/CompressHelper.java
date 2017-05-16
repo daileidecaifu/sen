@@ -3,8 +3,11 @@ package sen.wedding.com.weddingsen.component.compress;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 
 import java.io.File;
+
+import sen.wedding.com.weddingsen.utils.AppLog;
 
 /**
  * 压缩方法工具类
@@ -66,7 +69,9 @@ public class CompressHelper {
 
     private CompressHelper(Context context) {
         this.context = context;
-        destinationDirectoryPath = context.getCacheDir().getPath() + File.pathSeparator + FileUtil.FILES_PATH;
+        destinationDirectoryPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/sen/pic/compress";
+//        AppLog.e("______________________________"+destinationDirectoryPath);
+//        destinationDirectoryPath = context.getCacheDir().getPath() + File.pathSeparator + FileUtil.FILES_PATH;
     }
 
     /**
