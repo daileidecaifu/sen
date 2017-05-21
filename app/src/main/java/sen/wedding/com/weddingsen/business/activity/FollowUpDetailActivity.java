@@ -221,13 +221,11 @@ public class FollowUpDetailActivity extends BaseActivity implements View.OnClick
                 switch (actionType)
                 {
                     case 0:
-                        showToast("0");
                         break;
                     case 1:
-                        showToast("1");
                         break;
                     case 2:
-                        showToast("2");
+                        jumpToOtherActivity(ContractInfoActivity.class);
                         break;
                 }
 
@@ -239,7 +237,7 @@ public class FollowUpDetailActivity extends BaseActivity implements View.OnClick
     private void showActionType() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);  //先得到构造器
-        builder.setTitle(getString(R.string.select_next_follow_up)); //设置标题
+        builder.setTitle(getString(R.string.hint)); //设置标题
         //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
         builder.setItems(typeArray, new DialogInterface.OnClickListener() {
             @Override

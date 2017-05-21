@@ -87,16 +87,16 @@ public class GuestInfoListFragment extends BaseFragment implements NavigationVie
 
     private class TabViewPagerAdapter extends FragmentPagerAdapter {
 
-        private String[] mTabTitle = new String[]{Conts.getOrderStatusMap().get(3),
-                Conts.getOrderStatusMap().get(4),
-                Conts.getOrderStatusMap().get(5),
-                Conts.getOrderStatusMap().get(6)};
+        private String[] mTabTitle = new String[]{Conts.getOrderStatusMap().get(1),
+                Conts.getOrderStatusMap().get(2),
+                Conts.getOrderStatusMap().get(3),
+                Conts.getOrderStatusMap().get(4)};
         private Context mContext;
         private Fragment[] fragments = new Fragment[]{
+                GuestInfoFragment.newInstance(1),
+                GuestInfoFragment.newInstance(2),
                 GuestInfoFragment.newInstance(3),
-                GuestInfoFragment.newInstance(4),
-                GuestInfoFragment.newInstance(5),
-                GuestInfoFragment.newInstance(6)
+                GuestInfoFragment.newInstance(4)
         };
 
         public TabViewPagerAdapter(FragmentManager fm, Context context) {

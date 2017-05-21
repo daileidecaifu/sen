@@ -42,12 +42,11 @@ public class Conts {
     public static Map<Integer, String> getOrderStatusMap() {
         if (orderStatusMap == null) {
             orderStatusMap = new HashMap<>();
-            orderStatusMap.put(1, "全部的");
-            orderStatusMap.put(2, "待处理");
-            orderStatusMap.put(3, "跟踪中");
-            orderStatusMap.put(4, "待结算");
-            orderStatusMap.put(5, "已结算");
-            orderStatusMap.put(6, "已取消");
+
+            orderStatusMap.put(1, "跟踪中");
+            orderStatusMap.put(2, "待结算");
+            orderStatusMap.put(3, "已结算");
+            orderStatusMap.put(4, "已取消");
         }
         return orderStatusMap;
     }
@@ -152,4 +151,15 @@ public class Conts {
     public final static String LOGIN_MODEL_ACCOUNT = "4";
     public final static String LOGIN_MODEL_PHONE = "3";
 
+    //OSS Perfix
+    public final static String OSS_REMOTE_URL = "http://sendevimg.oss-cn-zhangjiakou.aliyuncs.com/";
+    public final static String OSS_UPLOAD_SUCCESS = "success";
+    public final static String OSS_UPLOAD_FAIL = "fail";
+
+    public static final String OSS_ENDPOINT = "http://oss-cn-zhangjiakou.aliyuncs.com";
+    public static final String OSS_ACCESS_KEY_ID = "LTAIoOF3QnYG9bZm";
+    public static final String OSS_ACCESS_KEY_SECRET = "b2F0dppgffD0JkAfEW2AHOC4fTF2TL";
+
+    public static final String OSS_BUCKET = "sendevimg";
+    public static final String OSS_UPLOAD_PREFIX = "upload/pic/";
 }

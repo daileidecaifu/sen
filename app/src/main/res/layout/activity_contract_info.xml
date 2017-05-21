@@ -19,52 +19,71 @@
             android:id="@+id/title_bar"
             layout="@layout/common_title_bar" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/common_hight"
+            android:gravity="bottom"
+            android:paddingBottom="7dp"
+            android:paddingLeft="15dp"
+            android:text="@string/contract_detail"
+            android:textColor="@color/gray_2"
+            android:textSize="@dimen/text_size_ss" />
+
+        <include
+            android:id="@+id/ll_contract_time"
+            layout="@layout/view_item_edit" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/common_background"></View>
+
+        <include
+            android:id="@+id/ll_sign_up_time"
+            layout="@layout/view_item_edit" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/common_hight"
+            android:gravity="bottom"
+            android:paddingBottom="7dp"
+            android:paddingLeft="15dp"
+            android:text="@string/contract_certificate"
+            android:textColor="@color/gray_2"
+            android:textSize="@dimen/text_size_ss" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/white"
+            android:gravity="bottom"
+            android:paddingLeft="15dp"
+            android:text="@string/contract_certificate_pic_tip"
+            android:textColor="@color/gray_2" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_pic_select"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:background="@color/white"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_login"
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="150dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:id="@+id/imageView1" />
-
-                <ImageView
-                    android:layout_weight="1"
-                    android:id="@+id/imageView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView
-                    android:layout_weight="1"
-                    android:id="@+id/tv_old"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:layout_weight="1"
-                    android:id="@+id/tv_new"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-        </LinearLayout>
-
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/buttom_common_background"
+            android:gravity="center"
+            android:onClick="@{clickListener}"
+            android:text="@string/submit_review"
+            android:layout_marginRight="45dp"
+            android:layout_marginLeft="45dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_xl"></TextView>
     </LinearLayout>
 
 
