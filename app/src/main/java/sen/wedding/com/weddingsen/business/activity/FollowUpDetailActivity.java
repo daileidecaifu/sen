@@ -1,11 +1,16 @@
 package sen.wedding.com.weddingsen.business.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -14,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import sen.wedding.com.weddingsen.R;
+import sen.wedding.com.weddingsen.account.activity.VerifyGuestInfoActivity;
 import sen.wedding.com.weddingsen.base.ApiRequest;
 import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BaseActivity;
@@ -21,14 +27,20 @@ import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.business.adapter.ReviewInfoAdapter;
+import sen.wedding.com.weddingsen.business.fragment.ContractReviewFragment;
+import sen.wedding.com.weddingsen.business.fragment.FollowUpDetailFragment;
 import sen.wedding.com.weddingsen.business.model.DetailResModel;
 import sen.wedding.com.weddingsen.business.model.OrderItemModel;
+import sen.wedding.com.weddingsen.component.SwitchButton;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.FollowUpDetailBinding;
 import sen.wedding.com.weddingsen.databinding.GuestInfoDetailBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
+import sen.wedding.com.weddingsen.main.activity.MainActivity;
+import sen.wedding.com.weddingsen.main.fragment.InfoFollowUpFragment;
+import sen.wedding.com.weddingsen.main.fragment.InfoProvideFragment;
 import sen.wedding.com.weddingsen.utils.DateUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.StringUtil;
@@ -38,49 +50,154 @@ import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
  * Created by lorin on 17/3/25.
  */
 
-public class FollowUpDetailActivity extends BaseActivity implements View.OnClickListener, RequestHandler<ApiRequest, ApiResponse> {
+public class FollowUpDetailActivity extends BaseActivity {
 
     private FollowUpDetailBinding binding;
-
-    private ReviewInfoAdapter adapter;
-
-    StringBuffer sbType;
-    StringBuffer sbItemHotel;
-    StringBuffer sbItemDistrict;
-
-    private ApiRequest getOrderDetailRequest;
-    private DetailResModel detailResModel;
-
     private int orderId;
-    private String[] nextFollowUpItems;
-    private List<BaseTypeModel> specifyModels;
-    private String[] typeArray;
-    private int actionType;
+    private int orderStatus;
+    private FragmentManager fragmentManager;
+    private ContractReviewFragment contractReviewFragment;
+    private FollowUpDetailFragment followUpDetailFragment;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_follow_up_detail);
-        binding.setClickListener(this);
+        fragmentManager = getSupportFragmentManager();
 
-        initTitleBar(binding.titleBar, TitleBar.Type.COMMON);
-        getTitleBar().setTitle(getString(R.string.guest_info_detail));
-        getTitleBar().setCommonRightText(getString(R.string.follow_log));
-        getTitleBar().setRightClickEvent(new View.OnClickListener() {
+        orderId = getIntent().getIntExtra("order_id", -1);
+        orderStatus = getIntent().getIntExtra("order_status", 1);
+        checkTitle();
+        setTabSelection(0);
+//        checkTitle();
+//        initData();
+//        initComponents();
+//        getFollowUp();
+    }
+
+    private void checkTitle() {
+        switch (orderStatus) {
+            case 1:
+                initTitle();
+                break;
+
+            default:
+                initSwitchTitle();
+                break;
+        }
+    }
+
+    private void initSwitchTitle() {
+
+        List<String> tabTextList = Arrays.asList(getString(R.string.guest_info_detail), getString(R.string.contract_review));
+        //头部title
+        RelativeLayout linearLayoutTitle = (RelativeLayout) findViewById(R.id.title_switch);
+
+        TextView textViewLeft = (TextView) linearLayoutTitle.findViewById(R.id.tv_left);
+        TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
+        SwitchButton switchButton = (SwitchButton) linearLayoutTitle.findViewById(R.id.sb_main_follower);
+
+        textViewRight.setText(getString(R.string.follow_log));
+        switchButton.setText(tabTextList);
+        switchButton.setOnSwitchListener(new SwitchButton.OnSwitchListener() {
+            @Override
+            public void onSwitch(int position, String tabText) {
+                showToast("" + position);
+                setTabSelection(position);
+            }
+        });
+
+        textViewRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 jumpToOtherActivity(LogInfoActivity.class);
+
             }
         });
-        getTitleBar().setLeftClickEvent(new View.OnClickListener() {
+
+        textViewLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
 
-        initData();
-        initComponents();
-//        getFollowUp();
+        linearLayoutTitle.setVisibility(View.VISIBLE);
+    }
+
+    private void initTitle() {
+        //头部title
+        RelativeLayout linearLayoutTitle = (RelativeLayout) findViewById(R.id.title_bar);
+
+        TextView textViewLeft = (TextView) linearLayoutTitle.findViewById(R.id.tv_left);
+        TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
+        TextView textViewTitle = (TextView) linearLayoutTitle.findViewById(R.id.tv_title_title);
+
+        textViewRight.setText(getString(R.string.follow_log));
+        textViewTitle.setText(getString(R.string.guest_info_detail));
+        textViewRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                jumpToOtherActivity(LogInfoActivity.class);
+
+            }
+        });
+
+        textViewLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+finish();            }
+        });
+
+        linearLayoutTitle.setVisibility(View.VISIBLE);
+
+    }
+
+    private void setTabSelection(int index) {
+        // 开启一个Fragment事务
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
+        hideFragments(transaction);
+        switch (index) {
+
+            case 0:
+
+                if (followUpDetailFragment == null) {
+                    // 如果MessageFragment为空，则创建一个并添加到界面上
+                    followUpDetailFragment = FollowUpDetailFragment.newInstance(orderId, orderStatus);
+                    transaction.add(R.id.fl_content, followUpDetailFragment);
+                } else {
+                    // 如果MessageFragment不为空，则直接将它显示出来
+                    transaction.show(followUpDetailFragment);
+                }
+                break;
+
+            case 1:
+
+                if (contractReviewFragment == null) {
+                    // 如果MessageFragment为空，则创建一个并添加到界面上
+                    contractReviewFragment = ContractReviewFragment.newInstance(orderId);
+                    transaction.add(R.id.fl_content, contractReviewFragment);
+                } else {
+                    // 如果MessageFragment不为空，则直接将它显示出来
+                    transaction.show(contractReviewFragment);
+                }
+                break;
+
+        }
+        transaction.commit();
+    }
+
+    private void hideFragments(FragmentTransaction transaction) {
+        if (contractReviewFragment != null) {
+            transaction.hide(contractReviewFragment);
+        }
+
+        if (followUpDetailFragment != null) {
+            transaction.hide(followUpDetailFragment);
+        }
+
     }
 
     @Override
@@ -88,255 +205,5 @@ public class FollowUpDetailActivity extends BaseActivity implements View.OnClick
         super.onDestroy();
     }
 
-    private void initData() {
 
-        orderId = getIntent().getIntExtra("order_id", -1);
-        nextFollowUpItems = getResources().getStringArray(R.array.next_follow_up_item);
-
-        typeArray = new String[Conts.getFollowActionStatusMap().size()];
-        Conts.getFollowActionStatusMap().values().toArray(typeArray);
-
-        specifyModels = Conts.getSpecifyTypeArray();
-
-        sbType = new StringBuffer();
-        sbType.append(StringUtil.createHtml(getString(R.string.specify_position), "#313133"));
-        sbType.append(StringUtil.createHtml("*", "#fa4b4b"));
-
-        sbItemHotel = new StringBuffer();
-        sbItemHotel.append(StringUtil.createHtml(getString(R.string.hotel), "#313133"));
-        sbItemHotel.append(StringUtil.createHtml("*", "#fa4b4b"));
-
-        sbItemDistrict = new StringBuffer();
-        sbItemDistrict.append(StringUtil.createHtml(getString(R.string.district), "#313133"));
-        sbItemDistrict.append(StringUtil.createHtml("*", "#fa4b4b"));
-
-    }
-
-    private void initComponents() {
-        //姓名
-        binding.llShowName.tvItemSelectTitle.setText(getString(R.string.name));
-        binding.llShowName.tvItemSelectIcon.setVisibility(View.INVISIBLE);
-
-        //类型
-        binding.llShowType.tvItemSelectTitle.setText(getString(R.string.type));
-        binding.llShowType.tvItemSelectIcon.setVisibility(View.INVISIBLE);
-
-        //手机号
-        binding.llShowPhoneNumber.tvItemSelectTitle.setText(getString(R.string.phone_number));
-        binding.llShowPhoneNumber.tvItemSelectIcon.setVisibility(View.GONE);
-        binding.llShowPhoneNumber.tvItemSelectRightText.setVisibility(View.VISIBLE);
-        binding.llShowPhoneNumber.tvItemSelectRightText.setText(getString(R.string.contact_clients));
-        binding.llShowPhoneNumber.tvItemSelectRightText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showToast("Call");
-            }
-        });
-        //指定类型
-        binding.llShowSpecifyType.tvItemSelectTitle.setText(Html.fromHtml(sbType.toString()));
-        binding.llShowSpecifyType.tvItemSelectIcon.setVisibility(View.INVISIBLE);
-
-        //指定item
-        binding.llShowSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemDistrict.toString()));
-        binding.llShowSpecifyItem.tvItemSelectIcon.setVisibility(View.INVISIBLE);
-
-        //桌数
-        binding.llShowTableCount.tvItemSelectTitle.setText(getString(R.string.table_count));
-        binding.llShowTableCount.tvItemSelectIcon.setVisibility(View.INVISIBLE);
-
-        //预算
-        binding.llShowBudget.tvItemSelectTitle.setText(getString(R.string.budget));
-        binding.llShowBudget.tvItemSelectIcon.setVisibility(View.INVISIBLE);
-
-        //时间
-        binding.llShowTime.tvItemSelectTitle.setText(getString(R.string.time));
-        binding.llShowTime.tvItemSelectIcon.setVisibility(View.INVISIBLE);
-
-        //类型
-        binding.llActionType.tvItemSelectTitle.setText(getString(R.string.type));
-        binding.llActionType.setClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showActionType();
-            }
-        });
-        binding.llActionType.tvItemSelectContent.setText(typeArray[0]);
-
-        //下次跟进
-        binding.llFollowUpTime.tvItemSelectTitle.setText(getString(R.string.next_follow));
-        binding.llFollowUpTime.setClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showSelectAfterDays();
-            }
-        });
-    }
-
-    private void fillData(OrderItemModel orderItemModel) {
-        binding.llShowName.tvItemSelectContent.setText(orderItemModel.getCustomerName());
-        binding.llShowType.tvItemSelectContent.setText(Conts.getOrderStatusMap().get(orderItemModel.getOrderStatus()));
-        binding.llShowPhoneNumber.tvItemSelectContent.setText(orderItemModel.getOrderPhone());
-
-        switch (orderItemModel.getOrderAreaHotelType()) {
-            case Conts.OPTION_DISTRICT_SELECT:
-                binding.llShowSpecifyType.tvItemSelectContent.setText(specifyModels.get(0).getValue());
-                binding.llShowSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemDistrict.toString()));
-                break;
-
-            case Conts.OPTION_HOTEL_SELECT:
-                binding.llShowSpecifyType.tvItemSelectContent.setText(specifyModels.get(1).getValue());
-                binding.llShowSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemHotel.toString()));
-                break;
-        }
-        binding.llShowSpecifyItem.tvItemSelectContent.setText(orderItemModel.getOrderAreaHotelName());
-        binding.llShowTableCount.tvItemSelectContent.setText(orderItemModel.getDestCount());
-        binding.llShowBudget.tvItemSelectContent.setText(orderItemModel.getOrderMoney());
-
-        long time = Long.parseLong(orderItemModel.getUseDate()) * 1000;
-        binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
-
-        binding.tvShowNote.setText(orderItemModel.getOrderDesc());
-    }
-
-    private void getFollowUp() {
-        if (orderId != -1) {
-            getOrderDetailRequest = new ApiRequest(URLCollection.URL_SHOW_GUEST_INFO_DETAIL, HttpMethod.POST);
-            HashMap<String, String> param = new HashMap<>();
-            param.put("access_token", BasePreference.getToken());
-            param.put("order_id", orderId + "");
-            getOrderDetailRequest.setParams(param);
-            getApiService().exec(getOrderDetailRequest,this);
-        }else {
-            showToast("Order ID WRONG!");
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId())
-        {
-            case R.id.tv_follow_up_submit:
-
-                switch (actionType)
-                {
-                    case 0:
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        jumpToOtherActivity(ContractInfoActivity.class);
-                        break;
-                }
-
-                break;
-        }
-
-    }
-
-    private void showActionType() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);  //先得到构造器
-        builder.setTitle(getString(R.string.hint)); //设置标题
-        //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
-        builder.setItems(typeArray, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                switchShowAction(which);
-
-            }
-        });
-        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.create().show();
-    }
-
-    private void showSelectAfterDays() {
-
-        //dialog参数设置
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);  //先得到构造器
-        builder.setTitle(getString(R.string.select_next_follow_up)); //设置标题
-        //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
-        builder.setItems(nextFollowUpItems, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                binding.llFollowUpTime.tvItemSelectContent.setText(nextFollowUpItems[which]);
-
-            }
-        });
-        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.create().show();
-    }
-
-
-    @Override
-    public void onRequestStart(ApiRequest req) {
-
-    }
-
-    @Override
-    public void onRequestProgress(ApiRequest req, int count, int total) {
-
-    }
-
-    @Override
-    public void onRequestFinish(ApiRequest req, ApiResponse resp) {
-        ResultModel resultModel = resp.getResultModel();
-        closeProgressDialog();
-
-        if (req == getOrderDetailRequest) {
-            if (resultModel.status == Conts.REQUEST_SUCCESS) {
-
-                detailResModel = GsonConverter.decode(resultModel.data, DetailResModel.class);
-                fillData(detailResModel.getOrderItem());
-            } else {
-                showToast(resultModel.message);
-            }
-        }
-    }
-
-    @Override
-    public void onRequestFailed(ApiRequest req, ApiResponse resp) {
-        closeProgressDialog();
-        showToast(getString(R.string.request_error_tip));
-    }
-
-    private void switchShowAction(int type)
-    {
-        binding.llActionType.tvItemSelectContent.setText(typeArray[type]);
-        switch (type)
-        {
-            case 0:
-                binding.llFollowUpTime.getRoot().setVisibility(View.VISIBLE);
-                binding.llFollowUpNote.setVisibility(View.VISIBLE);
-                binding.tvFollowUpSubmit.setText(getString(R.string.confirm));
-                actionType = type;
-                break;
-
-            case 1:
-                binding.llFollowUpTime.getRoot().setVisibility(View.GONE);
-                binding.llFollowUpNote.setVisibility(View.VISIBLE);
-                binding.tvFollowUpSubmit.setText(getString(R.string.confirm));
-                actionType = type;
-                break;
-
-            case 2:
-                binding.llFollowUpTime.getRoot().setVisibility(View.GONE);
-                binding.llFollowUpNote.setVisibility(View.GONE);
-                binding.tvFollowUpSubmit.setText(getString(R.string.submit_certificate));
-                actionType = type;
-                break;
-        }
-    }
 }

@@ -253,6 +253,8 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
         if (parent.getAdapter().getItem(position) instanceof OrderInfoModel) {
             Intent intent = new Intent(getActivity(), FollowUpDetailActivity.class);
             intent.putExtra("order_id", followUpAdapter.getList().get(position).getId());
+            intent.putExtra("order_status", currentStatus);
+
             getActivity().startActivity(intent);
         }
     }

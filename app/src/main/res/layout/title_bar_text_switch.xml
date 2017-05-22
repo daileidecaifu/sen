@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/title_bar"
     style="@style/TitleBar"
     android:layout_width="match_parent"
@@ -39,16 +40,24 @@
             android:textColor="@color/white" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@color/theme_color"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content">
+        <sen.wedding.com.weddingsen.component.SwitchButton
+            android:id="@+id/sb_main_follower"
+            android:layout_width="160dp"
+            android:layout_height="25dp"
+            app:strokeRadius="5dp"
+            app:strokeWidth="1dp"
+            app:selectedTab="0"
+            app:unSelectedColor="@color/theme_color"
+            app:selectedColor="@color/white"
+            app:textSize="12sp"
+            />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_title_title"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:text="TextView"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_xl" />
+
 </RelativeLayout>

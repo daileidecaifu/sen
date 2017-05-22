@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data class="ContractReviceBinding">
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/common_background"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/common_hight"
+            android:gravity="bottom"
+            android:paddingBottom="7dp"
+            android:paddingLeft="15dp"
+            android:text="@string/contract_detail"
+            android:textColor="@color/gray_2"
+            android:textSize="@dimen/text_size_ss" />
+
+        <include
+            android:id="@+id/ll_contract_time"
+            layout="@layout/view_item_edit" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/common_background"></View>
+
+        <include
+            android:id="@+id/ll_sign_up_time"
+            layout="@layout/view_item_edit" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/common_hight"
+            android:gravity="bottom"
+            android:paddingBottom="7dp"
+            android:paddingLeft="15dp"
+            android:text="@string/contract_certificate"
+            android:textColor="@color/gray_2"
+            android:textSize="@dimen/text_size_ss" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_pic_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp" />
+
+
+    </LinearLayout>
+
+
+</layout>

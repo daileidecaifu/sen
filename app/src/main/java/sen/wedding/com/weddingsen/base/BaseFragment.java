@@ -1,6 +1,7 @@
 package sen.wedding.com.weddingsen.base;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
@@ -42,6 +43,11 @@ public class BaseFragment extends Fragment{
 
     public void showToast(String content) {
         Toast.makeText(getActivity(), content, Toast.LENGTH_SHORT).show();
+    }
+
+    protected void jumpToOtherActivity(Class<?> cls) {
+        Intent intent = new Intent(getActivity(), cls);
+        getActivity().startActivity(intent);
     }
 
 }
