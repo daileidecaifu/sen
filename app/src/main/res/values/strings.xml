@@ -144,5 +144,11 @@
     <string name="contract_time_tip">请输入合同金额</string>
     <string name="sign_up_time">签单时间</string>
     <string name="sign_up_time_tip">请输入签单时间</string>
+    <string name="review_progress">审核进度</string>
+    <string name="to_review_message">该签单信息正在被审核，请耐心等待^_^</string>
+    <string name="reviewed_message">该合同已审核通过！\n相关的奖励后续将经过支付宝转账给您，请确保支付宝账号的有效。</string>
+    <string name="settlemented_message">相关奖励已经发放！</string>
+    <string name="fail_message">你提交的合同审核失败！</string>
+
 
 </resources>

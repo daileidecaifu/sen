@@ -57,11 +57,13 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
     private String[] typeArray;
     private int actionType;
     private int orderId;
+    private int orderStatus;
 
     public static FollowUpDetailFragment newInstance(int orderId,int orderStatus) {
         Bundle args = new Bundle();
         FollowUpDetailFragment fragment = new FollowUpDetailFragment();
         args.putInt("order_id", orderId);
+        args.putInt("order_status", orderStatus);
 
         fragment.setArguments(args);
         return fragment;
@@ -71,7 +73,7 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         orderId = getArguments().getInt("order_id");
-
+        orderStatus = getArguments().getInt("order_status");
     }
 
     @Override
@@ -167,6 +169,8 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
                 showSelectAfterDays();
             }
         });
+
+        initBottomView();
     }
 
     private void getFollowUp() {
@@ -337,6 +341,42 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
                 break;
         }
 
+    }
+
+    private void initBottomView()
+    {
+        switch (orderStatus){
+            case 1:
+                binding.llReviewProgress.setVisibility(View.GONE);
+                binding.llToFollow.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                binding.llReviewProgress.setVisibility(View.VISIBLE);
+                binding.llToFollow.setVisibility(View.GONE);
+                binding.tvMessage.setText(getString(R.string.to_review_message));
+                break;
+            case 3:
+                binding.llReviewProgress.setVisibility(View.VISIBLE);
+                binding.llToFollow.setVisibility(View.GONE);
+                binding.tvMessage.setText(getString(R.string.reviewed_message));
+                break;
+            case 4:
+                binding.llReviewProgress.setVisibility(View.VISIBLE);
+                binding.llToFollow.setVisibility(View.GONE);
+                binding.tvMessage.setText(getString(R.string.settlemented_message));
+                break;
+            case 5:
+                binding.llReviewProgress.setVisibility(View.VISIBLE);
+                binding.llToFollow.setVisibility(View.GONE);
+                binding.tvModifyAndSubmit.setVisibility(View.VISIBLE);
+                binding.tvMessage.setText("一段审核日志");
+                break;
+            case 6:
+                binding.llReviewProgress.setVisibility(View.VISIBLE);
+                binding.llToFollow.setVisibility(View.GONE);
+                binding.tvMessage.setText(getString(R.string.fail_message));
+                break;
+        }
     }
 
 }

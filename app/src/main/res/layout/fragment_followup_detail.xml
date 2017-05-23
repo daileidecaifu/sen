@@ -20,10 +20,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:orientation="vertical"
-                android:background="@color/white"
-                android:layout_height="wrap_content">
+                android:orientation="vertical">
 
 
                 <include
@@ -32,11 +31,11 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_marginRight="15dp"
-
                     android:layout_height="1px"
-                    android:background="@color/common_background"
-                    android:layout_marginLeft="15dp"></View>
+
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/common_background"></View>
 
                 <include
                     android:id="@+id/ll_show_type"
@@ -44,33 +43,35 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_marginRight="15dp"
-
                     android:layout_height="1px"
-                    android:background="@color/common_background"
-                    android:layout_marginLeft="15dp"></View>
+
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/common_background"></View>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
                     <include
                         android:id="@+id/ll_show_phone_number"
                         layout="@layout/view_item_select" />
+
                     <TextView
                         android:layout_width="30dp"
-                        android:text="afdfs"
-                        android:layout_height="30dp" />
+                        android:layout_height="30dp"
+                        android:text="afdfs" />
                 </LinearLayout>
 
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginLeft="15dp"
 
-                    android:background="@color/common_background"
-                    android:layout_marginLeft="15dp"></View>
+                    android:layout_marginRight="15dp"
+                    android:background="@color/common_background"></View>
 
                 <include
                     android:id="@+id/ll_show_specify_type"
@@ -78,11 +79,11 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_marginRight="15dp"
-
                     android:layout_height="1px"
-                    android:background="@color/common_background"
-                    android:layout_marginLeft="15dp"></View>
+
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/common_background"></View>
 
                 <include
                     android:id="@+id/ll_show_specify_item"
@@ -90,11 +91,11 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_marginRight="15dp"
-
                     android:layout_height="1px"
-                    android:background="@color/common_background"
-                    android:layout_marginLeft="15dp"></View>
+
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/common_background"></View>
 
                 <include
                     android:id="@+id/ll_show_table_count"
@@ -102,11 +103,11 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_marginRight="15dp"
-
                     android:layout_height="1px"
-                    android:background="@color/common_background"
-                    android:layout_marginLeft="15dp"></View>
+
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/common_background"></View>
 
                 <include
                     android:id="@+id/ll_show_budget"
@@ -115,9 +116,9 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:background="@color/common_background"
-                    android:layout_marginLeft="15dp"></View>
+                    android:background="@color/common_background"></View>
 
                 <include
                     android:id="@+id/ll_show_time"
@@ -134,36 +135,38 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginLeft="15dp"
 
-                    android:background="@color/common_background"
-                    android:layout_marginLeft="15dp"></View>
+                    android:layout_marginRight="15dp"
+                    android:background="@color/common_background"></View>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="top"
+                    android:layout_height="88dp"
                     android:background="@color/white"
-                    android:paddingTop="13dp"
+                    android:gravity="top"
+                    android:orientation="horizontal"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
-                    android:layout_height="88dp">
+                    android:paddingTop="13dp">
+
                     <TextView
                         android:layout_width="90dp"
-                        android:textSize="@dimen/text_size_m"
-                        android:textColor="@color/tip_color"
+                        android:layout_height="wrap_content"
                         android:text="@string/note"
-                        android:layout_height="wrap_content" />
+                        android:textColor="@color/tip_color"
+                        android:textSize="@dimen/text_size_m" />
+
                     <TextView
                         android:id="@+id/tv_show_note"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
                         android:gravity="top|left"
-                        android:textSize="@dimen/text_size_m"
                         android:maxLength="500"
                         android:textColor="@color/gray_2"
                         android:textColorHint="@color/gray_1"
-                        android:background="@color/transparent"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:textSize="@dimen/text_size_m" />
 
                 </LinearLayout>
 
@@ -172,23 +175,73 @@
                     android:layout_height="1px"
                     android:background="@color/common_background"></View>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:background="@color/common_background"></View>
                 <LinearLayout
+                    android:id="@+id/ll_review_progress"
                     android:layout_width="match_parent"
-                    android:background="@color/white"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:background="@color/common_background"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="15dp"
+                            android:text="@string/review_progress"
+                            android:textSize="@dimen/text_size_ss" />
+
+                        <TextView
+                            android:id="@+id/tv_modify_and_submit"
+                            android:layout_width="wrap_content"
+                            android:text="@string/modify_and_resubmit"
+                            android:gravity="center_vertical"
+                            android:visibility="gone"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="5dp"
+                            android:paddingLeft="3dp"
+                            android:paddingRight="3dp"
+                            android:textSize="@dimen/text_size_ss"
+                            android:background="@drawable/buttom_common_background"
+                            android:layout_height="25dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_message"
+                        android:paddingLeft="15dp"
+                        android:background="@color/white"
+                        android:textSize="@dimen/text_size_m"
+                        android:textColor="@color/gray_2"
+                        android:paddingTop="15dp"
+                        android:text="@string/to_review_message"
+                        android:paddingBottom="15dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_to_follow"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@color/common_background"
+                        android:gravity="center_vertical"
                         android:paddingLeft="15dp"
                         android:text="@string/info_follow"
-                        android:background="@color/common_background"
-                        android:textSize="@dimen/text_size_ss"
-                        android:layout_height="30dp" />
+                        android:textSize="@dimen/text_size_ss" />
 
                     <include
                         android:id="@+id/ll_action_type"
@@ -197,9 +250,9 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1px"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
-                        android:background="@color/common_background"
-                        android:layout_marginLeft="15dp"></View>
+                        android:background="@color/common_background"></View>
 
                     <include
                         android:id="@+id/ll_follow_up_time"
@@ -208,67 +261,74 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1px"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
-                        android:background="@color/common_background"
-                        android:layout_marginLeft="15dp"></View>
+                        android:background="@color/common_background"></View>
+
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:orientation="horizontal"
-                        android:gravity="top"
                         android:id="@+id/ll_follow_up_note"
+                        android:layout_width="match_parent"
+                        android:layout_height="88dp"
                         android:background="@color/white"
-                        android:paddingTop="13dp"
+                        android:gravity="top"
+                        android:orientation="horizontal"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
-                        android:layout_height="88dp">
+                        android:paddingTop="13dp">
+
                         <TextView
                             android:layout_width="90dp"
-                            android:textSize="@dimen/text_size_m"
-                            android:textColor="@color/tip_color"
+                            android:layout_height="wrap_content"
                             android:text="@string/note"
-                            android:layout_height="wrap_content" />
+                            android:textColor="@color/tip_color"
+                            android:textSize="@dimen/text_size_m" />
+
                         <EditText
                             android:id="@+id/et_edit_note"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent"
                             android:gravity="top|left"
-                            android:textSize="@dimen/text_size_m"
-                            android:maxLength="500"
                             android:hint="@string/please_write_note"
+                            android:maxLength="500"
                             android:textColor="@color/gray_2"
                             android:textColorHint="@color/gray_1"
-                            android:background="@color/transparent"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:textSize="@dimen/text_size_m" />
 
                     </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/common_background"></View>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:background="@color/common_background"></View>
+
+                    <TextView
+                        android:id="@+id/tv_follow_up_submit"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="30dp"
+                        android:layout_marginLeft="45dp"
+                        android:layout_marginRight="45dp"
+                        android:background="@drawable/buttom_common_background"
+                        android:gravity="center"
+                        android:onClick="@{clickListener}"
+                        android:text="@string/confirm"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_xl"></TextView>
+
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/common_background"></View>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:background="@color/common_background"></View>
+
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_follow_up_submit"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="45dp"
-                android:layout_marginRight="45dp"
-                android:layout_marginBottom="30dp"
-                android:background="@drawable/buttom_common_background"
-                android:gravity="center"
-                android:onClick="@{clickListener}"
-                android:text="@string/confirm"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_xl"></TextView>
 
         </LinearLayout>
     </ScrollView>
-
 
 
 </layout>
