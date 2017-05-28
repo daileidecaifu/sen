@@ -149,6 +149,10 @@
     <string name="reviewed_message">该合同已审核通过！\n相关的奖励后续将经过支付宝转账给您，请确保支付宝账号的有效。</string>
     <string name="settlemented_message">相关奖励已经发放！</string>
     <string name="fail_message">你提交的合同审核失败！</string>
+    <string name="ballroom">宴会厅</string>
+    <string name="banquet_menu">宴会菜单</string>
+    <string name="address">地址</string>
+    <string name="phone">电话</string>
 
 
 </resources>

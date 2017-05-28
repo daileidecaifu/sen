@@ -121,7 +121,6 @@ public class MainActivity extends BaseActivity
 
     public void openMenu() {
         drawer.openDrawer(GravityCompat.START);
-
     }
 
     private void setTabSelection(int index) {
