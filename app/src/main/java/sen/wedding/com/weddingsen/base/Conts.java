@@ -162,4 +162,10 @@ public class Conts {
 
     public static final String OSS_BUCKET = "sendevimg";
     public static final String OSS_UPLOAD_PREFIX = "upload/pic/";
+
+    //跟踪操作类型
+    public final static int FOLLOW_UP_INFO_EFFECTIVE = 1;
+    public final static int FOLLOW_UP_INFO_INVALID = 2;
+    public final static int FOLLOW_UP_COMFIRM_SIGN = 3;
+
 }

@@ -102,8 +102,10 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
 
             @Override
             public void OnLoadingEmptyClick(View view) {
-                Intent intent = new Intent(getActivity(), VerifyGuestInfoActivity.class);
-                getActivity().startActivity(intent);
+//                Intent intent = new Intent(getActivity(), VerifyGuestInfoActivity.class);
+//                getActivity().startActivity(intent);
+                loadingView.showLoading();
+                getGuestInfoList();
             }
         });
 
@@ -202,7 +204,7 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
                         loadMoreView.showLoading();
                     }
                 } else {
-                    loadingView.showGuestInfoLoadingEmpty();
+                    loadingView.showLoadingEmpty();
                 }
 
             } else {

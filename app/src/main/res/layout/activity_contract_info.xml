@@ -30,7 +30,7 @@
             android:textSize="@dimen/text_size_ss" />
 
         <include
-            android:id="@+id/ll_contract_time"
+            android:id="@+id/ll_contract_money"
             layout="@layout/view_item_edit" />
 
         <View
@@ -42,7 +42,7 @@
 
         <include
             android:id="@+id/ll_sign_up_time"
-            layout="@layout/view_item_edit" />
+            layout="@layout/view_item_select" />
 
         <TextView
             android:layout_width="match_parent"
@@ -72,7 +72,7 @@
             android:paddingTop="15dp" />
 
         <TextView
-            android:id="@+id/tv_login"
+            android:id="@+id/tv_submit_review"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="30dp"

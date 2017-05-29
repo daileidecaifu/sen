@@ -13,14 +13,12 @@ import java.util.List;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.BaseActivity;
-import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.component.GlideImageLoader;
 import sen.wedding.com.weddingsen.databinding.HotelDetailBinding;
 import sen.wedding.com.weddingsen.main.adapter.BallroomAdapter;
 import sen.wedding.com.weddingsen.main.adapter.BanquetMenuAdapter;
 import sen.wedding.com.weddingsen.main.model.BallroomModel;
 import sen.wedding.com.weddingsen.main.model.BanquetMenuModel;
-import sen.wedding.com.weddingsen.main.model.HotelShowModel;
 
 /**
  * Created by lorin on 17/5/28.

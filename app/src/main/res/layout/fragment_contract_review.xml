@@ -27,7 +27,7 @@
 
         <include
             android:id="@+id/ll_contract_time"
-            layout="@layout/view_item_edit" />
+            layout="@layout/view_item_select" />
 
         <View
             android:layout_width="match_parent"
@@ -38,7 +38,7 @@
 
         <include
             android:id="@+id/ll_sign_up_time"
-            layout="@layout/view_item_edit" />
+            layout="@layout/view_item_select" />
 
         <TextView
             android:layout_width="match_parent"

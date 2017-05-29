@@ -82,7 +82,7 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
 
     private void initViews(View view) {
         listView = (ListView) view.findViewById(R.id.listView);
-        followUpAdapter = new FollowUpAdapter(getActivity(),currentStatus);
+        followUpAdapter = new FollowUpAdapter(getActivity(), currentStatus);
         listView.setAdapter(followUpAdapter);
         listView.setOnItemClickListener(this);
 //        listView.setOnScrollListener(this);
@@ -99,18 +99,20 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
         loadingView.setLoadingViewClickListener(new LoadingView.OnLoadingViewClickListener() {
             @Override
             public void OnLoadingFailedClick(View view) {
-                getGuestInfoList();
+                getFollowInfoList();
             }
 
             @Override
             public void OnLoadingEmptyClick(View view) {
-                Intent intent = new Intent(getActivity(), VerifyGuestInfoActivity.class);
-                getActivity().startActivity(intent);
+//                Intent intent = new Intent(getActivity(), VerifyGuestInfoActivity.class);
+//                getActivity().startActivity(intent);
+                loadingView.showLoading();
+                getFollowInfoList();
             }
         });
 
         loadingView.showLoading();
-        getGuestInfoList();
+        getFollowInfoList();
     }
 
 //    @Override
@@ -148,9 +150,9 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
         return guestInfosResModel;
     }
 
-    private void getGuestInfoList() {
+    private void getFollowInfoList() {
         currentPage = 1;
-        getListRequest = new ApiRequest(URLCollection.URL_follow_handler_list, HttpMethod.POST);
+        getListRequest = new ApiRequest(URLCollection.URL_FOLLOW_HANDLER_LIST, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("order_status", currentStatus + "");
@@ -164,7 +166,7 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
     private void loadMoreInfoList() {
         isLoadMore = true;
         int loadmorePage = currentPage + 1;
-        loadMoreRequest = new ApiRequest(URLCollection.URL_follow_handler_list, HttpMethod.POST);
+        loadMoreRequest = new ApiRequest(URLCollection.URL_FOLLOW_HANDLER_LIST, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("order_status", currentStatus + "");
@@ -192,8 +194,8 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
             requestComplete();
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 //testFake
-                model = getFakeData();
-//                model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
+//                model = getFakeData();
+                model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     loadingView.dismiss();
 
@@ -204,7 +206,7 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
                         loadMoreView.showLoading();
                     }
                 } else {
-                    loadingView.showGuestInfoLoadingEmpty();
+                    loadingView.showLoadingEmpty();
                 }
 
             } else {
@@ -261,7 +263,7 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
 
     @Override
     public void onRefresh() {
-        getGuestInfoList();
+        getFollowInfoList();
     }
 
     protected void requestComplete() {

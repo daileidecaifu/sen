@@ -132,6 +132,7 @@ public class LoadingView extends FrameLayout implements View.OnClickListener {
 
         click.setVisibility(GONE);
         title.setText(getContext().getString(R.string.no_data));
+        title.setOnClickListener(this);
 
         setVisibility(View.VISIBLE);
     }

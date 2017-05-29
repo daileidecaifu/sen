@@ -26,6 +26,12 @@ public class URLCollection {
 
     public final static String URL_SHOW_GUEST_INFO_DETAIL = "http://dev.51isen.com/index.php?m=app&c=order&f=orderKeZiDetail";
 
-    public final static String URL_follow_handler_list = "http://dev.51isen.com/index.php?m=app&c=order&f=orderKeZiList";
+    public final static String URL_FOLLOW_HANDLER_LIST = "http://dev.51isen.com/index.php?m=app&c=order&f=orderHandleKeZiList";
+
+    public final static String URL_FOLLOW_LOG_LIST = "http://dev.51isen.com/index.php?m=app&c=order&f=keziOrderFollowList";
+
+    public final static String URL_ORDER_FOLLOW = "http://dev.51isen.com/index.php?m=app&c=order&f=keziOrderFollow";
+
+    public final static String URL_ORDER_SIGN = "http://dev.51isen.com/index.php?m=app&c=order&f=keziOrderSign";
 
 }

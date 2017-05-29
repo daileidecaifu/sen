@@ -1,6 +1,7 @@
 package sen.wedding.com.weddingsen.business.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.ApiRequest;
@@ -40,7 +42,7 @@ import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
  * Created by lorin on 17/5/22.
  */
 
-public class FollowUpDetailFragment extends BaseFragment implements View.OnClickListener,RequestHandler<ApiRequest, ApiResponse> {
+public class FollowUpDetailFragment extends BaseFragment implements View.OnClickListener, RequestHandler<ApiRequest, ApiResponse> {
 
     FollowUpFragmentBinding binding;
     private ReviewInfoAdapter adapter;
@@ -49,7 +51,7 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
     StringBuffer sbItemHotel;
     StringBuffer sbItemDistrict;
 
-    private ApiRequest getOrderDetailRequest;
+    private ApiRequest getOrderDetailRequest, submitFollowRequest;
     private DetailResModel detailResModel;
 
     private String[] nextFollowUpItems;
@@ -58,8 +60,10 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
     private int actionType;
     private int orderId;
     private int orderStatus;
+    private int afterDays = -1;
+    private Map<Integer, String> typeMap;
 
-    public static FollowUpDetailFragment newInstance(int orderId,int orderStatus) {
+    public static FollowUpDetailFragment newInstance(int orderId, int orderStatus) {
         Bundle args = new Bundle();
         FollowUpDetailFragment fragment = new FollowUpDetailFragment();
         args.putInt("order_id", orderId);
@@ -84,6 +88,7 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
         binding.setClickListener(this);
         initData();
         initComponents();
+        getFollowUp();
         return binding.getRoot();
 
     }
@@ -92,10 +97,13 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
 
         nextFollowUpItems = getResources().getStringArray(R.array.next_follow_up_item);
 
-        typeArray = new String[Conts.getFollowActionStatusMap().size()];
-        Conts.getFollowActionStatusMap().values().toArray(typeArray);
+        typeMap = Conts.getFollowActionStatusMap();
+        typeArray = new String[typeMap.size()];
+//        Conts.getFollowActionStatusMap().values().toArray(typeArray);
 
-        specifyModels = Conts.getSpecifyTypeArray();
+        for (int i = 0; i < 3; i++) {
+            typeArray[i] = typeMap.get(i + 1);
+        }
 
         sbType = new StringBuffer();
         sbType.append(StringUtil.createHtml(getString(R.string.specify_position), "#313133"));
@@ -108,6 +116,8 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
         sbItemDistrict = new StringBuffer();
         sbItemDistrict.append(StringUtil.createHtml(getString(R.string.district), "#313133"));
         sbItemDistrict.append(StringUtil.createHtml("*", "#fa4b4b"));
+
+        specifyModels = Conts.getSpecifyTypeArray();
 
     }
 
@@ -171,6 +181,9 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
         });
 
         initBottomView();
+        binding.llFollowUpTime.tvItemSelectContent.setText(nextFollowUpItems[0]);
+        actionType = Conts.FOLLOW_UP_INFO_EFFECTIVE;
+        afterDays = 1;
     }
 
     private void getFollowUp() {
@@ -180,8 +193,28 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
             param.put("access_token", BasePreference.getToken());
             param.put("order_id", orderId + "");
             getOrderDetailRequest.setParams(param);
-            getApiService().exec(getOrderDetailRequest,this);
-        }else {
+            getApiService().exec(getOrderDetailRequest, this);
+        } else {
+            showToast("Order ID WRONG!");
+        }
+    }
+
+    private void submitFollowUp() {
+        if (orderId != -1) {
+            submitFollowRequest = new ApiRequest(URLCollection.URL_ORDER_FOLLOW, HttpMethod.POST);
+            HashMap<String, String> param = new HashMap<>();
+            param.put("access_token", BasePreference.getToken());
+            param.put("user_kezi_order_id", orderId + "");
+            param.put("user_order_status", actionType + "");
+            if (actionType == Conts.FOLLOW_UP_INFO_EFFECTIVE) {
+                long afterTimestamp = (System.currentTimeMillis() + 1000 * 60 * 60 * 24 * afterDays) / 1000;
+                param.put("follow_time", afterTimestamp + "");
+            }
+            param.put("follow_desc", binding.etEditNote.getText().toString());
+
+            submitFollowRequest.setParams(param);
+            getApiService().exec(submitFollowRequest, this);
+        } else {
             showToast("Order ID WRONG!");
         }
     }
@@ -218,6 +251,7 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                afterDays = which + 1;
                 binding.llFollowUpTime.tvItemSelectContent.setText(nextFollowUpItems[which]);
 
             }
@@ -231,30 +265,28 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
         builder.create().show();
     }
 
-    private void switchShowAction(int type)
-    {
+    private void switchShowAction(int type) {
         binding.llActionType.tvItemSelectContent.setText(typeArray[type]);
-        switch (type)
-        {
+        switch (type) {
             case 0:
                 binding.llFollowUpTime.getRoot().setVisibility(View.VISIBLE);
                 binding.llFollowUpNote.setVisibility(View.VISIBLE);
                 binding.tvFollowUpSubmit.setText(getString(R.string.confirm));
-                actionType = type;
+                actionType = Conts.FOLLOW_UP_INFO_EFFECTIVE;
                 break;
 
             case 1:
                 binding.llFollowUpTime.getRoot().setVisibility(View.GONE);
                 binding.llFollowUpNote.setVisibility(View.VISIBLE);
                 binding.tvFollowUpSubmit.setText(getString(R.string.confirm));
-                actionType = type;
+                actionType = Conts.FOLLOW_UP_INFO_INVALID;
                 break;
 
             case 2:
                 binding.llFollowUpTime.getRoot().setVisibility(View.GONE);
                 binding.llFollowUpNote.setVisibility(View.GONE);
                 binding.tvFollowUpSubmit.setText(getString(R.string.submit_certificate));
-                actionType = type;
+                actionType = Conts.FOLLOW_UP_COMFIRM_SIGN;
                 break;
         }
     }
@@ -286,8 +318,6 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
     }
 
 
-
-
     @Override
     public void onRequestStart(ApiRequest req) {
 
@@ -311,6 +341,13 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
             } else {
                 showToast(resultModel.message);
             }
+        } else if (req == submitFollowRequest) {
+            if (resultModel.status == Conts.REQUEST_SUCCESS) {
+                showToast(getString(R.string.action_success));
+                getActivity().finish();
+            } else {
+                showToast(resultModel.message);
+            }
         }
     }
 
@@ -323,18 +360,21 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
     @Override
     public void onClick(View v) {
 
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.tv_follow_up_submit:
 
-                switch (actionType)
-                {
+                switch (actionType - 1) {
                     case 0:
+                        submitFollowUp();
                         break;
                     case 1:
+                        submitFollowUp();
                         break;
                     case 2:
-                        jumpToOtherActivity(ContractInfoActivity.class);
+//                        jumpToOtherActivity(ContractInfoActivity.class);
+                        Intent intent = new Intent(getActivity(), ContractInfoActivity.class);
+                        intent.putExtra("order_id", orderId);
+                        getActivity().startActivity(intent);
                         break;
                 }
 
@@ -343,9 +383,8 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
 
     }
 
-    private void initBottomView()
-    {
-        switch (orderStatus){
+    private void initBottomView() {
+        switch (orderStatus) {
             case 1:
                 binding.llReviewProgress.setVisibility(View.GONE);
                 binding.llToFollow.setVisibility(View.VISIBLE);

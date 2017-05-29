@@ -8,6 +8,7 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.InputType;
 import android.view.View;
 
 import com.alibaba.sdk.android.oss.ClientConfiguration;
@@ -27,14 +28,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import me.iwf.photopicker.PhotoPicker;
 import me.iwf.photopicker.PhotoPreview;
 import sen.wedding.com.weddingsen.R;
+import sen.wedding.com.weddingsen.base.ApiRequest;
+import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BaseActivity;
+import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
+import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.business.adapter.PhotoAdapter;
+import sen.wedding.com.weddingsen.business.model.DetailResModel;
 import sen.wedding.com.weddingsen.business.model.OSSImageInfoModel;
 import sen.wedding.com.weddingsen.business.model.OSSUploadModel;
 import sen.wedding.com.weddingsen.business.utils.OSSUploadResult;
@@ -42,19 +50,28 @@ import sen.wedding.com.weddingsen.business.utils.OSSUploadTask;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.component.compress.CompressHelper;
 import sen.wedding.com.weddingsen.databinding.ContractInfoBinding;
+import sen.wedding.com.weddingsen.http.base.RequestHandler;
+import sen.wedding.com.weddingsen.http.model.ResultModel;
+import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.utils.AppLog;
+import sen.wedding.com.weddingsen.utils.DateUtil;
+import sen.wedding.com.weddingsen.utils.GsonConverter;
 
 /**
  * Created by lorin on 17/5/2.
  */
 
-public class ContractInfoActivity extends BaseActivity implements View.OnClickListener {
+public class ContractInfoActivity extends BaseActivity implements View.OnClickListener, RequestHandler<ApiRequest, ApiResponse> {
 
     ContractInfoBinding binding;
     private PhotoAdapter photoAdapter;
     private ArrayList<String> selectedPhotos = new ArrayList<>();
 
     private OSS oss;
+    private int orderId;
+    private ApiRequest submitCertificateRequest;
+    private String ossImageUrls;
+    private long signTime;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -66,6 +83,8 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_contract_info);
         binding.setClickListener(this);
+
+        getInfo();
 
         OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(Conts.OSS_ACCESS_KEY_ID, Conts.OSS_ACCESS_KEY_SECRET);
 
@@ -83,22 +102,7 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         getTitleBar().setRightClickEvent(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                new PutObjectSamples(oss, testBucket, uploadPrefix + System.currentTimeMillis() + ".jpg", newFile.getAbsolutePath()).asyncPutObjectFromLocalFile();
-                OSSUploadTask ossUploadTask = new OSSUploadTask(oss, prepareUploadRequests(), new OSSUploadResult() {
 
-                    @Override
-                    public void onComplete(OSSUploadModel result) {
-                        if(result!=null&&result.isSuccess())
-                        {
-                            for (OSSImageInfoModel model: result.getList()) {
-                                AppLog.e("!!!!!!!!!!!!!!  "+model.getRemoteUrl());
-                                showToast("Success");
-                            }
-
-                        }
-                    }
-                });
-                ossUploadTask.execute();
 
             }
         });
@@ -115,38 +119,55 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         binding.rvPicSelect.setAdapter(photoAdapter);
 
         //合同时间
-        binding.llContractTime.tvItemEditTitle.setText(getString(R.string.contract_time));
-        binding.llContractTime.etItemEditInput.setHint(getString(R.string.contract_time_tip));
+        binding.llContractMoney.tvItemEditTitle.setText(getString(R.string.contract_money));
+        binding.llContractMoney.etItemEditInput.setHint(getString(R.string.contract_money_tip));
+        binding.llContractMoney.etItemEditInput.setInputType(8194);
+
         //签单时间
-        binding.llSignUpTime.tvItemEditTitle.setText(getString(R.string.sign_up_time));
-        binding.llSignUpTime.etItemEditInput.setHint(getString(R.string.sign_up_time_tip));
-//        binding.rvPicSelect.addOnItemTouchListener(new RecyclerItemClickListener(this,
-//                new RecyclerItemClickListener.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(View view, int position) {
-//                        if (photoAdapter.getItemViewType(position) == PhotoAdapter.TYPE_ADD) {
-//                            PhotoPicker.builder()
-//                                    .setPhotoCount(PhotoAdapter.MAX)
-//                                    .setShowCamera(true)
-//                                    .setPreviewEnabled(false)
-//                                    .setSelected(selectedPhotos)
-//                                    .start(ContractInfoActivity.this);
-//                        } else {
-//                            PhotoPreview.builder()
-//                                    .setPhotos(selectedPhotos)
-//                                    .setCurrentItem(position)
-//                                    .start(ContractInfoActivity.this);
-//                        }
-//                    }
-//                }));
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-//        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.sign_up_time));
+        binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
+
+        long currentTimestamp = System.currentTimeMillis();
+        signTime = currentTimestamp/1000;
+        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
+    }
+
+    private void getInfo() {
+        orderId = getIntent().getIntExtra("order_id", -1);
     }
 
     @Override
     public void onClick(View v) {
 
+        switch (v.getId()) {
+            case R.id.tv_submit_review:
+                showProgressDialog(false);
+                OSSUploadTask ossUploadTask = new OSSUploadTask(oss, prepareUploadRequests(), new OSSUploadResult() {
+
+                    @Override
+                    public void onComplete(OSSUploadModel result) {
+                        if (result != null && result.isSuccess()) {
+                            StringBuffer sb = new StringBuffer();
+                            ossImageUrls = "";
+
+                            for (int i = 0; i < result.getList().size(); i++) {
+                                if (i != 0) {
+                                    sb.append(",");
+                                }
+                                sb.append(result.getList().get(i).getRemoteUrl());
+
+                            }
+                            ossImageUrls = sb.toString();
+                            AppLog.e(ossImageUrls);
+                            submitertificate();
+                        } else {
+                            closeProgressDialog();
+                        }
+                    }
+                });
+                ossUploadTask.execute();
+                break;
+        }
     }
 
     @Override
@@ -167,28 +188,6 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
                 selectedPhotos.addAll(photos);
             }
             photoAdapter.notifyDataSetChanged();
-
-//            File oldFile = new File(selectedPhotos.get(0));
-//            Glide.with(this)
-//                    .load(Uri.fromFile(oldFile))
-//                    .centerCrop()
-//                    .thumbnail(0.1f)
-//                    .placeholder(R.drawable.__picker_ic_photo_black_48dp)
-//                    .error(R.drawable.__picker_ic_broken_image_black_48dp)
-//                    .into(binding.imageView1);
-//            binding.tvOld.setText(String.format("Size : %s", getReadableFileSize(oldFile.length())) + "\n" + oldFile.getAbsolutePath());
-//
-//
-//            File newFile = CompressHelper.getDefault(getApplicationContext()).compressToFile(oldFile);
-//            String path = newFile.getAbsolutePath();
-//            Glide.with(this)
-//                    .load(Uri.fromFile(newFile))
-//                    .centerCrop()
-//                    .thumbnail(0.1f)
-//                    .placeholder(R.drawable.__picker_ic_photo_black_48dp)
-//                    .error(R.drawable.__picker_ic_broken_image_black_48dp)
-//                    .into(binding.imageView2);
-//            binding.tvNew.setText(String.format("Size : %s", getReadableFileSize(newFile.length())) + "\n" + newFile.getAbsolutePath());
 
         }
     }
@@ -220,46 +219,56 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         return uploadPuts;
     }
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-//    public Action getIndexApiAction() {
-//        Thing object = new Thing.Builder()
-//                .setName("ContractInfo Page") // TODO: Define a title for the content shown.
-//                // TODO: Make sure this auto-generated URL is correct.
-//                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-//                .build();
-//        return new Action.Builder(Action.TYPE_VIEW)
-//                .setObject(object)
-//                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-//                .build();
-//    }
+    private void submitertificate() {
+        if (orderId != -1) {
+            submitCertificateRequest = new ApiRequest(URLCollection.URL_ORDER_SIGN, HttpMethod.POST);
+            HashMap<String, String> param = new HashMap<>();
+            param.put("access_token", BasePreference.getToken());
+            param.put("user_kezi_order_id", orderId + "");
+            param.put("order_money", binding.llContractMoney.etItemEditInput.getText().toString());
+            param.put("sign_using_time", signTime+"");
+            param.put("sign_pic", ossImageUrls);
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//
-//        // ATTENTION: This was auto-generated to implement the App Indexing API.
-//        // See https://g.co/AppIndexing/AndroidStudio for more information.
-//        client.connect();
-//        AppIndex.AppIndexApi.start(client, getIndexApiAction());
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//
-//        // ATTENTION: This was auto-generated to implement the App Indexing API.
-//        // See https://g.co/AppIndexing/AndroidStudio for more information.
-//        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-//        client.disconnect();
-//    }
-
+            submitCertificateRequest.setParams(param);
+            getApiService().exec(submitCertificateRequest, this);
+        } else {
+            showToast("Order ID WRONG!");
+        }
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         oss = null;
+    }
+
+    @Override
+    public void onRequestStart(ApiRequest req) {
+
+    }
+
+    @Override
+    public void onRequestProgress(ApiRequest req, int count, int total) {
+
+    }
+
+    @Override
+    public void onRequestFinish(ApiRequest req, ApiResponse resp) {
+        ResultModel resultModel = resp.getResultModel();
+        closeProgressDialog();
+
+        if (req == submitCertificateRequest) {
+            if (resultModel.status == Conts.REQUEST_SUCCESS) {
+                showToast(getString(R.string.action_success));
+                finish();
+            } else {
+                showToast(resultModel.message);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestFailed(ApiRequest req, ApiResponse resp) {
+
     }
 }
