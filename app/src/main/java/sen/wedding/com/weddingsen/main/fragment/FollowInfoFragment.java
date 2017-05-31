@@ -99,6 +99,7 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
         loadingView.setLoadingViewClickListener(new LoadingView.OnLoadingViewClickListener() {
             @Override
             public void OnLoadingFailedClick(View view) {
+                loadingView.showLoading();
                 getFollowInfoList();
             }
 

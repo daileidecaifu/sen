@@ -7,11 +7,13 @@ import android.os.Environment;
 
 import java.io.File;
 
+import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.utils.AppLog;
+import sen.wedding.com.weddingsen.utils.FileIOUtil;
 
 /**
  * 压缩方法工具类
- *
+ * <p>
  * Author: nanchen
  * Email: liushilin520@foxmail.com
  * Date: 2017-03-08  9:03
@@ -69,15 +71,16 @@ public class CompressHelper {
 
     private CompressHelper(Context context) {
         this.context = context;
-        destinationDirectoryPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/sen/pic/compress";
+        destinationDirectoryPath = Conts.COMPRESS_IMG_PATH;
 //        AppLog.e("______________________________"+destinationDirectoryPath);
-//        destinationDirectoryPath = context.getCacheDir().getPath() + File.pathSeparator + FileUtil.FILES_PATH;
+//        destinationDirectoryPath = context.getCacheDir().getPath() + File.pathSeparator + FileIOUtil.FILES_PATH;
     }
 
     /**
      * 压缩成文件
-     * @param file  原始文件
-     * @return      压缩后的文件
+     *
+     * @param file 原始文件
+     * @return 压缩后的文件
      */
     public File compressToFile(File file) {
         return BitmapUtil.compressImage(context, Uri.fromFile(file), maxWidth, maxHeight,
@@ -87,8 +90,9 @@ public class CompressHelper {
 
     /**
      * 压缩为Bitmap
-     * @param file  原始文件
-     * @return      压缩后的Bitmap
+     *
+     * @param file 原始文件
+     * @return 压缩后的Bitmap
      */
     public Bitmap compressToBitmap(File file) {
         return BitmapUtil.getScaledBitmap(context, Uri.fromFile(file), maxWidth, maxHeight, bitmapConfig);
@@ -107,7 +111,8 @@ public class CompressHelper {
 
         /**
          * 设置图片最大宽度
-         * @param maxWidth  最大宽度
+         *
+         * @param maxWidth 最大宽度
          */
         public Builder setMaxWidth(float maxWidth) {
             mCompressHelper.maxWidth = maxWidth;
@@ -116,6 +121,7 @@ public class CompressHelper {
 
         /**
          * 设置图片最大高度
+         *
          * @param maxHeight 最大高度
          */
         public Builder setMaxHeight(float maxHeight) {
@@ -141,7 +147,8 @@ public class CompressHelper {
 
         /**
          * 设置压缩质量，建议80
-         * @param quality   压缩质量，[0,100]
+         *
+         * @param quality 压缩质量，[0,100]
          */
         public Builder setQuality(int quality) {
             mCompressHelper.quality = quality;
@@ -150,7 +157,8 @@ public class CompressHelper {
 
         /**
          * 设置目的存储路径
-         * @param destinationDirectoryPath  目的路径
+         *
+         * @param destinationDirectoryPath 目的路径
          */
         public Builder setDestinationDirectoryPath(String destinationDirectoryPath) {
             mCompressHelper.destinationDirectoryPath = destinationDirectoryPath;
@@ -159,7 +167,8 @@ public class CompressHelper {
 
         /**
          * 设置文件前缀
-         * @param prefix    前缀
+         *
+         * @param prefix 前缀
          */
         public Builder setFileNamePrefix(String prefix) {
             mCompressHelper.fileNamePrefix = prefix;
@@ -168,7 +177,8 @@ public class CompressHelper {
 
         /**
          * 设置文件名称
-         * @param fileName  文件名
+         *
+         * @param fileName 文件名
          */
         public Builder setFileName(String fileName) {
             mCompressHelper.fileName = fileName;

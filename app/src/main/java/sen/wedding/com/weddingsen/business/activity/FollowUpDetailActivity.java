@@ -111,8 +111,9 @@ public class FollowUpDetailActivity extends BaseActivity {
         textViewRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jumpToOtherActivity(LogInfoActivity.class);
-
+                Intent intent = new Intent(FollowUpDetailActivity.this, LogInfoActivity.class);
+                intent.putExtra("order_id", orderId);
+                startActivity(intent);
             }
         });
 
@@ -139,8 +140,9 @@ public class FollowUpDetailActivity extends BaseActivity {
         textViewRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jumpToOtherActivity(LogInfoActivity.class);
-
+                Intent intent = new Intent(FollowUpDetailActivity.this, LogInfoActivity.class);
+                intent.putExtra("order_id", orderId);
+                startActivity(intent);
             }
         });
 

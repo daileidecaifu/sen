@@ -20,8 +20,10 @@ import me.iwf.photopicker.PhotoPicker;
 import me.iwf.photopicker.PhotoPreview;
 import me.iwf.photopicker.utils.AndroidLifecycleUtils;
 import sen.wedding.com.weddingsen.R;
+import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.business.activity.ContractInfoActivity;
 import sen.wedding.com.weddingsen.business.utils.RecyclerItemClickListener;
+import sen.wedding.com.weddingsen.utils.FileIOUtil;
 
 /**
  * Created by donglua on 15/5/31.
@@ -102,6 +104,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
             holder.tvAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    FileIOUtil.deleteFile(new File(Conts.COMPRESS_IMG_PATH));
                     PhotoPicker.builder()
                             .setPhotoCount(PhotoAdapter.MAX)
                             .setShowCamera(true)

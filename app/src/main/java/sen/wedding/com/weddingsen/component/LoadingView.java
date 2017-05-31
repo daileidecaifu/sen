@@ -81,10 +81,10 @@ public class LoadingView extends FrameLayout implements View.OnClickListener {
         TextView title = (TextView) findViewById(R.id.tv_title);
         TextView click = ((TextView) findViewById(R.id.tv_action));
 
+        click.setVisibility(GONE);
         title.setText(getContext().getString(R.string.request_error));
-        click.setText(getContext().getString(R.string.refresh));
 
-        click.setOnClickListener(this);
+        title.setOnClickListener(this);
 
 
 //        //断网

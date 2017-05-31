@@ -84,11 +84,45 @@ public class LogInfoAdapter extends BaseAdapter {
         }
         LogInfoModel model = list.get(position);
 
-        long timeNextTime = Long.parseLong(model.getOrderFollowTime()) * 1000;
-        binding.tvNextTime.setText(DateUtil.convertDateToString(new Date(timeNextTime),DateUtil.FORMAT_COMMON_Y_M_D));
+
+        switch (model.getUserOrderStatus())
+        {
+            case "1":
+                //等待处理
+                long timeNextTime = Long.parseLong(model.getOrderFollowTime()) * 1000;
+                binding.tvNextTime.setText(DateUtil.convertDateToString(new Date(timeNextTime), DateUtil.FORMAT_COMMON_Y_M_D));
+                break;
+
+            case "2":
+                //提交审核
+                binding.tvTitle.setText(currentContext.getString(R.string.submit_review));
+                break;
+
+            case "3":
+                //提交结算
+                binding.tvTitle.setText(currentContext.getString(R.string.submit_settlement));
+                break;
+
+            case "4":
+                //已经结算
+                binding.tvTitle.setText(currentContext.getString(R.string.has_settlemented));
+                break;
+
+            case "5":
+                //已经驳回
+                binding.tvTitle.setText(currentContext.getString(R.string.has_rejected));
+                break;
+
+            case "6":
+                //已经取消
+                binding.tvTitle.setText(currentContext.getString(R.string.has_canceled));
+                break;
+
+        }
+
         binding.tvNoteContent.setText(model.getOrderFollowDesc());
         long timeFollowCreate = Long.parseLong(model.getOrderFollowCreateTime()) * 1000;
-        binding.tvNoteTime.setText(DateUtil.convertDateToString(new Date(timeFollowCreate),DateUtil.FORMAT_COMMON_Y_M_D));
+        binding.tvNoteTime.setText(DateUtil.convertDateToString(new Date(timeFollowCreate), DateUtil.FORMAT_COMMON_Y_M_D));
 
 
         return binding.getRoot();

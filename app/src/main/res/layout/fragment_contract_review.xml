@@ -26,7 +26,7 @@
             android:textSize="@dimen/text_size_ss" />
 
         <include
-            android:id="@+id/ll_contract_time"
+            android:id="@+id/ll_contract_money"
             layout="@layout/view_item_select" />
 
         <View
@@ -51,7 +51,7 @@
             android:textSize="@dimen/text_size_ss" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_pic_select"
+            android:id="@+id/rv_pic_show"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"

@@ -1,6 +1,7 @@
 package sen.wedding.com.weddingsen.base;
 
 import android.content.Intent;
+import android.os.Environment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -168,4 +169,9 @@ public class Conts {
     public final static int FOLLOW_UP_INFO_INVALID = 2;
     public final static int FOLLOW_UP_COMFIRM_SIGN = 3;
 
+    //StartActivity Request Code
+    public final static int TO_SUBMIT_CONTRACT_REVIEW = 0;
+
+    //压缩图片目录
+    public final static String COMPRESS_IMG_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/sen/pic/compress";
 }

@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -135,39 +136,56 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
         binding.llSelectPhoneNumber.tvItemSelectIcon.setVisibility(View.INVISIBLE);
         binding.llSelectPhoneNumber.tvItemSelectContent.setText(verifyPhone);
 
-        //指定类型
+        if(BasePreference.getUserType().equals(Conts.LOGIN_MODEL_ACCOUNT))
+        {
+            binding.llSelectSpecifyType.tvItemSelectTitle.setText(Html.fromHtml(sbType.toString()));
+            binding.llSelectSpecifyType.tvItemSelectContent.setText(selectTypeModel.getValue());
 
-        binding.llSelectSpecifyType.tvItemSelectTitle.setText(Html.fromHtml(sbType.toString()));
-        binding.llSelectSpecifyType.tvItemSelectContent.setText(specifyModels.get(1).getValue());
-        binding.llSelectSpecifyType.setClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showSelectDistrict(specifyModels);
-            }
-        });
+            selectHotelList = new ArrayList<>();
+            HotelModel hotelModel = new HotelModel();
+            hotelModel.setHotelId(BasePreference.getHotelId());
+            hotelModel.setHotelName(BasePreference.getHotelName());
+            selectHotelList.add(hotelModel);
+            binding.llSelectSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemHotel.toString()));
+            binding.llSelectSpecifyItem.tvItemSelectContent.setText(hotelModel.getHotelName());
 
-        //指定item
 
-        binding.llSelectSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemDistrict.toString()));
-//        binding.llSelectSpecifyItem.tvItemSelectContent.setText(hotelModels.get(0).getValue());
-        binding.llSelectSpecifyItem.setClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                switch (selectTypeModel.getType()) {
-                    case Conts.OPTION_DISTRICT_SELECT:
-                        Intent intent = new Intent(EditGuestInfoActivity.this, SelectAreaOptionActivity.class);
-                        startActivityForResult(intent, Conts.SELECT_OPTION_REQUEST_CODE);
-                        break;
-
-                    case Conts.OPTION_HOTEL_SELECT:
-                        Intent intent2 = new Intent(EditGuestInfoActivity.this, SelectHotelOptionActivity.class);
-                        startActivityForResult(intent2, Conts.SELECT_OPTION_REQUEST_CODE);
-                        break;
+        }else if(BasePreference.getUserType().equals(Conts.LOGIN_MODEL_PHONE))
+        {
+            //指定类型
+            binding.llSelectSpecifyType.tvItemSelectTitle.setText(Html.fromHtml(sbType.toString()));
+            binding.llSelectSpecifyType.tvItemSelectContent.setText(selectTypeModel.getValue());
+            binding.llSelectSpecifyType.setClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showSelectDistrict(specifyModels);
                 }
+            });
 
-            }
-        });
+            //指定item
+
+            binding.llSelectSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemDistrict.toString()));
+//        binding.llSelectSpecifyItem.tvItemSelectContent.setText(hotelModels.get(0).getValue());
+            binding.llSelectSpecifyItem.setClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    switch (selectTypeModel.getType()) {
+                        case Conts.OPTION_DISTRICT_SELECT:
+                            Intent intent = new Intent(EditGuestInfoActivity.this, SelectAreaOptionActivity.class);
+                            startActivityForResult(intent, Conts.SELECT_OPTION_REQUEST_CODE);
+                            break;
+
+                        case Conts.OPTION_HOTEL_SELECT:
+                            Intent intent2 = new Intent(EditGuestInfoActivity.this, SelectHotelOptionActivity.class);
+                            startActivityForResult(intent2, Conts.SELECT_OPTION_REQUEST_CODE);
+                            break;
+                    }
+
+                }
+            });
+        }
+
         //桌数
         binding.llEditTableCount.tvItemEditTitle.setText(getString(R.string.table_count));
         binding.llEditTableCount.etItemEditInput.setHint(getString(R.string.table_count_hint));

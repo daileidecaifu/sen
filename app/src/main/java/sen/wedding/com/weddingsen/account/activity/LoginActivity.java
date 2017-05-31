@@ -210,13 +210,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 BasePreference.saveToken(accountInfoModel.getAccessToken());
                 BasePreference.saveUserName(accountInfoModel.getNikeName());//返回nikename，实为username
                 BasePreference.saveUserType(accountInfoModel.getUserType());
+                BasePreference.saveAlipayAccount(accountInfoModel.getAlipayAccount());
+                BasePreference.saveHotelId(accountInfoModel.getHotelId());
+                BasePreference.saveHotelName(accountInfoModel.getHotelName());
 
                 showToast(getString(R.string.login_success));
 
                 if (TextUtils.isEmpty(accountInfoModel.getAlipayAccount())) {
                     jumpToPersonSetView();
                 } else {
-                    BasePreference.saveAlipayAccount(accountInfoModel.getAlipayAccount());//返回nikename，实为username
                     jumpToOtherActivity(MainActivity.class);
                     finish();
 

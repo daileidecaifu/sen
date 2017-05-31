@@ -97,6 +97,7 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
         loadingView.setLoadingViewClickListener(new LoadingView.OnLoadingViewClickListener() {
             @Override
             public void OnLoadingFailedClick(View view) {
+                loadingView.showLoading();
                 getGuestInfoList();
             }
 

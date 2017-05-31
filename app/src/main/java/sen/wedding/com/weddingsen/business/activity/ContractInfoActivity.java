@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.OrientationHelper;
@@ -55,6 +56,7 @@ import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.utils.AppLog;
 import sen.wedding.com.weddingsen.utils.DateUtil;
+import sen.wedding.com.weddingsen.utils.FileIOUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 
 /**
@@ -72,6 +74,7 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
     private ApiRequest submitCertificateRequest;
     private String ossImageUrls;
     private long signTime;
+    private Handler handler = new Handler();
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -130,6 +133,8 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         long currentTimestamp = System.currentTimeMillis();
         signTime = currentTimestamp/1000;
         binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
+        FileIOUtil.deleteFile(new File(Conts.COMPRESS_IMG_PATH));
+
     }
 
     private void getInfo() {
@@ -141,31 +146,44 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
 
         switch (v.getId()) {
             case R.id.tv_submit_review:
+
                 showProgressDialog(false);
-                OSSUploadTask ossUploadTask = new OSSUploadTask(oss, prepareUploadRequests(), new OSSUploadResult() {
 
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onComplete(OSSUploadModel result) {
-                        if (result != null && result.isSuccess()) {
-                            StringBuffer sb = new StringBuffer();
-                            ossImageUrls = "";
+                    public void run() {
 
-                            for (int i = 0; i < result.getList().size(); i++) {
-                                if (i != 0) {
-                                    sb.append(",");
+                        OSSUploadTask ossUploadTask = new OSSUploadTask(oss, prepareUploadRequests(), new OSSUploadResult() {
+
+                            @Override
+                            public void onComplete(OSSUploadModel result) {
+                                if (result != null && result.isSuccess()) {
+                                    closeProgressDialog();
+                                    StringBuffer sb = new StringBuffer();
+                                    ossImageUrls = "";
+
+                                    for (int i = 0; i < result.getList().size(); i++) {
+                                        if (i != 0) {
+                                            sb.append(",");
+                                        }
+                                        sb.append(result.getList().get(i).getRemoteUrl());
+
+                                    }
+                                    ossImageUrls = sb.toString();
+                                    AppLog.e(ossImageUrls);
+                                    submitertificate();
+                                } else {
+                                    closeProgressDialog();
                                 }
-                                sb.append(result.getList().get(i).getRemoteUrl());
-
                             }
-                            ossImageUrls = sb.toString();
-                            AppLog.e(ossImageUrls);
-                            submitertificate();
-                        } else {
-                            closeProgressDialog();
-                        }
+                        });
+                        ossUploadTask.execute();
+
                     }
-                });
-                ossUploadTask.execute();
+                },50);
+
+
+
                 break;
         }
     }
@@ -260,6 +278,7 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         if (req == submitCertificateRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 showToast(getString(R.string.action_success));
+                setResult(RESULT_OK);
                 finish();
             } else {
                 showToast(resultModel.message);

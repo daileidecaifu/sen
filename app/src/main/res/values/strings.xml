@@ -156,5 +156,13 @@
     <string name="phone">电话</string>
     <string name="action_success">操作成功</string>
     <string name="try_again">点击重试</string>
+    <string name="submit_settlement">提交结算</string>
+    <string name="has_settlemented">已结算</string>
+    <string name="has_rejected">已驳回</string>
+    <string name="has_canceled">已取消</string>
+    <string name="detail_following_tip">跟进中（跟踪者处理中）</string>
+    <string name="detail_wait_settlement_tip">待结算（等待财务转账）</string>
+    <string name="detail_settlemented_tip">已结算</string>
+    <string name="detail_canceled_tip">已取消（已终止客资跟进）</string>
 
 </resources>

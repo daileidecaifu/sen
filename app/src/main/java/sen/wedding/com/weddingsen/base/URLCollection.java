@@ -34,4 +34,6 @@ public class URLCollection {
 
     public final static String URL_ORDER_SIGN = "http://dev.51isen.com/index.php?m=app&c=order&f=keziOrderSign";
 
+    public final static String URL_SHOW_ORDER_SIGN_DETAIL = "http://dev.51isen.com/index.php?m=app&c=order&f=keziOrderSignDetail";
+
 }

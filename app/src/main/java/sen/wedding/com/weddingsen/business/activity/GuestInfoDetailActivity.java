@@ -24,10 +24,12 @@ import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
+import sen.wedding.com.weddingsen.business.adapter.LogInfoAdapter;
 import sen.wedding.com.weddingsen.business.adapter.ReviewInfoAdapter;
 import sen.wedding.com.weddingsen.business.model.AreaModel;
 import sen.wedding.com.weddingsen.business.model.DetailResModel;
 import sen.wedding.com.weddingsen.business.model.HotelModel;
+import sen.wedding.com.weddingsen.business.model.LogInfoModel;
 import sen.wedding.com.weddingsen.business.model.OrderItemModel;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.EditGuestInfoBinding;
@@ -78,7 +80,9 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
         getTitleBar().setRightClickEvent(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jumpToOtherActivity(LogInfoActivity.class);
+                Intent intent = new Intent(GuestInfoDetailActivity.this, LogInfoActivity.class);
+                intent.putExtra("order_id", orderId);
+                startActivity(intent);
             }
         });
         getTitleBar().setLeftClickEvent(new View.OnClickListener() {
@@ -164,7 +168,9 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
         binding.llProcessTime.tvItemSelectIcon.setVisibility(View.INVISIBLE);
     }
 
-    private void fillData(OrderItemModel orderItemModel) {
+    private void fillData(DetailResModel detailResModel) {
+        OrderItemModel orderItemModel = detailResModel.getOrderItem();
+        LogInfoModel logInfoModel = detailResModel.getOrderFollow();
         binding.llShowName.tvItemSelectContent.setText(orderItemModel.getCustomerName());
         binding.llShowType.tvItemSelectContent.setText(Conts.getOrderStatusMap().get(orderItemModel.getOrderStatus()));
         binding.llShowPhoneNumber.tvItemSelectContent.setText(orderItemModel.getOrderPhone());
@@ -188,6 +194,33 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
         binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
 
         binding.tvShowNote.setText(orderItemModel.getOrderDesc());
+
+        if (logInfoModel != null) {
+            switch (logInfoModel.getUserOrderStatus()) {
+                case "1":
+                    //等待处理
+                    binding.llProcessSchedule.tvItemSelectContent.setText(getString(R.string.detail_following_tip));
+                    break;
+
+                case "2":
+                    //提交审核
+                    binding.llProcessSchedule.tvItemSelectContent.setText(getString(R.string.detail_wait_settlement_tip));
+                    break;
+
+                case "3":
+                    //提交结算
+                    binding.llProcessSchedule.tvItemSelectContent.setText(getString(R.string.detail_settlemented_tip));
+                    break;
+
+                case "4":
+                    //已经结算
+                    binding.llProcessSchedule.tvItemSelectContent.setText(getString(R.string.detail_canceled_tip));
+                    break;
+            }
+
+            long processTime = Long.parseLong(logInfoModel.getOrderFollowTime()) * 1000;
+            binding.llProcessTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(processTime), DateUtil.FORMAT_COMMON_Y_M_D));
+        }
     }
 
     private void getGuestInfo() {
@@ -197,8 +230,8 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
             param.put("access_token", BasePreference.getToken());
             param.put("order_id", orderId + "");
             getOrderDetailRequest.setParams(param);
-            getApiService().exec(getOrderDetailRequest,this);
-        }else {
+            getApiService().exec(getOrderDetailRequest, this);
+        } else {
             showToast("Order ID WRONG!");
         }
     }
@@ -228,7 +261,7 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
 
                 detailResModel = GsonConverter.decode(resultModel.data, DetailResModel.class);
-                fillData(detailResModel.getOrderItem());
+                fillData(detailResModel);
             } else {
                 showToast(resultModel.message);
             }

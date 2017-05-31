@@ -20,6 +20,12 @@ public class AccountInfoModel {
     @SerializedName("user_type")
     private String userType;
 
+    @SerializedName("hotel_id")
+    private String hotelId;
+
+    @SerializedName("hotel_name")
+    private String hotelName;
+
     public String getAccessToken() {
         return accessToken;
     }
@@ -50,5 +56,21 @@ public class AccountInfoModel {
 
     public void setUserType(String userType) {
         this.userType = userType;
+    }
+
+    public String getHotelId() {
+        return hotelId;
+    }
+
+    public void setHotelId(String hotelId) {
+        this.hotelId = hotelId;
+    }
+
+    public String getHotelName() {
+        return hotelName;
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
     }
 }

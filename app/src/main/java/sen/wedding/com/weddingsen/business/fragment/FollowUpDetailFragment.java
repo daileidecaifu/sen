@@ -374,7 +374,8 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
 //                        jumpToOtherActivity(ContractInfoActivity.class);
                         Intent intent = new Intent(getActivity(), ContractInfoActivity.class);
                         intent.putExtra("order_id", orderId);
-                        getActivity().startActivity(intent);
+                        startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
+
                         break;
                 }
 
@@ -418,4 +419,11 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Conts.TO_SUBMIT_CONTRACT_REVIEW) {
+            getActivity().finish();
+        }
+    }
 }

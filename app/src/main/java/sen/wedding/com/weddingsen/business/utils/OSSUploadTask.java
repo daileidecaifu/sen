@@ -32,6 +32,7 @@ public class OSSUploadTask extends AsyncTask<String, Integer, String> {
     List<PutObjectRequest> puts;
     PutObjectRequest put;
     List<OSSImageInfoModel> infos = new ArrayList<>();
+
     public OSSUploadTask(OSS client, List<PutObjectRequest> puts, OSSUploadResult ossUploadResult) {
         super();
         this.ossUploadResult = ossUploadResult;
@@ -56,7 +57,7 @@ public class OSSUploadTask extends AsyncTask<String, Integer, String> {
                 OSSImageInfoModel ossImageInfoModel = new OSSImageInfoModel();
                 ossImageInfoModel.setOriginalPath(putObject.getUploadFilePath());
                 PutObjectResult putResult = oss.putObject(putObject);
-                ossImageInfoModel.setRemoteUrl(Conts.OSS_REMOTE_URL+putObject.getObjectKey());
+                ossImageInfoModel.setRemoteUrl(Conts.OSS_REMOTE_URL + putObject.getObjectKey());
                 infos.add(ossImageInfoModel);
 
                 Log.d("PutObject", "UploadSuccess");
@@ -84,14 +85,12 @@ public class OSSUploadTask extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String result) {
 
-        if(result!=null&&result.equals(Conts.OSS_UPLOAD_SUCCESS))
-        {
+        if (result != null && result.equals(Conts.OSS_UPLOAD_SUCCESS)) {
             OSSUploadModel ossUploadModel = new OSSUploadModel();
             ossUploadModel.setList(infos);
             ossUploadModel.setSuccess(true);
             ossUploadResult.onComplete(ossUploadModel);
-        }else
-        {
+        } else {
             ossUploadResult.onComplete(null);
 
         }
