@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data class="PersonDetailBinding">
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/common_background"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/title_bar"
+            layout="@layout/common_title_bar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_hight"
+                android:gravity="bottom"
+                android:paddingBottom="7dp"
+                android:paddingLeft="15dp"
+                android:text="@string/my_commission"
+                android:textColor="@color/gray_2"
+                android:textSize="@dimen/text_size_ss" />
+
+            <include
+                android:id="@+id/ll_total_commission"
+                layout="@layout/view_item_select" />
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="1px"
+                android:background="@color/white"></View>
+
+            <include
+                android:id="@+id/ll_released"
+                layout="@layout/view_item_select" />
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="1px"
+                android:background="@color/white"></View>
+
+            <include
+                android:id="@+id/ll_not_released"
+                layout="@layout/view_item_select" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_hight"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/common_hight"
+                    android:layout_weight="1"
+                    android:gravity="bottom"
+                    android:id="@+id/tv_account_title"
+                    android:paddingBottom="7dp"
+                    android:paddingLeft="15dp"
+                    android:textColor="@color/gray_2"
+                    android:textSize="@dimen/text_size_ss" />
+
+                <TextView
+                    android:id="@+id/tv_to_set"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right|bottom"
+                    android:paddingBottom="7dp"
+                    android:paddingLeft="15dp"
+                    android:onClick="@{clickListener}"
+                    android:paddingRight="15dp"
+                    android:paddingTop="7dp"
+                    android:text="@string/set_receipt_account"
+                    android:textColor="@color/theme_color"
+                    android:textSize="@dimen/text_size_ss" />
+            </LinearLayout>
+
+            <include
+                android:id="@+id/ll_alipay_account"
+                layout="@layout/view_item_select" />
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="1px"
+                android:background="@color/white"></View>
+
+            <include
+                android:id="@+id/ll_bank_account"
+                layout="@layout/view_item_select" />
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="1px"
+                android:background="@color/white"></View>
+
+            <include
+                android:id="@+id/ll_open_bank"
+                layout="@layout/view_item_select" />
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="1px"
+                android:background="@color/white"></View>
+
+            <include
+                android:id="@+id/ll_user_name"
+                layout="@layout/view_item_select" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</layout>

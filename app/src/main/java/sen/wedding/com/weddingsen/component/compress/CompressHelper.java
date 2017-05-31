@@ -73,7 +73,7 @@ public class CompressHelper {
         this.context = context;
         destinationDirectoryPath = Conts.COMPRESS_IMG_PATH;
 //        AppLog.e("______________________________"+destinationDirectoryPath);
-//        destinationDirectoryPath = context.getCacheDir().getPath() + File.pathSeparator + FileIOUtil.FILES_PATH;
+//        destinationDir ectoryPath = context.getCacheDir().getPath() + File.pathSeparator + FileIOUtil.FILES_PATH;
     }
 
     /**

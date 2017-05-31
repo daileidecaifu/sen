@@ -19,6 +19,7 @@
     <string name="set_personal_info">设定个人信息</string>
     <string name="alipay">支付宝</string>
     <string name="alipay_account">支付宝账号</string>
+    <string name="bank_card_account">银行卡账号</string>
     <string name="alipay_hint">请输入支付宝账号</string>
     <string name="alipay_account_hint">只有绑定账号，才能提成哟</string>
     <string name="not_set_now">暂不设置，以后再说</string>
@@ -164,5 +165,20 @@
     <string name="detail_wait_settlement_tip">待结算（等待财务转账）</string>
     <string name="detail_settlemented_tip">已结算</string>
     <string name="detail_canceled_tip">已取消（已终止客资跟进）</string>
-
+    <string name="my_commission">我的佣金</string>
+    <string name="total_commission">总佣金</string>
+    <string name="commission_released">已发放</string>
+    <string name="commission_not_released">未发放</string>
+    <string name="set_receipt_account">设定收款账号</string>
+    <string name="open_band_account">开户行账号</string>
+    <string name="open_band_account_tip">请输入开户行账号</string>
+    <string name="open_band">开户行</string>
+    <string name="open_band_tip">请输入开户行</string>
+    <string name="open_account_name">开户名</string>
+    <string name="open_account_name_tip">请输入开户名</string>
+    <string name="receipt_account_alipay">收款账号（支付宝）</string>
+    <string name="receipt_account_bank">收款账号（银行卡）</string>
+    <string name="set_receipt_type">收款类型</string>
+    <string name="account_alipay">支付宝账号</string>
+    <string name="account_bank">银行卡账号</string>
 </resources>

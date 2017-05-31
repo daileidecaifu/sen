@@ -31,43 +31,44 @@
                 android:layout_height="1px"
                 android:layout_marginTop="10dp"
                 android:background="@color/divider_out"></View>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:text="@string/alipay"
-                    android:textColor="@color/tip_color"
-                    android:textSize="@dimen/text_size_mm" />
-
-
-                <EditText
-                    android:id="@+id/et_alipay_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#00000000"
-                    android:gravity="center_vertical"
-                    android:hint="@string/alipay_hint"
-                    android:maxLines="1"
-                    android:paddingLeft="75dp"
-                    android:paddingRight="20dp"
-                    android:singleLine="true"
-                    android:textColor="@color/text_common"
-                    android:textColorHint="@color/gray_1"
-                    android:textSize="@dimen/text_size_m" />
-            </LinearLayout>
+            <include
+                android:id="@+id/ll_select_account_type"
+                layout="@layout/view_item_select" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="@color/divider_out"></View>
+
+            <include
+                android:id="@+id/ll_alipay_account"
+                layout="@layout/view_item_edit" />
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="1px"
+                android:background="@color/white"></View>
+            <include
+                android:id="@+id/ll_bank_account"
+                layout="@layout/view_item_edit" />
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="1px"
+                android:background="@color/white"></View>
+
+            <include
+                android:id="@+id/ll_open_bank"
+                layout="@layout/view_item_edit" />
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="1px"
+                android:background="@color/white"></View>
+
+            <include
+                android:id="@+id/ll_user_name"
+                layout="@layout/view_item_edit" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -80,7 +81,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/common_hight"
                 android:orientation="horizontal"
                 android:layout_marginTop="35dp"
                 android:background="@color/white"
@@ -93,7 +94,7 @@
                     android:layout_weight="1"
                     android:text="@string/receive_kezi_asyn"
                     android:textColor="@color/tip_color"
-                    android:textSize="@dimen/text_size_mm" />
+                    android:textSize="@dimen/text_size_m" />
 
                 <sen.wedding.com.weddingsen.component.SwitchCheckView
                     android:id="@+id/scv_aysn"
