@@ -118,7 +118,40 @@
             <include
                 android:id="@+id/ll_user_name"
                 layout="@layout/view_item_select" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_hight"
+                android:gravity="bottom"
+                android:paddingBottom="7dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="15dp"
+                android:text="@string/my_commission"
+                android:textColor="@color/gray_2"
+                android:textSize="@dimen/text_size_ss" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_hight"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:text="@string/receive_kezi_asyn"
+                    android:textColor="@color/tip_color"
+                    android:textSize="@dimen/text_size_m" />
+
+                <sen.wedding.com.weddingsen.component.SwitchCheckView
+                    android:id="@+id/scv_aysn"
+                    android:layout_width="50dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_height="30dp"
+                    app:isOpened="true" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

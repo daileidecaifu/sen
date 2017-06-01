@@ -33,42 +33,24 @@
                 android:background="@color/divider_out"></View>
             <include
                 android:id="@+id/ll_select_account_type"
-                layout="@layout/view_item_select" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/divider_out"></View>
+                layout="@layout/view_item_select_divide" />
 
             <include
                 android:id="@+id/ll_alipay_account"
-                layout="@layout/view_item_edit" />
+                layout="@layout/view_item_edit_divide" />
 
-            <View
-                android:layout_width="15dp"
-                android:layout_height="1px"
-                android:background="@color/white"></View>
             <include
                 android:id="@+id/ll_bank_account"
-                layout="@layout/view_item_edit" />
-
-            <View
-                android:layout_width="15dp"
-                android:layout_height="1px"
-                android:background="@color/white"></View>
+                layout="@layout/view_item_edit_divide" />
 
             <include
                 android:id="@+id/ll_open_bank"
-                layout="@layout/view_item_edit" />
+                layout="@layout/view_item_edit_divide" />
 
-            <View
-                android:layout_width="15dp"
-                android:layout_height="1px"
-                android:background="@color/white"></View>
 
             <include
                 android:id="@+id/ll_user_name"
-                layout="@layout/view_item_edit" />
+                layout="@layout/view_item_edit_divide" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -79,30 +61,7 @@
                 android:textColor="@color/gray_2"
                 android:textSize="@dimen/text_size_m" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/common_hight"
-                android:orientation="horizontal"
-                android:layout_marginTop="35dp"
-                android:background="@color/white"
-                android:gravity="center_vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_weight="1"
-                    android:text="@string/receive_kezi_asyn"
-                    android:textColor="@color/tip_color"
-                    android:textSize="@dimen/text_size_m" />
-
-                <sen.wedding.com.weddingsen.component.SwitchCheckView
-                    android:id="@+id/scv_aysn"
-                    android:layout_width="50dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_height="30dp"
-                    app:isOpened="true" />
-            </LinearLayout>
 
         </LinearLayout>
 

@@ -8,10 +8,12 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import java.util.HashMap;
 import java.util.List;
 
+import sen.wedding.com.weddingsen.account.model.BindInfoModel;
 import sen.wedding.com.weddingsen.base.ApiRequest;
 import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BasePreference;
@@ -25,7 +27,10 @@ import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.PersonalInfoSetBinding;
+import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.PreferenceUtils;
+import sen.wedding.com.weddingsen.utils.ScreenUtil;
+import sen.wedding.com.weddingsen.utils.StringUtil;
 import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
 
 /**
@@ -39,7 +44,7 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
     private ApiRequest bindAlipayRequest;
     private boolean isAlipay = true;
     private String[] accountType = new String[2];
-
+    private BindInfoModel bindInfoModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +61,13 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
     private void initView() {
         Intent intent = getIntent();
         fromTag = intent.getIntExtra("from", 1);
+        String bindInfo = intent.getStringExtra("bind_info");
+
+        if(!TextUtils.isEmpty(bindInfo))
+        {
+            bindInfoModel = GsonConverter.decode(bindInfo, BindInfoModel.class);
+
+        }
 
         switch (fromTag) {
             case Conts.FROM_LOGIN:
@@ -81,15 +93,6 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
             binding.llAlipayAccount.etItemEditInput.setSelection(binding.llAlipayAccount.etItemEditInput.getText().toString().length());
         }
 
-        binding.scvAysn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean isOpened = binding.scvAysn.isOpened();
-                showToast("" + isOpened);
-
-            }
-        });
-
         //收款类型
         binding.llSelectAccountType.tvItemSelectTitle.setText(getString(R.string.set_receipt_type));
         binding.llSelectAccountType.setClickListener(new View.OnClickListener() {
@@ -99,19 +102,24 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
 
             }
         });
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1);
+        lp.setMargins(ScreenUtil.dip2px(this,15), 0, 0, 0);
         //支付宝账号
         binding.llAlipayAccount.tvItemEditTitle.setText(getString(R.string.alipay));
         binding.llAlipayAccount.etItemEditInput.setHint(getString(R.string.alipay_hint));
         //银行账号
         binding.llBankAccount.tvItemEditTitle.setText(getString(R.string.open_band_account));
         binding.llBankAccount.etItemEditInput.setHint(getString(R.string.open_band_account_tip));
+        binding.llBankAccount.vDivider.setLayoutParams(lp);
         //开户行
         binding.llOpenBank.tvItemEditTitle.setText(getString(R.string.open_band));
-        binding.llBankAccount.etItemEditInput.setHint(getString(R.string.open_band_tip));
+        binding.llOpenBank.etItemEditInput.setHint(getString(R.string.open_band_tip));
+        binding.llOpenBank.vDivider.setLayoutParams(lp);
 
         //开户名
         binding.llUserName.tvItemEditTitle.setText(getString(R.string.open_account_name));
-        binding.llBankAccount.etItemEditInput.setHint(getString(R.string.open_account_name_tip));
+        binding.llUserName.etItemEditInput.setHint(getString(R.string.open_account_name_tip));
         swtichShowType();
 
     }

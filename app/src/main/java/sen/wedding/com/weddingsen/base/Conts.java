@@ -171,6 +171,7 @@ public class Conts {
 
     //StartActivity Request Code
     public final static int TO_SUBMIT_CONTRACT_REVIEW = 0;
+    public final static int TO_BIND_ACCOUNT_INFO = 1;
 
     //压缩图片目录
     public final static String COMPRESS_IMG_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/sen/pic/compress";

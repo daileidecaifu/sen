@@ -1,18 +1,24 @@
 package sen.wedding.com.weddingsen.account.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 
+import com.google.gson.Gson;
+
 import sen.wedding.com.weddingsen.R;
+import sen.wedding.com.weddingsen.account.model.BindInfoModel;
 import sen.wedding.com.weddingsen.base.ApiRequest;
 import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BaseActivity;
+import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.PersonDetailBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.main.activity.MainActivity;
+import sen.wedding.com.weddingsen.utils.GsonConverter;
 
 /**
  * Created by lorin on 17/5/31.
@@ -72,6 +78,15 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
         binding.llUserName.tvItemSelectTitle.setText(getString(R.string.open_account_name));
         binding.llUserName.tvItemSelectIcon.setVisibility(View.GONE);
         binding.llUserName.tvItemSelectContent.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
+
+        binding.scvAysn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isOpened = binding.scvAysn.isOpened();
+                showToast("" + isOpened);
+
+            }
+        });
     }
 
     private void swtichShowType()
@@ -101,13 +116,18 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_to_set:
-                if(isAlipay)
-                {
-                    isAlipay = false;
-                }else {
-                    isAlipay = true;
-                }
-                swtichShowType();
+//                if(isAlipay)
+//                {
+//                    isAlipay = false;
+//                }else {
+//                    isAlipay = true;
+//                }
+//                swtichShowType();
+                BindInfoModel bindInfoModel = new BindInfoModel();
+                bindInfoModel.setAlipay("111");
+                Intent intent = new Intent(this,PersonalInfoSetActivity.class);
+                intent.putExtra("bind_info", GsonConverter.toJson(bindInfoModel));
+                startActivityForResult(intent, Conts.TO_BIND_ACCOUNT_INFO);
 
                 break;
 
@@ -115,6 +135,11 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
