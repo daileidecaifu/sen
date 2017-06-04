@@ -20,10 +20,25 @@
             android:background="@color/common_background"
             android:orientation="vertical">
 
-            <com.youth.banner.Banner
-                android:id="@+id/banner"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp" />
+                android:layout_height="150dp">
+
+
+                <com.youth.banner.Banner
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:onClick="@{clickListener}"
+                    android:padding="10dp"
+                    android:src="@color/theme_color" />
+            </RelativeLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -83,10 +98,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/common_hight"
+                android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/ballroom"
                 android:textColor="@color/text_common"
                 android:textSize="@dimen/text_size_xxl" />
@@ -100,10 +115,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/common_hight"
+                android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/banquet_menu"
                 android:textColor="@color/text_common"
                 android:textSize="@dimen/text_size_xxl" />

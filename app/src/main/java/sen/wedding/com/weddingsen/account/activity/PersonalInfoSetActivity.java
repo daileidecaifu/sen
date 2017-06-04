@@ -43,8 +43,9 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
     private int fromTag;
     private ApiRequest bindAlipayRequest;
     private boolean isAlipay = true;
-    private String[] accountType = new String[2];
+    private String[] accountType;
     private BindInfoModel bindInfoModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +64,7 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
         fromTag = intent.getIntExtra("from", 1);
         String bindInfo = intent.getStringExtra("bind_info");
 
-        if(!TextUtils.isEmpty(bindInfo))
-        {
+        if (!TextUtils.isEmpty(bindInfo)) {
             bindInfoModel = GsonConverter.decode(bindInfo, BindInfoModel.class);
 
         }
@@ -85,8 +85,10 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
                 break;
         }
 
-        accountType[0] = getString(R.string.alipay_account);
-        accountType[1] = getString(R.string.bank_card_account);
+//        accountType[0] = getString(R.string.alipay_account);
+//        accountType[1] = getString(R.string.bank_card_account);
+
+        accountType = getResources().getStringArray(R.array.bind_account_type);
 
         if (!TextUtils.isEmpty(BasePreference.getAlipayAccount())) {
             binding.llAlipayAccount.etItemEditInput.setText(BasePreference.getAlipayAccount());
@@ -104,7 +106,7 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
         });
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1);
-        lp.setMargins(ScreenUtil.dip2px(this,15), 0, 0, 0);
+        lp.setMargins(ScreenUtil.dip2px(this, 15), 0, 0, 0);
         //支付宝账号
         binding.llAlipayAccount.tvItemEditTitle.setText(getString(R.string.alipay));
         binding.llAlipayAccount.etItemEditInput.setHint(getString(R.string.alipay_hint));

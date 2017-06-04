@@ -24,7 +24,7 @@ import sen.wedding.com.weddingsen.main.model.BanquetMenuModel;
  * Created by lorin on 17/5/28.
  */
 
-public class HotelDetailActivity extends BaseActivity implements OnBannerListener {
+public class HotelDetailActivity extends BaseActivity implements OnBannerListener,View.OnClickListener{
 
     HotelDetailBinding binding;
     private List<String> images;
@@ -35,12 +35,16 @@ public class HotelDetailActivity extends BaseActivity implements OnBannerListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_hotel_detail);
+        binding.setClickListener(this);
         initComponents();
         initData();
     }
 
     private void initComponents()
     {
+        binding.lvBallroom.setFocusable(false);
+        binding.lvBanquetMenu.setFocusable(false);
+
         String[] urls = getResources().getStringArray(R.array.image_urls);
         images = Arrays.asList(urls);
         binding.banner.setImages(images).setImageLoader(new GlideImageLoader()).start();
@@ -106,5 +110,15 @@ public class HotelDetailActivity extends BaseActivity implements OnBannerListene
     @Override
     public void OnBannerClick(int position) {
         showToast("Position:"+position);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.iv_back:
+                finish();
+                break;
+        }
     }
 }

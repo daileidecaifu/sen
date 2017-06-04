@@ -87,6 +87,10 @@
         <activity android:name=".main.activity.HotelDetailActivity"></activity>
 
         <activity android:name=".account.activity.PersonalDetailActivity">
+
+        </activity>
+
+        <activity android:name=".main.activity.HotelDistinctActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

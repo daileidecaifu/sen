@@ -1,35 +1,43 @@
 package sen.wedding.com.weddingsen.main.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.BaseFragment;
+import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.main.activity.HotelDetailActivity;
 import sen.wedding.com.weddingsen.main.activity.HotelShowActivity;
 import sen.wedding.com.weddingsen.main.adapter.HotelsAdapter;
 import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
 import sen.wedding.com.weddingsen.main.model.HotelShowModel;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
+import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
 
 /**
  * Created by lorin on 17/5/25.
  */
 
-public class HotelShowFragment extends BaseFragment implements AdapterView.OnItemClickListener {
+public class HotelShowFragment extends BaseFragment implements AdapterView.OnItemClickListener,View.OnClickListener {
 
     ListView listView;
+    TextView ivRecommend;
     HotelsAdapter hotelsAdapter;
-
+    String[] items;
     public static HotelShowFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -49,8 +57,11 @@ public class HotelShowFragment extends BaseFragment implements AdapterView.OnIte
 
         View view = inflater.inflate(R.layout.fragment_hotel_show, null);
         listView = (ListView) view.findViewById(R.id.lv_hotels);
+        ivRecommend = (TextView) view.findViewById(R.id.tv_recommend);
+        ivRecommend.setOnClickListener(this);
         initTitle(view);
         initListView();
+        initData();
         return view;
 
     }
@@ -71,7 +82,7 @@ public class HotelShowFragment extends BaseFragment implements AdapterView.OnIte
         textViewRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showHotelSort();
             }
         });
 
@@ -92,6 +103,46 @@ public class HotelShowFragment extends BaseFragment implements AdapterView.OnIte
         listView.setOnItemClickListener(this);
     }
 
+    private void initData()
+    {
+        items= getResources().getStringArray(R.array.hotel_sort_type);
+
+    }
+
+    private void showHotelSort() {
+
+        //dialog参数设置
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());  //先得到构造器
+        builder.setTitle("提示"); //设置标题
+        //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+                switch (which)
+                {
+                    case 0:
+                        showToast("0");
+                        break;
+
+                    case 1:
+                        showToast("1");
+                        break;
+                }
+
+            }
+        });
+        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
+
     private ArrayList<HotelShowModel> getFakeData() {
 
         ArrayList<HotelShowModel> fakeList = new ArrayList<>();
@@ -111,5 +162,15 @@ public class HotelShowFragment extends BaseFragment implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         jumpToOtherActivity(HotelDetailActivity.class);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.tv_recommend:
+                showToast("Z");
+                break;
+        }
     }
 }

@@ -22,4 +22,13 @@
         <item>http://ww4.sinaimg.cn/large/006uZZy8jw1faic2e7vsaj30ci08cglz.jpg</item>
     </string-array>
 
+    <string-array name="hotel_sort_type">
+        <item>按推荐查看</item>
+        <item>按区域查看</item>
+    </string-array>
+
+    <string-array name="bind_account_type">
+        <item>支付宝账号</item>
+        <item>银行卡账号</item>
+    </string-array>
 </resources>
