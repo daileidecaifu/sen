@@ -22,6 +22,7 @@ import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
+import sen.wedding.com.weddingsen.main.activity.HotelShowActivity;
 import sen.wedding.com.weddingsen.main.activity.MainActivity;
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.BaseActivity;
@@ -178,7 +179,7 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_skip:
-                jumpToOtherActivity(MainActivity.class);
+                jumpToOtherActivity(HotelShowActivity.class);
                 break;
             case R.id.ll_right:
                 setAlipayAccount();

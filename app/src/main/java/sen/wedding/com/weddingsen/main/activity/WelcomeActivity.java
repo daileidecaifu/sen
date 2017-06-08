@@ -25,11 +25,12 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     private void autoLoginCheck() {
-        if (!TextUtils.isEmpty(BasePreference.getToken())) {
-            jumpToOtherActivity(MainActivity.class);
-        } else {
-            jumpToOtherActivity(LoginActivity.class);
-        }
+//        if (!TextUtils.isEmpty(BasePreference.getToken())) {
+//            jumpToOtherActivity(MainActivity.class);
+//        } else {
+//            jumpToOtherActivity(LoginActivity.class);
+//        }
+        jumpToOtherActivity(HotelShowActivity.class);
         finish();
     }
 

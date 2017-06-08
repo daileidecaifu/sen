@@ -94,12 +94,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     binding.llPassword.setVisibility(View.VISIBLE);
                     binding.llPhone.setVisibility(View.GONE);
                     binding.llProviderVerification.setVisibility(View.GONE);
+                    binding.tvSwitch.setText(getString(R.string.phone_login_mode));
                 } else if (loginType.equals(Conts.LOGIN_MODEL_ACCOUNT)) {
                     loginType = Conts.LOGIN_MODEL_PHONE;
                     binding.llAccount.setVisibility(View.GONE);
                     binding.llPassword.setVisibility(View.GONE);
                     binding.llPhone.setVisibility(View.VISIBLE);
                     binding.llProviderVerification.setVisibility(View.VISIBLE);
+                    binding.tvSwitch.setText(getString(R.string.employee_login_mode));
                 }
                 break;
 

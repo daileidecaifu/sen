@@ -82,7 +82,6 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
         TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
         SwitchButton switchButton = (SwitchButton) linearLayoutTitle.findViewById(R.id.sb_main_follower);
 
-        textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_my_center));
         textViewRight.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_create));
 
         switchButton.setText(tabTextList);
@@ -104,7 +103,7 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
         textViewLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).openMenu();
+                getActivity().finish();
             }
         });
 

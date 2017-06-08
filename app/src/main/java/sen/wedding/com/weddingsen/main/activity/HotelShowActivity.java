@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -39,6 +40,8 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
     private String userType;
     HotelShowFragment hotelShowFragment;
     private FragmentManager fragmentManager;
+    private long currentBackPressedTime;
+    private final long BACK_PRESSED_INTERVAL = 1500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,11 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initSildMenu() {
+
+        if(TextUtils.isEmpty(BasePreference.getToken()))
+        {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        }
 
         switch (userType) {
             case Conts.LOGIN_MODEL_PHONE:
@@ -102,8 +110,10 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.ll_info_provide:
+                jumpToOtherActivity(InfoProvideActivity.class);
                 break;
             case R.id.ll_info_follow:
+                jumpToOtherActivity(InfoFollowUpActivity.class);
                 break;
             case R.id.ll_password_reset:
                 jumpToOtherActivity(ResetPasswordActivity.class);
@@ -111,34 +121,6 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    private void initTitle(View view) {
-
-        //头部title
-        RelativeLayout linearLayoutTitle = (RelativeLayout) view.findViewById(R.id.title_bar);
-
-        TextView textViewLeft = (TextView) linearLayoutTitle.findViewById(R.id.tv_left);
-        TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
-        TextView textViewTitle = (TextView) linearLayoutTitle.findViewById(R.id.tv_title_title);
-
-        textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_my_center));
-        textViewRight.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_create));
-
-        textViewTitle.setText(getString(R.string.guest_info_list));
-        textViewRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        textViewLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawer.openDrawer(GravityCompat.START);
-            }
-        });
-
-    }
     public void openMenu() {
         drawer.openDrawer(GravityCompat.START);
     }
@@ -149,5 +131,22 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
         BasePreference.saveUserName("");
         jumpToOtherActivity(LoginActivity.class);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (System.currentTimeMillis()- currentBackPressedTime > BACK_PRESSED_INTERVAL) {
+
+            currentBackPressedTime = System.currentTimeMillis();
+            showToast("再按一次返回键退出程序");
+
+        } else {
+
+            // 退出
+
+            finish();
+
+        }
     }
 }

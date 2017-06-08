@@ -59,14 +59,13 @@ public class InfoFollowUpFragment extends BaseFragment implements View.OnClickLi
         TextView textViewTitle = (TextView) linearLayoutTitle.findViewById(R.id.tv_title_title);
 
         textViewRight.setVisibility(View.GONE);
-        textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_my_center));
 
         textViewTitle.setText(getString(R.string.kezi_follow));
 
         textViewLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).openMenu();
+                getActivity().finish();
             }
         });
 

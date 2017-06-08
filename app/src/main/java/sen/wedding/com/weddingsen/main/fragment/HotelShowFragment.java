@@ -3,8 +3,10 @@ package sen.wedding.com.weddingsen.main.fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sen.wedding.com.weddingsen.R;
+import sen.wedding.com.weddingsen.account.activity.LoginActivity;
 import sen.wedding.com.weddingsen.base.BaseFragment;
+import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.main.activity.HotelDetailActivity;
+import sen.wedding.com.weddingsen.main.activity.HotelDistinctActivity;
 import sen.wedding.com.weddingsen.main.activity.HotelShowActivity;
 import sen.wedding.com.weddingsen.main.adapter.HotelsAdapter;
 import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
@@ -32,12 +37,13 @@ import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
  * Created by lorin on 17/5/25.
  */
 
-public class HotelShowFragment extends BaseFragment implements AdapterView.OnItemClickListener,View.OnClickListener {
+public class HotelShowFragment extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     ListView listView;
     TextView ivRecommend;
     HotelsAdapter hotelsAdapter;
     String[] items;
+
     public static HotelShowFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -89,23 +95,27 @@ public class HotelShowFragment extends BaseFragment implements AdapterView.OnIte
         textViewLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((HotelShowActivity) getActivity()).openMenu();
+                if (TextUtils.isEmpty(BasePreference.getToken())) {
+
+                    jumpToOtherActivity(LoginActivity.class);
+                    getActivity().finish();
+                } else {
+                    ((HotelShowActivity) getActivity()).openMenu();
+                }
             }
         });
 
     }
 
-    private void initListView()
-    {
+    private void initListView() {
         hotelsAdapter = new HotelsAdapter(getActivity());
         listView.setAdapter(hotelsAdapter);
         hotelsAdapter.notifyDataChanged(getFakeData());
         listView.setOnItemClickListener(this);
     }
 
-    private void initData()
-    {
-        items= getResources().getStringArray(R.array.hotel_sort_type);
+    private void initData() {
+        items = getResources().getStringArray(R.array.hotel_sort_type);
 
     }
 
@@ -120,14 +130,14 @@ public class HotelShowFragment extends BaseFragment implements AdapterView.OnIte
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
 
-                switch (which)
-                {
+                switch (which) {
                     case 0:
                         showToast("0");
                         break;
 
                     case 1:
                         showToast("1");
+                        jumpToOtherActivity(HotelDistinctActivity.class);
                         break;
                 }
 
@@ -166,8 +176,7 @@ public class HotelShowFragment extends BaseFragment implements AdapterView.OnIte
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.tv_recommend:
                 showToast("Z");
                 break;

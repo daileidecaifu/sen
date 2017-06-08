@@ -210,6 +210,7 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
 
             } else {
                 showToast(resultModel.message);
+                loadingView.showGuestInfoLoadingFailed();
             }
         } else if (req == loadMoreRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {

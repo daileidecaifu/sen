@@ -212,6 +212,7 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
 
             } else {
                 showToast(resultModel.message);
+                loadingView.showGuestInfoLoadingFailed();
             }
         } else if (req == loadMoreRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
