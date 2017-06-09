@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import sen.wedding.com.weddingsen.R;
-import sen.wedding.com.weddingsen.account.activity.VerifyGuestInfoActivity;
 import sen.wedding.com.weddingsen.base.ApiRequest;
 import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BaseFragment;
@@ -23,10 +22,8 @@ import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.business.activity.FollowUpDetailActivity;
-import sen.wedding.com.weddingsen.business.activity.GuestInfoDetailActivity;
 import sen.wedding.com.weddingsen.component.LoadingView;
 import sen.wedding.com.weddingsen.component.LoadMoreView;
-import sen.wedding.com.weddingsen.databinding.FollowUpDetailBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;

@@ -39,7 +39,7 @@
         </activity>
 
         <activity
-            android:name=".account.activity.VerifyGuestInfoActivity"
+            android:name=".business.activity.VerifyGuestInfoActivity"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
 
         <activity
@@ -101,6 +101,11 @@
 
         <activity android:name=".main.activity.InfoProvideActivity"></activity>
         <activity android:name=".main.activity.InfoFollowUpActivity"></activity>
+
+        <activity android:name=".business.activity.EditBuildInfoActivity"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
+
+        <activity android:name=".business.activity.BuildInfoDetailActivity"></activity>
     </application>
 
 </manifest>

@@ -1,50 +1,23 @@
 package sen.wedding.com.weddingsen.business.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
-import android.text.Html;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import sen.wedding.com.weddingsen.R;
-import sen.wedding.com.weddingsen.account.activity.VerifyGuestInfoActivity;
-import sen.wedding.com.weddingsen.base.ApiRequest;
-import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BaseActivity;
-import sen.wedding.com.weddingsen.base.BasePreference;
-import sen.wedding.com.weddingsen.base.Conts;
-import sen.wedding.com.weddingsen.base.URLCollection;
-import sen.wedding.com.weddingsen.business.adapter.ReviewInfoAdapter;
 import sen.wedding.com.weddingsen.business.fragment.ContractReviewFragment;
 import sen.wedding.com.weddingsen.business.fragment.FollowUpDetailFragment;
-import sen.wedding.com.weddingsen.business.model.DetailResModel;
-import sen.wedding.com.weddingsen.business.model.OrderItemModel;
 import sen.wedding.com.weddingsen.component.SwitchButton;
-import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.FollowUpDetailBinding;
-import sen.wedding.com.weddingsen.databinding.GuestInfoDetailBinding;
-import sen.wedding.com.weddingsen.http.base.RequestHandler;
-import sen.wedding.com.weddingsen.http.model.ResultModel;
-import sen.wedding.com.weddingsen.http.request.HttpMethod;
-import sen.wedding.com.weddingsen.main.activity.MainActivity;
-import sen.wedding.com.weddingsen.main.fragment.InfoFollowUpFragment;
-import sen.wedding.com.weddingsen.main.fragment.InfoProvideFragment;
-import sen.wedding.com.weddingsen.utils.DateUtil;
-import sen.wedding.com.weddingsen.utils.GsonConverter;
-import sen.wedding.com.weddingsen.utils.StringUtil;
-import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
 
 /**
  * Created by lorin on 17/3/25.

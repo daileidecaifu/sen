@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import sen.wedding.com.weddingsen.R;
-import sen.wedding.com.weddingsen.account.activity.VerifyGuestInfoActivity;
+import sen.wedding.com.weddingsen.business.activity.VerifyGuestInfoActivity;
 import sen.wedding.com.weddingsen.base.BaseFragment;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
@@ -32,6 +32,7 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
 
     private FragmentManager fragmentManager;
     private GuestInfoListFragment guestInfoListFragment;
+    private BuildInfoListFragment buildInfoListFragment;
 
     public static InfoProvideFragment newInstance() {
 
@@ -54,7 +55,7 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
         fragmentManager = getChildFragmentManager();
 
         checkTitle(view);
-        addMainView();
+        setTabSelection(0);
         return view;
 
     }
@@ -88,7 +89,9 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
         switchButton.setOnSwitchListener(new SwitchButton.OnSwitchListener() {
             @Override
             public void onSwitch(int position, String tabText) {
-                showToast("" + position);
+                showToast(""+position);
+                setTabSelection(position);
+
             }
         });
 
@@ -127,6 +130,7 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), VerifyGuestInfoActivity.class);
+                intent.putExtra("source", Conts.SOURCE_VERIFY_KEZI);
                 getActivity().startActivity(intent);
 
             }
@@ -149,15 +153,50 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
 
     }
 
-    private void addMainView() {
+    private void setTabSelection(int index) {
         // 开启一个Fragment事务
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        if (guestInfoListFragment == null) {
-            // 如果MessageFragment为空，则创建一个并添加到界面上
-            guestInfoListFragment = GuestInfoListFragment.newInstance();
-            transaction.add(R.id.fl_replace, guestInfoListFragment);
+        // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
+        hideFragments(transaction);
+        switch (index) {
+            case 0:
+
+                if (guestInfoListFragment == null) {
+                    // 如果MessageFragment为空，则创建一个并添加到界面上
+                    guestInfoListFragment = GuestInfoListFragment.newInstance();
+                    transaction.add(R.id.fl_replace, guestInfoListFragment);
+                } else {
+                    // 如果MessageFragment不为空，则直接将它显示出来
+                    transaction.show(guestInfoListFragment);
+                }
+                break;
+
+            case 1:
+
+
+                if (buildInfoListFragment == null) {
+                    // 如果MessageFragment为空，则创建一个并添加到界面上
+                    buildInfoListFragment = BuildInfoListFragment.newInstance();
+                    transaction.add(R.id.fl_replace, buildInfoListFragment);
+                } else {
+                    // 如果MessageFragment不为空，则直接将它显示出来
+                    transaction.show(buildInfoListFragment);
+                }
+                break;
+
         }
         transaction.commit();
+    }
+
+    private void hideFragments(FragmentTransaction transaction) {
+        if (guestInfoListFragment != null) {
+            transaction.hide(guestInfoListFragment);
+        }
+
+        if (buildInfoListFragment != null) {
+            transaction.hide(buildInfoListFragment);
+        }
+
     }
 
     private void showSelectType() {
@@ -172,12 +211,16 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
             public void onClick(DialogInterface dialog, int which) {
 
                 switch (which) {
-                    case 0:
+                    case Conts.SOURCE_VERIFY_KEZI:
                         Intent intent = new Intent(getActivity(), VerifyGuestInfoActivity.class);
+                        intent.putExtra("source", Conts.SOURCE_VERIFY_KEZI);
                         getActivity().startActivity(intent);
 
                         break;
-                    case 1:
+                    case Conts.SOURCE_VERIFY_BUILD:
+                        Intent intent1 = new Intent(getActivity(), VerifyGuestInfoActivity.class);
+                        intent1.putExtra("source", Conts.SOURCE_VERIFY_BUILD);
+                        getActivity().startActivity(intent1);
 
                         break;
                 }

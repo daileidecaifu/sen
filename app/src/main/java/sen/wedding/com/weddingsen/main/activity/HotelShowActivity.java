@@ -1,9 +1,7 @@
 package sen.wedding.com.weddingsen.main.activity;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -11,22 +9,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.account.activity.FeedbackActivity;
 import sen.wedding.com.weddingsen.account.activity.LoginActivity;
 import sen.wedding.com.weddingsen.account.activity.PersonalInfoSetActivity;
 import sen.wedding.com.weddingsen.account.activity.ResetPasswordActivity;
-import sen.wedding.com.weddingsen.account.activity.VerifyGuestInfoActivity;
 import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.databinding.HotelShowBinding;
 import sen.wedding.com.weddingsen.main.fragment.HotelShowFragment;
-import sen.wedding.com.weddingsen.main.fragment.InfoFollowUpFragment;
-import sen.wedding.com.weddingsen.main.fragment.InfoProvideFragment;
 import sen.wedding.com.weddingsen.utils.ScreenUtil;
 
 /**

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data class="EditBuildInfoBinding">
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/common_background"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/title_bar"
+            layout="@layout/common_title_bar" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="7dp"
+                    android:orientation="vertical"
+                    android:background="@color/white"
+                    android:layout_height="wrap_content">
+
+
+                    <include
+                        android:id="@+id/ll_edit_name"
+                        layout="@layout/view_item_edit" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginRight="15dp"
+
+                        android:background="@color/common_background"
+                        android:layout_marginLeft="15dp"></View>
+
+                    <include
+                        android:id="@+id/ll_select_type"
+                        layout="@layout/view_item_select" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginRight="15dp"
+
+                        android:background="@color/common_background"
+                        android:layout_marginLeft="15dp"></View>
+
+                    <include
+                        android:id="@+id/ll_select_phone_number"
+                        layout="@layout/view_item_select" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginRight="15dp"
+
+                        android:background="@color/common_background"
+                        android:layout_marginLeft="15dp"></View>
+
+
+                    <include
+                        android:id="@+id/ll_select_specify_item"
+                        layout="@layout/view_item_select" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginRight="15dp"
+
+                        android:background="@color/common_background"
+                        android:layout_marginLeft="15dp"></View>
+
+
+                    <include
+                        android:id="@+id/ll_edit_budget"
+                        layout="@layout/view_item_edit" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_marginRight="15dp"
+
+                        android:layout_height="1px"
+                        android:background="@color/common_background"
+                        android:layout_marginLeft="15dp"></View>
+
+                    <include
+                        android:id="@+id/ll_select_time"
+                        layout="@layout/view_item_select" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginRight="15dp"
+
+                        android:background="@color/common_background"
+                        android:layout_marginLeft="15dp"></View>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="top"
+                        android:background="@color/white"
+                        android:paddingTop="13dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:layout_height="88dp">
+                        <TextView
+                            android:layout_width="90dp"
+                            android:textSize="@dimen/text_size_m"
+                            android:textColor="@color/tip_color"
+                            android:text="@string/note"
+                            android:layout_height="wrap_content" />
+                        <EditText
+                            android:id="@+id/et_edit_note"
+                            android:gravity="top|left"
+                            android:textSize="@dimen/text_size_m"
+                            android:maxLength="500"
+                            android:hint="@string/please_write_note"
+                            android:textColor="@color/gray_2"
+                            android:textColorHint="@color/gray_1"
+                            android:background="@color/transparent"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginRight="15dp"
+
+                        android:background="@color/common_background"
+                        android:layout_marginLeft="15dp"></View>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:background="@color/white"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_edit_submit"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginRight="45dp"
+                            android:layout_marginLeft="45dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginBottom="30dp"
+                            android:background="@drawable/buttom_common_background"
+                            android:gravity="center"
+                            android:onClick="@{clickListener}"
+                            android:text="@string/submit_build_info"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_xl"></TextView>
+
+                    </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:background="@color/common_background"
+                        android:layout_height="20dp"></View>
+                </LinearLayout>
+
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:paddingLeft="30dp"-->
+                    <!--android:textSize="@dimen/text_size_xl"-->
+                    <!--android:text="@string/check_info"-->
+                    <!--android:gravity="center_vertical"/>-->
+
+                <!--<sen.wedding.com.weddingsen.component.MeasuredListView-->
+                    <!--android:id="@+id/lv_review_info"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:divider="@null"/>-->
+            </LinearLayout>
+        </ScrollView>
+
+
+    </LinearLayout>
+
+
+</layout>

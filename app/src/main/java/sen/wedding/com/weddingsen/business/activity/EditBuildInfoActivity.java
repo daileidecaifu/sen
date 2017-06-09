@@ -23,13 +23,14 @@ import sen.wedding.com.weddingsen.base.ApiRequest;
 import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.base.BasePreference;
+import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.business.adapter.ReviewInfoAdapter;
 import sen.wedding.com.weddingsen.business.model.AreaModel;
 import sen.wedding.com.weddingsen.business.model.HotelModel;
 import sen.wedding.com.weddingsen.component.TitleBar;
+import sen.wedding.com.weddingsen.databinding.EditBuildInfoBinding;
 import sen.wedding.com.weddingsen.databinding.EditGuestInfoBinding;
-import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
@@ -42,14 +43,12 @@ import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
  * Created by lorin on 17/3/25.
  */
 
-public class EditGuestInfoActivity extends BaseActivity implements View.OnClickListener, RequestHandler<ApiRequest, ApiResponse>, DatePickerDialog.OnDateSetListener {
+public class EditBuildInfoActivity extends BaseActivity implements View.OnClickListener, RequestHandler<ApiRequest, ApiResponse>, DatePickerDialog.OnDateSetListener {
 
-    private EditGuestInfoBinding binding;
+    private EditBuildInfoBinding binding;
 
     private ReviewInfoAdapter adapter;
 
-    private List<BaseTypeModel> specifyModels;
-    private BaseTypeModel selectTypeModel;
 
     StringBuffer sbType;
     StringBuffer sbItemHotel;
@@ -71,7 +70,7 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_guest_info);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_build_info);
         binding.setClickListener(this);
 
         initTitleBar(binding.titleBar, TitleBar.Type.COMMON);
@@ -100,21 +99,9 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
         selectOrderTypeModel = GsonConverter.fromJson(orderTypeStr, BaseTypeModel.class);
         verifyPhone = getIntent().getStringExtra("verify_phone");
 
-        specifyModels = Conts.getSpecifyTypeArray();
-        selectTypeModel = specifyModels.get(1);
-
-        sbType = new StringBuffer();
-        sbType.append(StringUtil.createHtml(getString(R.string.specify_position), "#313133"));
-        sbType.append(StringUtil.createHtml("*", "#fa4b4b"));
-
-        sbItemHotel = new StringBuffer();
-        sbItemHotel.append(StringUtil.createHtml(getString(R.string.hotel), "#313133"));
-        sbItemHotel.append(StringUtil.createHtml("*", "#fa4b4b"));
-
         sbItemDistrict = new StringBuffer();
         sbItemDistrict.append(StringUtil.createHtml(getString(R.string.district), "#313133"));
         sbItemDistrict.append(StringUtil.createHtml("*", "#fa4b4b"));
-
     }
 
     private void initComponents() {
@@ -132,60 +119,16 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
         binding.llSelectPhoneNumber.tvItemSelectIcon.setVisibility(View.INVISIBLE);
         binding.llSelectPhoneNumber.tvItemSelectContent.setText(verifyPhone);
 
-        if(BasePreference.getUserType().equals(Conts.LOGIN_MODEL_ACCOUNT))
-        {
-            binding.llSelectSpecifyType.tvItemSelectTitle.setText(Html.fromHtml(sbType.toString()));
-            binding.llSelectSpecifyType.tvItemSelectContent.setText(selectTypeModel.getValue());
+        //区域
+        binding.llSelectSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemDistrict.toString()));
+        binding.llSelectSpecifyItem.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-            selectHotelList = new ArrayList<>();
-            HotelModel hotelModel = new HotelModel();
-            hotelModel.setHotelId(BasePreference.getHotelId());
-            hotelModel.setHotelName(BasePreference.getHotelName());
-            selectHotelList.add(hotelModel);
-            binding.llSelectSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemHotel.toString()));
-            binding.llSelectSpecifyItem.tvItemSelectContent.setText(hotelModel.getHotelName());
-
-
-        }else if(BasePreference.getUserType().equals(Conts.LOGIN_MODEL_PHONE))
-        {
-            //指定类型
-            binding.llSelectSpecifyType.tvItemSelectTitle.setText(Html.fromHtml(sbType.toString()));
-            binding.llSelectSpecifyType.tvItemSelectContent.setText(selectTypeModel.getValue());
-            binding.llSelectSpecifyType.setClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showSelectDistrict(specifyModels);
-                }
-            });
-
-            //指定item
-
-            binding.llSelectSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemDistrict.toString()));
-//        binding.llSelectSpecifyItem.tvItemSelectContent.setText(hotelModels.get(0).getValue());
-            binding.llSelectSpecifyItem.setClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    switch (selectTypeModel.getType()) {
-                        case Conts.OPTION_DISTRICT_SELECT:
-                            Intent intent = new Intent(EditGuestInfoActivity.this, SelectAreaOptionActivity.class);
-                            startActivityForResult(intent, Conts.SELECT_OPTION_REQUEST_CODE);
-                            break;
-
-                        case Conts.OPTION_HOTEL_SELECT:
-                            Intent intent2 = new Intent(EditGuestInfoActivity.this, SelectHotelOptionActivity.class);
-                            startActivityForResult(intent2, Conts.SELECT_OPTION_REQUEST_CODE);
-                            break;
-                    }
-
-                }
-            });
-        }
-
-        //桌数
-        binding.llEditTableCount.tvItemEditTitle.setText(getString(R.string.table_count));
-        binding.llEditTableCount.etItemEditInput.setHint(getString(R.string.table_count_hint));
-        binding.llEditTableCount.etItemEditInput.setInputType(InputType.TYPE_CLASS_NUMBER);
+                Intent intent = new Intent(EditBuildInfoActivity.this, SelectAreaOptionActivity.class);
+                startActivityForResult(intent, Conts.SELECT_OPTION_REQUEST_CODE);
+            }
+        });
 
         //预算
         binding.llEditBudget.tvItemEditTitle.setText(getString(R.string.budget));
@@ -227,50 +170,13 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
 //        return fakeList;
 //    }
 
-    private void showSelectDistrict(final List<BaseTypeModel> districts) {
 
-        final String[] items = Conts.getShowContentArray(districts);
-        //dialog参数设置
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);  //先得到构造器
-        builder.setTitle("提示"); //设置标题
-        //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                binding.llSelectSpecifyType.tvItemSelectContent.setText(items[which]);
-                BaseTypeModel tempTypeModel = specifyModels.get(which);
-                //必须将选项和districts array一一按照顺序匹配
-                if (tempTypeModel.getType() != selectTypeModel.getType()) {
-                    binding.llSelectSpecifyItem.tvItemSelectContent.setText("");
-                }
-                selectTypeModel = tempTypeModel;
-                switch (selectTypeModel.getType()) {
-                    case Conts.OPTION_DISTRICT_SELECT:
-                        binding.llSelectSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemDistrict.toString()));
-                        break;
-
-                    case Conts.OPTION_HOTEL_SELECT:
-                        binding.llSelectSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemHotel.toString()));
-                        break;
-                }
-
-            }
-        });
-        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.create().show();
-    }
 
     private void showSelectDate() {
         if (dpd == null) {
             Calendar now = Calendar.getInstance();
             dpd = DatePickerDialog.newInstance(
-                    EditGuestInfoActivity.this,
+                    EditBuildInfoActivity.this,
                     now.get(Calendar.YEAR),
                     now.get(Calendar.MONTH),
                     now.get(Calendar.DAY_OF_MONTH)
@@ -288,34 +194,16 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
             return;
         }
 
-        createGuestInfoRequest = new ApiRequest(URLCollection.URL_CREATE_GUEST_INFO, HttpMethod.POST);
+        createGuestInfoRequest = new ApiRequest(URLCollection.URL_CREATE_BUILD_INFO, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("order_type", selectOrderTypeModel.getType()+"");
         param.put("order_phone", verifyPhone);
 
-        param.put("order_area_hotel_type", selectTypeModel.getType()+"");
-
-        switch (selectTypeModel.getType()) {
-            case Conts.OPTION_DISTRICT_SELECT:
-
-                param.put("order_area_hotel_id", selectAreaList.get(0).getAreaId());
-                break;
-
-            case Conts.OPTION_HOTEL_SELECT:
-                StringBuffer sb = new StringBuffer();
-                for (int i = 0; i < selectHotelList.size(); i++) {
-                    sb.append(selectHotelList.get(i).getHotelId());
-                    if (i != (selectHotelList.size() - 1)) {
-                        sb.append(",");
-                    }
-                }
-                param.put("order_area_hotel_id", sb.toString());
-                break;
-        }
+        param.put("order_area_hotel_type", ""+Conts.OPTION_DISTRICT_SELECT);
+        param.put("order_area_hotel_id", selectAreaList.get(0).getAreaId());
 
         param.put("customer_name", binding.llEditName.etItemEditInput.getText().toString());
-        param.put("desk_count", binding.llEditTableCount.etItemEditInput.getText().toString());
         param.put("use_date", selectTime+"");
         param.put("order_money", binding.llEditBudget.etItemEditInput.getText().toString());
         param.put("order_desc", binding.etEditNote.getText().toString());
@@ -351,24 +239,12 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
 
                 if (resultCode == RESULT_OK) {
                     String resultJsonStr = data.getStringExtra("result");
-                    receiveDataAndProcess(resultJsonStr);
+                    showAreaContent(resultJsonStr);
                 }
 
                 break;
 
             default:
-                break;
-        }
-    }
-
-    private void receiveDataAndProcess(String str) {
-        switch (selectTypeModel.getType()) {
-            case Conts.OPTION_DISTRICT_SELECT:
-                showAreaContent(str);
-                break;
-
-            case Conts.OPTION_HOTEL_SELECT:
-                showHotelContent(str);
                 break;
         }
     }
@@ -383,23 +259,6 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
         for (int i = 0; i < selectAreaList.size(); i++) {
             sb.append(selectAreaList.get(i).getAreaName());
             if (i != (selectAreaList.size() - 1)) {
-                sb.append(",");
-            }
-        }
-
-        binding.llSelectSpecifyItem.tvItemSelectContent.setText(sb.toString());
-    }
-
-    private void showHotelContent(String str) {
-        selectHotelList = GsonConverter.fromJson(str,
-                new TypeToken<List<HotelModel>>() {
-                }.getType());
-
-        StringBuffer sb = new StringBuffer();
-
-        for (int i = 0; i < selectHotelList.size(); i++) {
-            sb.append(selectHotelList.get(i).getHotelName());
-            if (i != (selectHotelList.size() - 1)) {
                 sb.append(",");
             }
         }

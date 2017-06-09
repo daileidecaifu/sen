@@ -21,18 +21,19 @@ import sen.wedding.com.weddingsen.base.BaseFragment;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
+import sen.wedding.com.weddingsen.business.activity.BuildInfoDetailActivity;
 import sen.wedding.com.weddingsen.business.activity.GuestInfoDetailActivity;
-import sen.wedding.com.weddingsen.component.LoadingView;
 import sen.wedding.com.weddingsen.component.LoadMoreView;
+import sen.wedding.com.weddingsen.component.LoadingView;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.main.adapter.GuestInfoAdapter;
-import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
+import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 
-public class GuestInfoFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>,
+public class BuildInfoFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>,
         AdapterView.OnItemClickListener, RecyclerRefreshLayout.OnRefreshListener,
         LoadMoreView.OnLoadMoreListener {
 
@@ -52,11 +53,11 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
     boolean isLoadMore = false;//是否请求下一页数据
     private LoadMoreView loadMoreView;
 
-    public static GuestInfoFragment newInstance(int orderStatus) {
+    public static BuildInfoFragment newInstance(int orderStatus) {
 
         Bundle args = new Bundle();
         args.putInt("order_status", orderStatus);
-        GuestInfoFragment fragment = new GuestInfoFragment();
+        BuildInfoFragment fragment = new BuildInfoFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -150,7 +151,7 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
 
     private void getGuestInfoList() {
         currentPage = 1;
-        getListRequest = new ApiRequest(URLCollection.URL_GET_GUEST_INFO_LIST, HttpMethod.POST);
+        getListRequest = new ApiRequest(URLCollection.URL_GET_BUILD_INFO_LIST, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("order_status", currentStatus + "");
@@ -164,7 +165,7 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
     private void loadMoreInfoList() {
         isLoadMore = true;
         int loadmorePage = currentPage + 1;
-        loadMoreRequest = new ApiRequest(URLCollection.URL_GET_GUEST_INFO_LIST, HttpMethod.POST);
+        loadMoreRequest = new ApiRequest(URLCollection.URL_GET_BUILD_INFO_LIST, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("order_status", currentStatus + "");
@@ -252,7 +253,7 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getAdapter().getItem(position) instanceof OrderInfoModel) {
-            Intent intent = new Intent(getActivity(), GuestInfoDetailActivity.class);
+            Intent intent = new Intent(getActivity(), BuildInfoDetailActivity.class);
             intent.putExtra("order_id", guestInfoAdapter.getList().get(position).getId());
             getActivity().startActivity(intent);
         }

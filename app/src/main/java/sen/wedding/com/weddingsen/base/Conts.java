@@ -175,4 +175,10 @@ public class Conts {
 
     //压缩图片目录
     public final static String COMPRESS_IMG_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/sen/pic/compress";
+
+    //验证来源
+    public final static int SOURCE_VERIFY_KEZI = 0;
+    public final static int SOURCE_VERIFY_BUILD = 1;
+
+
 }

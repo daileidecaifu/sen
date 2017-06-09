@@ -1,4 +1,4 @@
-package sen.wedding.com.weddingsen.account.activity;
+package sen.wedding.com.weddingsen.business.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,7 +19,6 @@ import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.URLCollection;
-import sen.wedding.com.weddingsen.business.activity.EditGuestInfoActivity;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.VerifyGuestInfoBinding;
 import sen.wedding.com.weddingsen.base.Conts;
@@ -39,7 +38,8 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
     //    private String[] items;
     private List<BaseTypeModel> modelList;
     private BaseTypeModel selectOrderTypeModel;
-    private ApiRequest verifyGuestRequest;
+    private ApiRequest verifyGuestRequest, verifyBuildRequest;
+    private int source;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,7 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
 
         modelList = Conts.getOrderTypeArray();
         selectOrderTypeModel = modelList.get(0);
+        source = getIntent().getIntExtra("source", 0);
         initComponents();
     }
 
@@ -68,7 +69,17 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
                 break;
 
             case R.id.tv_verify_now:
-                verifyGuest();
+                switch (source) {
+                    case Conts.SOURCE_VERIFY_KEZI:
+                        verifyGuest();
+                        break;
+
+                    case Conts.SOURCE_VERIFY_BUILD:
+
+                        verifyBuild();
+                        break;
+
+                }
                 break;
 
             case R.id.ll_left:
@@ -98,6 +109,28 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
 
         verifyGuestRequest.setParams(param);
         getApiService().exec(verifyGuestRequest, this);
+    }
+
+    private void verifyBuild() {
+        if (TextUtils.isEmpty(binding.llEditGuestPhone.etItemEditInput.getText().toString().trim())) {
+            showToast(getString(R.string.phone_number_can_not_empty));
+            return;
+        }
+
+        if (binding.llEditGuestPhone.etItemEditInput.getText().toString().trim().length() != 11) {
+            showToast(getString(R.string.phone_number_wrong_format));
+            return;
+        }
+
+        showProgressDialog(false);
+        verifyBuildRequest = new ApiRequest(URLCollection.URL_VERIFY_BUILD_PHONE, HttpMethod.POST);
+        HashMap<String, String> param = new HashMap<>();
+        param.put("access_token", BasePreference.getToken());
+        param.put("order_type", selectOrderTypeModel.getType() + "");
+        param.put("order_phone", binding.llEditGuestPhone.etItemEditInput.getText().toString().trim());
+
+        verifyBuildRequest.setParams(param);
+        getApiService().exec(verifyBuildRequest, this);
     }
 
     private void initComponents() {
@@ -157,6 +190,19 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
                 showToast(getString(R.string.verify_success));
 
                 Intent intent = new Intent(VerifyGuestInfoActivity.this, EditGuestInfoActivity.class);
+                intent.putExtra("select_type", GsonConverter.toJson(selectOrderTypeModel));
+                intent.putExtra("verify_phone", binding.llEditGuestPhone.etItemEditInput.getText().toString().trim());
+
+                startActivity(intent);
+                finish();
+            } else {
+                showToast(resultModel.message);
+            }
+        } else if (req == verifyBuildRequest) {
+            if (resultModel.status == Conts.REQUEST_SUCCESS) {
+                showToast(getString(R.string.verify_success));
+
+                Intent intent = new Intent(VerifyGuestInfoActivity.this, EditBuildInfoActivity.class);
                 intent.putExtra("select_type", GsonConverter.toJson(selectOrderTypeModel));
                 intent.putExtra("verify_phone", binding.llEditGuestPhone.etItemEditInput.getText().toString().trim());
 

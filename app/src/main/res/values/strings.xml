@@ -36,6 +36,7 @@
     <string name="edit_name_hint">请输入受访者姓名</string>
     <string name="edit_guest_info">填写客资料信息</string>
     <string name="submit_guest_info">提交客资信息</string>
+    <string name="submit_build_info">提交搭建信息</string>
     <string name="guest_info">客资信息</string>
     <string name="note_colon">备注:</string>
     <string name="note">备注</string>

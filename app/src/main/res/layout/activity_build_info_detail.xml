@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data class="BuildInfoDetailBinding">
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/common_background"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/title_bar"
+            layout="@layout/common_title_bar" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="7dp"
+                    android:orientation="vertical"
+                    android:background="@color/white"
+                    android:layout_height="wrap_content">
+
+
+                    <include
+                        android:id="@+id/ll_show_name"
+                        layout="@layout/view_item_select" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_marginRight="15dp"
+
+                        android:layout_height="1px"
+                        android:background="@color/common_background"
+                        android:layout_marginLeft="15dp"></View>
+
+                    <include
+                        android:id="@+id/ll_show_type"
+                        layout="@layout/view_item_select" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_marginRight="15dp"
+
+                        android:layout_height="1px"
+                        android:background="@color/common_background"
+                        android:layout_marginLeft="15dp"></View>
+
+                    <include
+                        android:id="@+id/ll_show_phone_number"
+                        layout="@layout/view_item_select" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginRight="15dp"
+
+                        android:background="@color/common_background"
+                        android:layout_marginLeft="15dp"></View>
+
+                    <include
+                        android:id="@+id/ll_show_specify_item"
+                        layout="@layout/view_item_select" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_marginRight="15dp"
+
+                        android:layout_height="1px"
+                        android:background="@color/common_background"
+                        android:layout_marginLeft="15dp"></View>
+
+                    <include
+                        android:id="@+id/ll_show_budget"
+                        layout="@layout/view_item_select" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginRight="15dp"
+                        android:background="@color/common_background"
+                        android:layout_marginLeft="15dp"></View>
+
+                    <include
+                        android:id="@+id/ll_show_time"
+                        layout="@layout/view_item_select" />
+
+                    <!--<View-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="20dp"></View>-->
+
+                    <!--<include-->
+                        <!--android:id="@+id/ll_edit_follower"-->
+                        <!--layout="@layout/view_item_edit" />-->
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginRight="15dp"
+
+                        android:background="@color/common_background"
+                        android:layout_marginLeft="15dp"></View>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="top"
+                        android:background="@color/white"
+                        android:paddingTop="13dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:layout_height="88dp">
+                        <TextView
+                            android:layout_width="90dp"
+                            android:textSize="@dimen/text_size_m"
+                            android:textColor="@color/tip_color"
+                            android:text="@string/note"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:id="@+id/tv_show_note"
+                            android:gravity="top|left"
+                            android:textSize="@dimen/text_size_m"
+                            android:maxLength="500"
+                            android:textColor="@color/gray_2"
+                            android:textColorHint="@color/gray_1"
+                            android:background="@color/transparent"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/common_background"></View>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:background="@color/common_background"></View>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:paddingLeft="15dp"
+                            android:text="@string/process_status"
+                            android:background="@color/common_background"
+                            android:textSize="@dimen/text_size_ss"
+                            android:layout_height="30dp" />
+
+                        <include
+                            android:id="@+id/ll_process_schedule"
+                            layout="@layout/view_item_select" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:layout_marginRight="15dp"
+                            android:background="@color/common_background"
+                            android:layout_marginLeft="15dp"></View>
+
+                        <include
+                            android:id="@+id/ll_process_time"
+                            layout="@layout/view_item_select" />
+
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:background="@color/common_background"></View>
+                </LinearLayout>
+
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:paddingLeft="30dp"-->
+                    <!--android:textSize="@dimen/text_size_xl"-->
+                    <!--android:text="@string/check_info"-->
+                    <!--android:gravity="center_vertical"/>-->
+
+                <!--<sen.wedding.com.weddingsen.component.MeasuredListView-->
+                    <!--android:id="@+id/lv_review_info"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:divider="@null"/>-->
+            </LinearLayout>
+        </ScrollView>
+
+
+    </LinearLayout>
+
+
+</layout>
