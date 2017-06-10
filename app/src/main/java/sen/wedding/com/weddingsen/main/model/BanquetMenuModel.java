@@ -1,14 +1,18 @@
 package sen.wedding.com.weddingsen.main.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by lorin on 17/5/26.
  */
 
 public class BanquetMenuModel {
 
+    @SerializedName("menu_name")
     private String menuName;
 
-    private String unitPrice;
+    @SerializedName("menu_money")
+    private String menuMoney;
 
     public String getMenuName() {
         return menuName;
@@ -18,11 +22,11 @@ public class BanquetMenuModel {
         this.menuName = menuName;
     }
 
-    public String getUnitPrice() {
-        return unitPrice;
+    public String getMenuMoney() {
+        return menuMoney;
     }
 
-    public void setUnitPrice(String unitPrice) {
-        this.unitPrice = unitPrice;
+    public void setMenuMoney(String menuMoney) {
+        this.menuMoney = menuMoney;
     }
 }

@@ -2,15 +2,13 @@ package sen.wedding.com.weddingsen.main.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
 
 /**
- * Created by lorin on 17/5/26.
+ * Created by lorin on 17/6/10.
  */
 
-public class HotelShowModel {
-
-    @SerializedName("hotel_id")
-    private String hotelId;
+public class HotelDetailModel {
 
     @SerializedName("hotel_name")
     private String hotelName;
@@ -35,6 +33,18 @@ public class HotelShowModel {
 
     @SerializedName("hotel_image")
     private String hotelImage;
+
+    @SerializedName("hotel_images")
+    private List<String> hotelImages;
+
+    @SerializedName("hotel_address")
+    private String hotelAddress;
+
+    @SerializedName("room_list")
+    private List<BallroomModel> roomList;
+
+    @SerializedName("menu_list")
+    private List<BanquetMenuModel> menuList;
 
     public String getHotelName() {
         return hotelName;
@@ -100,11 +110,35 @@ public class HotelShowModel {
         this.hotelImage = hotelImage;
     }
 
-    public String getHotelId() {
-        return hotelId;
+    public List<String> getHotelImages() {
+        return hotelImages;
     }
 
-    public void setHotelId(String hotelId) {
-        this.hotelId = hotelId;
+    public void setHotelImages(List<String> hotelImages) {
+        this.hotelImages = hotelImages;
+    }
+
+    public String getHotelAddress() {
+        return hotelAddress;
+    }
+
+    public void setHotelAddress(String hotelAddress) {
+        this.hotelAddress = hotelAddress;
+    }
+
+    public List<BallroomModel> getRoomList() {
+        return roomList;
+    }
+
+    public void setRoomList(List<BallroomModel> roomList) {
+        this.roomList = roomList;
+    }
+
+    public List<BanquetMenuModel> getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(List<BanquetMenuModel> menuList) {
+        this.menuList = menuList;
     }
 }

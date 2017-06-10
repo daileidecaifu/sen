@@ -1,5 +1,6 @@
 package sen.wedding.com.weddingsen.main.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.account.activity.FeedbackActivity;
 import sen.wedding.com.weddingsen.account.activity.LoginActivity;
+import sen.wedding.com.weddingsen.account.activity.PersonalDetailActivity;
 import sen.wedding.com.weddingsen.account.activity.PersonalInfoSetActivity;
 import sen.wedding.com.weddingsen.account.activity.ResetPasswordActivity;
 import sen.wedding.com.weddingsen.base.BaseActivity;
@@ -57,11 +59,19 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
         switch (userType) {
             case Conts.LOGIN_MODEL_PHONE:
                 binding.llSliderMenu.llInfoFollow.setVisibility(View.GONE);
-                binding.llSliderMenu.llInfoProvide.setVisibility(View.GONE);
                 binding.llSliderMenu.llPasswordReset.setVisibility(View.GONE);
                 ViewGroup.LayoutParams para = binding.llSliderMenu.vLogoutMarginTop.getLayoutParams();
                 para.height = ScreenUtil.dip2px(this, 180);
                 binding.llSliderMenu.vLogoutMarginTop.setLayoutParams(para);
+                break;
+
+            case Conts.LOGIN_MODEL_FIRST_SALE:
+            case Conts.LOGIN_MODEL_SECOND_SALE:
+                binding.llSliderMenu.llInfoProvide.setVisibility(View.GONE);
+                binding.llSliderMenu.llPersonInfo.setVisibility(View.GONE);
+                ViewGroup.LayoutParams para2 = binding.llSliderMenu.vLogoutMarginTop.getLayoutParams();
+                para2.height = ScreenUtil.dip2px(this, 180);
+                binding.llSliderMenu.vLogoutMarginTop.setLayoutParams(para2);
                 break;
         }
 
@@ -99,7 +109,7 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.ll_person_info:
-                jumpToOtherActivity(PersonalInfoSetActivity.class);
+                jumpToOtherActivity(PersonalDetailActivity.class);
                 break;
 
             case R.id.ll_info_provide:
@@ -118,10 +128,7 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
         drawer.openDrawer(GravityCompat.START);
     }
     private void logout() {
-        BasePreference.saveAlipayAccount("");
-        BasePreference.saveUserType("");
-        BasePreference.saveToken("");
-        BasePreference.saveUserName("");
+        BasePreference.clearAll();
         jumpToOtherActivity(LoginActivity.class);
         finish();
     }
@@ -142,4 +149,5 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
 
         }
     }
+
 }

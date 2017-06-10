@@ -26,6 +26,15 @@ public class AccountInfoModel {
     @SerializedName("hotel_name")
     private String hotelName;
 
+    @SerializedName("bank_account")
+    private String bankAccount;
+
+    @SerializedName("hotel_area")
+    private String hotelArea;
+
+    @SerializedName("area_id")
+    private String areaId;
+
     public String getAccessToken() {
         return accessToken;
     }
@@ -72,5 +81,29 @@ public class AccountInfoModel {
 
     public void setHotelName(String hotelName) {
         this.hotelName = hotelName;
+    }
+
+    public String getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(String bankAccount) {
+        this.bankAccount = bankAccount;
+    }
+
+    public String getHotelArea() {
+        return hotelArea;
+    }
+
+    public void setHotelArea(String hotelArea) {
+        this.hotelArea = hotelArea;
+    }
+
+    public String getAreaId() {
+        return areaId;
+    }
+
+    public void setAreaId(String areaId) {
+        this.areaId = areaId;
     }
 }

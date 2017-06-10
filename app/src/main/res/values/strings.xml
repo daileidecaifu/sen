@@ -183,5 +183,8 @@
     <string name="account_alipay">支付宝账号</string>
     <string name="account_bank">银行卡账号</string>
     <string name="choose_check_distinct">选择查看区域</string>
+    <string name="build_follow">选择查看区域</string>
+    <string name="my_recommend">我的推荐</string>
+    <string name="my_follow">我的跟踪</string>
 
 </resources>

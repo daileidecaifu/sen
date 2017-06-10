@@ -121,14 +121,16 @@ public class EditBuildInfoActivity extends BaseActivity implements View.OnClickL
 
         //区域
         binding.llSelectSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemDistrict.toString()));
-        binding.llSelectSpecifyItem.setClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(EditBuildInfoActivity.this, SelectAreaOptionActivity.class);
-                startActivityForResult(intent, Conts.SELECT_OPTION_REQUEST_CODE);
-            }
-        });
+        binding.llSelectSpecifyItem.tvItemSelectIcon.setVisibility(View.GONE);
+        binding.llSelectSpecifyItem.tvItemSelectContent.setText(BasePreference.getHotelArea());
+//        binding.llSelectSpecifyItem.setClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Intent intent = new Intent(EditBuildInfoActivity.this, SelectAreaOptionActivity.class);
+//                startActivityForResult(intent, Conts.SELECT_OPTION_REQUEST_CODE);
+//            }
+//        });
 
         //预算
         binding.llEditBudget.tvItemEditTitle.setText(getString(R.string.budget));
@@ -189,10 +191,10 @@ public class EditBuildInfoActivity extends BaseActivity implements View.OnClickL
 
     private void createGusetInfo() {
 
-        if (selectAreaList == null && selectHotelList == null) {
-            showToast(getString(R.string.area_or_hotel_not_select));
-            return;
-        }
+//        if (selectAreaList == null && selectHotelList == null) {
+//            showToast(getString(R.string.area_or_hotel_not_select));
+//            return;
+//        }
 
         createGuestInfoRequest = new ApiRequest(URLCollection.URL_CREATE_BUILD_INFO, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
@@ -201,7 +203,7 @@ public class EditBuildInfoActivity extends BaseActivity implements View.OnClickL
         param.put("order_phone", verifyPhone);
 
         param.put("order_area_hotel_type", ""+Conts.OPTION_DISTRICT_SELECT);
-        param.put("order_area_hotel_id", selectAreaList.get(0).getAreaId());
+        param.put("order_area_hotel_id", BasePreference.getAreaId());
 
         param.put("customer_name", binding.llEditName.etItemEditInput.getText().toString());
         param.put("use_date", selectTime+"");

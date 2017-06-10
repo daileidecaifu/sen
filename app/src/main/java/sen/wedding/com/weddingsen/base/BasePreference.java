@@ -14,6 +14,9 @@ public class BasePreference {
     private final static String KEY_USER_TYPE = "user_type";
     private final static String KEY_HOTEL_ID = "hotel_id";
     private final static String KEY_HOTEL_NAME = "hotel_name";
+    private final static String KEY_BANK_ACCOUNT = "bank_account";
+    private final static String KEY_AREA_ID = "area_id";
+    private final static String KEY_HOTEL_AREA = "hotel_area";
 
     public static void saveToken(String token) {
         PreferenceUtils.setPrefString(SenApplication.getInstance(), KEY_TOKEN, token);
@@ -63,14 +66,40 @@ public class BasePreference {
         return PreferenceUtils.getPrefString(SenApplication.getInstance(), KEY_HOTEL_NAME, "");
     }
 
+    public static void saveBankAccount(String name) {
+        PreferenceUtils.setPrefString(SenApplication.getInstance(), KEY_BANK_ACCOUNT, name);
+    }
+
+    public static String getBankAccount() {
+        return PreferenceUtils.getPrefString(SenApplication.getInstance(), KEY_BANK_ACCOUNT, "");
+    }
+
+    public static void saveAreaId(String name) {
+        PreferenceUtils.setPrefString(SenApplication.getInstance(), KEY_AREA_ID, name);
+    }
+
+    public static String getAreaId() {
+        return PreferenceUtils.getPrefString(SenApplication.getInstance(), KEY_AREA_ID, "");
+    }
+
+    public static void saveHotelArea(String name) {
+        PreferenceUtils.setPrefString(SenApplication.getInstance(), KEY_HOTEL_AREA, name);
+    }
+
+    public static String getHotelArea() {
+        return PreferenceUtils.getPrefString(SenApplication.getInstance(), KEY_HOTEL_AREA, "");
+    }
+
     public static void clearAll() {
         saveToken("");
         saveUserName("");
         saveUserType("");
-        saveUserType("");
         saveAlipayAccount("");
         saveHotelId("");
         saveHotelName("");
+        saveBankAccount("");
+        saveAreaId("");
+        saveHotelArea("");
     }
 
 

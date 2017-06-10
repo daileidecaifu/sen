@@ -1,22 +1,38 @@
 package sen.wedding.com.weddingsen.main.model;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 /**
  * Created by lorin on 17/5/26.
  */
 
 public class BallroomModel {
 
+    @SerializedName("room_name")
     private String roomName;
 
-    private String floor;
+    @SerializedName("room_max_desk")
+    private String roomMaxDesk;
 
-    private String tableCount;
+    @SerializedName("room_high")
+    private String roomHigh;
 
-    private String highLevel;
+    @SerializedName("room_lz")
+    private String roomLz;
 
-    private String columnCount;
+    @SerializedName("room_min_desk")
+    private String roomMinDesk;
 
-    private String imgUrl;
+    @SerializedName("room_best_desk")
+    private String roomBestDesk;
+
+    @SerializedName("room_m")
+    private String roomM;
+
+    @SerializedName("room_image")
+    private List<String> roomImage;
 
     public String getRoomName() {
         return roomName;
@@ -26,43 +42,59 @@ public class BallroomModel {
         this.roomName = roomName;
     }
 
-    public String getFloor() {
-        return floor;
+    public String getRoomMaxDesk() {
+        return roomMaxDesk;
     }
 
-    public void setFloor(String floor) {
-        this.floor = floor;
+    public void setRoomMaxDesk(String roomMaxDesk) {
+        this.roomMaxDesk = roomMaxDesk;
     }
 
-    public String getTableCount() {
-        return tableCount;
+    public String getRoomHigh() {
+        return roomHigh;
     }
 
-    public void setTableCount(String tableCount) {
-        this.tableCount = tableCount;
+    public void setRoomHigh(String roomHigh) {
+        this.roomHigh = roomHigh;
     }
 
-    public String getHighLevel() {
-        return highLevel;
+    public String getRoomLz() {
+        return roomLz;
     }
 
-    public void setHighLevel(String highLevel) {
-        this.highLevel = highLevel;
+    public void setRoomLz(String roomLz) {
+        this.roomLz = roomLz;
     }
 
-    public String getColumnCount() {
-        return columnCount;
+    public String getRoomMinDesk() {
+        return roomMinDesk;
     }
 
-    public void setColumnCount(String columnCount) {
-        this.columnCount = columnCount;
+    public void setRoomMinDesk(String roomMinDesk) {
+        this.roomMinDesk = roomMinDesk;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public String getRoomBestDesk() {
+        return roomBestDesk;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setRoomBestDesk(String roomBestDesk) {
+        this.roomBestDesk = roomBestDesk;
+    }
+
+    public String getRoomM() {
+        return roomM;
+    }
+
+    public void setRoomM(String roomM) {
+        this.roomM = roomM;
+    }
+
+    public List<String> getRoomImage() {
+        return roomImage;
+    }
+
+    public void setRoomImage(List<String> roomImage) {
+        this.roomImage = roomImage;
     }
 }

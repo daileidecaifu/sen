@@ -20,6 +20,7 @@ import sen.wedding.com.weddingsen.databinding.LoginActivityBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
+import sen.wedding.com.weddingsen.main.activity.HotelShowActivity;
 import sen.wedding.com.weddingsen.main.activity.MainActivity;
 import sen.wedding.com.weddingsen.utils.AppLog;
 import sen.wedding.com.weddingsen.base.Conts;
@@ -215,13 +216,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 BasePreference.saveAlipayAccount(accountInfoModel.getAlipayAccount());
                 BasePreference.saveHotelId(accountInfoModel.getHotelId());
                 BasePreference.saveHotelName(accountInfoModel.getHotelName());
+                BasePreference.saveAreaId(accountInfoModel.getAreaId());
+                BasePreference.saveHotelArea(accountInfoModel.getHotelArea());
 
                 showToast(getString(R.string.login_success));
 
-                if (TextUtils.isEmpty(accountInfoModel.getAlipayAccount())) {
+                if (TextUtils.isEmpty(accountInfoModel.getAlipayAccount())&&
+                        TextUtils.isEmpty(accountInfoModel.getBankAccount())) {
                     jumpToPersonSetView();
                 } else {
-                    jumpToOtherActivity(MainActivity.class);
+                    jumpToOtherActivity(HotelShowActivity.class);
                     finish();
 
                 }

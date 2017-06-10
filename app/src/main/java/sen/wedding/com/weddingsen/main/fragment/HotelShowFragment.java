@@ -1,6 +1,7 @@
 package sen.wedding.com.weddingsen.main.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
@@ -16,14 +17,26 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.account.activity.LoginActivity;
+import sen.wedding.com.weddingsen.base.ApiRequest;
+import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BaseFragment;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
+import sen.wedding.com.weddingsen.base.URLCollection;
+import sen.wedding.com.weddingsen.business.model.HotelModel;
+import sen.wedding.com.weddingsen.business.model.LogInfoModel;
+import sen.wedding.com.weddingsen.component.LoadingView;
+import sen.wedding.com.weddingsen.http.base.RequestHandler;
+import sen.wedding.com.weddingsen.http.model.ResultModel;
+import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.main.activity.HotelDetailActivity;
 import sen.wedding.com.weddingsen.main.activity.HotelDistinctActivity;
 import sen.wedding.com.weddingsen.main.activity.HotelShowActivity;
@@ -31,18 +44,24 @@ import sen.wedding.com.weddingsen.main.adapter.HotelsAdapter;
 import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
 import sen.wedding.com.weddingsen.main.model.HotelShowModel;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
+import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
 
 /**
  * Created by lorin on 17/5/25.
  */
 
-public class HotelShowFragment extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener {
+public class HotelShowFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>, AdapterView.OnItemClickListener, View.OnClickListener {
 
     ListView listView;
     TextView ivRecommend;
+    LoadingView loadingView;
+
     HotelsAdapter hotelsAdapter;
     String[] items;
+    ArrayList<HotelShowModel> hotelShowModels = new ArrayList<>();
+
+    private ApiRequest getHotelListRequest;
 
     public static HotelShowFragment newInstance() {
 
@@ -64,10 +83,28 @@ public class HotelShowFragment extends BaseFragment implements AdapterView.OnIte
         View view = inflater.inflate(R.layout.fragment_hotel_show, null);
         listView = (ListView) view.findViewById(R.id.lv_hotels);
         ivRecommend = (TextView) view.findViewById(R.id.tv_recommend);
+        loadingView = (LoadingView) view.findViewById(R.id.loading_view);
+
         ivRecommend.setOnClickListener(this);
+
+        loadingView.setLoadingViewClickListener(new LoadingView.OnLoadingViewClickListener() {
+            @Override
+            public void OnLoadingFailedClick(View view) {
+                loadingView.showLoading();
+                getHotelList("");
+            }
+
+            @Override
+            public void OnLoadingEmptyClick(View view) {
+                loadingView.showLoading();
+                getHotelList("");
+            }
+        });
         initTitle(view);
         initListView();
         initData();
+        loadingView.showLoading();
+        getHotelList("");
         return view;
 
     }
@@ -110,7 +147,7 @@ public class HotelShowFragment extends BaseFragment implements AdapterView.OnIte
     private void initListView() {
         hotelsAdapter = new HotelsAdapter(getActivity());
         listView.setAdapter(hotelsAdapter);
-        hotelsAdapter.notifyDataChanged(getFakeData());
+//        hotelsAdapter.notifyDataChanged(getFakeData());
         listView.setOnItemClickListener(this);
     }
 
@@ -137,7 +174,9 @@ public class HotelShowFragment extends BaseFragment implements AdapterView.OnIte
 
                     case 1:
                         showToast("1");
-                        jumpToOtherActivity(HotelDistinctActivity.class);
+                        Intent intent = new Intent(getActivity(), HotelDistinctActivity.class);
+                        startActivityForResult(intent, 10000);
+//                        jumpToOtherActivity(HotelDistinctActivity.class);
                         break;
                 }
 
@@ -152,26 +191,45 @@ public class HotelShowFragment extends BaseFragment implements AdapterView.OnIte
         builder.create().show();
     }
 
-
-    private ArrayList<HotelShowModel> getFakeData() {
-
-        ArrayList<HotelShowModel> fakeList = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            HotelShowModel hotelShowModel = new HotelShowModel();
-            hotelShowModel.setAddressDescription("1231234");
-            hotelShowModel.setHotelName("afadsfaf");
-            hotelShowModel.setPhoneNumber("14543333333");
-            hotelShowModel.setTableCount("36桌");
-            hotelShowModel.setUnitPrice("8800元/桌");
-            fakeList.add(hotelShowModel);
+    private void getHotelList(String shId) {
+        getHotelListRequest = new ApiRequest(URLCollection.URL_GET_HOTEL_LIST, HttpMethod.POST);
+        HashMap<String, String> param = new HashMap<>();
+        if (!TextUtils.isEmpty(shId)) {
+            param.put("list_type", "2");
+            param.put("area_sh_id", shId);
+        } else {
+            param.put("list_type", "1");
         }
-        return fakeList;
+
+        getHotelListRequest.setParams(param);
+        getApiService().exec(getHotelListRequest, this);
+
     }
+
+
+//    private ArrayList<HotelShowModel> getFakeData() {
+//
+//        ArrayList<HotelShowModel> fakeList = new ArrayList<>();
+//
+//        for (int i = 0; i < 10; i++) {
+//            HotelShowModel hotelShowModel = new HotelShowModel();
+//            hotelShowModel.setAddressDescription("1231234");
+//            hotelShowModel.setHotelName("afadsfaf");
+//            hotelShowModel.setPhoneNumber("14543333333");
+//            hotelShowModel.setTableCount("36桌");
+//            hotelShowModel.setUnitPrice("8800元/桌");
+//            fakeList.add(hotelShowModel);
+//        }
+//        return fakeList;
+//    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        jumpToOtherActivity(HotelDetailActivity.class);
+
+     Intent intent = new Intent(getActivity(),HotelDetailActivity.class);
+        intent.putExtra("hotel_id",hotelShowModels.get(position).getHotelId());
+//        jumpToOtherActivity(HotelDetailActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -180,6 +238,69 @@ public class HotelShowFragment extends BaseFragment implements AdapterView.OnIte
             case R.id.tv_recommend:
                 showToast("Z");
                 break;
+        }
+    }
+
+    @Override
+    public void onRequestStart(ApiRequest req) {
+
+    }
+
+    @Override
+    public void onRequestProgress(ApiRequest req, int count, int total) {
+
+    }
+
+    @Override
+    public void onRequestFinish(ApiRequest req, ApiResponse resp) {
+        ResultModel resultModel = resp.getResultModel();
+
+        if (req == getHotelListRequest) {
+            if (resultModel.status == Conts.REQUEST_SUCCESS) {
+                //testFake
+//                model = getFakeData();
+
+                if (resultModel.data != null) {
+                    loadingView.dismiss();
+                    hotelShowModels = GsonConverter.fromJson(resultModel.data.toString(),
+                            new TypeToken<List<HotelShowModel>>() {
+                            }.getType());
+
+                    if (hotelShowModels != null && hotelShowModels.size() > 0) {
+                        hotelsAdapter.notifyDataChanged(hotelShowModels);
+                    } else {
+                        loadingView.showLoadingEmpty();
+                    }
+
+                } else {
+                    loadingView.showLoadingEmpty();
+                }
+
+            } else {
+                showToast(resultModel.message);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestFailed(ApiRequest req, ApiResponse resp) {
+        if (req == getHotelListRequest) {
+            loadingView.showGuestInfoLoadingFailed();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String shId ="";
+
+        if (data != null) {
+            shId = data.getStringExtra("sh_id");
+            if(!TextUtils.isEmpty(shId))
+            {
+                loadingView.showLoading();
+                getHotelList(shId);
+            }
         }
     }
 }

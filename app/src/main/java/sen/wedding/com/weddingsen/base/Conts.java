@@ -30,6 +30,9 @@ public class Conts {
     public static BaseTypeModel SPECIFY_DISTRICT = new BaseTypeModel("district", "指定区域", 1);
     public static BaseTypeModel SPECIFY_HOTEL = new BaseTypeModel("hotel", "指定酒店", 2);
     public static List<BaseTypeModel> specifyModels;
+    //客资类型
+    public static BaseTypeModel EXHIBITION = new BaseTypeModel("exhibition", "布展", 4);
+    public static List<BaseTypeModel> buildModels;
 
     //订单状态
     public static Map<Integer, String> orderStatusMap;
@@ -88,6 +91,18 @@ public class Conts {
             typeModels.add(BABY_BIRTHDAY_GROUP);
         }
         return typeModels;
+    }
+
+    /**
+     * 获取客资信息类型
+     */
+    public static List<BaseTypeModel> getBuildTypeArray() {
+
+        if (buildModels == null) {
+            buildModels = new ArrayList<>();
+            buildModels.add(EXHIBITION);
+        }
+        return buildModels;
     }
 
     /**
@@ -151,6 +166,8 @@ public class Conts {
     //登陆类型
     public final static String LOGIN_MODEL_ACCOUNT = "4";
     public final static String LOGIN_MODEL_PHONE = "3";
+    public final static String LOGIN_MODEL_FIRST_SALE = "11";
+    public final static String LOGIN_MODEL_SECOND_SALE = "12";
 
     //OSS Perfix
     public final static String OSS_REMOTE_URL = "http://sendevimg.oss-cn-zhangjiakou.aliyuncs.com/";

@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -79,12 +81,19 @@ public class HotelsAdapter extends BaseAdapter {
         }
         HotelShowModel model = list.get(position);
 
-//        binding.ivImage.setBackgroundColor();
+        Glide.with(currentContext)
+                .load(model.getHotelImage())
+                .centerCrop()
+                .thumbnail(0.1f)
+                .placeholder(R.drawable.__picker_ic_photo_black_48dp)
+                .error(R.drawable.__picker_ic_broken_image_black_48dp)
+                .into(binding.ivImage);
+
         binding.tvHotelName.setText(model.getHotelName());
-        binding.tvAddressContent.setText(model.getAddressDescription());
-        binding.tvPhoneNumber.setText(model.getPhoneNumber());
-        binding.tvUnitPrice.setText(model.getUnitPrice());
-        binding.tvTableCount.setText(model.getTableCount());
+        binding.tvAddressContent.setText(model.getAreaShName() + " " + model.getHotelType());
+        binding.tvPhoneNumber.setText(model.getHotelPhone());
+        binding.tvUnitPrice.setText(model.getHotelLow() + "-" + model.getHotelHigh());
+        binding.tvTableCount.setText(model.getHotelMaxDesk());
 
         return binding.getRoot();
 

@@ -87,10 +87,7 @@ public class SenApplication extends Application {
     }
 
     public void logout() {
-        BasePreference.saveToken("");
-        BasePreference.saveUserName("");//返回nikename，实为username
-        BasePreference.saveUserType("");
-        BasePreference.saveAlipayAccount("");
+        BasePreference.clearAll();
         finishAllActivity();
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -2,6 +2,8 @@ package sen.wedding.com.weddingsen.main.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,12 +32,13 @@ public class HotelDistinctAdapter extends RecyclerView.Adapter<HotelDistinctAdap
 
     private ArrayList<HotelDistinctModel> distinctModels = new ArrayList<HotelDistinctModel>();
     private LayoutInflater inflater;
-
+    private Handler handler;
     private Context mContext;
 
-    public HotelDistinctAdapter(Context mContext, ArrayList<HotelDistinctModel> distinctModels) {
+    public HotelDistinctAdapter(Context mContext, ArrayList<HotelDistinctModel> distinctModels, Handler handler) {
         this.distinctModels = distinctModels;
         this.mContext = mContext;
+        this.handler = handler;
         inflater = LayoutInflater.from(mContext);
 
     }
@@ -56,19 +59,21 @@ public class HotelDistinctAdapter extends RecyclerView.Adapter<HotelDistinctAdap
         holder.tvTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext,""+position,Toast.LENGTH_SHORT).show();
-                String[] urls = mContext.getResources().getStringArray(R.array.image_urls);
-                ArrayList<String> images = new ArrayList<String>();
-
-                for (String url:urls) {
-                    images.add(url);
-                }
-
-                Intent intent = new Intent(mContext, PhotoPagerActivity.class);
-                intent.putStringArrayListExtra(PhotoPreview.EXTRA_PHOTOS,images);
-                intent.putExtra(PhotoPreview.EXTRA_SHOW_DELETE,false);
-                mContext.startActivity(intent);
-
+//                Toast.makeText(mContext,""+position,Toast.LENGTH_SHORT).show();
+//                String[] urls = mContext.getResources().getStringArray(R.array.image_urls);
+//                ArrayList<String> images = new ArrayList<String>();
+//
+//                for (String url:urls) {
+//                    images.add(url);
+//                }
+//
+//                Intent intent = new Intent(mContext, PhotoPagerActivity.class);
+//                intent.putStringArrayListExtra(PhotoPreview.EXTRA_PHOTOS,images);
+//                intent.putExtra(PhotoPreview.EXTRA_SHOW_DELETE,false);
+//                mContext.startActivity(intent);
+                Message message = new Message();
+                message.obj = distinctModels.get(position).getDistinctId();
+                handler.sendMessage(message);
             }
         });
     }

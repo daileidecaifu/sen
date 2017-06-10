@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/info_provide"
+                android:text="@string/my_recommend"
                 android:textColor="@color/text_common"
                 android:textSize="@dimen/text_size_xxl" />
 
@@ -83,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/info_follow"
+                android:text="@string/my_follow"
                 android:textColor="@color/text_common"
                 android:textSize="@dimen/text_size_xxl" />
 

@@ -12,11 +12,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ListView
-            android:id="@+id/lv_hotels"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </ListView>
+
+            <sen.wedding.com.weddingsen.component.LoadingView
+                android:id="@+id/loading_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></sen.wedding.com.weddingsen.component.LoadingView>
+
+            <ListView
+                android:id="@+id/lv_hotels"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </ListView>
+
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="50dp"

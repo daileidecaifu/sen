@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.databinding.BallroomItemBinding;
@@ -19,7 +20,7 @@ import sen.wedding.com.weddingsen.main.model.HotelShowModel;
 
 public class BallroomAdapter extends BaseAdapter {
 
-    ArrayList<BallroomModel> list;
+    List<BallroomModel> list;
     private Context currentContext;
 
     public BallroomAdapter(Context context) {
@@ -32,7 +33,7 @@ public class BallroomAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void notifyDataChanged(ArrayList<BallroomModel> dataList) {
+    public void notifyDataChanged(List<BallroomModel> dataList) {
 
         list.clear();
         list.addAll(dataList);
@@ -71,15 +72,15 @@ public class BallroomAdapter extends BaseAdapter {
 
 //        binding.ivImage.setBackgroundColor();
         binding.tvBallroomName.setText(model.getRoomName());
-        binding.tvHighLevel.setText(model.getHighLevel());
-        binding.tvColumnCount.setText(model.getColumnCount());
-        binding.tvTableCount.setText(model.getTableCount());
+        binding.tvHighLevel.setText(model.getRoomHigh());
+        binding.tvColumnCount.setText(model.getRoomLz());
+        binding.tvTableCount.setText(model.getRoomMaxDesk());
 
         return binding.getRoot();
 
     }
 
-    public ArrayList<BallroomModel> getList() {
+    public List<BallroomModel> getList() {
         return list;
     }
 

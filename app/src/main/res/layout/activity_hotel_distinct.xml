@@ -17,7 +17,10 @@
         <include
             android:id="@+id/title_bar"
             layout="@layout/common_title_bar" />
-
+        <sen.wedding.com.weddingsen.component.LoadingView
+            android:id="@+id/loading_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></sen.wedding.com.weddingsen.component.LoadingView>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_dictinct_show"
             android:layout_width="match_parent"

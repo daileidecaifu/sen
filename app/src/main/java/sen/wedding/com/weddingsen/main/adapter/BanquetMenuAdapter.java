@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.databinding.BanquetMenuItemBinding;
@@ -19,7 +20,7 @@ import sen.wedding.com.weddingsen.main.model.HotelShowModel;
 
 public class BanquetMenuAdapter extends BaseAdapter {
 
-    ArrayList<BanquetMenuModel> list;
+    List<BanquetMenuModel> list;
     private Context currentContext;
 
     public BanquetMenuAdapter(Context context) {
@@ -32,7 +33,7 @@ public class BanquetMenuAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void notifyDataChanged(ArrayList<BanquetMenuModel> dataList) {
+    public void notifyDataChanged(List<BanquetMenuModel> dataList) {
 
         list.clear();
         list.addAll(dataList);
@@ -78,14 +79,14 @@ public class BanquetMenuAdapter extends BaseAdapter {
 
 //        binding.ivImage.setBackgroundColor();
         binding.llMenuInfo.tvItemSelectTitle.setText(model.getMenuName());
-        binding.llMenuInfo.tvItemSelectContent.setText(model.getUnitPrice());
+        binding.llMenuInfo.tvItemSelectContent.setText(model.getMenuMoney());
         binding.llMenuInfo.tvItemSelectIcon.setVisibility(View.GONE);
 
         return binding.getRoot();
 
     }
 
-    public ArrayList<BanquetMenuModel> getList() {
+    public List<BanquetMenuModel> getList() {
         return list;
     }
 

@@ -106,6 +106,8 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
 
         <activity android:name=".business.activity.BuildInfoDetailActivity"></activity>
+
+        <activity android:name=".sales.activity.BuildFollowAcrivity"></activity>
     </application>
 
 </manifest>

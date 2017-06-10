@@ -1,5 +1,6 @@
 package sen.wedding.com.weddingsen.business.fragment;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -374,7 +375,7 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
 //                        jumpToOtherActivity(ContractInfoActivity.class);
                         Intent intent = new Intent(getActivity(), ContractInfoActivity.class);
                         intent.putExtra("order_id", orderId);
-                        startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
+                        getActivity().startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
 
                         break;
                 }
@@ -423,7 +424,8 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Conts.TO_SUBMIT_CONTRACT_REVIEW) {
-            getActivity().finish();
+            if (resultCode == Activity.RESULT_OK)
+                getActivity().finish();
         }
     }
 }

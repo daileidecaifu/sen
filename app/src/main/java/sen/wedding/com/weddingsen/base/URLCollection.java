@@ -42,6 +42,12 @@ public class URLCollection {
 
     public final static String URL_GET_BUILD_INFO_LIST = "http://dev.51isen.com/index.php?m=app&c=order&f=orderDaJianList";
 
-    public final static String URL_SHOW_BUILD_INFO_DETAIL = "http://dev.51isen.com/index.php?m=app&c=order&f=orderDaJianDetail";
+    public final static String  URL_SHOW_BUILD_INFO_DETAIL = "http://dev.51isen.com/index.php?m=app&c=order&f=orderDaJianDetail";
+
+    public final static String URL_GET_HOTEL_LIST = "http://dev.51isen.com/index.php?m=app&c=user&f=mainList";
+
+    public final static String URL_DISTINCTS = "http://dev.51isen.com/index.php?m=app&c=user&f=getShArea";
+
+    public final static String URL_HOTEL_DETAIL = "http://dev.51isen.com/index.php?m=app&c=user&f=mainHotelDetail";
 
 }

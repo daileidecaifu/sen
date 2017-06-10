@@ -52,9 +52,19 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
         getTitleBar().setRightVisibility(View.GONE);
         getTitleBar().setLeftClickEvent(this);
 
-        modelList = Conts.getOrderTypeArray();
-        selectOrderTypeModel = modelList.get(0);
         source = getIntent().getIntExtra("source", 0);
+
+        switch (source) {
+            case Conts.SOURCE_VERIFY_KEZI:
+                modelList = Conts.getOrderTypeArray();
+                break;
+
+            case Conts.SOURCE_VERIFY_BUILD:
+                modelList = Conts.getBuildTypeArray();
+                break;
+
+        }
+        selectOrderTypeModel = modelList.get(0);
         initComponents();
     }
 
