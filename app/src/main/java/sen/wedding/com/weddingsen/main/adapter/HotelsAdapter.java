@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -84,9 +85,9 @@ public class HotelsAdapter extends BaseAdapter {
         Glide.with(currentContext)
                 .load(model.getHotelImage())
                 .centerCrop()
-                .thumbnail(0.1f)
-                .placeholder(R.drawable.__picker_ic_photo_black_48dp)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .error(R.drawable.__picker_ic_broken_image_black_48dp)
+                .crossFade()
                 .into(binding.ivImage);
 
         binding.tvHotelName.setText(model.getHotelName());

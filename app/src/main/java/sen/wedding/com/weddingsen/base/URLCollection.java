@@ -50,4 +50,8 @@ public class URLCollection {
 
     public final static String URL_HOTEL_DETAIL = "http://dev.51isen.com/index.php?m=app&c=user&f=mainHotelDetail";
 
+    public final static String URL_RESET_PASSWORD = "http://dev.51isen.com/index.php?m=web&c=feedback&f=accountEdit";
+
+    public final static String URL_PERSON_DETAIL = "http://dev.51isen.com/index.php?m=app&c=feedback&f=wallet";
+
 }

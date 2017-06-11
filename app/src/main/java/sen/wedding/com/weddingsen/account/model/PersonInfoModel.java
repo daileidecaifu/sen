@@ -3,17 +3,20 @@ package sen.wedding.com.weddingsen.account.model;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by lorin on 17/6/1.
+ * Created by lorin on 17/6/12.
  */
 
-public class BindInfoModel {
+public class PersonInfoModel {
 
     private String alipay;
 
+    @SerializedName("bank_name")
     private String bankName;
 
+    @SerializedName("bank_user")
     private String bankUser;
 
+    @SerializedName("bank_account")
     private String bankAccount;
 
     public String getAlipay() {

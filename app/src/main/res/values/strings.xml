@@ -84,7 +84,7 @@
     <string name="save">保存</string>
     <string name="alipay_empty">支付宝账号不能为空</string>
     <string name="request_error_tip">请求异常，请稍后再试</string>
-    <string name="bind_alipay_success">支付宝绑定成功</string>
+    <string name="bind_success">绑定成功</string>
     <string name="select_order_type_hint">请选择类型</string>
     <string name="verify_guest_phone">验证受访者手机</string>
     <string name="verify_success">验证成功</string>
@@ -171,6 +171,8 @@
     <string name="commission_released">已发放</string>
     <string name="commission_not_released">未发放</string>
     <string name="set_receipt_account">设定收款账号</string>
+    <string name="set_info_synchronize">设定信息同步</string>
+
     <string name="open_band_account">开户行账号</string>
     <string name="open_band_account_tip">请输入开户行账号</string>
     <string name="open_band">开户行</string>
@@ -186,5 +188,9 @@
     <string name="build_follow">选择查看区域</string>
     <string name="my_recommend">我的推荐</string>
     <string name="my_follow">我的跟踪</string>
+    <string name="original_password_can_not_empty">原密码不能为空</string>
+    <string name="new_password_can_not_empty">新密码不能为空</string>
+    <string name="password_can_not_match">两次新密码不一致</string>
+    <string name="reset_password_success">修改密码成功</string>
 
 </resources>

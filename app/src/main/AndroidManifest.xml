@@ -29,32 +29,44 @@
 
         <activity
             android:name=".account.activity.LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
 
         </activity>
 
-        <activity android:name=".account.activity.PersonalInfoSetActivity">
+        <activity
+            android:name=".account.activity.PersonalInfoSetActivity"
+            android:screenOrientation="portrait">
 
         </activity>
 
         <activity
             android:name=".business.activity.VerifyGuestInfoActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
 
         <activity
             android:name=".business.activity.EditGuestInfoActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
 
         <activity
             android:name=".account.activity.FeedbackActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
 
-        <activity android:name=".business.activity.SelectAreaOptionActivity"></activity>
-        <activity android:name=".business.activity.SelectHotelOptionActivity"></activity>
+        <activity
+            android:name=".business.activity.SelectAreaOptionActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".business.activity.SelectHotelOptionActivity"
+            android:screenOrientation="portrait"></activity>
 
         <activity
             android:name=".main.activity.WelcomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,51 +75,80 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".business.activity.GuestInfoDetailActivity"></activity>
+        <activity
+            android:name=".business.activity.GuestInfoDetailActivity"
+            android:screenOrientation="portrait"></activity>
 
         <activity
             android:name=".business.activity.ContractInfoActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
 
         </activity>
 
         <activity
             android:name="me.iwf.photopicker.PhotoPickerActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/customTheme" />
 
         <activity
             android:name="me.iwf.photopicker.PhotoPagerActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
-        <activity android:name=".account.activity.ResetPasswordActivity"></activity>
+        <activity
+            android:name=".account.activity.ResetPasswordActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name=".business.activity.LogInfoActivity">
-
-        </activity>
-        <activity android:name=".business.activity.FollowUpDetailActivity"></activity>
-        <activity android:name=".main.activity.HotelShowActivity">
-
-        </activity>
-
-        <activity android:name=".main.activity.HotelDetailActivity"></activity>
-
-        <activity android:name=".account.activity.PersonalDetailActivity">
+        <activity
+            android:name=".business.activity.LogInfoActivity"
+            android:screenOrientation="portrait">
 
         </activity>
-
-        <activity android:name=".main.activity.HotelDistinctActivity">
+        <activity
+            android:name=".business.activity.FollowUpDetailActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".main.activity.HotelShowActivity"
+            android:screenOrientation="portrait">
 
         </activity>
 
-        <activity android:name=".main.activity.InfoProvideActivity"></activity>
-        <activity android:name=".main.activity.InfoFollowUpActivity"></activity>
+        <activity
+            android:name=".main.activity.HotelDetailActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name=".business.activity.EditBuildInfoActivity"
+        <activity
+            android:name=".account.activity.PersonalDetailActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name=".main.activity.HotelDistinctActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name=".main.activity.InfoProvideActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".main.activity.InfoFollowUpActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".business.activity.EditBuildInfoActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
 
-        <activity android:name=".business.activity.BuildInfoDetailActivity"></activity>
+        <activity
+            android:name=".business.activity.BuildInfoDetailActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name=".sales.activity.BuildFollowAcrivity"></activity>
+        <activity
+            android:name=".sales.activity.BuildFollowAcrivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

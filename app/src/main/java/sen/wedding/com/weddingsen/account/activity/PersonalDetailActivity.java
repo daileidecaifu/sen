@@ -3,20 +3,28 @@ package sen.wedding.com.weddingsen.account.activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 
 import com.google.gson.Gson;
 
+import java.util.HashMap;
+
 import sen.wedding.com.weddingsen.R;
-import sen.wedding.com.weddingsen.account.model.BindInfoModel;
+import sen.wedding.com.weddingsen.account.model.PersonDetailModel;
+import sen.wedding.com.weddingsen.account.model.PersonInfoModel;
 import sen.wedding.com.weddingsen.base.ApiRequest;
 import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BaseActivity;
+import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
+import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.PersonDetailBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
+import sen.wedding.com.weddingsen.http.model.ResultModel;
+import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.main.activity.MainActivity;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 
@@ -27,7 +35,8 @@ import sen.wedding.com.weddingsen.utils.GsonConverter;
 public class PersonalDetailActivity extends BaseActivity implements View.OnClickListener, RequestHandler<ApiRequest, ApiResponse> {
 
     PersonDetailBinding binding;
-    private boolean isAlipay = true;
+    private ApiRequest getPersonDetail;
+    private PersonDetailModel personDetailModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +49,8 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
         getTitleBar().setRightVisibility(View.GONE);
         getTitleBar().setLeftClickEvent(this);
         initView();
-        swtichShowType();
+//        swtichShowType();
+        getPersonInfo();
     }
 
     private void initView() {
@@ -48,7 +58,6 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
         binding.llTotalCommission.tvItemSelectTitle.setText(getString(R.string.total_commission));
         binding.llTotalCommission.tvItemSelectIcon.setVisibility(View.GONE);
         binding.llTotalCommission.tvItemSelectContent.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
-        binding.llTotalCommission.tvItemSelectContent.setText("1000");
 
         //已发放
         binding.llReleased.tvItemSelectTitle.setText(getString(R.string.commission_released));
@@ -89,25 +98,50 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
         });
     }
 
-    private void swtichShowType()
+    private void getPersonInfo() {
+
+        getPersonDetail = new ApiRequest(URLCollection.URL_PERSON_DETAIL, HttpMethod.POST);
+        HashMap<String, String> param = new HashMap<>();
+        param.put("access_token", BasePreference.getToken());
+
+
+        getPersonDetail.setParams(param);
+        getApiService().exec(getPersonDetail, this);
+
+    }
+
+    private void swtichShowType(PersonInfoModel personInfoModel)
     {
-        if(isAlipay)
+        if(personInfoModel==null)
         {
+            return;
+        }
+
+
+        if(!TextUtils.isEmpty(personInfoModel.getAlipay()))
+        {
+            binding.llAccount.setVisibility(View.VISIBLE);
+
             binding.llBankAccount.getRoot().setVisibility(View.GONE);
             binding.llOpenBank.getRoot().setVisibility(View.GONE);
             binding.llUserName.getRoot().setVisibility(View.GONE);
 
             binding.llAlipayAccount.getRoot().setVisibility(View.VISIBLE);
             binding.tvAccountTitle.setText(getString(R.string.receipt_account_alipay));
-
-        }else
+            binding.llAlipayAccount.tvItemSelectContent.setText(personInfoModel.getAlipay());
+        }else if(!TextUtils.isEmpty(personInfoModel.getBankAccount()))
         {
+            binding.llAccount.setVisibility(View.VISIBLE);
+
             binding.llAlipayAccount.getRoot().setVisibility(View.GONE);
 
             binding.llBankAccount.getRoot().setVisibility(View.VISIBLE);
             binding.llOpenBank.getRoot().setVisibility(View.VISIBLE);
             binding.llUserName.getRoot().setVisibility(View.VISIBLE);
             binding.tvAccountTitle.setText(getString(R.string.receipt_account_bank));
+        }else
+        {
+            binding.llAccount.setVisibility(View.GONE);
 
         }
     }
@@ -123,10 +157,8 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
 //                    isAlipay = true;
 //                }
 //                swtichShowType();
-                BindInfoModel bindInfoModel = new BindInfoModel();
-                bindInfoModel.setAlipay("111");
                 Intent intent = new Intent(this,PersonalInfoSetActivity.class);
-                intent.putExtra("bind_info", GsonConverter.toJson(bindInfoModel));
+                intent.putExtra("bind_info", GsonConverter.toJson(personDetailModel.getMyAccount()));
                 startActivityForResult(intent, Conts.TO_BIND_ACCOUNT_INFO);
 
                 break;
@@ -135,6 +167,16 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
         }
+    }
+
+    private void fillData(PersonDetailModel personDetailModel)
+    {
+
+        binding.llTotalCommission.tvItemSelectContent.setText(personDetailModel.getMyMoney().getAll());
+        binding.llReleased.tvItemSelectContent.setText(personDetailModel.getMyMoney().getPay());
+        binding.llNotReleased.tvItemSelectContent.setText(personDetailModel.getMyMoney().getUnpay());
+
+        swtichShowType(personDetailModel.getMyAccount());
     }
 
     @Override
@@ -154,11 +196,21 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onRequestFinish(ApiRequest req, ApiResponse resp) {
+        ResultModel resultModel = resp.getResultModel();
 
+        if (req == getPersonDetail) {
+            if (resultModel.status == Conts.REQUEST_SUCCESS) {
+                personDetailModel = GsonConverter.decode(resultModel.data, PersonDetailModel.class);
+                fillData(personDetailModel);
+            } else {
+                showToast(resultModel.message);
+            }
+        }
     }
 
     @Override
     public void onRequestFailed(ApiRequest req, ApiResponse resp) {
+        showToast(resp.getResultModel().message);
 
     }
 }

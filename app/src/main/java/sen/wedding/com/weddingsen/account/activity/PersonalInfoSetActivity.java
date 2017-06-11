@@ -13,7 +13,8 @@ import android.widget.LinearLayout;
 import java.util.HashMap;
 import java.util.List;
 
-import sen.wedding.com.weddingsen.account.model.BindInfoModel;
+import sen.wedding.com.weddingsen.account.model.PersonDetailModel;
+import sen.wedding.com.weddingsen.account.model.PersonInfoModel;
 import sen.wedding.com.weddingsen.base.ApiRequest;
 import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BasePreference;
@@ -45,7 +46,7 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
     private ApiRequest bindAlipayRequest;
     private boolean isAlipay = true;
     private String[] accountType;
-    private BindInfoModel bindInfoModel;
+    private PersonInfoModel personInfoModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +67,9 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
         String bindInfo = intent.getStringExtra("bind_info");
 
         if (!TextUtils.isEmpty(bindInfo)) {
-            bindInfoModel = GsonConverter.decode(bindInfo, BindInfoModel.class);
-
+            personInfoModel = GsonConverter.decode(bindInfo, PersonInfoModel.class);
+        } else {
+            personInfoModel = new PersonInfoModel();
         }
 
         switch (fromTag) {
@@ -90,11 +92,6 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
 //        accountType[1] = getString(R.string.bank_card_account);
 
         accountType = getResources().getStringArray(R.array.bind_account_type);
-
-        if (!TextUtils.isEmpty(BasePreference.getAlipayAccount())) {
-            binding.llAlipayAccount.etItemEditInput.setText(BasePreference.getAlipayAccount());
-            binding.llAlipayAccount.etItemEditInput.setSelection(binding.llAlipayAccount.etItemEditInput.getText().toString().length());
-        }
 
         //收款类型
         binding.llSelectAccountType.tvItemSelectTitle.setText(getString(R.string.set_receipt_type));
@@ -123,11 +120,29 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
         //开户名
         binding.llUserName.tvItemEditTitle.setText(getString(R.string.open_account_name));
         binding.llUserName.etItemEditInput.setHint(getString(R.string.open_account_name_tip));
+        initData();
         swtichShowType();
 
     }
 
+    private void initData()
+    {
+        if(!TextUtils.isEmpty(personInfoModel.getAlipay()))
+        {
+            isAlipay = true;
+        }else
+        {
+            isAlipay = false;
+        }
+
+        binding.llAlipayAccount.etItemEditInput.setText(personInfoModel.getAlipay());
+        binding.llBankAccount.etItemEditInput.setText(personInfoModel.getBankAccount());
+        binding.llOpenBank.etItemEditInput.setText(personInfoModel.getBankName());
+        binding.llUserName.etItemEditInput.setText(personInfoModel.getBankUser());
+    }
+
     private void swtichShowType() {
+
         if (isAlipay) {
             binding.llBankAccount.getRoot().setVisibility(View.GONE);
             binding.llOpenBank.getRoot().setVisibility(View.GONE);
@@ -135,7 +150,6 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
 
             binding.llAlipayAccount.getRoot().setVisibility(View.VISIBLE);
             binding.llSelectAccountType.tvItemSelectContent.setText(getString(R.string.account_alipay));
-
         } else {
             binding.llAlipayAccount.getRoot().setVisibility(View.GONE);
 
@@ -200,7 +214,18 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
         bindAlipayRequest = new ApiRequest(URLCollection.URL_BIND_ALIPAY, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
-        param.put("alipay", binding.llAlipayAccount.etItemEditInput.getText().toString().trim());
+        if(isAlipay) {
+            param.put("alipay", binding.llAlipayAccount.etItemEditInput.getText().toString().trim());
+            param.put("bank_name", "");
+            param.put("bank_user", "");
+            param.put("bank_account", "");
+        }else
+        {
+            param.put("alipay", "");
+            param.put("bank_name", binding.llOpenBank.etItemEditInput.getText().toString());
+            param.put("bank_user", binding.llUserName.etItemEditInput.getText().toString());
+            param.put("bank_account", binding.llBankAccount.etItemEditInput.getText().toString());
+        }
         bindAlipayRequest.setParams(param);
         getApiService().exec(bindAlipayRequest, this);
     }
@@ -222,8 +247,9 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
 
         if (req == bindAlipayRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
-                showToast(getString(R.string.bind_alipay_success));
+                showToast(getString(R.string.bind_success));
                 BasePreference.saveAlipayAccount(req.getParams().get("alipay"));
+                BasePreference.saveBankAccount(req.getParams().get("bank_account"));
                 if (fromTag == Conts.FROM_LOGIN) {
                     jumpToOtherActivity(MainActivity.class);
                     finish();
