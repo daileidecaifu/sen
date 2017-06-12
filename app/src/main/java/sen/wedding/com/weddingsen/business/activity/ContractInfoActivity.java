@@ -5,12 +5,15 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.InputType;
 import android.view.View;
+import android.widget.Toast;
 
 import com.alibaba.sdk.android.oss.ClientConfiguration;
 import com.alibaba.sdk.android.oss.OSS;
@@ -45,7 +48,9 @@ import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.business.adapter.PhotoAdapter;
 import sen.wedding.com.weddingsen.business.model.DetailResModel;
 import sen.wedding.com.weddingsen.business.model.OSSImageInfoModel;
+import sen.wedding.com.weddingsen.business.model.OSSResultModel;
 import sen.wedding.com.weddingsen.business.model.OSSUploadModel;
+import sen.wedding.com.weddingsen.business.utils.OSSResultFeedback;
 import sen.wedding.com.weddingsen.business.utils.OSSUploadResult;
 import sen.wedding.com.weddingsen.business.utils.OSSUploadTask;
 import sen.wedding.com.weddingsen.component.TitleBar;
@@ -58,6 +63,7 @@ import sen.wedding.com.weddingsen.utils.AppLog;
 import sen.wedding.com.weddingsen.utils.DateUtil;
 import sen.wedding.com.weddingsen.utils.FileIOUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
+import sen.wedding.com.weddingsen.utils.OSSUploader;
 
 /**
  * Created by lorin on 17/5/2.
@@ -72,9 +78,22 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
     private OSS oss;
     private int orderId;
     private ApiRequest submitCertificateRequest;
-    private String ossImageUrls;
+
     private long signTime;
-    private Handler handler = new Handler();
+    private int uploadSuccess = 10000;
+    private int uploadFail = 9999;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            if (msg.what == uploadSuccess) {
+                submitertificate(msg.obj.toString());
+            } else if (msg.what == uploadFail) {
+                showToast("Upload Failed");
+            }
+        }
+    };
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -92,9 +111,9 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(Conts.OSS_ACCESS_KEY_ID, Conts.OSS_ACCESS_KEY_SECRET);
 
         ClientConfiguration conf = new ClientConfiguration();
-        conf.setConnectionTimeout(15 * 1000); // 连接超时，默认15秒
-        conf.setSocketTimeout(15 * 1000); // socket超时，默认15秒
-        conf.setMaxConcurrentRequest(5); // 最大并发请求书，默认5个
+        conf.setConnectionTimeout(30 * 1000); // 连接超时，默认15秒
+        conf.setSocketTimeout(30 * 1000); // socket超时，默认15秒
+        conf.setMaxConcurrentRequest(8); // 最大并发请求书，默认5个
         conf.setMaxErrorRetry(2); // 失败后最大重试次数，默认2次
         OSSLog.enableLog();
         oss = new OSSClient(getApplicationContext(), Conts.OSS_ENDPOINT, credentialProvider, conf);
@@ -131,7 +150,7 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
 
         long currentTimestamp = System.currentTimeMillis();
-        signTime = currentTimestamp/1000;
+        signTime = currentTimestamp / 1000;
         binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
         FileIOUtil.deleteFile(new File(Conts.COMPRESS_IMG_PATH));
 
@@ -149,39 +168,72 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
 
                 showProgressDialog(false);
 
-                handler.postDelayed(new Runnable() {
+                OSSUploader ossUploader = new OSSUploader(oss, prepareUploadRequests(), new OSSResultFeedback() {
                     @Override
-                    public void run() {
+                    public void onComplete(OSSResultModel result) {
 
-                        OSSUploadTask ossUploadTask = new OSSUploadTask(oss, prepareUploadRequests(), new OSSUploadResult() {
+                        closeProgressDialog();
+                        if (result.getPuts().size() == result.getSuccesslist().size()) {
+                            Message message = new Message();
 
-                            @Override
-                            public void onComplete(OSSUploadModel result) {
-                                if (result != null && result.isSuccess()) {
-                                    closeProgressDialog();
-                                    StringBuffer sb = new StringBuffer();
-                                    ossImageUrls = "";
+                            StringBuffer sb = new StringBuffer();
 
-                                    for (int i = 0; i < result.getList().size(); i++) {
-                                        if (i != 0) {
-                                            sb.append(",");
-                                        }
-                                        sb.append(result.getList().get(i).getRemoteUrl());
-
-                                    }
-                                    ossImageUrls = sb.toString();
-                                    AppLog.e(ossImageUrls);
-                                    submitertificate();
-                                } else {
-                                    closeProgressDialog();
+                            for (int i = 0; i < result.getSuccesslist().size(); i++) {
+                                if (i != 0) {
+                                    sb.append(",");
                                 }
+                                sb.append(result.getSuccesslist().get(i).getRemoteUrl());
+
                             }
-                        });
-                        ossUploadTask.execute();
+                            String ossImageUrls = sb.toString();
+                            AppLog.e(ossImageUrls);
+
+                            message.what = uploadSuccess;
+                            message.obj = ossImageUrls;
+                            handler.sendMessage(message);
+
+                        } else {
+                            Message message = new Message();
+                            message.what = uploadFail;
+                            handler.sendMessage(message);
+                        }
 
                     }
-                },50);
+                });
+                ossUploader.toUpload();
 
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                        OSSUploadTask ossUploadTask = new OSSUploadTask(oss, prepareUploadRequests(), new OSSUploadResult() {
+//
+//                            @Override
+//                            public void onComplete(OSSUploadModel result) {
+//                                if (result != null && result.isSuccess()) {
+////                                    closeProgressDialog();
+//                                    StringBuffer sb = new StringBuffer();
+//                                    ossImageUrls = "";
+//
+//                                    for (int i = 0; i < result.getList().size(); i++) {
+//                                        if (i != 0) {
+//                                            sb.append(",");
+//                                        }
+//                                        sb.append(result.getList().get(i).getRemoteUrl());
+//
+//                                    }
+//                                    ossImageUrls = sb.toString();
+//                                    AppLog.e(ossImageUrls);
+//                                    submitertificate();
+//                                } else {
+//                                    closeProgressDialog();
+//                                }
+//                            }
+//                        });
+//                        ossUploadTask.execute();
+//
+//                    }
+//                },50);
 
 
                 break;
@@ -237,15 +289,15 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         return uploadPuts;
     }
 
-    private void submitertificate() {
+    private void submitertificate(String imageUrls) {
         if (orderId != -1) {
             submitCertificateRequest = new ApiRequest(URLCollection.URL_ORDER_SIGN, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("user_kezi_order_id", orderId + "");
             param.put("order_money", binding.llContractMoney.etItemEditInput.getText().toString());
-            param.put("sign_using_time", signTime+"");
-            param.put("sign_pic", ossImageUrls);
+            param.put("sign_using_time", signTime + "");
+            param.put("sign_pic", imageUrls);
 
             submitCertificateRequest.setParams(param);
             getApiService().exec(submitCertificateRequest, this);
@@ -288,6 +340,7 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onRequestFailed(ApiRequest req, ApiResponse resp) {
-
+        closeProgressDialog();
+        showToast(resp.getResultModel().message);
     }
 }
