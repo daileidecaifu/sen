@@ -16,11 +16,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.BaseFragment;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.component.SlidingTabLayout;
+import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 /**
  * Created by lorin on 17/5/8.
@@ -39,7 +45,20 @@ public class BuildInfoListFragment extends BaseFragment implements NavigationVie
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainReceiver(EventIntent eventIntent) {
+        Toast.makeText(getActivity(),eventIntent.getData(),Toast.LENGTH_LONG).show();
     }
 
     @Override

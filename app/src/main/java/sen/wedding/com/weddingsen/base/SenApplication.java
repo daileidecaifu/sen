@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Stack;
 
+import sen.wedding.com.weddingsen.MyEventBusIndex;
 import sen.wedding.com.weddingsen.account.activity.LoginActivity;
 import sen.wedding.com.weddingsen.http.service.HttpService;
 
@@ -23,6 +26,8 @@ public class SenApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        EventBus.builder().addIndex(new MyEventBusIndex()).installDefaultEventBus();
+
     }
 
     public static SenApplication getInstance() {
