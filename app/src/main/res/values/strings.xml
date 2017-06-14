@@ -94,7 +94,8 @@
     <string name="area_or_hotel_not_select">区域或酒店未选择</string>
     <string name="create_success">创建成功</string>
     <string name="guest_info_processing">客资信息正在处理，请耐心等候</string>
-    <string name="guest_info_detail">客资详情</string>
+    <string name="kezi_info_detail">客资详情</string>
+    <string name="build_info_detail">客资详情</string>
     <string name="schedule_loading">努力加载中...</string>
     <string name="loading_failed">数据加载错误，点击重试</string>
     <string name="no_more_data">没有更多订单了</string>
@@ -141,6 +142,7 @@
     <string name="submit_review">提交审核</string>
     <string name="confirm_sign">确认签单</string>
     <string name="contract_certificate">合同凭证</string>
+    <string name="next_time_pay_time">下次支付时间</string>
     <string name="contract_certificate_pic_tip">在此上传（合同）与（收据）照片</string>
     <string name="contract_time">合同时间</string>
     <string name="contract_money">合同金额</string>

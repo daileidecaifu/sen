@@ -97,12 +97,12 @@ public class FitstSaleListFragment extends BaseFragment implements NavigationVie
                 Conts.getFollowStatusMap().get(6)};
         private Context mContext;
         private Fragment[] fragments = new Fragment[]{
-                FollowInfoFragment.newInstance(1),
-                FollowInfoFragment.newInstance(2),
-                FollowInfoFragment.newInstance(3),
-                FollowInfoFragment.newInstance(4),
-                FollowInfoFragment.newInstance(5),
-                FollowInfoFragment.newInstance(6)
+                FirstSaleFragment.newInstance(1),
+                FirstSaleFragment.newInstance(2),
+                FirstSaleFragment.newInstance(3),
+                FirstSaleFragment.newInstance(4),
+                FirstSaleFragment.newInstance(5),
+                FirstSaleFragment.newInstance(6)
         };
 
         public TabViewPagerAdapter(FragmentManager fm, Context context) {

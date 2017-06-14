@@ -68,11 +68,7 @@
             android:name=".main.activity.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
@@ -148,6 +144,26 @@
 
         <activity
             android:name=".sales.activity.BuildFollowAcrivity"
+            android:screenOrientation="portrait">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".sales.activity.BuildLogInfoActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".sales.activity.FirstSaleContractActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".sales.activity.FirstSaleDetailActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 

@@ -62,7 +62,7 @@ public class BuildInfoDetailActivity extends BaseActivity implements View.OnClic
         binding.setClickListener(this);
 
         initTitleBar(binding.titleBar, TitleBar.Type.COMMON);
-        getTitleBar().setTitle(getString(R.string.guest_info_detail));
+        getTitleBar().setTitle(getString(R.string.kezi_info_detail));
         getTitleBar().setCommonRightText(getString(R.string.follow_log));
         getTitleBar().setRightClickEvent(new View.OnClickListener() {
             @Override
