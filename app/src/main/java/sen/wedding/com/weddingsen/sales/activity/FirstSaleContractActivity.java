@@ -125,14 +125,27 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
         binding.rvPicSelect.setLayoutManager(new StaggeredGridLayoutManager(4, OrientationHelper.VERTICAL));
         binding.rvPicSelect.setAdapter(photoAdapter);
 
-        //合同时间
+        //合同金额
         binding.llContractMoney.tvItemEditTitle.setText(getString(R.string.contract_money));
         binding.llContractMoney.etItemEditInput.setHint(getString(R.string.contract_money_tip));
         binding.llContractMoney.etItemEditInput.setInputType(8194);
 
         //签单时间
-        binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.sign_up_time));
+        binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.held_time));
         binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
+
+        //首付金额
+        binding.llFirstSaleAmount.tvItemEditTitle.setText(getString(R.string.first_sale_amount));
+        binding.llFirstSaleAmount.etItemEditInput.setHint(getString(R.string.first_sale_amount_hit));
+        binding.llFirstSaleAmount.etItemEditInput.setInputType(8194);
+
+        //首付时间
+        binding.llFirstSaleTime.tvItemSelectTitle.setText(getString(R.string.first_sale_time));
+        binding.llFirstSaleTime.tvItemSelectIcon.setVisibility(View.GONE);
+
+        //支付时间
+        binding.llNextPayTime.tvItemSelectTitle.setText(getString(R.string.pay_time));
+        binding.llNextPayTime.tvItemSelectIcon.setVisibility(View.GONE);
 
         long currentTimestamp = System.currentTimeMillis();
         signTime = currentTimestamp / 1000;

@@ -146,6 +146,11 @@
     <string name="contract_certificate_pic_tip">在此上传（合同）与（收据）照片</string>
     <string name="contract_time">合同时间</string>
     <string name="contract_money">合同金额</string>
+    <string name="first_sale_amount">首付金额</string>
+    <string name="first_sale_amount_hit">请输入首付金额</string>
+    <string name="held_time">举办时间</string>
+    <string name="first_sale_time">首付时间</string>
+    <string name="pay_time">支付时间</string>
     <string name="contract_money_tip">请输入合同金额</string>
     <string name="sign_up_time">签单时间</string>
     <string name="sign_up_time_tip">请输入签单时间</string>

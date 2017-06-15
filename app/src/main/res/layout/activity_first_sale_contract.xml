@@ -9,121 +9,130 @@
 
     </data>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="match_parent">
-
-        <LinearLayout
+        <include
+            android:id="@+id/title_bar"
+            layout="@layout/common_title_bar" />
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/common_background"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <include
-                android:id="@+id/title_bar"
-                layout="@layout/common_title_bar" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/common_hight"
-                android:gravity="bottom"
-                android:paddingBottom="7dp"
-                android:paddingLeft="15dp"
-                android:text="@string/contract_detail"
-                android:textColor="@color/gray_2"
-                android:textSize="@dimen/text_size_ss" />
-
-            <include
-                android:id="@+id/ll_contract_money"
-                layout="@layout/view_item_edit" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:background="@color/common_background"></View>
-
-            <include
-                android:id="@+id/ll_sign_up_time"
-                layout="@layout/view_item_select" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:background="@color/common_background"></View>
-
-
-            <include
-                android:id="@+id/ll_first_sale_amount"
-                layout="@layout/view_item_edit" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:background="@color/common_background"></View>
-
-            <include
-                android:id="@+id/ll_first_sale_time"
-                layout="@layout/view_item_select" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/common_hight"
-                android:gravity="bottom"
-                android:paddingBottom="7dp"
-                android:paddingLeft="15dp"
-                android:text="@string/contract_certificate"
-                android:textColor="@color/gray_2"
-                android:textSize="@dimen/text_size_ss" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="@color/white"
-                android:gravity="bottom"
-                android:paddingLeft="15dp"
-                android:text="@string/contract_certificate_pic_tip"
-                android:textColor="@color/gray_2" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_pic_select"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:paddingBottom="15dp"
-                android:paddingTop="15dp" />
+                android:background="@color/common_background"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/common_hight"
-                android:gravity="bottom"
-                android:paddingBottom="7dp"
-                android:paddingLeft="15dp"
-                android:text="@string/next_time_pay_time"
-                android:textColor="@color/gray_2"
-                android:textSize="@dimen/text_size_ss" />
-            <include
-                android:id="@+id/ll_next_pay_time"
-                layout="@layout/view_item_select" />
-            <TextView
-                android:id="@+id/tv_submit_review"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="45dp"
-                android:layout_marginRight="45dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/buttom_common_background"
-                android:gravity="center"
-                android:onClick="@{clickListener}"
-                android:text="@string/submit_review"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_xl"></TextView>
-        </LinearLayout>
-    </ScrollView>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/common_hight"
+                    android:gravity="bottom"
+                    android:paddingBottom="7dp"
+                    android:paddingLeft="15dp"
+                    android:text="@string/contract_detail"
+                    android:textColor="@color/gray_2"
+                    android:textSize="@dimen/text_size_ss" />
+
+                <include
+                    android:id="@+id/ll_contract_money"
+                    layout="@layout/view_item_edit" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/common_background"></View>
+
+                <include
+                    android:id="@+id/ll_sign_up_time"
+                    layout="@layout/view_item_select" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/common_background"></View>
+
+
+                <include
+                    android:id="@+id/ll_first_sale_amount"
+                    layout="@layout/view_item_edit" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/common_background"></View>
+
+                <include
+                    android:id="@+id/ll_first_sale_time"
+                    layout="@layout/view_item_select" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/common_hight"
+                    android:gravity="bottom"
+                    android:paddingBottom="7dp"
+                    android:paddingLeft="15dp"
+                    android:text="@string/contract_certificate"
+                    android:textColor="@color/gray_2"
+                    android:textSize="@dimen/text_size_ss" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@color/white"
+                    android:gravity="bottom"
+                    android:paddingLeft="15dp"
+                    android:text="@string/contract_certificate_pic_tip"
+                    android:textColor="@color/gray_2" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_pic_select"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/common_hight"
+                    android:gravity="bottom"
+                    android:paddingBottom="7dp"
+                    android:paddingLeft="15dp"
+                    android:text="@string/next_time_pay_time"
+                    android:textColor="@color/gray_2"
+                    android:textSize="@dimen/text_size_ss" />
+                <include
+                    android:id="@+id/ll_next_pay_time"
+                    layout="@layout/view_item_select" />
+                <TextView
+                    android:id="@+id/tv_submit_review"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="45dp"
+                    android:layout_marginRight="45dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/buttom_common_background"
+                    android:gravity="center"
+                    android:onClick="@{clickListener}"
+                    android:text="@string/submit_review"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_xl"></TextView>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
 
 </layout>

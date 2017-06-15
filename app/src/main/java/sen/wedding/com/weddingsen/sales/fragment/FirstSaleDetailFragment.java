@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -85,11 +86,11 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater,
-                R.layout.fragment_followup_detail, container, false);
+                R.layout.fragment_first_sale_detail, container, false);
         binding.setClickListener(this);
         initData();
         initComponents();
-        getFollowUp();
+//        getFollowUp();
         return binding.getRoot();
 
     }
@@ -123,6 +124,18 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
     }
 
     private void initComponents() {
+
+//        binding.svAll.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+//        binding.svAll.setFocusable(true);
+//        binding.svAll.setFocusableInTouchMode(true);
+//        binding.svAll.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                v.requestFocusFromTouch();
+//                return false;
+//            }
+//        });
+
         //姓名
         binding.llShowName.tvItemSelectTitle.setText(getString(R.string.name));
         binding.llShowName.tvItemSelectIcon.setVisibility(View.INVISIBLE);

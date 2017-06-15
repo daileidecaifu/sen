@@ -64,7 +64,7 @@ public class FirstSaleContractFragment extends BaseFragment implements RequestHa
         binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_contract_review, container, false);
         initConponents();
-        getFollowUp();
+//        getFollowUp();
         return binding.getRoot();
 
     }
@@ -76,6 +76,19 @@ public class FirstSaleContractFragment extends BaseFragment implements RequestHa
         //签单时间
         binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.sign_up_time));
         binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
+
+        //首付金额
+        binding.llFirstSaleAmount.tvItemSelectTitle.setText(getString(R.string.first_sale_amount));
+        binding.llFirstSaleAmount.tvItemSelectIcon.setVisibility(View.GONE);
+
+
+        //首付时间
+        binding.llFirstSaleTime.tvItemSelectTitle.setText(getString(R.string.first_sale_time));
+        binding.llFirstSaleTime.tvItemSelectIcon.setVisibility(View.GONE);
+
+        //支付时间
+        binding.llNextPayTime.tvItemSelectTitle.setText(getString(R.string.pay_time));
+        binding.llNextPayTime.tvItemSelectIcon.setVisibility(View.GONE);
 
         contractReviewAdapter = new ContractReviewAdapter(getContext(), selectedPhotos);
         binding.rvPicShow.setLayoutManager(new StaggeredGridLayoutManager(4, OrientationHelper.VERTICAL));

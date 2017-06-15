@@ -145,13 +145,11 @@
         <activity
             android:name=".sales.activity.BuildFollowAcrivity"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <activity
@@ -160,6 +158,7 @@
 
         <activity
             android:name=".sales.activity.FirstSaleContractActivity"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:screenOrientation="portrait"></activity>
 
         <activity
