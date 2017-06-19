@@ -173,6 +173,9 @@
 
         <activity android:name=".sales.activity.ModifyRestTimeActivity"
             android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".sales.activity.PayRecordLogActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
