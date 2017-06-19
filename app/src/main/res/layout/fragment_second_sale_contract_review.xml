@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data class="ContractReviceBinding">
+    <data class="SecondSaleContractReviceFragmentBinding">
 
         <variable
             name="clickListener"
@@ -39,7 +39,12 @@
         <include
             android:id="@+id/ll_sign_up_time"
             layout="@layout/view_item_select" />
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/common_background"></View>
 
         <TextView
             android:layout_width="match_parent"
@@ -58,7 +63,6 @@
             android:background="@color/white"
             android:paddingBottom="15dp"
             android:paddingTop="15dp" />
-
 
     </LinearLayout>
 

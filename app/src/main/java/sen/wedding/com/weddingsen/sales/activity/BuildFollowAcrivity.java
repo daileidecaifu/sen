@@ -5,16 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.component.TitleBar;
-import sen.wedding.com.weddingsen.databinding.FragmentCommonBinding;
 import sen.wedding.com.weddingsen.databinding.FragmentTitleCommonBinding;
-import sen.wedding.com.weddingsen.main.fragment.InfoFollowUpFragment;
-import sen.wedding.com.weddingsen.sales.fragment.FitstSaleListFragment;
+import sen.wedding.com.weddingsen.sales.fragment.FirstSaleListFragment;
+import sen.wedding.com.weddingsen.sales.fragment.SecondSaleListFragment;
 
 /**
  * Created by lorin on 17/6/10.
@@ -22,7 +19,8 @@ import sen.wedding.com.weddingsen.sales.fragment.FitstSaleListFragment;
 
 public class BuildFollowAcrivity extends BaseActivity implements View.OnClickListener{
 
-    FitstSaleListFragment fitstSaleListFragment;
+    FirstSaleListFragment firstSaleListFragment;
+    SecondSaleListFragment secondSaleListFragment;
     private FragmentManager fragmentManager;
     FragmentTitleCommonBinding binding;
 
@@ -32,24 +30,57 @@ public class BuildFollowAcrivity extends BaseActivity implements View.OnClickLis
         binding = DataBindingUtil.setContentView(this, R.layout.activity_with_fragment_common_title);
         binding.setClickListener(this);
         initTitle();
-        addFragmentView();
+        checkSaleType();
     }
 
-    private void addFragmentView() {
+    private void checkSaleType()
+    {
+        int type = getIntent().getIntExtra("sale_type",0);
+        type = 1;
+        switch (type)
+        {
+            case 0:
+                addFirstSaleFragmentView();
+                break;
+
+            case 1:
+                addSecondSaleFragmentView();
+                break;
+        }
+    }
+
+    private void addFirstSaleFragmentView() {
         fragmentManager = getSupportFragmentManager();
         // 开启一个Fragment事务
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
-        if (fitstSaleListFragment == null) {
+        if (firstSaleListFragment == null) {
             // 如果MessageFragment为空，则创建一个并添加到界面上
-            fitstSaleListFragment = FitstSaleListFragment.newInstance();
-            transaction.add(R.id.fl_content, fitstSaleListFragment);
+            firstSaleListFragment = FirstSaleListFragment.newInstance();
+            transaction.add(R.id.fl_content, firstSaleListFragment);
         } else {
             // 如果MessageFragment不为空，则直接将它显示出来
-            transaction.show(fitstSaleListFragment);
+            transaction.show(firstSaleListFragment);
         }
         transaction.commit();
     }
+
+    private void addSecondSaleFragmentView() {
+        fragmentManager = getSupportFragmentManager();
+        // 开启一个Fragment事务
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
+        if (secondSaleListFragment == null) {
+            // 如果MessageFragment为空，则创建一个并添加到界面上
+            secondSaleListFragment = SecondSaleListFragment.newInstance();
+            transaction.add(R.id.fl_content, secondSaleListFragment);
+        } else {
+            // 如果MessageFragment不为空，则直接将它显示出来
+            transaction.show(secondSaleListFragment);
+        }
+        transaction.commit();
+    }
+
     private void initTitle() {
 
         initTitleBar(binding.titleBar, TitleBar.Type.COMMON);

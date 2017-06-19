@@ -153,6 +153,8 @@ public class BuildLogInfoActivity extends BaseActivity implements View.OnClickLi
 
             } else {
                 showToast(resultModel.message);
+                loadingView.showGuestInfoLoadingFailed();
+
             }
         }
     }

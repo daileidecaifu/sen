@@ -21,18 +21,17 @@ import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.BaseFragment;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.component.SlidingTabLayout;
-import sen.wedding.com.weddingsen.main.fragment.FollowInfoFragment;
 
 /**
  * Created by lorin on 17/5/8.
  */
 
-public class FitstSaleListFragment extends BaseFragment implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class SecondSaleListFragment extends BaseFragment implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
-    public static FitstSaleListFragment newInstance() {
+    public static SecondSaleListFragment newInstance() {
 
         Bundle args = new Bundle();
-        FitstSaleListFragment fragment = new FitstSaleListFragment();
+        SecondSaleListFragment fragment = new SecondSaleListFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -89,20 +88,16 @@ public class FitstSaleListFragment extends BaseFragment implements NavigationVie
     private class TabViewPagerAdapter extends FragmentPagerAdapter {
 
         private String[] mTabTitle = new String[]{
-                Conts.getFollowStatusMap().get(1),
-                Conts.getFollowStatusMap().get(2),
-                Conts.getFollowStatusMap().get(3),
-                Conts.getFollowStatusMap().get(4),
-                Conts.getFollowStatusMap().get(5),
-                Conts.getFollowStatusMap().get(6)};
+                Conts.getSecondSaleStatusMap().get(1),
+                Conts.getSecondSaleStatusMap().get(2),
+                Conts.getSecondSaleStatusMap().get(3),
+                Conts.getSecondSaleStatusMap().get(4)};
         private Context mContext;
         private Fragment[] fragments = new Fragment[]{
-                FirstSaleFragment.newInstance(1),
-                FirstSaleFragment.newInstance(2),
-                FirstSaleFragment.newInstance(3),
-                FirstSaleFragment.newInstance(4),
-                FirstSaleFragment.newInstance(5),
-                FirstSaleFragment.newInstance(6)
+                SecondSaleFragment.newInstance(1),
+                SecondSaleFragment.newInstance(2),
+                SecondSaleFragment.newInstance(3),
+                SecondSaleFragment.newInstance(4)
         };
 
         public TabViewPagerAdapter(FragmentManager fm, Context context) {

@@ -21,7 +21,6 @@ import sen.wedding.com.weddingsen.base.BaseFragment;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
-import sen.wedding.com.weddingsen.business.activity.FollowUpDetailActivity;
 import sen.wedding.com.weddingsen.component.LoadMoreView;
 import sen.wedding.com.weddingsen.component.LoadingView;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
@@ -31,14 +30,15 @@ import sen.wedding.com.weddingsen.main.adapter.FollowUpAdapter;
 import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.sales.activity.FirstSaleDetailActivity;
+import sen.wedding.com.weddingsen.sales.adapter.SecondSaleAdapter;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 
-public class FirstSaleFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>,
+public class SecondSaleFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>,
         AdapterView.OnItemClickListener, RecyclerRefreshLayout.OnRefreshListener,
         LoadMoreView.OnLoadMoreListener {
 
     ListView listView;
-    FollowUpAdapter followUpAdapter;
+    SecondSaleAdapter secondSaleAdapter;
     private ApiRequest getListRequest, loadMoreRequest;
 
     private GuestInfosResModel model;
@@ -53,11 +53,11 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
     boolean isLoadMore = false;//是否请求下一页数据
     private LoadMoreView loadMoreView;
 
-    public static FirstSaleFragment newInstance(int orderStatus) {
+    public static SecondSaleFragment newInstance(int orderStatus) {
 
         Bundle args = new Bundle();
         args.putInt("order_status", orderStatus);
-        FirstSaleFragment fragment = new FirstSaleFragment();
+        SecondSaleFragment fragment = new SecondSaleFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -80,8 +80,8 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
 
     private void initViews(View view) {
         listView = (ListView) view.findViewById(R.id.listView);
-        followUpAdapter = new FollowUpAdapter(getActivity(), currentStatus);
-        listView.setAdapter(followUpAdapter);
+        secondSaleAdapter = new SecondSaleAdapter(getActivity(), currentStatus);
+        listView.setAdapter(secondSaleAdapter);
         listView.setOnItemClickListener(this);
 //        listView.setOnScrollListener(this);
 
@@ -198,7 +198,7 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     loadingView.dismiss();
 
-                    followUpAdapter.notifyDataChanged(model.getOrderList());
+                    secondSaleAdapter.notifyDataChanged(model.getOrderList());
                     if (model.getCount() < 10) {
                         loadMoreView.showNoMoreInFirst();
                     } else {
@@ -219,7 +219,7 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
                 model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
                 currentPage = Integer.parseInt(((ApiRequest) req).getParams().get("order_page"));
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
-                    followUpAdapter.notifyMoreDataChanged(model.getOrderList());
+                    secondSaleAdapter.notifyMoreDataChanged(model.getOrderList());
                 }
 
                 if (model.getCount() <= currentPage * 10) {
@@ -242,7 +242,7 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
 
         }
 
-        if (followUpAdapter.isEmpty()) {
+        if (secondSaleAdapter.isEmpty()) {
             loadMoreView.dismissLoading();
         } else {
             loadMoreView.showFailed();
@@ -254,7 +254,7 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getAdapter().getItem(position) instanceof OrderInfoModel) {
             Intent intent = new Intent(getActivity(), FirstSaleDetailActivity.class);
-            intent.putExtra("order_id", followUpAdapter.getList().get(position).getId());
+            intent.putExtra("order_id", secondSaleAdapter.getList().get(position).getId());
             intent.putExtra("order_status", currentStatus);
 
             getActivity().startActivity(intent);

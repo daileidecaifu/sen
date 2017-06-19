@@ -22,8 +22,7 @@ import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.business.adapter.ContractReviewAdapter;
 import sen.wedding.com.weddingsen.business.model.ContractReviewModel;
-import sen.wedding.com.weddingsen.databinding.ContractReviceBinding;
-import sen.wedding.com.weddingsen.databinding.FirstSaleContractReviceFragmentBinding;
+import sen.wedding.com.weddingsen.databinding.SecondSaleContractReviceFragmentBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
@@ -34,9 +33,9 @@ import sen.wedding.com.weddingsen.utils.GsonConverter;
  * Created by lorin on 17/5/22.
  */
 
-public class FirstSaleContractFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse> {
+public class SecondSaleContractFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse> {
 
-    FirstSaleContractReviceFragmentBinding binding;
+    SecondSaleContractReviceFragmentBinding binding;
     private ContractReviewAdapter contractReviewAdapter;
     private ArrayList<String> selectedPhotos = new ArrayList<>();
 
@@ -44,9 +43,9 @@ public class FirstSaleContractFragment extends BaseFragment implements RequestHa
     private ApiRequest getContractReviewRequest;
     private ContractReviewModel contractReviewModel;
 
-    public static FirstSaleContractFragment newInstance(int orderId) {
+    public static SecondSaleContractFragment newInstance(int orderId) {
         Bundle args = new Bundle();
-        FirstSaleContractFragment fragment = new FirstSaleContractFragment();
+        SecondSaleContractFragment fragment = new SecondSaleContractFragment();
         args.putInt("order_id", orderId);
         fragment.setArguments(args);
         return fragment;
@@ -63,7 +62,7 @@ public class FirstSaleContractFragment extends BaseFragment implements RequestHa
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater,
-                R.layout.fragment_first_sale_contract_review, container, false);
+                R.layout.fragment_second_sale_contract_review, container, false);
         initConponents();
 //        getFollowUp();
         return binding.getRoot();
@@ -74,22 +73,11 @@ public class FirstSaleContractFragment extends BaseFragment implements RequestHa
         //合同时间
         binding.llContractMoney.tvItemSelectTitle.setText(getString(R.string.contract_money));
         binding.llContractMoney.tvItemSelectIcon.setVisibility(View.GONE);
+
         //签单时间
         binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.sign_up_time));
         binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
 
-        //首付金额
-        binding.llFirstSaleAmount.tvItemSelectTitle.setText(getString(R.string.first_sale_amount));
-        binding.llFirstSaleAmount.tvItemSelectIcon.setVisibility(View.GONE);
-
-
-        //首付时间
-        binding.llFirstSaleTime.tvItemSelectTitle.setText(getString(R.string.first_sale_time));
-        binding.llFirstSaleTime.tvItemSelectIcon.setVisibility(View.GONE);
-
-        //支付时间
-        binding.llNextPayTime.tvItemSelectTitle.setText(getString(R.string.pay_time));
-        binding.llNextPayTime.tvItemSelectIcon.setVisibility(View.GONE);
 
         contractReviewAdapter = new ContractReviewAdapter(getContext(), selectedPhotos);
         binding.rvPicShow.setLayoutManager(new StaggeredGridLayoutManager(4, OrientationHelper.VERTICAL));

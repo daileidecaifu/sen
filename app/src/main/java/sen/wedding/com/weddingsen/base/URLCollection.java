@@ -42,7 +42,7 @@ public class URLCollection {
 
     public final static String URL_GET_BUILD_INFO_LIST = "http://dev.51isen.com/index.php?m=app&c=order&f=orderDaJianList";
 
-    public final static String  URL_SHOW_BUILD_INFO_DETAIL = "http://dev.51isen.com/index.php?m=app&c=order&f=orderDaJianDetail";
+    public final static String URL_SHOW_BUILD_INFO_DETAIL = "http://dev.51isen.com/index.php?m=app&c=order&f=orderDaJianDetail";
 
     public final static String URL_GET_HOTEL_LIST = "http://dev.51isen.com/index.php?m=app&c=user&f=mainList";
 
@@ -53,8 +53,6 @@ public class URLCollection {
     public final static String URL_RESET_PASSWORD = "http://dev.51isen.com/index.php?m=web&c=feedback&f=accountEdit";
 
     public final static String URL_PERSON_DETAIL = "http://dev.51isen.com/index.php?m=app&c=feedback&f=wallet";
-
-    public final static String URL_GET_FIRST_SALE_LIST = "http://dev.51isen.com/index.php?m=app&c=order&f=orderDaJianList";
 
     public final static String URL_BUILD_LOG_LIST = "http://dev.51isen.com/index.php?m=app&c=order&f=dajianOrderFollowList";
 

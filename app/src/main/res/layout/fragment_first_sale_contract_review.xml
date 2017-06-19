@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data class="ContractReviceBinding">
+    <data class="FirstSaleContractReviceFragmentBinding">
 
         <variable
             name="clickListener"
@@ -39,7 +39,26 @@
         <include
             android:id="@+id/ll_sign_up_time"
             layout="@layout/view_item_select" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/common_background"></View>
 
+        <include
+            android:id="@+id/ll_first_sale_amount"
+            layout="@layout/view_item_select" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/common_background"></View>
+
+        <include
+            android:id="@+id/ll_first_sale_time"
+            layout="@layout/view_item_select" />
 
         <TextView
             android:layout_width="match_parent"
@@ -59,7 +78,18 @@
             android:paddingBottom="15dp"
             android:paddingTop="15dp" />
 
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/common_hight"
+            android:gravity="bottom"
+            android:paddingBottom="7dp"
+            android:paddingLeft="15dp"
+            android:text="@string/next_time_pay_time"
+            android:textColor="@color/gray_2"
+            android:textSize="@dimen/text_size_ss" />
+        <include
+            android:id="@+id/ll_next_pay_time"
+            layout="@layout/view_item_select" />
     </LinearLayout>
 
 

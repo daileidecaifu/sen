@@ -155,6 +155,8 @@ public class LogInfoActivity extends BaseActivity implements View.OnClickListene
 
             } else {
                 showToast(resultModel.message);
+                loadingView.showGuestInfoLoadingFailed();
+
             }
         }
     }

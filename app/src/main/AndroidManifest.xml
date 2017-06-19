@@ -164,6 +164,12 @@
         <activity
             android:name=".sales.activity.FirstSaleDetailActivity"
             android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".sales.activity.SecondSaleContractActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".sales.activity.SecondSaleDetailActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

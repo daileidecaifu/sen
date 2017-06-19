@@ -78,6 +78,8 @@ public class ContractReviewFragment extends BaseFragment implements RequestHandl
         binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.sign_up_time));
         binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
 
+
+
         contractReviewAdapter = new ContractReviewAdapter(getContext(), selectedPhotos);
         binding.rvPicShow.setLayoutManager(new StaggeredGridLayoutManager(4, OrientationHelper.VERTICAL));
         binding.rvPicShow.setAdapter(contractReviewAdapter);
