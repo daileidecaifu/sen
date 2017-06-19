@@ -10,6 +10,7 @@ import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.FeedbackBinding;
+import sen.wedding.com.weddingsen.databinding.ModifyRestTimeBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 
 /**
@@ -18,18 +19,18 @@ import sen.wedding.com.weddingsen.http.base.RequestHandler;
 
 public class ModifyRestTimeActivity extends BaseActivity implements  View.OnClickListener, RequestHandler<ApiRequest, ApiResponse> {
 
-    FeedbackBinding binding;
+    ModifyRestTimeBinding binding;
 
-    private ApiRequest feedbackRequest;
+    private ApiRequest submitRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_feedback);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_modify_rest_time);
         binding.setClickListener(this);
 
         initTitleBar(binding.titleBar, TitleBar.Type.COMMON);
-        getTitleBar().setTitle(getString(R.string.user_feedback));
+        getTitleBar().setTitle(getString(R.string.apply_modify_rest_time));
         getTitleBar().setRightVisibility(View.GONE);
         getTitleBar().setLeftClickEvent(new View.OnClickListener() {
             @Override

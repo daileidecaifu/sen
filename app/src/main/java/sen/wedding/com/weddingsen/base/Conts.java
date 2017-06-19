@@ -211,5 +211,10 @@ public class Conts {
     public final static int SOURCE_VERIFY_KEZI = 0;
     public final static int SOURCE_VERIFY_BUILD = 1;
 
+    //二销跟踪操作类型
+    public final static int SECOND_FOLLOW_UP_MIDDLE = 1;
+    public final static int SECOND_FOLLOW_UP_ADDITIONAL = 2;
+    public final static int SECOND_FOLLOW_UP_MODIFY = 3;
+    public final static int SECOND_FOLLOW_UP_REST = 4;
 
 }

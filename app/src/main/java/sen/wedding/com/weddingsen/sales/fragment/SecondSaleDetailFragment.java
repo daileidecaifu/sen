@@ -28,6 +28,7 @@ import sen.wedding.com.weddingsen.business.adapter.ReviewInfoAdapter;
 import sen.wedding.com.weddingsen.business.model.DetailResModel;
 import sen.wedding.com.weddingsen.business.model.OrderItemModel;
 import sen.wedding.com.weddingsen.databinding.FirstSaleDetailBinding;
+import sen.wedding.com.weddingsen.databinding.SecondSaleDetailBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
@@ -43,7 +44,7 @@ import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
 
 public class SecondSaleDetailFragment extends BaseFragment implements View.OnClickListener, RequestHandler<ApiRequest, ApiResponse> {
 
-    FirstSaleDetailBinding binding;
+    SecondSaleDetailBinding binding;
     private ReviewInfoAdapter adapter;
 
     StringBuffer sbType;
@@ -53,14 +54,12 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
     private ApiRequest getOrderDetailRequest, submitFollowRequest;
     private DetailResModel detailResModel;
 
-    private String[] nextFollowUpItems;
     private List<BaseTypeModel> specifyModels;
     private String[] typeArray;
     private int actionType;
     private int orderId;
     private int orderStatus;
     private int afterDays = -1;
-    private Map<Integer, String> typeMap;
 
     public static SecondSaleDetailFragment newInstance(int orderId, int orderStatus) {
         Bundle args = new Bundle();
@@ -83,7 +82,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater,
-                R.layout.fragment_first_sale_detail, container, false);
+                R.layout.fragment_second_sale_detail, container, false);
         binding.setClickListener(this);
         initData();
         initComponents();
@@ -94,15 +93,8 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
 
     private void initData() {
 
-        nextFollowUpItems = getResources().getStringArray(R.array.next_follow_up_item);
-
-        typeMap = Conts.getFollowActionStatusMap();
-        typeArray = new String[typeMap.size()];
+        typeArray = getResources().getStringArray(R.array.second_sale_detail_action);
 //        Conts.getFollowActionStatusMap().values().toArray(typeArray);
-
-        for (int i = 0; i < 3; i++) {
-            typeArray[i] = typeMap.get(i + 1);
-        }
 
         sbType = new StringBuffer();
         sbType.append(StringUtil.createHtml(getString(R.string.specify_position), "#313133"));
@@ -166,7 +158,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         binding.llShowTime.tvItemSelectIcon.setVisibility(View.INVISIBLE);
 
         //类型
-        binding.llActionType.tvItemSelectTitle.setText(getString(R.string.type));
+        binding.llActionType.tvItemSelectTitle.setText(getString(R.string.process));
         binding.llActionType.setClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,16 +168,10 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         binding.llActionType.tvItemSelectContent.setText(typeArray[0]);
 
         //下次跟进
-        binding.llFollowUpTime.tvItemSelectTitle.setText(getString(R.string.next_follow));
-        binding.llFollowUpTime.setClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showSelectAfterDays();
-            }
-        });
+        binding.llFollowUpTime.tvItemSelectTitle.setText(getString(R.string.original_time));
+        binding.llFollowUpTime.tvItemSelectIcon.setVisibility(View.GONE);
 
         initBottomView();
-        binding.llFollowUpTime.tvItemSelectContent.setText(nextFollowUpItems[0]);
         actionType = Conts.FOLLOW_UP_INFO_EFFECTIVE;
         afterDays = 1;
     }
@@ -214,7 +200,6 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
                 long afterTimestamp = (System.currentTimeMillis() + 1000 * 60 * 60 * 24 * afterDays) / 1000;
                 param.put("follow_time", afterTimestamp + "");
             }
-            param.put("follow_desc", binding.etEditNote.getText().toString());
 
             submitFollowRequest.setParams(param);
             getApiService().exec(submitFollowRequest, this);
@@ -245,52 +230,32 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         builder.create().show();
     }
 
-    private void showSelectAfterDays() {
-
-        //dialog参数设置
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());  //先得到构造器
-        builder.setTitle(getString(R.string.select_next_follow_up)); //设置标题
-        //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
-        builder.setItems(nextFollowUpItems, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                afterDays = which + 1;
-                binding.llFollowUpTime.tvItemSelectContent.setText(nextFollowUpItems[which]);
-
-            }
-        });
-        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.create().show();
-    }
 
     private void switchShowAction(int type) {
         binding.llActionType.tvItemSelectContent.setText(typeArray[type]);
         switch (type) {
             case 0:
                 binding.llFollowUpTime.getRoot().setVisibility(View.VISIBLE);
-                binding.llFollowUpNote.setVisibility(View.VISIBLE);
-                binding.tvFollowUpSubmit.setText(getString(R.string.confirm));
-                actionType = Conts.FOLLOW_UP_INFO_EFFECTIVE;
+//                binding.tvFollowUpSubmit.setText(getString(R.string.confirm));
+                actionType = Conts.SECOND_FOLLOW_UP_MIDDLE;
                 break;
 
             case 1:
-                binding.llFollowUpTime.getRoot().setVisibility(View.GONE);
-                binding.llFollowUpNote.setVisibility(View.VISIBLE);
-                binding.tvFollowUpSubmit.setText(getString(R.string.confirm));
-                actionType = Conts.FOLLOW_UP_INFO_INVALID;
+                binding.llFollowUpTime.getRoot().setVisibility(View.VISIBLE);
+//                binding.tvFollowUpSubmit.setText(getString(R.string.confirm));
+                actionType = Conts.SECOND_FOLLOW_UP_ADDITIONAL;
                 break;
 
             case 2:
                 binding.llFollowUpTime.getRoot().setVisibility(View.GONE);
-                binding.llFollowUpNote.setVisibility(View.GONE);
-                binding.tvFollowUpSubmit.setText(getString(R.string.submit_certificate));
-                actionType = Conts.FOLLOW_UP_COMFIRM_SIGN;
+//                binding.tvFollowUpSubmit.setText(getString(R.string.submit_certificate));
+                actionType = Conts.SECOND_FOLLOW_UP_MODIFY;
+                break;
+
+            case 3:
+                binding.llFollowUpTime.getRoot().setVisibility(View.VISIBLE);
+//                binding.tvFollowUpSubmit.setText(getString(R.string.submit_certificate));
+                actionType = Conts.SECOND_FOLLOW_UP_REST;
                 break;
         }
     }

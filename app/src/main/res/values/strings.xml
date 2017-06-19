@@ -198,5 +198,9 @@
     <string name="new_password_can_not_empty">新密码不能为空</string>
     <string name="password_can_not_match">两次新密码不一致</string>
     <string name="reset_password_success">修改密码成功</string>
+    <string name="apply_time">申请时间</string>
+    <string name="apply_modify_rest_time">申请修改尾款时间</string>
+    <string name="process">操作</string>
+    <string name="original_time">原定时间</string>
 
 </resources>
