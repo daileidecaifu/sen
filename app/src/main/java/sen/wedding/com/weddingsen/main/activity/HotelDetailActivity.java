@@ -1,18 +1,14 @@
 package sen.wedding.com.weddingsen.main.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.widget.AdapterView;
 
-import com.google.gson.reflect.TypeToken;
 import com.youth.banner.listener.OnBannerListener;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.ApiRequest;
@@ -21,18 +17,13 @@ import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.component.GlideImageLoader;
-import sen.wedding.com.weddingsen.component.LoadingView;
 import sen.wedding.com.weddingsen.databinding.HotelDetailBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.main.adapter.BallroomAdapter;
 import sen.wedding.com.weddingsen.main.adapter.BanquetMenuAdapter;
-import sen.wedding.com.weddingsen.main.model.BallroomModel;
-import sen.wedding.com.weddingsen.main.model.BanquetMenuModel;
-import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
 import sen.wedding.com.weddingsen.main.model.HotelDetailModel;
-import sen.wedding.com.weddingsen.main.model.HotelDistinctModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 
 /**
@@ -70,6 +61,14 @@ public class HotelDetailActivity extends BaseActivity implements RequestHandler<
 
         ballroomAdapter = new BallroomAdapter(this);
         binding.lvBallroom.setAdapter(ballroomAdapter);
+        binding.lvBallroom.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(HotelDetailActivity.this,BallroomAlbumActivity.class);
+                intent.putExtra("ballroom",GsonConverter.toJson(hotelDetailModel.getRoomList().get(position)));
+                startActivity(intent);
+            }
+        });
 
         banquetMenuAdapter = new BanquetMenuAdapter(this);
         binding.lvBanquetMenu.setAdapter(banquetMenuAdapter);

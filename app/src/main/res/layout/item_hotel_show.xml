@@ -10,7 +10,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:background="@color/white"
             android:orientation="horizontal"
             android:padding="10dp">
@@ -20,20 +20,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginRight="5dp"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:src="@color/colorPrimary" />
 
             <LinearLayout
                 android:layout_marginLeft="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_hotel_name"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/common_hight"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:textColor="@color/text_common"
                     android:textSize="@dimen/text_size_xxl" />
@@ -51,7 +52,7 @@
                         android:textColor="@color/text_common"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:textSize="@dimen/text_size_l" />
+                        android:textSize="@dimen/text_size_s" />
 
                     <TextView
                         android:id="@+id/tv_table_count"
@@ -60,7 +61,7 @@
                         android:layout_weight="1"
                         android:textColor="@color/gray_1"
                         android:gravity="center_vertical"
-                        android:textSize="@dimen/text_size_l" />
+                        android:textSize="@dimen/text_size_s" />
                 </LinearLayout>
 
                 <TextView
@@ -70,7 +71,7 @@
                     android:layout_weight="1"
                     android:textColor="@color/gray_1"
                     android:gravity="center_vertical"
-                    android:textSize="@dimen/text_size_ss" />
+                    android:textSize="@dimen/text_size_s" />
 
                 <TextView
                     android:id="@+id/tv_phone_number"
@@ -79,10 +80,16 @@
                     android:layout_weight="1"
                     android:textColor="@color/gray_2"
                     android:gravity="center_vertical"
-                    android:textSize="@dimen/text_size_ss" />
+                    android:textSize="@dimen/text_size_s" />
             </LinearLayout>
 
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/divider_out"
+            android:layout_height="1px"></View>
 
     </LinearLayout>
 </layout>

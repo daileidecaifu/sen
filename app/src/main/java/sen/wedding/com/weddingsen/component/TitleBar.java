@@ -2,6 +2,7 @@ package sen.wedding.com.weddingsen.component;
 
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import sen.wedding.com.weddingsen.R;
@@ -18,6 +19,7 @@ public class TitleBar {
 
     private Type currentType;
 
+    private RelativeLayout mainLayout;
     private LinearLayout layoutLeft;
     private LinearLayout layoutRight;
     private TextView textViewTitle;
@@ -25,6 +27,7 @@ public class TitleBar {
 
     public TitleBar(View titleView, Type type) {
         currentType = type;
+        mainLayout = (RelativeLayout)  titleView.findViewById(R.id.title_bar);
         layoutLeft = (LinearLayout) titleView.findViewById(R.id.ll_left);
         layoutRight = (LinearLayout) titleView.findViewById(R.id.ll_right);
         textViewTitle = (TextView) titleView.findViewById(R.id.tv_title_title);
@@ -59,6 +62,11 @@ public class TitleBar {
     public void setRightClickEvent(View.OnClickListener listener)
     {
         layoutRight.setOnClickListener(listener);
+    }
+
+    public void setBackground(int color)
+    {
+        mainLayout.setBackgroundColor(color);
     }
 
 }

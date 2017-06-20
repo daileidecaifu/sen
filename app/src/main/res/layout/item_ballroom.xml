@@ -37,7 +37,7 @@
                     android:gravity="center_vertical"
                     android:layout_weight="1"
                     android:textColor="@color/text_common"
-                    android:textSize="@dimen/text_size_mm" />
+                    android:textSize="@dimen/text_size_m" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -52,7 +52,7 @@
                         android:layout_weight="1"
                         android:textColor="@color/gray_1"
                         android:gravity="center_vertical"
-                        android:textSize="@dimen/text_size_l" />
+                        android:textSize="@dimen/text_size_s" />
 
                     <TextView
                         android:id="@+id/tv_high_level"
@@ -61,7 +61,7 @@
                         android:layout_weight="1"
                         android:textColor="@color/gray_1"
                         android:gravity="center_vertical"
-                        android:textSize="@dimen/text_size_l" />
+                        android:textSize="@dimen/text_size_s" />
 
                     <TextView
                         android:id="@+id/tv_column_count"
@@ -70,7 +70,7 @@
                         android:layout_weight="1"
                         android:textColor="@color/gray_1"
                         android:gravity="center_vertical"
-                        android:textSize="@dimen/text_size_l" />
+                        android:textSize="@dimen/text_size_s" />
 
                 </LinearLayout>
 

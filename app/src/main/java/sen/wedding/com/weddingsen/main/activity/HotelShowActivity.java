@@ -22,6 +22,7 @@ import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.databinding.HotelShowBinding;
 import sen.wedding.com.weddingsen.main.fragment.HotelShowFragment;
+import sen.wedding.com.weddingsen.sales.activity.BuildFollowAcrivity;
 import sen.wedding.com.weddingsen.utils.ScreenUtil;
 
 /**
@@ -116,7 +117,17 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
                 jumpToOtherActivity(InfoProvideActivity.class);
                 break;
             case R.id.ll_info_follow:
-                jumpToOtherActivity(InfoFollowUpActivity.class);
+
+                switch (userType) {
+
+                    case Conts.LOGIN_MODEL_FIRST_SALE:
+                    case Conts.LOGIN_MODEL_SECOND_SALE:
+                        jumpToOtherActivity(BuildFollowAcrivity.class);
+                        break;
+                    case Conts.LOGIN_MODEL_ACCOUNT:
+                        jumpToOtherActivity(InfoFollowUpActivity.class);
+                        break;
+                }
                 break;
             case R.id.ll_password_reset:
                 jumpToOtherActivity(ResetPasswordActivity.class);

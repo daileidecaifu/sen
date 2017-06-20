@@ -202,5 +202,6 @@
     <string name="apply_modify_rest_time">申请修改尾款时间</string>
     <string name="process">操作</string>
     <string name="original_time">原定时间</string>
+    <string name="restaurant_detail">宴会厅详情</string>
 
 </resources>

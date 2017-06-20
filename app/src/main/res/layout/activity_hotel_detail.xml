@@ -32,11 +32,11 @@
 
                 <ImageView
                     android:id="@+id/iv_back"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:onClick="@{clickListener}"
-                    android:padding="10dp"
-                    android:src="@color/theme_color" />
+                    android:padding="15dp"
+                    android:src="@mipmap/icon_arrow_left" />
             </RelativeLayout>
 
 
@@ -52,7 +52,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
-                    android:paddingRight="25dp"
+                    android:paddingRight="15dp"
                     android:text="AAAA"
                     android:textColor="@color/text_common"
                     android:textSize="@dimen/text_size_xxl" />
@@ -64,7 +64,7 @@
                     android:gravity="center_vertical"
                     android:text="AAAA"
                     android:textColor="@color/gray_1"
-                    android:textSize="@dimen/text_size_xxl" />
+                    android:textSize="@dimen/text_size_m" />
             </LinearLayout>
 
             <View

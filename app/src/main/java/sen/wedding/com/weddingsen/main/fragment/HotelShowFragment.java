@@ -4,15 +4,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,8 +28,6 @@ import sen.wedding.com.weddingsen.base.BaseFragment;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
-import sen.wedding.com.weddingsen.business.model.HotelModel;
-import sen.wedding.com.weddingsen.business.model.LogInfoModel;
 import sen.wedding.com.weddingsen.component.LoadingView;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
@@ -41,11 +36,8 @@ import sen.wedding.com.weddingsen.main.activity.HotelDetailActivity;
 import sen.wedding.com.weddingsen.main.activity.HotelDistinctActivity;
 import sen.wedding.com.weddingsen.main.activity.HotelShowActivity;
 import sen.wedding.com.weddingsen.main.adapter.HotelsAdapter;
-import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
 import sen.wedding.com.weddingsen.main.model.HotelShowModel;
-import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
-import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
 
 /**
  * Created by lorin on 17/5/25.
@@ -119,7 +111,7 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
         TextView textViewTitle = (TextView) linearLayoutTitle.findViewById(R.id.tv_title_title);
 
         textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_my_center));
-        textViewRight.setBackgroundDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
+        textViewRight.setBackgroundDrawable(getResources().getDrawable(R.mipmap.to_select));
 
         textViewTitle.setText(getString(R.string.sen));
         textViewRight.setOnClickListener(new View.OnClickListener() {

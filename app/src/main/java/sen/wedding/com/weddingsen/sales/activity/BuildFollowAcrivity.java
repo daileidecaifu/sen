@@ -8,6 +8,8 @@ import android.view.View;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.BaseActivity;
+import sen.wedding.com.weddingsen.base.BasePreference;
+import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.FragmentTitleCommonBinding;
 import sen.wedding.com.weddingsen.sales.fragment.FirstSaleListFragment;
@@ -35,15 +37,15 @@ public class BuildFollowAcrivity extends BaseActivity implements View.OnClickLis
 
     private void checkSaleType()
     {
-        int type = getIntent().getIntExtra("sale_type",0);
-        type = 1;
-        switch (type)
+        String userType = BasePreference.getUserType();
+
+        switch (userType)
         {
-            case 0:
+            case Conts.LOGIN_MODEL_FIRST_SALE:
                 addFirstSaleFragmentView();
                 break;
 
-            case 1:
+            case Conts.LOGIN_MODEL_SECOND_SALE:
                 addSecondSaleFragmentView();
                 break;
         }

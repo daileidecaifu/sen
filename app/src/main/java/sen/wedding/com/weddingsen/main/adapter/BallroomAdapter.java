@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +74,15 @@ public class BallroomAdapter extends BaseAdapter {
         BallroomModel model = list.get(position);
 
 //        binding.ivImage.setBackgroundColor();
+        if(model.getRoomImage()!=null&&model.getRoomImage().size()>0) {
+            Glide.with(currentContext)
+                    .load(model.getRoomImage().get(0))
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .error(R.drawable.__picker_ic_broken_image_black_48dp)
+                    .crossFade()
+                    .into(binding.ivImage);
+        }
         binding.tvBallroomName.setText(model.getRoomName());
         binding.tvHighLevel.setText(model.getRoomHigh());
         binding.tvColumnCount.setText(model.getRoomLz());
