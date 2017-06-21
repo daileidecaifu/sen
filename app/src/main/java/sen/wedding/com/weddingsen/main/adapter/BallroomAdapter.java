@@ -84,9 +84,9 @@ public class BallroomAdapter extends BaseAdapter {
                     .into(binding.ivImage);
         }
         binding.tvBallroomName.setText(model.getRoomName());
-        binding.tvHighLevel.setText(model.getRoomHigh());
-        binding.tvColumnCount.setText(model.getRoomLz());
-        binding.tvTableCount.setText(model.getRoomMaxDesk());
+        binding.tvHighLevel.setText(currentContext.getString(R.string.high_level_colon)+model.getRoomHigh()+"M");
+        binding.tvColumnCount.setText(currentContext.getString(R.string.column_colon)+model.getRoomLz());
+        binding.tvTableCount.setText(currentContext.getString(R.string.table_count_colon)+model.getRoomMaxDesk());
 
         return binding.getRoot();
 

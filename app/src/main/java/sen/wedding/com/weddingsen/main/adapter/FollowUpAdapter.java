@@ -93,7 +93,7 @@ public class FollowUpAdapter extends BaseAdapter {
 //        binding.tvOrderTime.setText(model.getCreateTime());
         long time = Long.parseLong(model.getCreateTime()) * 1000;
         binding.tvOrderTime.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
-        binding.tvOrderStatus.setText(Conts.getOrderStatusMap().get(model.getOrderStatus()));
+        binding.tvOrderStatus.setText(Conts.getFollowStatusMap().get(model.getOrderStatus()));
         binding.tvContantPersonPhone.setText(model.getOrderPhone());
         binding.tvFollowerFaction.setText(model.getWatchUser());
 

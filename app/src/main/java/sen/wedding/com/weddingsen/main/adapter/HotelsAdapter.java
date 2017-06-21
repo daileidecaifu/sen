@@ -93,8 +93,9 @@ public class HotelsAdapter extends BaseAdapter {
         binding.tvHotelName.setText(model.getHotelName());
         binding.tvAddressContent.setText(model.getAreaShName() + " " + model.getHotelType());
         binding.tvPhoneNumber.setText(model.getHotelPhone());
-        binding.tvUnitPrice.setText(model.getHotelLow() + "-" + model.getHotelHigh());
-        binding.tvTableCount.setText(model.getHotelMaxDesk());
+        binding.tvUnitPrice.setText(currentContext.getString(R.string.rmb_symbol)
+                + model.getHotelLow() + "-" + model.getHotelHigh() + "/" + currentContext.getString(R.string.table));
+        binding.tvTableCount.setText(currentContext.getString(R.string.table_count_colon) + model.getHotelMaxDesk());
 
         return binding.getRoot();
 

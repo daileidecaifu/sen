@@ -107,7 +107,7 @@ public class BuildLogInfoActivity extends BaseActivity implements View.OnClickLi
             getLogRequest = new ApiRequest(URLCollection.URL_BUILD_LOG_LIST, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
-            param.put("user_kezi_order_id", orderId + "");
+            param.put("user_dajian_order_id", orderId + "");
 
             getLogRequest.setParams(param);
             getApiService().exec(getLogRequest, this);

@@ -61,18 +61,18 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
             case Conts.LOGIN_MODEL_PHONE:
                 binding.llSliderMenu.llInfoFollow.setVisibility(View.GONE);
                 binding.llSliderMenu.llPasswordReset.setVisibility(View.GONE);
-                ViewGroup.LayoutParams para = binding.llSliderMenu.vLogoutMarginTop.getLayoutParams();
-                para.height = ScreenUtil.dip2px(this, 180);
-                binding.llSliderMenu.vLogoutMarginTop.setLayoutParams(para);
+//                ViewGroup.LayoutParams para = binding.llSliderMenu.vLogoutMarginTop.getLayoutParams();
+//                para.height = ScreenUtil.dip2px(this, 180);
+//                binding.llSliderMenu.vLogoutMarginTop.setLayoutParams(para);
                 break;
 
             case Conts.LOGIN_MODEL_FIRST_SALE:
             case Conts.LOGIN_MODEL_SECOND_SALE:
                 binding.llSliderMenu.llInfoProvide.setVisibility(View.GONE);
                 binding.llSliderMenu.llPersonInfo.setVisibility(View.GONE);
-                ViewGroup.LayoutParams para2 = binding.llSliderMenu.vLogoutMarginTop.getLayoutParams();
-                para2.height = ScreenUtil.dip2px(this, 180);
-                binding.llSliderMenu.vLogoutMarginTop.setLayoutParams(para2);
+//                ViewGroup.LayoutParams para2 = binding.llSliderMenu.vLogoutMarginTop.getLayoutParams();
+//                para2.height = ScreenUtil.dip2px(this, 180);
+//                binding.llSliderMenu.vLogoutMarginTop.setLayoutParams(para2);
                 break;
         }
 

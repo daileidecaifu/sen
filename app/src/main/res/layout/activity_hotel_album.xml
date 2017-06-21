@@ -9,24 +9,58 @@
 
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/common_background"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/title_bar"
-            layout="@layout/common_title_bar" />
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/vp_photos"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/tip_color"
-            android:overScrollMode="never" />
+            android:background="@color/common_background"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <include
+                android:id="@+id/title_bar"
+                layout="@layout/common_title_bar" />
 
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vp_photos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/tip_color"
+                android:overScrollMode="never" />
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_alignParentBottom="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:id="@+id/tv_ballroom_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_m" />
+
+                <TextView
+                    android:id="@+id/tv_ballroom_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/gray_1"
+                    android:textSize="@dimen/text_size_s" />
+            </LinearLayout>
+        </ScrollView>
+
+    </RelativeLayout>
 
 </layout>

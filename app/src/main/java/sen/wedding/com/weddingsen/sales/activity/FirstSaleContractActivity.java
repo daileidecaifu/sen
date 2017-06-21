@@ -16,10 +16,12 @@ import com.alibaba.sdk.android.oss.common.OSSLog;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +35,7 @@ import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
+import sen.wedding.com.weddingsen.business.activity.EditGuestInfoActivity;
 import sen.wedding.com.weddingsen.business.adapter.PhotoAdapter;
 import sen.wedding.com.weddingsen.business.model.OSSResultModel;
 import sen.wedding.com.weddingsen.business.utils.OSSResultFeedback;
@@ -54,17 +57,36 @@ import sen.wedding.com.weddingsen.utils.OSSUploader;
  * Created by lorin on 17/5/2.
  */
 
-public class FirstSaleContractActivity extends BaseActivity implements View.OnClickListener, RequestHandler<ApiRequest, ApiResponse> {
+public class FirstSaleContractActivity extends BaseActivity implements View.OnClickListener, RequestHandler<ApiRequest, ApiResponse>, DatePickerDialog.OnDateSetListener {
 
     FirstSaleContractBinding binding;
     private PhotoAdapter photoAdapter;
     private ArrayList<String> selectedPhotos = new ArrayList<>();
 
+    //举办时间
+    private long heldTime;
+    private String heldTimeContent;
+
+    //首付时间
+    private long selectFirstPayTime;
+    private String selectFirstPayTimeContent;
+
+    //下次支付时间
+    private long selectNextPayTime;
+    private String selectNextPayTimeContent;
+
+    private int selectDataType;
+    private final int dateFirstPayType = 1;
+    private final int dateNextPayType = 2;
+
     private OSS oss;
     private int orderId;
     private ApiRequest submitCertificateRequest;
+    private DatePickerDialog firstSaleDpd;
+    private DatePickerDialog nextPayDpd;
 
-    private long signTime;
+
+//    private long signTime;
     private int uploadSuccess = 10000;
     private int uploadFail = 9999;
     private Handler handler = new Handler() {
@@ -130,7 +152,7 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
         binding.llContractMoney.etItemEditInput.setHint(getString(R.string.contract_money_tip));
         binding.llContractMoney.etItemEditInput.setInputType(8194);
 
-        //签单时间
+        //举办时间
         binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.held_time));
         binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
 
@@ -142,20 +164,32 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
         //首付时间
         binding.llFirstSaleTime.tvItemSelectTitle.setText(getString(R.string.first_sale_time));
         binding.llFirstSaleTime.tvItemSelectIcon.setVisibility(View.GONE);
-
+        binding.llFirstSaleTime.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFirstSaleDate();
+            }
+        });
         //支付时间
         binding.llNextPayTime.tvItemSelectTitle.setText(getString(R.string.pay_time));
         binding.llNextPayTime.tvItemSelectIcon.setVisibility(View.GONE);
-
-        long currentTimestamp = System.currentTimeMillis();
-        signTime = currentTimestamp / 1000;
-        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
+        binding.llNextPayTime.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNextPayDate();
+            }
+        });
+//        long currentTimestamp = System.currentTimeMillis();
+//        signTime = currentTimestamp / 1000;
+        binding.llSignUpTime.tvItemSelectContent.setText(heldTimeContent);
         FileIOUtil.deleteFile(new File(Conts.COMPRESS_IMG_PATH));
 
     }
 
     private void getInfo() {
         orderId = getIntent().getIntExtra("order_id", -1);
+        heldTime  = getIntent().getLongExtra("held_time",0);
+        heldTimeContent = getIntent().getStringExtra("held_time_content");
     }
 
     @Override
@@ -199,40 +233,6 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
                     }
                 });
                 ossUploader.toUpload();
-
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                        OSSUploadTask ossUploadTask = new OSSUploadTask(oss, prepareUploadRequests(), new OSSUploadResult() {
-//
-//                            @Override
-//                            public void onComplete(OSSUploadModel result) {
-//                                if (result != null && result.isSuccess()) {
-////                                    closeProgressDialog();
-//                                    StringBuffer sb = new StringBuffer();
-//                                    ossImageUrls = "";
-//
-//                                    for (int i = 0; i < result.getList().size(); i++) {
-//                                        if (i != 0) {
-//                                            sb.append(",");
-//                                        }
-//                                        sb.append(result.getList().get(i).getRemoteUrl());
-//
-//                                    }
-//                                    ossImageUrls = sb.toString();
-//                                    AppLog.e(ossImageUrls);
-//                                    submitertificate();
-//                                } else {
-//                                    closeProgressDialog();
-//                                }
-//                            }
-//                        });
-//                        ossUploadTask.execute();
-//
-//                    }
-//                },50);
-
 
                 break;
         }
@@ -289,12 +289,15 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
 
     private void submitertificate(String imageUrls) {
         if (orderId != -1) {
-            submitCertificateRequest = new ApiRequest(URLCollection.URL_ORDER_SIGN, HttpMethod.POST);
+            submitCertificateRequest = new ApiRequest(URLCollection.URL_FIRST_SALE_SIGN, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
-            param.put("user_kezi_order_id", orderId + "");
+            param.put("user_dajian_order_id", orderId + "");
             param.put("order_money", binding.llContractMoney.etItemEditInput.getText().toString());
-            param.put("sign_using_time", signTime + "");
+            param.put("sign_using_time", heldTime + "");
+            param.put("first_order_money", binding.llFirstSaleAmount.etItemEditInput.getText().toString());
+            param.put("first_order_using_time", selectFirstPayTime + "");
+            param.put("next_pay_time", selectNextPayTime + "");
             param.put("sign_pic", imageUrls);
 
             submitCertificateRequest.setParams(param);
@@ -302,6 +305,61 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
         } else {
             showToast("Order ID WRONG!");
         }
+    }
+
+    private void showFirstSaleDate() {
+
+        selectDataType = dateFirstPayType;
+        if (firstSaleDpd == null) {
+            Calendar now = Calendar.getInstance();
+            firstSaleDpd = DatePickerDialog.newInstance(this,
+                    now.get(Calendar.YEAR),
+                    now.get(Calendar.MONTH),
+                    now.get(Calendar.DAY_OF_MONTH)
+            );
+            firstSaleDpd.setAccentColor(getResources().getColor(R.color.theme_color));
+        }
+        firstSaleDpd.show(getFragmentManager(), "Datepickerdialog");
+
+    }
+
+    private void showNextPayDate() {
+
+        selectDataType = dateNextPayType;
+
+        if (nextPayDpd == null) {
+            Calendar now = Calendar.getInstance();
+            nextPayDpd = DatePickerDialog.newInstance(this,
+                    now.get(Calendar.YEAR),
+                    now.get(Calendar.MONTH),
+                    now.get(Calendar.DAY_OF_MONTH)
+            );
+            nextPayDpd.setAccentColor(getResources().getColor(R.color.theme_color));
+        }
+        nextPayDpd.show(getFragmentManager(), "Datepickerdialog");
+
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+
+        switch (selectDataType)
+        {
+            case dateFirstPayType:
+                selectFirstPayTimeContent = year + "-" + DateUtil.formatValue(monthOfYear + 1) + "-" + dayOfMonth;
+                //除以1000是为了符合php时间戳长度
+                selectFirstPayTime = DateUtil.convertStringToDate(selectFirstPayTimeContent, DateUtil.FORMAT_COMMON_Y_M_D).getTime() / 1000;
+                binding.llFirstSaleTime.tvItemSelectContent.setText(selectFirstPayTimeContent);
+                break;
+
+            case dateNextPayType:
+                selectNextPayTimeContent = year + "-" + DateUtil.formatValue(monthOfYear + 1) + "-" + dayOfMonth;
+                //除以1000是为了符合php时间戳长度
+                selectNextPayTime = DateUtil.convertStringToDate(selectNextPayTimeContent, DateUtil.FORMAT_COMMON_Y_M_D).getTime() / 1000;
+                binding.llNextPayTime.tvItemSelectContent.setText(selectNextPayTimeContent);
+                break;
+        }
+
     }
 
     @Override
@@ -341,4 +399,6 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
         closeProgressDialog();
         showToast(resp.getResultModel().message);
     }
+
+
 }

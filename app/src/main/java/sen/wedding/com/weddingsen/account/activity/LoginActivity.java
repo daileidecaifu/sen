@@ -211,7 +211,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 accountInfoModel = GsonConverter.decode(resultModel.data, AccountInfoModel.class);
                 //保存token和username数据
                 BasePreference.saveToken(accountInfoModel.getAccessToken());
-                BasePreference.saveUserName(accountInfoModel.getNikeName());//返回nikename，实为username
+                if(TextUtils.isEmpty(accountInfoModel.getNikeName()))
+                {
+                    BasePreference.saveUserName(binding.etAccount.getText().toString());
+                }else
+                {
+                    BasePreference.saveUserName(accountInfoModel.getNikeName());//返回nikename，实为username
+                }
                 BasePreference.saveUserType(accountInfoModel.getUserType());
                 BasePreference.saveAlipayAccount(accountInfoModel.getAlipayAccount());
                 BasePreference.saveHotelId(accountInfoModel.getHotelId());

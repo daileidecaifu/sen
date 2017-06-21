@@ -151,7 +151,8 @@ public class BuildInfoDetailActivity extends BaseActivity implements View.OnClic
         OrderItemModel orderItemModel = detailResModel.getOrderItem();
         LogInfoModel logInfoModel = detailResModel.getOrderFollow();
         binding.llShowName.tvItemSelectContent.setText(orderItemModel.getCustomerName());
-        binding.llShowType.tvItemSelectContent.setText(Conts.getOrderStatusMap().get(orderItemModel.getOrderStatus()));
+        binding.llShowType.tvItemSelectContent.setText(Conts.getOrderTypeMap().get(orderItemModel.getOrderType()));
+
         binding.llShowPhoneNumber.tvItemSelectContent.setText(orderItemModel.getOrderPhone());
         binding.llShowSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemDistrict.toString()));
 
@@ -162,6 +163,7 @@ public class BuildInfoDetailActivity extends BaseActivity implements View.OnClic
         binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
 
         binding.tvShowNote.setText(orderItemModel.getOrderDesc());
+
 
         if (logInfoModel != null) {
             switch (logInfoModel.getUserOrderStatus()) {
@@ -186,9 +188,14 @@ public class BuildInfoDetailActivity extends BaseActivity implements View.OnClic
                     break;
             }
 
+            long processTime = Long.parseLong(logInfoModel.getOrderFollowTime()) * 1000;
+            binding.llProcessTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(processTime), DateUtil.FORMAT_COMMON_Y_M_D));
 
-//            long processTime = Long.parseLong(logInfoModel.getOrderFollowTime()) * 1000;
-//            binding.llProcessTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(processTime), DateUtil.FORMAT_COMMON_Y_M_D));
+        }else
+        {
+            binding.llProcessSchedule.tvItemSelectContent.setText(getString(R.string.processing));
+            binding.llProcessTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
+
         }
     }
 

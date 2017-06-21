@@ -56,4 +56,12 @@ public class URLCollection {
 
     public final static String URL_BUILD_LOG_LIST = "http://dev.51isen.com/index.php?m=app&c=order&f=dajianOrderFollowList";
 
+    public final static String URL_FIRST_SALE_FOLLOW = "http://dev.51isen.com/index.php?m=app&c=order&f=dajianOrderFollow";
+
+    public final static String URL_FIRST_SALE_SIGN = "http://dev.51isen.com/index.php?m=app&c=order&f=dajianOrderSign";
+
+    public final static String URL_FIRST_SALE_SIGN_DETAIL = "http://dev.51isen.com/index.php?m=app&c=order&f=dajianOrderSignDetail";
+
+    public final static String URL_SECOND_SALE_SIGN = "http://dev.51isen.com/index.php?m=app&c=order&f=dajianOrderSignOther";
+
 }

@@ -48,32 +48,46 @@ public class BallroomAlbumActivity extends BaseActivity {
             }
         });
 
-        ballroomModel = GsonConverter.decode(getIntent().getStringExtra("ballroom"),BallroomModel.class);
-        totalCount = ballroomModel.getRoomImage().size();
-        getTitleBar().setCommonRightText(1 + "/" + totalCount);
+        ballroomModel = GsonConverter.decode(getIntent().getStringExtra("ballroom"), BallroomModel.class);
 
-        hotelPagerAdapter = new HotelPagerAdapter(ballroomModel.getRoomImage(), this);
-        binding.vpPhotos.setAdapter(hotelPagerAdapter);
-        binding.vpPhotos.setCurrentItem(currentItem);
-        binding.vpPhotos.setOffscreenPageLimit(5);
+        if (ballroomModel == null || ballroomModel.getRoomImage() == null || ballroomModel.getRoomImage().size() < 0) {
+            showToast("No Images");
+            finish();
+        } else {
 
-        binding.vpPhotos.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            totalCount = ballroomModel.getRoomImage().size();
+            getTitleBar().setCommonRightText(1 + "/" + totalCount);
 
-            }
+            binding.tvBallroomName.setText(ballroomModel.getRoomName());
+            binding.tvBallroomInfo.setText(getString(R.string.best_table_count_colon) + ballroomModel.getRoomBestDesk() + getString(R.string.table) + "\n"
+                    + getString(R.string.max_table_count_colon) + ballroomModel.getRoomMaxDesk() + getString(R.string.table) + "\n"
+                    + getString(R.string.min_table_count_colon) + ballroomModel.getRoomMinDesk() + getString(R.string.table) + "\n"
+                    + getString(R.string.high_level_colon) + ballroomModel.getRoomHigh() + "M" + "\n"
+                    + getString(R.string.area_colon) + ballroomModel.getRoomM() + "M2" + "\n"
+                    + getString(R.string.column_colon) + ballroomModel.getRoomLz() + "\n");
 
-            @Override
-            public void onPageSelected(int position) {
-                getTitleBar().setCommonRightText((position + 1) + "/" + totalCount);
-            }
+            hotelPagerAdapter = new HotelPagerAdapter(ballroomModel.getRoomImage(), this);
+            binding.vpPhotos.setAdapter(hotelPagerAdapter);
+            binding.vpPhotos.setCurrentItem(currentItem);
+            binding.vpPhotos.setOffscreenPageLimit(5);
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
+            binding.vpPhotos.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
-        });
+                }
 
+                @Override
+                public void onPageSelected(int position) {
+                    getTitleBar().setCommonRightText((position + 1) + "/" + totalCount);
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        }
     }
 
 }

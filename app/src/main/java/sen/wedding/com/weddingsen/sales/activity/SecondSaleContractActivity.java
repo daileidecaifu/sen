@@ -64,6 +64,7 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
     private int orderId;
     private ApiRequest submitCertificateRequest;
 
+    private int actionType;
     private long signTime;
     private int uploadSuccess = 10000;
     private int uploadFail = 9999;
@@ -88,7 +89,7 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_first_sale_contract);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_second_sale_contract);
         binding.setClickListener(this);
 
         getInfo();
@@ -126,8 +127,7 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
         binding.rvPicSelect.setAdapter(photoAdapter);
 
         //合同金额
-        binding.llContractMoney.tvItemEditTitle.setText(getString(R.string.contract_money));
-        binding.llContractMoney.etItemEditInput.setHint(getString(R.string.contract_money_tip));
+        binding.llContractMoney.etItemEditInput.setHint(getString(R.string.input_contract_money_tip));
         binding.llContractMoney.etItemEditInput.setInputType(8194);
 
         //签单时间
@@ -139,10 +139,31 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
         binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
         FileIOUtil.deleteFile(new File(Conts.COMPRESS_IMG_PATH));
 
+        if(actionType!=-1)
+        {
+            switch (actionType)
+            {
+                case Conts.SECOND_FOLLOW_UP_MIDDLE:
+                    binding.llContractMoney.tvItemEditTitle.setText(getString(R.string.middle_money));
+
+                    break;
+                case Conts.SECOND_FOLLOW_UP_REST:
+                    binding.llContractMoney.tvItemEditTitle.setText(getString(R.string.tail_money));
+
+                    break;
+                case Conts.SECOND_FOLLOW_UP_ADDITIONAL:
+                    binding.llContractMoney.tvItemEditTitle.setText(getString(R.string.additional_money));
+
+                    break;
+
+            }
+        }
+
     }
 
     private void getInfo() {
         orderId = getIntent().getIntExtra("order_id", -1);
+        actionType = getIntent().getIntExtra("action_type",-1);
     }
 
     @Override
@@ -276,10 +297,11 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
 
     private void submitertificate(String imageUrls) {
         if (orderId != -1) {
-            submitCertificateRequest = new ApiRequest(URLCollection.URL_ORDER_SIGN, HttpMethod.POST);
+            submitCertificateRequest = new ApiRequest(URLCollection.URL_SECOND_SALE_SIGN, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
-            param.put("user_kezi_order_id", orderId + "");
+            param.put("sign_type", actionType + "");
+            param.put("user_dajian_order_id", orderId + "");
             param.put("order_money", binding.llContractMoney.etItemEditInput.getText().toString());
             param.put("sign_using_time", signTime + "");
             param.put("sign_pic", imageUrls);

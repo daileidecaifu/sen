@@ -66,7 +66,7 @@ public class FirstSaleDetailActivity extends BaseActivity {
 
     private void initSwitchTitle() {
 
-        List<String> tabTextList = Arrays.asList(getString(R.string.build_info_detail), getString(R.string.contract_review));
+        List<String> tabTextList = Arrays.asList(getString(R.string.build_detail), getString(R.string.contract_review));
         //头部title
         RelativeLayout linearLayoutTitle = (RelativeLayout) findViewById(R.id.title_switch);
 
@@ -112,7 +112,7 @@ public class FirstSaleDetailActivity extends BaseActivity {
         TextView textViewTitle = (TextView) linearLayoutTitle.findViewById(R.id.tv_title_title);
 
         textViewRight.setText(getString(R.string.follow_log));
-        textViewTitle.setText(getString(R.string.build_info_detail));
+        textViewTitle.setText(getString(R.string.build_detail));
         textViewRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

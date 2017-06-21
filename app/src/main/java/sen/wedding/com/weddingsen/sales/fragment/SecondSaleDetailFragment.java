@@ -33,6 +33,8 @@ import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.sales.activity.FirstSaleContractActivity;
+import sen.wedding.com.weddingsen.sales.activity.ModifyRestTimeActivity;
+import sen.wedding.com.weddingsen.sales.activity.SecondSaleContractActivity;
 import sen.wedding.com.weddingsen.utils.DateUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.StringUtil;
@@ -86,7 +88,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         binding.setClickListener(this);
         initData();
         initComponents();
-//        getFollowUp();
+        getFollowUp();
         return binding.getRoot();
 
     }
@@ -172,37 +174,18 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         binding.llFollowUpTime.tvItemSelectIcon.setVisibility(View.GONE);
 
         initBottomView();
-        actionType = Conts.FOLLOW_UP_INFO_EFFECTIVE;
+        actionType = Conts.SECOND_FOLLOW_UP_MIDDLE;
         afterDays = 1;
     }
 
     private void getFollowUp() {
         if (orderId != -1) {
-            getOrderDetailRequest = new ApiRequest(URLCollection.URL_SHOW_GUEST_INFO_DETAIL, HttpMethod.POST);
+            getOrderDetailRequest = new ApiRequest(URLCollection.URL_SHOW_BUILD_INFO_DETAIL, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("order_id", orderId + "");
             getOrderDetailRequest.setParams(param);
             getApiService().exec(getOrderDetailRequest, this);
-        } else {
-            showToast("Order ID WRONG!");
-        }
-    }
-
-    private void submitFollowUp() {
-        if (orderId != -1) {
-            submitFollowRequest = new ApiRequest(URLCollection.URL_ORDER_FOLLOW, HttpMethod.POST);
-            HashMap<String, String> param = new HashMap<>();
-            param.put("access_token", BasePreference.getToken());
-            param.put("user_kezi_order_id", orderId + "");
-            param.put("user_order_status", actionType + "");
-            if (actionType == Conts.FOLLOW_UP_INFO_EFFECTIVE) {
-                long afterTimestamp = (System.currentTimeMillis() + 1000 * 60 * 60 * 24 * afterDays) / 1000;
-                param.put("follow_time", afterTimestamp + "");
-            }
-
-            submitFollowRequest.setParams(param);
-            getApiService().exec(submitFollowRequest, this);
         } else {
             showToast("Order ID WRONG!");
         }
@@ -262,7 +245,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
 
     private void fillData(OrderItemModel orderItemModel) {
         binding.llShowName.tvItemSelectContent.setText(orderItemModel.getCustomerName());
-        binding.llShowType.tvItemSelectContent.setText(Conts.getOrderStatusMap().get(orderItemModel.getOrderStatus()));
+        binding.llShowType.tvItemSelectContent.setText(Conts.getOrderTypeMap().get(orderItemModel.getOrderType()));
         binding.llShowPhoneNumber.tvItemSelectContent.setText(orderItemModel.getOrderPhone());
         binding.llShowSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemDistrict.toString()));
 
@@ -270,10 +253,14 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         binding.llShowSpecifyItem.tvItemSelectContent.setText(orderItemModel.getOrderAreaHotelName());
         binding.llShowBudget.tvItemSelectContent.setText(orderItemModel.getOrderMoney());
 
-        long time = Long.parseLong(orderItemModel.getUseDate()) * 1000;
+        long time = Long.parseLong(orderItemModel.getCreateTime()) * 1000;
         binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
 
         binding.tvShowNote.setText(orderItemModel.getOrderDesc());
+
+        long heldTime =Long.parseLong(orderItemModel.getUseDate()) * 1000;
+        binding.llFollowUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(heldTime), DateUtil.FORMAT_COMMON_Y_M_D));
+
     }
 
 
@@ -324,17 +311,28 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
 
                 switch (actionType - 1) {
                     case 0:
-                        submitFollowUp();
+                        Intent intent = new Intent(getActivity(), SecondSaleContractActivity.class);
+                        intent.putExtra("order_id", orderId);
+                        intent.putExtra("action_type",actionType);
+                        getActivity().startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
                         break;
                     case 1:
-                        submitFollowUp();
-                        break;
+                        Intent intent1 = new Intent(getActivity(), SecondSaleContractActivity.class);
+                        intent1.putExtra("order_id", orderId);
+                        intent1.putExtra("action_type",actionType);
+                        getActivity().startActivityForResult(intent1, Conts.TO_SUBMIT_CONTRACT_REVIEW);                        break;
                     case 2:
 //                        jumpToOtherActivity(ContractInfoActivity.class);
-                        Intent intent = new Intent(getActivity(), FirstSaleContractActivity.class);
-                        intent.putExtra("order_id", orderId);
-                        getActivity().startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
+                        Intent intent2 = new Intent(getActivity(), ModifyRestTimeActivity.class);
+                        intent2.putExtra("order_id", orderId);
+                        getActivity().startActivityForResult(intent2, Conts.TO_SUBMIT_CONTRACT_REVIEW);
 
+                        break;
+                    case 3:
+                        Intent intent3 = new Intent(getActivity(), SecondSaleContractActivity.class);
+                        intent3.putExtra("order_id", orderId);
+                        intent3.putExtra("action_type",actionType);
+                        getActivity().startActivityForResult(intent3, Conts.TO_SUBMIT_CONTRACT_REVIEW);
                         break;
                 }
 

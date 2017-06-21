@@ -128,6 +128,7 @@
     <string name="create_build_info">新建搭建信息</string>
     <string name="kezi_follow">客资跟进</string>
     <string name="build_info">搭建信息</string>
+    <string name="build_detail">搭建详情</string>
     <string name="tip_order_waiting_for_settlement">客资订单已生效，奖励将通过支付宝发放</string>
     <string name="tip_order_settlemented">客资奖励已发放</string>
     <string name="tip_order_cancel">客资信息已终止跟进</string>
@@ -146,12 +147,17 @@
     <string name="contract_certificate_pic_tip">在此上传（合同）与（收据）照片</string>
     <string name="contract_time">合同时间</string>
     <string name="contract_money">合同金额</string>
+    <string name="middle_money">中款金额</string>
+    <string name="tail_money">尾款金额</string>
+    <string name="additional_money">附加款金额</string>
+
     <string name="first_sale_amount">首付金额</string>
     <string name="first_sale_amount_hit">请输入首付金额</string>
     <string name="held_time">举办时间</string>
     <string name="first_sale_time">首付时间</string>
     <string name="pay_time">支付时间</string>
     <string name="contract_money_tip">请输入合同金额</string>
+    <string name="input_contract_money_tip">请输入金额</string>
     <string name="sign_up_time">签单时间</string>
     <string name="sign_up_time_tip">请输入签单时间</string>
     <string name="review_progress">审核进度</string>
@@ -203,5 +209,19 @@
     <string name="process">操作</string>
     <string name="original_time">原定时间</string>
     <string name="restaurant_detail">宴会厅详情</string>
+    <string name="rmb_symbol">¥</string>
+    <string name="table">桌</string>
+    <string name="table_count_colon">桌数：</string>
+    <string name="high_level_colon">层高：</string>
+    <string name="column_colon">立柱：</string>
+    <string name="area_colon">面积：</string>
+    <string name="best_table_count_colon">最佳容纳桌数：</string>
+    <string name="max_table_count_colon">最多容纳桌数：</string>
+    <string name="min_table_count_colon">最少容纳桌数：</string>
+    <string name="processing">处理中</string>
+    <string name="middle_funds">中款</string>
+    <string name="tail_funds">尾款</string>
+    <string name="additional_funds">附加款</string>
+
 
 </resources>

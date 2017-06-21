@@ -172,7 +172,7 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
         OrderItemModel orderItemModel = detailResModel.getOrderItem();
         LogInfoModel logInfoModel = detailResModel.getOrderFollow();
         binding.llShowName.tvItemSelectContent.setText(orderItemModel.getCustomerName());
-        binding.llShowType.tvItemSelectContent.setText(Conts.getOrderStatusMap().get(orderItemModel.getOrderStatus()));
+        binding.llShowType.tvItemSelectContent.setText(Conts.getOrderTypeMap().get(orderItemModel.getOrderType()));
         binding.llShowPhoneNumber.tvItemSelectContent.setText(orderItemModel.getOrderPhone());
 
         switch (orderItemModel.getOrderAreaHotelType()) {

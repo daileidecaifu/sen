@@ -64,8 +64,8 @@ public class HotelDetailActivity extends BaseActivity implements RequestHandler<
         binding.lvBallroom.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(HotelDetailActivity.this,BallroomAlbumActivity.class);
-                intent.putExtra("ballroom",GsonConverter.toJson(hotelDetailModel.getRoomList().get(position)));
+                Intent intent = new Intent(HotelDetailActivity.this, BallroomAlbumActivity.class);
+                intent.putExtra("ballroom", GsonConverter.toJson(hotelDetailModel.getRoomList().get(position)));
                 startActivity(intent);
             }
         });
@@ -92,19 +92,21 @@ public class HotelDetailActivity extends BaseActivity implements RequestHandler<
         binding.banner.setOnBannerListener(this);
 
         binding.tvHotelName.setText(hotelDetailModel.getHotelName());
-        binding.tvExtraInfo.setText("(" + hotelDetailModel.getHotelLow() + "-" + hotelDetailModel.getHotelHigh() + "/桌" + "卓数:" + hotelDetailModel.getHotelMaxDesk());
+        binding.tvExtraInfo.setText("(" + getString(R.string.rmb_symbol) + hotelDetailModel.getHotelLow() + "-" + hotelDetailModel.getHotelHigh() + "/"
+                + getString(R.string.table)
+                + getString(R.string.table_count_colon)
+                + hotelDetailModel.getHotelMaxDesk()
+                + ")");
 
         binding.llHotelType.tvItemSelectContent.setText(hotelDetailModel.getHotelType());
         binding.llHotelPhoneNumber.tvItemSelectContent.setText(hotelDetailModel.getHotelPhone());
         binding.llHotelAddress.tvItemSelectContent.setText(hotelDetailModel.getHotelAddress());
 
-        if(hotelDetailModel.getRoomList()!=null&&hotelDetailModel.getRoomList().size()>0)
-        {
+        if (hotelDetailModel.getRoomList() != null && hotelDetailModel.getRoomList().size() > 0) {
             ballroomAdapter.notifyDataChanged(hotelDetailModel.getRoomList());
         }
 
-        if(hotelDetailModel.getMenuList()!=null&&hotelDetailModel.getMenuList().size()>0)
-        {
+        if (hotelDetailModel.getMenuList() != null && hotelDetailModel.getMenuList().size() > 0) {
             banquetMenuAdapter.notifyDataChanged(hotelDetailModel.getMenuList());
         }
 
@@ -113,7 +115,7 @@ public class HotelDetailActivity extends BaseActivity implements RequestHandler<
     private void getHotelDetail() {
         getHotelDetailRequest = new ApiRequest(URLCollection.URL_HOTEL_DETAIL, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
-        param.put("hotel_id",hotelId);
+        param.put("hotel_id", hotelId);
 
         getHotelDetailRequest.setParams(param);
         getApiService().exec(getHotelDetailRequest, this);

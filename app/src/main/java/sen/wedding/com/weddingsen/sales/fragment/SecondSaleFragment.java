@@ -32,6 +32,7 @@ import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.sales.activity.FirstSaleDetailActivity;
 import sen.wedding.com.weddingsen.sales.activity.SecondSaleDetailActivity;
 import sen.wedding.com.weddingsen.sales.adapter.SecondSaleAdapter;
+import sen.wedding.com.weddingsen.sales.model.SecondSaleInfosResModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 
 public class SecondSaleFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>,
@@ -42,7 +43,7 @@ public class SecondSaleFragment extends BaseFragment implements RequestHandler<A
     SecondSaleAdapter secondSaleAdapter;
     private ApiRequest getListRequest, loadMoreRequest;
 
-    private GuestInfosResModel model;
+    private SecondSaleInfosResModel model;
     private int currentStatus;
     private int currentPage;
     LoadingView loadingView;
@@ -195,7 +196,7 @@ public class SecondSaleFragment extends BaseFragment implements RequestHandler<A
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 //testFake
 //                model = getFakeData();
-                model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
+                model = GsonConverter.decode(resultModel.data, SecondSaleInfosResModel.class);
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     loadingView.dismiss();
 
@@ -217,7 +218,7 @@ public class SecondSaleFragment extends BaseFragment implements RequestHandler<A
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 //testFake
 //                model = getFakeData();
-                model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
+                model = GsonConverter.decode(resultModel.data, SecondSaleInfosResModel.class);
                 currentPage = Integer.parseInt(((ApiRequest) req).getParams().get("order_page"));
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     secondSaleAdapter.notifyMoreDataChanged(model.getOrderList());

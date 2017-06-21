@@ -36,7 +36,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:layout_weight="1"
-                    android:textColor="@color/text_common"
+                    android:textColor="@color/tip_color"
                     android:textSize="@dimen/text_size_m" />
 
                 <LinearLayout
@@ -50,7 +50,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:textColor="@color/gray_1"
+                        android:textColor="@color/tip_color"
                         android:gravity="center_vertical"
                         android:textSize="@dimen/text_size_s" />
 
@@ -59,7 +59,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:textColor="@color/gray_1"
+                        android:textColor="@color/tip_color"
                         android:gravity="center_vertical"
                         android:textSize="@dimen/text_size_s" />
 
@@ -68,7 +68,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:textColor="@color/gray_1"
+                        android:textColor="@color/tip_color"
                         android:gravity="center_vertical"
                         android:textSize="@dimen/text_size_s" />
 

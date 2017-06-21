@@ -25,7 +25,7 @@
             android:id="@+id/iv_avatar"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="50dp"
             android:background="@mipmap/logo"
             android:gravity="center" />
 
@@ -33,14 +33,13 @@
             android:id="@+id/tv_phone_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="15800000000"
+            android:layout_marginTop="10dp"
             android:textColor="@color/text_common"
-            android:textSize="@dimen/text_size_xxl" />
+            android:textSize="@dimen/text_size_l" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="50dp"></View>
+            android:layout_height="30dp"></View>
 
         <LinearLayout
             android:id="@+id/ll_info_provide"
@@ -61,7 +60,7 @@
                 android:gravity="center"
                 android:text="@string/my_recommend"
                 android:textColor="@color/text_common"
-                android:textSize="@dimen/text_size_xxl" />
+                android:textSize="@dimen/text_size_l" />
 
         </LinearLayout>
 
@@ -85,7 +84,7 @@
                 android:gravity="center"
                 android:text="@string/my_follow"
                 android:textColor="@color/text_common"
-                android:textSize="@dimen/text_size_xxl" />
+                android:textSize="@dimen/text_size_l" />
 
         </LinearLayout>
 
@@ -109,7 +108,7 @@
                 android:gravity="center"
                 android:text="@string/person_center"
                 android:textColor="@color/text_common"
-                android:textSize="@dimen/text_size_xxl" />
+                android:textSize="@dimen/text_size_l" />
 
         </LinearLayout>
 
@@ -133,7 +132,7 @@
                 android:gravity="center"
                 android:text="@string/password_reset"
                 android:textColor="@color/text_common"
-                android:textSize="@dimen/text_size_xxl" />
+                android:textSize="@dimen/text_size_l" />
 
         </LinearLayout>
 
@@ -157,20 +156,22 @@
                 android:gravity="center"
                 android:text="@string/user_feedback"
                 android:textColor="@color/text_common"
-                android:textSize="@dimen/text_size_xxl" />
+                android:textSize="@dimen/text_size_l" />
 
         </LinearLayout>
 
         <View
             android:id="@+id/v_logout_margin_top"
             android:layout_width="match_parent"
-            android:layout_height="50dp"></View>
+            android:layout_weight="1"
+            android:layout_height="match_parent"></View>
 
         <LinearLayout
             android:id="@+id/ll_logout"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:gravity="center"
+            android:layout_marginBottom="30dp"
             android:onClick="@{clickListener}">
 
             <View
@@ -185,7 +186,7 @@
                 android:gravity="center"
                 android:text="@string/exit_login"
                 android:textColor="@color/text_common"
-                android:textSize="@dimen/text_size_xxl" />
+                android:textSize="@dimen/text_size_l" />
 
         </LinearLayout>
 

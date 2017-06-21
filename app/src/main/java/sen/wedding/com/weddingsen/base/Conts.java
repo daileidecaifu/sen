@@ -34,6 +34,8 @@ public class Conts {
     public static BaseTypeModel EXHIBITION = new BaseTypeModel("exhibition", "布展", 4);
     public static List<BaseTypeModel> buildModels;
 
+    //订单类型
+    public static Map<Integer, String> orderTypeMap;
     //订单状态
     public static Map<Integer, String> orderStatusMap;
 
@@ -91,6 +93,17 @@ public class Conts {
 
         }
         return followActionStatusMap;
+    }
+
+    public static Map<Integer, String> getOrderTypeMap() {
+        if (orderTypeMap == null) {
+            orderTypeMap = new HashMap<>();
+            orderTypeMap.put(1, "婚宴");
+            orderTypeMap.put(2, "会务");
+            orderTypeMap.put(3, "生日宴、团宴、宝宝宴");
+
+        }
+        return orderTypeMap;
     }
 
     /**
@@ -213,8 +226,8 @@ public class Conts {
 
     //二销跟踪操作类型
     public final static int SECOND_FOLLOW_UP_MIDDLE = 1;
-    public final static int SECOND_FOLLOW_UP_ADDITIONAL = 2;
-    public final static int SECOND_FOLLOW_UP_MODIFY = 3;
-    public final static int SECOND_FOLLOW_UP_REST = 4;
+    public final static int SECOND_FOLLOW_UP_ADDITIONAL = 3;
+    public final static int SECOND_FOLLOW_UP_MODIFY = 4;
+    public final static int SECOND_FOLLOW_UP_REST = 2;
 
 }

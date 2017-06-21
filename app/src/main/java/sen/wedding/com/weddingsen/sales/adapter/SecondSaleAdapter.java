@@ -15,12 +15,13 @@ import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.databinding.MainInfoBinding;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
+import sen.wedding.com.weddingsen.sales.model.SecondSaleInfoModel;
 import sen.wedding.com.weddingsen.utils.DateUtil;
 
 
 public class SecondSaleAdapter extends BaseAdapter {
 
-    ArrayList<OrderInfoModel> list;
+    ArrayList<SecondSaleInfoModel> list;
     private Context currentContext;
     //默认type为跟踪中
     private int infoType = 3;
@@ -36,7 +37,7 @@ public class SecondSaleAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void notifyDataChanged(ArrayList<OrderInfoModel> dataList) {
+    public void notifyDataChanged(ArrayList<SecondSaleInfoModel> dataList) {
 
         list.clear();
         list.addAll(dataList);
@@ -44,7 +45,7 @@ public class SecondSaleAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void notifyMoreDataChanged(ArrayList<OrderInfoModel> dataList) {
+    public void notifyMoreDataChanged(ArrayList<SecondSaleInfoModel> dataList) {
 
         list.addAll(dataList);
         Toast.makeText(currentContext, list.size() + "", Toast.LENGTH_LONG).show();
@@ -79,7 +80,7 @@ public class SecondSaleAdapter extends BaseAdapter {
         } else {
             binding = DataBindingUtil.getBinding(convertView);
         }
-        OrderInfoModel model = list.get(position);
+        SecondSaleInfoModel model = list.get(position);
 
         if (position == 0) {
             binding.vReviewPlaceholderHead.setVisibility(View.VISIBLE);
@@ -92,7 +93,7 @@ public class SecondSaleAdapter extends BaseAdapter {
 //        binding.tvOrderTime.setText(model.getCreateTime());
         long time = Long.parseLong(model.getCreateTime()) * 1000;
         binding.tvOrderTime.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
-        binding.tvOrderStatus.setText(Conts.getOrderStatusMap().get(model.getOrderStatus()));
+        binding.tvOrderStatus.setText(getErXiaoStatus(model.getErxiaoSignType())+Conts.getSecondSaleStatusMap().get(model.getOrderStatus()));
         binding.tvContantPersonPhone.setText(model.getOrderPhone());
         binding.tvFollowerFaction.setText(model.getWatchUser());
 
@@ -121,11 +122,33 @@ public class SecondSaleAdapter extends BaseAdapter {
 
     }
 
-    public ArrayList<OrderInfoModel> getList() {
+    public ArrayList<SecondSaleInfoModel> getList() {
         return list;
     }
 
     public boolean isEmpty() {
         return getCount() == 0;
+    }
+
+    private String getErXiaoStatus(int status) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("(");
+        switch (status) {
+            case Conts.SECOND_FOLLOW_UP_MIDDLE:
+
+                sb.append(currentContext.getString(R.string.middle_funds));
+                break;
+            case Conts.SECOND_FOLLOW_UP_REST:
+                sb.append(currentContext.getString(R.string.tail_funds));
+
+                break;
+            case Conts.SECOND_FOLLOW_UP_ADDITIONAL:
+                sb.append(currentContext.getString(R.string.additional_funds));
+
+                break;
+
+        }
+        sb.append(")");
+        return sb.toString();
     }
 }

@@ -166,7 +166,8 @@
 
         <activity
             android:name=".sales.activity.SecondSaleContractActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
 
         <activity
             android:name=".sales.activity.SecondSaleDetailActivity"

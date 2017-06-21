@@ -65,6 +65,9 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
     private int afterDays = -1;
     private Map<Integer, String> typeMap;
 
+    private long heldTime;
+    private String heldTimeContent;
+
     public static FirstSaleDetailFragment newInstance(int orderId, int orderStatus) {
         Bundle args = new Bundle();
         FirstSaleDetailFragment fragment = new FirstSaleDetailFragment();
@@ -90,7 +93,7 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
         binding.setClickListener(this);
         initData();
         initComponents();
-//        getFollowUp();
+        getFollowUp();
         return binding.getRoot();
 
     }
@@ -195,7 +198,7 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
 
     private void getFollowUp() {
         if (orderId != -1) {
-            getOrderDetailRequest = new ApiRequest(URLCollection.URL_SHOW_GUEST_INFO_DETAIL, HttpMethod.POST);
+            getOrderDetailRequest = new ApiRequest(URLCollection.URL_SHOW_BUILD_INFO_DETAIL, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("order_id", orderId + "");
@@ -208,10 +211,10 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
 
     private void submitFollowUp() {
         if (orderId != -1) {
-            submitFollowRequest = new ApiRequest(URLCollection.URL_ORDER_FOLLOW, HttpMethod.POST);
+            submitFollowRequest = new ApiRequest(URLCollection.URL_FIRST_SALE_FOLLOW, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
-            param.put("user_kezi_order_id", orderId + "");
+            param.put("user_dajian_order_id", orderId + "");
             param.put("user_order_status", actionType + "");
             if (actionType == Conts.FOLLOW_UP_INFO_EFFECTIVE) {
                 long afterTimestamp = (System.currentTimeMillis() + 1000 * 60 * 60 * 24 * afterDays) / 1000;
@@ -300,7 +303,7 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
 
     private void fillData(OrderItemModel orderItemModel) {
         binding.llShowName.tvItemSelectContent.setText(orderItemModel.getCustomerName());
-        binding.llShowType.tvItemSelectContent.setText(Conts.getOrderStatusMap().get(orderItemModel.getOrderStatus()));
+        binding.llShowType.tvItemSelectContent.setText(Conts.getOrderTypeMap().get(orderItemModel.getOrderType()));
         binding.llShowPhoneNumber.tvItemSelectContent.setText(orderItemModel.getOrderPhone());
         binding.llShowSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemDistrict.toString()));
 
@@ -308,8 +311,10 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
         binding.llShowSpecifyItem.tvItemSelectContent.setText(orderItemModel.getOrderAreaHotelName());
         binding.llShowBudget.tvItemSelectContent.setText(orderItemModel.getOrderMoney());
 
-        long time = Long.parseLong(orderItemModel.getUseDate()) * 1000;
-        binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
+        heldTime = Long.parseLong(orderItemModel.getUseDate()) * 1000;
+        heldTimeContent = DateUtil.convertDateToString(new Date(heldTime), DateUtil.FORMAT_COMMON_Y_M_D);
+
+        binding.llShowTime.tvItemSelectContent.setText(heldTimeContent);
 
         binding.tvShowNote.setText(orderItemModel.getOrderDesc());
     }
@@ -371,6 +376,8 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
 //                        jumpToOtherActivity(ContractInfoActivity.class);
                         Intent intent = new Intent(getActivity(), FirstSaleContractActivity.class);
                         intent.putExtra("order_id", orderId);
+                        intent.putExtra("held_time",heldTime);
+                        intent.putExtra("held_time_content",heldTimeContent);
                         getActivity().startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
 
                         break;

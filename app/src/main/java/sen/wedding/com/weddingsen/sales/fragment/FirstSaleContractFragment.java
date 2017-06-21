@@ -27,6 +27,7 @@ import sen.wedding.com.weddingsen.databinding.FirstSaleContractReviceFragmentBin
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
+import sen.wedding.com.weddingsen.sales.model.FirstSaleSignDetailModel;
 import sen.wedding.com.weddingsen.utils.DateUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 
@@ -42,7 +43,7 @@ public class FirstSaleContractFragment extends BaseFragment implements RequestHa
 
     private int orderId;
     private ApiRequest getContractReviewRequest;
-    private ContractReviewModel contractReviewModel;
+    private FirstSaleSignDetailModel firstSaleSignDetailModel;
 
     public static FirstSaleContractFragment newInstance(int orderId) {
         Bundle args = new Bundle();
@@ -65,7 +66,7 @@ public class FirstSaleContractFragment extends BaseFragment implements RequestHa
         binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_first_sale_contract_review, container, false);
         initConponents();
-//        getFollowUp();
+        getFollowUp();
         return binding.getRoot();
 
     }
@@ -99,10 +100,10 @@ public class FirstSaleContractFragment extends BaseFragment implements RequestHa
     private void getFollowUp() {
         showProgressDialog(false);
         if (orderId != -1) {
-            getContractReviewRequest = new ApiRequest(URLCollection.URL_SHOW_ORDER_SIGN_DETAIL, HttpMethod.POST);
+            getContractReviewRequest = new ApiRequest(URLCollection.URL_FIRST_SALE_SIGN_DETAIL, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
-            param.put("user_kezi_order_id", orderId + "");
+            param.put("user_dajian_order_id", orderId + "");
             getContractReviewRequest.setParams(param);
             getApiService().exec(getContractReviewRequest, this);
         } else {
@@ -110,10 +111,19 @@ public class FirstSaleContractFragment extends BaseFragment implements RequestHa
         }
     }
 
-    private void fillData(ContractReviewModel model) {
+    private void fillData(FirstSaleSignDetailModel model) {
         long currentTimestamp = Long.parseLong(model.getSignUsingTime()) * 1000;
         binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
+
         binding.llContractMoney.tvItemSelectContent.setText(model.getOrderMoney());
+        binding.llFirstSaleAmount.tvItemSelectContent.setText(model.getFirstOrderMoney());
+
+        long firstSaleTime = Long.parseLong(model.getFirstOrderUsingTime()) * 1000;
+        binding.llFirstSaleTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(firstSaleTime), DateUtil.FORMAT_COMMON_Y_M_D));
+
+        long nextPayTime = Long.parseLong(model.getNextPayTime()) * 1000;
+        binding.llNextPayTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(nextPayTime), DateUtil.FORMAT_COMMON_Y_M_D));
+
 
         String[] imgs = model.getSignPic().split(",");
         for (String str: imgs) {
@@ -140,8 +150,8 @@ public class FirstSaleContractFragment extends BaseFragment implements RequestHa
 
         if (req == getContractReviewRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
-                contractReviewModel = GsonConverter.decode(resultModel.data, ContractReviewModel.class);
-                fillData(contractReviewModel);
+                firstSaleSignDetailModel = GsonConverter.decode(resultModel.data, FirstSaleSignDetailModel.class);
+                fillData(firstSaleSignDetailModel);
             } else {
                 showToast(resultModel.message);
             }

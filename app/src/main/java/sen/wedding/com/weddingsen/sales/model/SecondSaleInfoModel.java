@@ -1,4 +1,4 @@
-package sen.wedding.com.weddingsen.main.model;
+package sen.wedding.com.weddingsen.sales.model;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -8,7 +8,7 @@ import sen.wedding.com.weddingsen.component.refresh.CursorModel;
  * Created by lorin on 17/3/30.
  */
 
-public class OrderInfoModel implements CursorModel{
+public class SecondSaleInfoModel implements CursorModel{
 
     private int id;
 
@@ -51,6 +51,14 @@ public class OrderInfoModel implements CursorModel{
         this.orderStatus = orderStatus;
     }
 
+    public int getErxiaoSignType() {
+        return erxiaoSignType;
+    }
+
+    public void setErxiaoSignType(int erxiaoSignType) {
+        this.erxiaoSignType = erxiaoSignType;
+    }
+
     public String getOrderPhone() {
         return orderPhone;
     }
@@ -65,14 +73,6 @@ public class OrderInfoModel implements CursorModel{
 
     public void setWatchUser(String watchUser) {
         this.watchUser = watchUser;
-    }
-
-    public int getErxiaoSignType() {
-        return erxiaoSignType;
-    }
-
-    public void setErxiaoSignType(int erxiaoSignType) {
-        this.erxiaoSignType = erxiaoSignType;
     }
 
     @Override
