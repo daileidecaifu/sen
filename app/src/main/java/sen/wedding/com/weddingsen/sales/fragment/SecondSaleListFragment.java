@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import sen.wedding.com.weddingsen.R;
@@ -27,6 +28,8 @@ import sen.wedding.com.weddingsen.component.SlidingTabLayout;
  */
 
 public class SecondSaleListFragment extends BaseFragment implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+
+    SlidingTabLayout slidingTabLayout;
 
     public static SecondSaleListFragment newInstance() {
 
@@ -54,7 +57,6 @@ public class SecondSaleListFragment extends BaseFragment implements NavigationVi
     private void initMainView(View view) {
 
         LinearLayout linearLayoutMain = (LinearLayout) view.findViewById(R.id.ll_app_bar_main);
-
         //列表主体
 
         ViewPager viewPager = (ViewPager) linearLayoutMain.findViewById(R.id.viewpager);
@@ -62,7 +64,7 @@ public class SecondSaleListFragment extends BaseFragment implements NavigationVi
         viewPager.setOffscreenPageLimit(6);
 
         int selectColor = ContextCompat.getColor(getActivity(), R.color.theme_color);
-        SlidingTabLayout slidingTabLayout = (SlidingTabLayout) linearLayoutMain.findViewById(R.id.sliding_tabs);
+        slidingTabLayout = (SlidingTabLayout) linearLayoutMain.findViewById(R.id.sliding_tabs);
         slidingTabLayout.setTabTitleTextSize(14);//标题字体大小
         slidingTabLayout.setTitleTextColor(selectColor, ContextCompat.getColor(getActivity(), R.color.text_common));//标题字体颜色
         slidingTabLayout.setTabStripWidth(70);//滑动条宽度
@@ -78,6 +80,20 @@ public class SecondSaleListFragment extends BaseFragment implements NavigationVi
         linearLayoutMain.setOnClickListener(this);
         //空数据状态
 //        mainActivityBinding.llAppBarMain.llListEmpty.setVisibility(View.GONE);
+//        Button button = (Button) view.findViewById(R.id.bt_test);
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showToast("aaa");
+//                String[] titles = new String[]{
+//                        "aaa",
+//                        "bbb",
+//                        "ccc",
+//                        "ddd"};
+//                slidingTabLayout.utpdateTitles(titles);
+//
+//            }
+//        });
     }
 
     @Override

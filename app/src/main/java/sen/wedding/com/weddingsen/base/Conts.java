@@ -77,8 +77,8 @@ public class Conts {
             secondSaleStatusMap = new HashMap<>();
             secondSaleStatusMap.put(1, "待处理");
             secondSaleStatusMap.put(2, "待审核");
-            secondSaleStatusMap.put(3, "已驳回");
-            secondSaleStatusMap.put(4, "已完结");
+            secondSaleStatusMap.put(3, "已完结");
+            secondSaleStatusMap.put(4, "已驳回");
 
         }
         return secondSaleStatusMap;
@@ -226,8 +226,9 @@ public class Conts {
 
     //二销跟踪操作类型
     public final static int SECOND_FOLLOW_UP_MIDDLE = 1;
+    public final static int SECOND_FOLLOW_UP_REST = 2;
     public final static int SECOND_FOLLOW_UP_ADDITIONAL = 3;
     public final static int SECOND_FOLLOW_UP_MODIFY = 4;
-    public final static int SECOND_FOLLOW_UP_REST = 2;
+    public final static int SECOND_FOLLOW_UP_FIRST_SALE = 5;
 
 }

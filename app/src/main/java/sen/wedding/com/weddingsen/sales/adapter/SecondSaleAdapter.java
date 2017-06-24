@@ -146,6 +146,9 @@ public class SecondSaleAdapter extends BaseAdapter {
                 sb.append(currentContext.getString(R.string.additional_funds));
 
                 break;
+            case Conts.SECOND_FOLLOW_UP_MODIFY:
+                sb.append(currentContext.getString(R.string.tail_modify));
+                break;
 
         }
         sb.append(")");

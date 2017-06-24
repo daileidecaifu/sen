@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import sen.wedding.com.weddingsen.R;
+import sen.wedding.com.weddingsen.account.model.AccountInfoModel;
 import sen.wedding.com.weddingsen.base.ApiRequest;
 import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BaseActivity;
@@ -28,6 +29,7 @@ import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.sales.adapter.PayRecordLogAdapter;
+import sen.wedding.com.weddingsen.sales.model.PayLogResModel;
 import sen.wedding.com.weddingsen.sales.model.PayRecordLogModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 
@@ -43,7 +45,7 @@ public class PayRecordLogActivity extends BaseActivity implements View.OnClickLi
     private ApiRequest getLogRequest;
     private int orderId;
     LoadingView loadingView;
-    ArrayList<PayRecordLogModel> logList = new ArrayList<>();
+    PayLogResModel payLogResModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,7 @@ public class PayRecordLogActivity extends BaseActivity implements View.OnClickLi
         binding.setClickListener(this);
 
         initTitleBar(binding.titleBar, TitleBar.Type.COMMON);
-        getTitleBar().setTitle(getString(R.string.follow_log));
+        getTitleBar().setTitle(getString(R.string.pay_log));
         getTitleBar().setRightVisibility(View.GONE);
         getTitleBar().setLeftClickEvent(new View.OnClickListener() {
             @Override
@@ -63,7 +65,10 @@ public class PayRecordLogActivity extends BaseActivity implements View.OnClickLi
 
         initData();
         initComponents();
+
+        loadingView.showLoading();
         getLogs();
+
     }
 
     private void initData() {
@@ -89,8 +94,6 @@ public class PayRecordLogActivity extends BaseActivity implements View.OnClickLi
                 getLogs();
             }
         });
-        loadingView.showLoading();
-        getLogs();
 
     }
 
@@ -107,15 +110,16 @@ public class PayRecordLogActivity extends BaseActivity implements View.OnClickLi
 
     private void getLogs() {
         if (orderId != -1) {
-            getLogRequest = new ApiRequest(URLCollection.URL_FOLLOW_LOG_LIST, HttpMethod.POST);
+            getLogRequest = new ApiRequest(URLCollection.URL_BUILD_PAY_LIST, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
-            param.put("user_kezi_order_id", orderId + "");
+            param.put("user_dajian_order_id", orderId + "");
 
             getLogRequest.setParams(param);
             getApiService().exec(getLogRequest, this);
         } else {
             showToast("Order ID WRONG!");
+            loadingView.showGuestInfoLoadingFailed();
         }
     }
 
@@ -137,16 +141,13 @@ public class PayRecordLogActivity extends BaseActivity implements View.OnClickLi
                 //testFake
 //                model = getFakeData();
 
-                if (resultModel.data != null ) {
+                if (resultModel.data != null) {
                     loadingView.dismiss();
-                    logList = GsonConverter.fromJson(resultModel.data.toString(),
-                            new TypeToken<List<LogInfoModel>>() {
-                            }.getType());
+                    payLogResModel = GsonConverter.decode(resultModel.data, PayLogResModel.class);
 
-                    if(logList != null && logList.size() > 0)
-                    {
-                        adapter.notifyDataChanged(logList);
-                    }else {
+                    if (payLogResModel != null && payLogResModel.getSignList() != null && payLogResModel.getSignList().size() > 0) {
+                        adapter.notifyDataChanged(payLogResModel.getSignList());
+                    } else {
                         loadingView.showLoadingEmpty();
                     }
 

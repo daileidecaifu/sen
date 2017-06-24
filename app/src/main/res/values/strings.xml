@@ -119,6 +119,7 @@
     <string name="reset">重置</string>
     <string name="receive_kezi_asyn">接收客资同步信息</string>
     <string name="follow_log">跟进日志</string>
+    <string name="pay_log">支付日志</string>
     <string name="next_follow">下次跟进</string>
     <string name="note_content">备注内容</string>
     <string name="note_time">备注时间</string>
@@ -150,7 +151,6 @@
     <string name="middle_money">中款金额</string>
     <string name="tail_money">尾款金额</string>
     <string name="additional_money">附加款金额</string>
-
     <string name="first_sale_amount">首付金额</string>
     <string name="first_sale_amount_hit">请输入首付金额</string>
     <string name="held_time">举办时间</string>
@@ -222,6 +222,12 @@
     <string name="middle_funds">中款</string>
     <string name="tail_funds">尾款</string>
     <string name="additional_funds">附加款</string>
+    <string name="tail_modify">尾款修改</string>
+    <string name="first_pay_detail_tip">首款明细与凭证</string>
+    <string name="middle_pay_detail_tip">中款明细与凭证</string>
+    <string name="tail_pay_detail_tip">尾款明细与凭证</string>
+    <string name="addtional_pay_detail_tip">附加款明细与凭证</string>
+    <string name="tail_pay_modify_tip">尾款时间变更</string>
 
 
 </resources>

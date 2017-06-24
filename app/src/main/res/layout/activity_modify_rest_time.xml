@@ -39,8 +39,8 @@
                     android:textSize="@dimen/text_size_ss" />
 
                 <include
-                    android:id="@+id/ll_original_time"
-                    layout="@layout/view_item_edit" />
+                    android:id="@+id/ll_origin_time"
+                    layout="@layout/view_item_select" />
 
                 <View
                     android:layout_width="match_parent"
@@ -65,7 +65,7 @@
 
 
                 <TextView
-                    android:id="@+id/tv_submit_review"
+                    android:id="@+id/tv_submit_modify"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginLeft="45dp"

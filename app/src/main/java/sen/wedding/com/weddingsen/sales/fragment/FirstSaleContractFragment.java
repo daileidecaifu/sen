@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.ApiRequest;
@@ -39,7 +40,7 @@ public class FirstSaleContractFragment extends BaseFragment implements RequestHa
 
     FirstSaleContractReviceFragmentBinding binding;
     private ContractReviewAdapter contractReviewAdapter;
-    private ArrayList<String> selectedPhotos = new ArrayList<>();
+    private List<String> selectedPhotos = new ArrayList<>();
 
     private int orderId;
     private ApiRequest getContractReviewRequest;
@@ -124,10 +125,9 @@ public class FirstSaleContractFragment extends BaseFragment implements RequestHa
         long nextPayTime = Long.parseLong(model.getNextPayTime()) * 1000;
         binding.llNextPayTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(nextPayTime), DateUtil.FORMAT_COMMON_Y_M_D));
 
-
-        String[] imgs = model.getSignPic().split(",");
-        for (String str: imgs) {
+        for (String str : model.getSignPic() ) {
             selectedPhotos.add(str);
+
         }
         contractReviewAdapter.notifyDataSetChanged();
 

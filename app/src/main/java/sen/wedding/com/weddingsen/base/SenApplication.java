@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 
+import com.lzy.ninegrid.NineGridView;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.Stack;
@@ -11,6 +13,7 @@ import java.util.Stack;
 import sen.wedding.com.weddingsen.MyEventBusIndex;
 import sen.wedding.com.weddingsen.account.activity.LoginActivity;
 import sen.wedding.com.weddingsen.http.service.HttpService;
+import sen.wedding.com.weddingsen.utils.NineGlideLoader;
 
 /**
  * Created by lorin on 17/4/2.
@@ -27,6 +30,8 @@ public class SenApplication extends Application {
     public void onCreate() {
         super.onCreate();
         EventBus.builder().addIndex(new MyEventBusIndex()).installDefaultEventBus();
+        NineGridView.setImageLoader(new NineGlideLoader());
+
 
     }
 

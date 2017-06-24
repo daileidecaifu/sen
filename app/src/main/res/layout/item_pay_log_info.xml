@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data class="PayLogInfoBinding"></data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_item_title"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@color/common_background"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="afafafa"
+                android:textColor="@color/gray_2"></TextView>
+
+            <LinearLayout
+                android:id="@+id/ll_row_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/ll_select_1"
+                    layout="@layout/view_item_select" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/divider_out"></View>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_row_2"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/ll_select_2"
+                    layout="@layout/view_item_select" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/divider_out"></View>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_row_3"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/ll_select_3"
+                    layout="@layout/view_item_select" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/divider_out"></View>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_row_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/ll_select_4"
+                    layout="@layout/view_item_select" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/divider_out"></View>
+            </LinearLayout>
+            <!--<com.lzy.ninegrid.NineGridView-->
+                <!--android:id="@+id/nineGrid"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:paddingRight="5dp"-->
+                <!--android:paddingTop="6dp"/>-->
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/nineGrid"
+                android:layout_width="match_parent"
+                android:background="@color/theme_color"
+                android:layout_height="30dp"></LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

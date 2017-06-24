@@ -2,6 +2,8 @@ package sen.wedding.com.weddingsen.sales.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Created by lorin on 17/6/22.
  */
@@ -18,7 +20,7 @@ public class FirstSaleSignDetailModel {
     private String firstOrderMoney;
 
     @SerializedName("sign_pic")
-    private String signPic;
+    private List<String> signPic;
 
     @SerializedName("first_order_using_time")
     private String firstOrderUsingTime;
@@ -50,11 +52,11 @@ public class FirstSaleSignDetailModel {
         this.firstOrderMoney = firstOrderMoney;
     }
 
-    public String getSignPic() {
+    public List<String> getSignPic() {
         return signPic;
     }
 
-    public void setSignPic(String signPic) {
+    public void setSignPic(List<String> signPic) {
         this.signPic = signPic;
     }
 

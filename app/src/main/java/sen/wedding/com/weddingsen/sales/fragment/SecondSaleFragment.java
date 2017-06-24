@@ -32,6 +32,7 @@ import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.sales.activity.FirstSaleDetailActivity;
 import sen.wedding.com.weddingsen.sales.activity.SecondSaleDetailActivity;
 import sen.wedding.com.weddingsen.sales.adapter.SecondSaleAdapter;
+import sen.wedding.com.weddingsen.sales.model.SecondSaleInfoModel;
 import sen.wedding.com.weddingsen.sales.model.SecondSaleInfosResModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 
@@ -254,7 +255,7 @@ public class SecondSaleFragment extends BaseFragment implements RequestHandler<A
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (parent.getAdapter().getItem(position) instanceof OrderInfoModel) {
+        if (parent.getAdapter().getItem(position) instanceof SecondSaleInfoModel) {
             Intent intent = new Intent(getActivity(), SecondSaleDetailActivity.class);
             intent.putExtra("order_id", secondSaleAdapter.getList().get(position).getId());
             intent.putExtra("order_status", currentStatus);

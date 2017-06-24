@@ -73,7 +73,7 @@ public class SecondSaleDetailActivity extends BaseActivity {
         TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
         SwitchButton switchButton = (SwitchButton) linearLayoutTitle.findViewById(R.id.sb_main_follower);
 
-        textViewRight.setText(getString(R.string.follow_log));
+        textViewRight.setText(getString(R.string.pay_log));
         switchButton.setText(tabTextList);
         switchButton.setOnSwitchListener(new SwitchButton.OnSwitchListener() {
             @Override
@@ -86,7 +86,7 @@ public class SecondSaleDetailActivity extends BaseActivity {
         textViewRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SecondSaleDetailActivity.this, BuildLogInfoActivity.class);
+                Intent intent = new Intent(SecondSaleDetailActivity.this, PayRecordLogActivity.class);
                 intent.putExtra("order_id", orderId);
                 startActivity(intent);
             }

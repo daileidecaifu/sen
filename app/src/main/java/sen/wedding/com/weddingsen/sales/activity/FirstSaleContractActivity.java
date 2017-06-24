@@ -155,7 +155,12 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
         //举办时间
         binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.held_time));
         binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
-
+        binding.llSignUpTime.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFirstSaleDate();
+            }
+        });
         //首付金额
         binding.llFirstSaleAmount.tvItemEditTitle.setText(getString(R.string.first_sale_amount));
         binding.llFirstSaleAmount.etItemEditInput.setHint(getString(R.string.first_sale_amount_hit));
@@ -164,12 +169,7 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
         //首付时间
         binding.llFirstSaleTime.tvItemSelectTitle.setText(getString(R.string.first_sale_time));
         binding.llFirstSaleTime.tvItemSelectIcon.setVisibility(View.GONE);
-        binding.llFirstSaleTime.setClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFirstSaleDate();
-            }
-        });
+
         //支付时间
         binding.llNextPayTime.tvItemSelectTitle.setText(getString(R.string.pay_time));
         binding.llNextPayTime.tvItemSelectIcon.setVisibility(View.GONE);
@@ -181,7 +181,7 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
         });
 //        long currentTimestamp = System.currentTimeMillis();
 //        signTime = currentTimestamp / 1000;
-        binding.llSignUpTime.tvItemSelectContent.setText(heldTimeContent);
+        binding.llFirstSaleTime.tvItemSelectContent.setText(heldTimeContent);
         FileIOUtil.deleteFile(new File(Conts.COMPRESS_IMG_PATH));
 
     }

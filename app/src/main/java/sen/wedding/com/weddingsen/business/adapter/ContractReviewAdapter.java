@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import me.iwf.photopicker.PhotoPicker;
 import me.iwf.photopicker.PhotoPreview;
@@ -25,12 +26,12 @@ import sen.wedding.com.weddingsen.R;
  */
 public class ContractReviewAdapter extends RecyclerView.Adapter<ContractReviewAdapter.PhotoViewHolder> {
 
-    private ArrayList<String> photoPaths = new ArrayList<String>();
+    private List<String> photoPaths = new ArrayList<String>();
     private LayoutInflater inflater;
 
     private Context mContext;
 
-    public ContractReviewAdapter(Context mContext, ArrayList<String> photoPaths) {
+    public ContractReviewAdapter(Context mContext, List<String> photoPaths) {
         this.photoPaths = photoPaths;
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);

@@ -62,6 +62,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
     private int orderId;
     private int orderStatus;
     private int afterDays = -1;
+    private String orginTime;
 
     public static SecondSaleDetailFragment newInstance(int orderId, int orderStatus) {
         Bundle args = new Bundle();
@@ -258,8 +259,9 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
 
         binding.tvShowNote.setText(orderItemModel.getOrderDesc());
 
-        long heldTime =Long.parseLong(orderItemModel.getUseDate()) * 1000;
-        binding.llFollowUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(heldTime), DateUtil.FORMAT_COMMON_Y_M_D));
+        long heldTime = Long.parseLong(orderItemModel.getUseDate()) * 1000;
+        orginTime = DateUtil.convertDateToString(new Date(heldTime), DateUtil.FORMAT_COMMON_Y_M_D);
+        binding.llFollowUpTime.tvItemSelectContent.setText(orginTime);
 
     }
 
@@ -309,30 +311,21 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         switch (v.getId()) {
             case R.id.tv_follow_up_submit:
 
-                switch (actionType - 1) {
-                    case 0:
+                switch (actionType) {
+                    case Conts.SECOND_FOLLOW_UP_MIDDLE:
+                    case Conts.SECOND_FOLLOW_UP_ADDITIONAL:
+                    case Conts.SECOND_FOLLOW_UP_REST:
                         Intent intent = new Intent(getActivity(), SecondSaleContractActivity.class);
                         intent.putExtra("order_id", orderId);
-                        intent.putExtra("action_type",actionType);
+                        intent.putExtra("action_type", actionType);
                         getActivity().startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
                         break;
-                    case 1:
-                        Intent intent1 = new Intent(getActivity(), SecondSaleContractActivity.class);
-                        intent1.putExtra("order_id", orderId);
-                        intent1.putExtra("action_type",actionType);
-                        getActivity().startActivityForResult(intent1, Conts.TO_SUBMIT_CONTRACT_REVIEW);                        break;
-                    case 2:
-//                        jumpToOtherActivity(ContractInfoActivity.class);
+
+                    case Conts.SECOND_FOLLOW_UP_MODIFY:
                         Intent intent2 = new Intent(getActivity(), ModifyRestTimeActivity.class);
                         intent2.putExtra("order_id", orderId);
+                        intent2.putExtra("original_time",orginTime);
                         getActivity().startActivityForResult(intent2, Conts.TO_SUBMIT_CONTRACT_REVIEW);
-
-                        break;
-                    case 3:
-                        Intent intent3 = new Intent(getActivity(), SecondSaleContractActivity.class);
-                        intent3.putExtra("order_id", orderId);
-                        intent3.putExtra("action_type",actionType);
-                        getActivity().startActivityForResult(intent3, Conts.TO_SUBMIT_CONTRACT_REVIEW);
                         break;
                 }
 
