@@ -2,11 +2,14 @@ package sen.wedding.com.weddingsen.sales.adapter;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
+
+import com.lzy.ninegrid.NineGridViewClickAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -96,7 +99,7 @@ public class PayRecordLogAdapter extends BaseAdapter {
                 binding.llRow2.setVisibility(View.VISIBLE);
                 binding.llRow3.setVisibility(View.VISIBLE);
                 binding.llRow4.setVisibility(View.VISIBLE);
-                binding.nineGrid.setVisibility(View.VISIBLE);
+                binding.ngImage.setVisibility(View.VISIBLE);
 
                 binding.llSelect1.tvItemSelectTitle.setText(currentContext.getString(R.string.contract_money));
                 binding.llSelect2.tvItemSelectTitle.setText(currentContext.getString(R.string.held_time));
@@ -108,26 +111,27 @@ public class PayRecordLogAdapter extends BaseAdapter {
                 binding.llSelect3.tvItemSelectContent.setText(model.getOrderMoney());
                 long time = Long.parseLong(model.getOrderTime()) * 1000;
                 binding.llSelect4.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
-
+                binding.ngImage.setAdapter(new NineGridViewClickAdapter(currentContext, model.getOrderSignPic()));
                 binding.llSelect1.tvItemSelectContent.setText(model.getFirstOrderMoney());
-                long time1 = Long.parseLong(model.getFirstOrderUsingTime()) * 1000;
-                binding.llSelect2.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time1), DateUtil.FORMAT_COMMON_Y_M_D));
-
+                if (!TextUtils.isEmpty(model.getFirstOrderUsingTime())) {
+                    long time1 = Long.parseLong(model.getFirstOrderUsingTime()) * 1000;
+                    binding.llSelect2.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time1), DateUtil.FORMAT_COMMON_Y_M_D));
+                }
                 break;
 
             case Conts.SECOND_FOLLOW_UP_MIDDLE:
                 //中款
-                randerCommonItem(binding,model,currentContext.getString(R.string.middle_pay_detail_tip));
+                randerCommonItem(binding, model, currentContext.getString(R.string.middle_pay_detail_tip));
                 break;
 
             case Conts.SECOND_FOLLOW_UP_ADDITIONAL:
                 //附加款
-                randerCommonItem(binding,model,currentContext.getString(R.string.addtional_pay_detail_tip));
+                randerCommonItem(binding, model, currentContext.getString(R.string.addtional_pay_detail_tip));
                 break;
 
             case Conts.SECOND_FOLLOW_UP_REST:
                 //尾款
-                randerCommonItem(binding,model,currentContext.getString(R.string.addtional_pay_detail_tip));
+                randerCommonItem(binding, model, currentContext.getString(R.string.addtional_pay_detail_tip));
                 break;
 
             case Conts.SECOND_FOLLOW_UP_MODIFY:
@@ -136,7 +140,7 @@ public class PayRecordLogAdapter extends BaseAdapter {
                 binding.llRow2.setVisibility(View.GONE);
                 binding.llRow3.setVisibility(View.VISIBLE);
                 binding.llRow4.setVisibility(View.VISIBLE);
-                binding.nineGrid.setVisibility(View.VISIBLE);
+                binding.ngImage.setVisibility(View.GONE);
 
                 binding.tvItemTitle.setText(currentContext.getString(R.string.tail_pay_modify_tip));
 
@@ -163,25 +167,26 @@ public class PayRecordLogAdapter extends BaseAdapter {
 
     }
 
-    private void randerCommonItem(PayLogInfoBinding binding,PayRecordLogModel model,String title)
-    {
+    private void randerCommonItem(PayLogInfoBinding binding, PayRecordLogModel model, String title) {
         //中款
         binding.llRow1.setVisibility(View.GONE);
         binding.llRow2.setVisibility(View.GONE);
         binding.llRow3.setVisibility(View.VISIBLE);
         binding.llRow4.setVisibility(View.VISIBLE);
-        binding.nineGrid.setVisibility(View.VISIBLE);
+        binding.ngImage.setVisibility(View.VISIBLE);
 
         binding.tvItemTitle.setText(title);
 
         binding.llSelect3.tvItemSelectTitle.setText(currentContext.getString(R.string.middle_money));
         binding.llSelect4.tvItemSelectTitle.setText(currentContext.getString(R.string.pay_time));
+        binding.ngImage.setAdapter(new NineGridViewClickAdapter(currentContext, model.getOrderSignPic()));
 
         binding.llSelect3.tvItemSelectContent.setText(model.getOrderMoney());
         long timeMiddle = Long.parseLong(model.getOrderTime()) * 1000;
         binding.llSelect4.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timeMiddle), DateUtil.FORMAT_COMMON_Y_M_D));
 
     }
+
     public List<PayRecordLogModel> getList() {
         return list;
     }

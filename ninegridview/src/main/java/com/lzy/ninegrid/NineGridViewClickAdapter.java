@@ -4,9 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.lzy.ninegrid.album.ImageAlbumActivity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NineGridViewClickAdapter extends NineGridViewAdapter {
@@ -20,7 +26,12 @@ public class NineGridViewClickAdapter extends NineGridViewAdapter {
 
     @Override
     protected void onImageItemClick(Context context, NineGridView nineGridView, int index, List<String> imageInfo) {
-
+//        Toast.makeText(context,"Click"+index,Toast.LENGTH_LONG).show();
+//        Log.e("NG_CLICK","XXX"+nineGridView.getId());
+        Intent intent = new Intent(context, ImageAlbumActivity.class);
+        intent.putStringArrayListExtra("info_list",(ArrayList<String>) imageInfo);
+        intent.putExtra("index",index);
+        context.startActivity(intent);
     }
 
     /**

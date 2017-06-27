@@ -1,23 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     android:id="@+id/rootView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="#f5f5fa"
     android:layout_height="match_parent">
-
-    <com.lzy.ninegrid.preview.HackyViewPager
-        android:id="@+id/viewPager"
+    <RelativeLayout
+        android:id="@+id/title_bar"
+        android:background="#282828"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="44dp">
 
-    <TextView
-        android:id="@+id/tv_pager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:text="1/4"
-        android:textColor="#ffffff"
-        android:textSize="20sp"/>
-</RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_left"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_height="20dp"
+                android:id="@+id/tv_left"
+                android:background="@drawable/back" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical|right">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_marginRight="15dp"
+                android:id="@+id/tv_right"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_title_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="#ffffff"
+            android:textSize="17sp" />
+    </RelativeLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_photos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never" />
+
+</LinearLayout>

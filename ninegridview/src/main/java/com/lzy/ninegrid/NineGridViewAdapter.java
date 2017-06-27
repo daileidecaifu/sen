@@ -36,8 +36,8 @@ public abstract class NineGridViewAdapter implements Serializable {
      */
     protected ImageView generateImageView(Context context) {
         NineGridViewWrapper imageView = new NineGridViewWrapper(context);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setImageResource(R.drawable.ic_default_color);
+//        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//        imageView.setImageResource(R.drawable.ic_default_color);
         return imageView;
     }
 
