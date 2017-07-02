@@ -22,7 +22,6 @@ import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.business.activity.BuildInfoDetailActivity;
-import sen.wedding.com.weddingsen.business.activity.GuestInfoDetailActivity;
 import sen.wedding.com.weddingsen.component.LoadMoreView;
 import sen.wedding.com.weddingsen.component.LoadingView;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;

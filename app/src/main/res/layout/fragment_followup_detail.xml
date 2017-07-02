@@ -178,6 +178,7 @@
                 <LinearLayout
                     android:id="@+id/ll_review_progress"
                     android:layout_width="match_parent"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -203,12 +204,11 @@
                             android:text="@string/modify_and_resubmit"
                             android:gravity="center_vertical"
                             android:visibility="gone"
-                            android:textColor="@color/white"
+                            android:textColor="@color/theme_color"
                             android:layout_marginRight="5dp"
                             android:paddingLeft="3dp"
                             android:paddingRight="3dp"
                             android:textSize="@dimen/text_size_ss"
-                            android:background="@drawable/buttom_common_background"
                             android:layout_height="25dp" />
                     </LinearLayout>
 

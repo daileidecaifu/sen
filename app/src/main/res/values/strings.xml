@@ -84,6 +84,8 @@
     <string name="save">保存</string>
     <string name="alipay_empty">支付宝账号不能为空</string>
     <string name="request_error_tip">请求异常，请稍后再试</string>
+    <string name="data_error_tip">返回数据错误</string>
+
     <string name="bind_success">绑定成功</string>
     <string name="select_order_type_hint">请选择类型</string>
     <string name="verify_guest_phone">验证受访者手机</string>
@@ -132,6 +134,7 @@
     <string name="build_detail">搭建详情</string>
     <string name="tip_order_waiting_for_settlement">客资订单已生效，奖励将通过支付宝发放</string>
     <string name="tip_order_settlemented">客资奖励已发放</string>
+    <string name="tip_order_finish">客资订单已完结</string>
     <string name="tip_order_cancel">客资信息已终止跟进</string>
     <string name="modify_and_resubmit">修改并重新提交</string>
     <string name="process_status">处理状态</string>

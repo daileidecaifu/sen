@@ -174,7 +174,6 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         binding.llFollowUpTime.tvItemSelectTitle.setText(getString(R.string.original_time));
         binding.llFollowUpTime.tvItemSelectIcon.setVisibility(View.GONE);
 
-        initBottomView();
         actionType = Conts.SECOND_FOLLOW_UP_MIDDLE;
         afterDays = 1;
     }
@@ -244,7 +243,8 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         }
     }
 
-    private void fillData(OrderItemModel orderItemModel) {
+    private void fillData(DetailResModel detailResModel) {
+        OrderItemModel orderItemModel = detailResModel.getOrderItem();
         binding.llShowName.tvItemSelectContent.setText(orderItemModel.getCustomerName());
         binding.llShowType.tvItemSelectContent.setText(Conts.getOrderTypeMap().get(orderItemModel.getOrderType()));
         binding.llShowPhoneNumber.tvItemSelectContent.setText(orderItemModel.getOrderPhone());
@@ -262,6 +262,9 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         long heldTime = Long.parseLong(orderItemModel.getUseDate()) * 1000;
         orginTime = DateUtil.convertDateToString(new Date(heldTime), DateUtil.FORMAT_COMMON_Y_M_D);
         binding.llFollowUpTime.tvItemSelectContent.setText(orginTime);
+
+        initBottomView(detailResModel.getHandleNote());
+
 
     }
 
@@ -285,7 +288,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
 
                 detailResModel = GsonConverter.decode(resultModel.data, DetailResModel.class);
-                fillData(detailResModel.getOrderItem());
+                fillData(detailResModel);
             } else {
                 showToast(resultModel.message);
             }
@@ -334,7 +337,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
 
     }
 
-    private void initBottomView() {
+    private void initBottomView(String content) {
         switch (orderStatus) {
             case 1:
                 binding.llReviewProgress.setVisibility(View.GONE);
@@ -343,28 +346,21 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
             case 2:
                 binding.llReviewProgress.setVisibility(View.VISIBLE);
                 binding.llToFollow.setVisibility(View.GONE);
-                binding.tvMessage.setText(getString(R.string.to_review_message));
+//                binding.tvMessage.setText(getString(R.string.to_review_message));
+                binding.tvMessage.setText(content);
                 break;
             case 3:
                 binding.llReviewProgress.setVisibility(View.VISIBLE);
                 binding.llToFollow.setVisibility(View.GONE);
-                binding.tvMessage.setText(getString(R.string.reviewed_message));
+//                binding.tvMessage.setText(getString(R.string.reviewed_message));
+                binding.tvMessage.setText(content);
                 break;
             case 4:
                 binding.llReviewProgress.setVisibility(View.VISIBLE);
                 binding.llToFollow.setVisibility(View.GONE);
-                binding.tvMessage.setText(getString(R.string.settlemented_message));
-                break;
-            case 5:
-                binding.llReviewProgress.setVisibility(View.VISIBLE);
-                binding.llToFollow.setVisibility(View.GONE);
                 binding.tvModifyAndSubmit.setVisibility(View.VISIBLE);
-                binding.tvMessage.setText("一段审核日志");
-                break;
-            case 6:
-                binding.llReviewProgress.setVisibility(View.VISIBLE);
-                binding.llToFollow.setVisibility(View.GONE);
-                binding.tvMessage.setText(getString(R.string.fail_message));
+//                binding.tvMessage.setText(getString(R.string.settlemented_message));
+                binding.tvMessage.setText(content);
                 break;
         }
     }

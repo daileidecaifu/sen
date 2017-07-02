@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -181,7 +182,6 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
             }
         });
 
-        initBottomView();
         binding.llFollowUpTime.tvItemSelectContent.setText(nextFollowUpItems[0]);
         actionType = Conts.FOLLOW_UP_INFO_EFFECTIVE;
         afterDays = 1;
@@ -193,6 +193,8 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("order_id", orderId + "");
+            param.put("detail_type", Conts.KEZI_DETAIL_SOURCE_FOLLOWER + "");
+
             getOrderDetailRequest.setParams(param);
             getApiService().exec(getOrderDetailRequest, this);
         } else {
@@ -292,7 +294,9 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
         }
     }
 
-    private void fillData(OrderItemModel orderItemModel) {
+    private void fillData(DetailResModel detailResModel) {
+
+        OrderItemModel orderItemModel = detailResModel.getOrderItem();
         binding.llShowName.tvItemSelectContent.setText(orderItemModel.getCustomerName());
         binding.llShowType.tvItemSelectContent.setText(Conts.getOrderStatusMap().get(orderItemModel.getOrderStatus()));
         binding.llShowPhoneNumber.tvItemSelectContent.setText(orderItemModel.getOrderPhone());
@@ -312,10 +316,14 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
         binding.llShowTableCount.tvItemSelectContent.setText(orderItemModel.getDestCount());
         binding.llShowBudget.tvItemSelectContent.setText(orderItemModel.getOrderMoney());
 
-        long time = Long.parseLong(orderItemModel.getUseDate()) * 1000;
-        binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
-
+        if (!TextUtils.isEmpty(orderItemModel.getUseDate()) && !orderItemModel.getUseDate().equals("0")) {
+            long time = Long.parseLong(orderItemModel.getUseDate()) * 1000;
+            binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
+        }
         binding.tvShowNote.setText(orderItemModel.getOrderDesc());
+
+        initBottomView(detailResModel.getHandleNote());
+
     }
 
 
@@ -338,7 +346,7 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
 
                 detailResModel = GsonConverter.decode(resultModel.data, DetailResModel.class);
-                fillData(detailResModel.getOrderItem());
+                fillData(detailResModel);
             } else {
                 showToast(resultModel.message);
             }
@@ -385,7 +393,7 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
 
     }
 
-    private void initBottomView() {
+    private void initBottomView(String content) {
         switch (orderStatus) {
             case 1:
                 binding.llReviewProgress.setVisibility(View.GONE);
@@ -394,28 +402,36 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
             case 2:
                 binding.llReviewProgress.setVisibility(View.VISIBLE);
                 binding.llToFollow.setVisibility(View.GONE);
-                binding.tvMessage.setText(getString(R.string.to_review_message));
+//                binding.tvMessage.setText(getString(R.string.to_review_message));
+                binding.tvMessage.setText(content);
+
                 break;
             case 3:
                 binding.llReviewProgress.setVisibility(View.VISIBLE);
                 binding.llToFollow.setVisibility(View.GONE);
-                binding.tvMessage.setText(getString(R.string.reviewed_message));
+//                binding.tvMessage.setText(getString(R.string.reviewed_message));
+                binding.tvMessage.setText(content);
+
                 break;
             case 4:
                 binding.llReviewProgress.setVisibility(View.VISIBLE);
                 binding.llToFollow.setVisibility(View.GONE);
-                binding.tvMessage.setText(getString(R.string.settlemented_message));
+//                binding.tvMessage.setText(getString(R.string.settlemented_message));
+                binding.tvMessage.setText(content);
+
                 break;
             case 5:
                 binding.llReviewProgress.setVisibility(View.VISIBLE);
                 binding.llToFollow.setVisibility(View.GONE);
                 binding.tvModifyAndSubmit.setVisibility(View.VISIBLE);
-                binding.tvMessage.setText("一段审核日志");
+                binding.tvMessage.setText(content);
                 break;
             case 6:
                 binding.llReviewProgress.setVisibility(View.VISIBLE);
                 binding.llToFollow.setVisibility(View.GONE);
-                binding.tvMessage.setText(getString(R.string.fail_message));
+//                binding.tvMessage.setText(getString(R.string.fail_message));
+                binding.tvMessage.setText(content);
+
                 break;
         }
     }

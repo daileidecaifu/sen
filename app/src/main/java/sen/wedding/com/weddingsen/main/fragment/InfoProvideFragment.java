@@ -122,7 +122,7 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
         TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
         TextView textViewTitle = (TextView) linearLayoutTitle.findViewById(R.id.tv_title_title);
 
-        textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_my_center));
+//        textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_my_center));
         textViewRight.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_create));
 
         textViewTitle.setText(getString(R.string.guest_info_list));
@@ -139,7 +139,7 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
         textViewLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).openMenu();
+                getActivity().finish();
             }
         });
 

@@ -231,4 +231,8 @@ public class Conts {
     public final static int SECOND_FOLLOW_UP_MODIFY = 4;
     public final static int SECOND_FOLLOW_UP_FIRST_SALE = 5;
 
+    //客资详情来源分类
+    public final static int KEZI_DETAIL_SOURCE_PROVIDER = 1;
+    public final static int KEZI_DETAIL_SOURCE_FOLLOWER = 2;
+
 }

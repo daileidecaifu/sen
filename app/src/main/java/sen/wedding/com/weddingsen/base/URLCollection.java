@@ -66,4 +66,6 @@ public class URLCollection {
 
     public final static String URL_BUILD_PAY_LIST = "http://dev.51isen.com/index.php?m=app&c=order&f=dajianOrderSignOtherList";
 
+    public final static String URL_SHOW_OTHER_ORDER_SIGN_DETAIL = "http://dev.51isen.com/index.php?m=app&c=order&f=dajianOrderOtherSignDetail";
+
 }

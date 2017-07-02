@@ -98,12 +98,15 @@ public class ContractReviewFragment extends BaseFragment implements RequestHandl
     }
 
     private void fillData(ContractReviewModel model) {
-        long currentTimestamp = Long.parseLong(model.getSignUsingTime()) * 1000;
-        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
+
+        if (null != model.getSignUsingTime()) {
+            long currentTimestamp = Long.parseLong(model.getSignUsingTime()) * 1000;
+            binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
+        }
         binding.llContractMoney.tvItemSelectContent.setText(model.getOrderMoney());
 
         String[] imgs = model.getSignPic().split(",");
-        for (String str: imgs) {
+        for (String str : imgs) {
             selectedPhotos.add(str);
         }
         contractReviewAdapter.notifyDataSetChanged();
@@ -128,7 +131,13 @@ public class ContractReviewFragment extends BaseFragment implements RequestHandl
         if (req == getContractReviewRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 contractReviewModel = GsonConverter.decode(resultModel.data, ContractReviewModel.class);
-                fillData(contractReviewModel);
+                if(contractReviewModel!=null)
+                {
+                    fillData(contractReviewModel);
+                }else
+                {
+                    showToast(getString(R.string.data_error_tip));
+                }
             } else {
                 showToast(resultModel.message);
             }

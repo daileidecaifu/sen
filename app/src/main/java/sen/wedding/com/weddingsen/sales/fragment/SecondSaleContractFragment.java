@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.ApiRequest;
@@ -22,10 +23,12 @@ import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.business.adapter.ContractReviewAdapter;
 import sen.wedding.com.weddingsen.business.model.ContractReviewModel;
+import sen.wedding.com.weddingsen.business.model.DetailResModel;
 import sen.wedding.com.weddingsen.databinding.SecondSaleContractReviceFragmentBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
+import sen.wedding.com.weddingsen.sales.model.SecondSaleContractResModel;
 import sen.wedding.com.weddingsen.utils.DateUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 
@@ -37,11 +40,11 @@ public class SecondSaleContractFragment extends BaseFragment implements RequestH
 
     SecondSaleContractReviceFragmentBinding binding;
     private ContractReviewAdapter contractReviewAdapter;
-    private ArrayList<String> selectedPhotos = new ArrayList<>();
+    private List<String> selectedPhotos = new ArrayList<>();
 
     private int orderId;
     private ApiRequest getContractReviewRequest;
-    private ContractReviewModel contractReviewModel;
+    private SecondSaleContractResModel secondSaleContractResModel;
 
     public static SecondSaleContractFragment newInstance(int orderId) {
         Bundle args = new Bundle();
@@ -64,7 +67,7 @@ public class SecondSaleContractFragment extends BaseFragment implements RequestH
         binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_second_sale_contract_review, container, false);
         initConponents();
-//        getFollowUp();
+        getFollowUp();
         return binding.getRoot();
 
     }
@@ -87,10 +90,10 @@ public class SecondSaleContractFragment extends BaseFragment implements RequestH
     private void getFollowUp() {
         showProgressDialog(false);
         if (orderId != -1) {
-            getContractReviewRequest = new ApiRequest(URLCollection.URL_SHOW_ORDER_SIGN_DETAIL, HttpMethod.POST);
+            getContractReviewRequest = new ApiRequest(URLCollection.URL_SHOW_OTHER_ORDER_SIGN_DETAIL, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
-            param.put("user_kezi_order_id", orderId + "");
+            param.put("user_dajian_order_id", orderId + "");
             getContractReviewRequest.setParams(param);
             getApiService().exec(getContractReviewRequest, this);
         } else {
@@ -98,15 +101,22 @@ public class SecondSaleContractFragment extends BaseFragment implements RequestH
         }
     }
 
-    private void fillData(ContractReviewModel model) {
-        long currentTimestamp = Long.parseLong(model.getSignUsingTime()) * 1000;
-        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
-        binding.llContractMoney.tvItemSelectContent.setText(model.getOrderMoney());
+    private void fillData(SecondSaleContractResModel model) {
 
-        String[] imgs = model.getSignPic().split(",");
-        for (String str: imgs) {
-            selectedPhotos.add(str);
-        }
+        binding.tvTitle.setText(model.getTitle());
+        binding.tvImgTitle.setText(model.getThirdInputNote());
+
+        binding.llContractMoney.tvItemSelectIcon.setVisibility(View.GONE);
+        binding.llContractMoney.tvItemSelectTitle.setText(model.getFristInputNote());
+        binding.llContractMoney.tvItemSelectContent.setText(model.getFirstInputContent());
+
+        binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
+        binding.llSignUpTime.tvItemSelectTitle.setText(model.getSecondInputNote());
+        long timestamp = Long.parseLong(model.getSecondInputContent()) * 1000;
+        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timestamp), DateUtil.FORMAT_COMMON_Y_M_D));
+
+        selectedPhotos.clear();
+        selectedPhotos.addAll(model.getThirdInputContent());
         contractReviewAdapter.notifyDataSetChanged();
 
     }
@@ -128,8 +138,8 @@ public class SecondSaleContractFragment extends BaseFragment implements RequestH
 
         if (req == getContractReviewRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
-                contractReviewModel = GsonConverter.decode(resultModel.data, ContractReviewModel.class);
-                fillData(contractReviewModel);
+                secondSaleContractResModel = GsonConverter.decode(resultModel.data, SecondSaleContractResModel.class);
+                fillData(secondSaleContractResModel);
             } else {
                 showToast(resultModel.message);
             }

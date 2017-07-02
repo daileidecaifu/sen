@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.google.gson.reflect.TypeToken;
@@ -170,7 +171,7 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
 
     private void fillData(DetailResModel detailResModel) {
         OrderItemModel orderItemModel = detailResModel.getOrderItem();
-        LogInfoModel logInfoModel = detailResModel.getOrderFollow();
+//        LogInfoModel logInfoModel = detailResModel.getOrderFollow();
         binding.llShowName.tvItemSelectContent.setText(orderItemModel.getCustomerName());
         binding.llShowType.tvItemSelectContent.setText(Conts.getOrderTypeMap().get(orderItemModel.getOrderType()));
         binding.llShowPhoneNumber.tvItemSelectContent.setText(orderItemModel.getOrderPhone());
@@ -190,37 +191,43 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
         binding.llShowTableCount.tvItemSelectContent.setText(orderItemModel.getDestCount());
         binding.llShowBudget.tvItemSelectContent.setText(orderItemModel.getOrderMoney());
 
-        long time = Long.parseLong(orderItemModel.getUseDate()) * 1000;
-        binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
-
+        if (!TextUtils.isEmpty(orderItemModel.getUseDate()) && !orderItemModel.getUseDate().equals("0")) {
+            long time = Long.parseLong(orderItemModel.getUseDate()) * 1000;
+            binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
+        }
         binding.tvShowNote.setText(orderItemModel.getOrderDesc());
 
-        if (logInfoModel != null) {
-            switch (logInfoModel.getUserOrderStatus()) {
-                case "1":
-                    //等待处理
-                    binding.llProcessSchedule.tvItemSelectContent.setText(getString(R.string.detail_following_tip));
-                    break;
+//        if (logInfoModel != null) {
+//            switch (logInfoModel.getUserOrderStatus()) {
+//                case "1":
+//                    //等待处理
+//                    binding.llProcessSchedule.tvItemSelectContent.setText(getString(R.string.detail_following_tip));
+//                    break;
+//
+//                case "2":
+//                    //提交审核
+//                    binding.llProcessSchedule.tvItemSelectContent.setText(getString(R.string.detail_wait_settlement_tip));
+//                    break;
+//
+//                case "3":
+//                    //提交结算
+//                    binding.llProcessSchedule.tvItemSelectContent.setText(getString(R.string.detail_settlemented_tip));
+//                    break;
+//
+//                case "4":
+//                    //已经结算
+//                    binding.llProcessSchedule.tvItemSelectContent.setText(getString(R.string.detail_canceled_tip));
+//                    break;
+//            }
+//
+//            long processTime = Long.parseLong(logInfoModel.getOrderFollowTime()) * 1000;
+//            binding.llProcessTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(processTime), DateUtil.FORMAT_COMMON_Y_M_D));
+//        }
 
-                case "2":
-                    //提交审核
-                    binding.llProcessSchedule.tvItemSelectContent.setText(getString(R.string.detail_wait_settlement_tip));
-                    break;
+        binding.llProcessSchedule.tvItemSelectContent.setText(detailResModel.getHandleNote());
+        long processTime = Long.parseLong(detailResModel.getHandleTime()) * 1000;
+        binding.llProcessTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(processTime), DateUtil.FORMAT_COMMON_Y_M_D));
 
-                case "3":
-                    //提交结算
-                    binding.llProcessSchedule.tvItemSelectContent.setText(getString(R.string.detail_settlemented_tip));
-                    break;
-
-                case "4":
-                    //已经结算
-                    binding.llProcessSchedule.tvItemSelectContent.setText(getString(R.string.detail_canceled_tip));
-                    break;
-            }
-
-            long processTime = Long.parseLong(logInfoModel.getOrderFollowTime()) * 1000;
-            binding.llProcessTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(processTime), DateUtil.FORMAT_COMMON_Y_M_D));
-        }
     }
 
     private void getGuestInfo() {
@@ -229,6 +236,8 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("order_id", orderId + "");
+            param.put("detail_type", Conts.KEZI_DETAIL_SOURCE_PROVIDER + "");
+
             getOrderDetailRequest.setParams(param);
             getApiService().exec(getOrderDetailRequest, this);
         } else {

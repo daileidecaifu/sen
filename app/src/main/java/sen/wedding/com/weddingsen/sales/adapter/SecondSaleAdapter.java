@@ -24,7 +24,7 @@ public class SecondSaleAdapter extends BaseAdapter {
     ArrayList<SecondSaleInfoModel> list;
     private Context currentContext;
     //默认type为跟踪中
-    private int infoType = 3;
+    private int infoType = 1;
 
     public SecondSaleAdapter(Context context, int type) {
         this.currentContext = context;
@@ -97,26 +97,29 @@ public class SecondSaleAdapter extends BaseAdapter {
         binding.tvContantPersonPhone.setText(model.getOrderPhone());
         binding.tvFollowerFaction.setText(model.getWatchUser());
 
-//        switch (infoType) {
-//            case 3:
-//                binding.llTip.setVisibility(View.GONE);
-//                break;
-//
-//            case 4:
-//                binding.llTip.setVisibility(View.VISIBLE);
+        switch (infoType) {
+            case 1:
+                binding.llTip.setVisibility(View.GONE);
+                break;
+
+            case 2:
+                binding.llTip.setVisibility(View.GONE);
 //                binding.tvTip.setText(currentContext.getString(R.string.tip_order_waiting_for_settlement));
-//                break;
-//
-//            case 5:
-//                binding.llTip.setVisibility(View.VISIBLE);
-//                binding.tvTip.setText(currentContext.getString(R.string.tip_order_settlemented));
-//                break;
-//
-//            case 6:
-//                binding.llTip.setVisibility(View.VISIBLE);
-//                binding.tvTip.setText(currentContext.getString(R.string.tip_order_cancel));
-//                break;
-//        }
+//                binding.tvTip.setTextColor(currentContext.getResources().getColor(R.color.gray_2));
+                break;
+
+            case 3:
+                binding.llTip.setVisibility(View.VISIBLE);
+                binding.tvTip.setText(currentContext.getString(R.string.tip_order_finish));
+                binding.tvTip.setTextColor(currentContext.getResources().getColor(R.color.gray_2));
+                break;
+
+            case 4:
+                binding.llTip.setVisibility(View.VISIBLE);
+                binding.tvTip.setText(currentContext.getString(R.string.modify_and_resubmit));
+                binding.tvTip.setTextColor(currentContext.getResources().getColor(R.color.theme_color));
+                break;
+        }
 
         return binding.getRoot();
 

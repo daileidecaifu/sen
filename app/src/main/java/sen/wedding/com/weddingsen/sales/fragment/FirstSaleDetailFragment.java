@@ -190,7 +190,6 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
             }
         });
 
-        initBottomView();
         binding.llFollowUpTime.tvItemSelectContent.setText(nextFollowUpItems[0]);
         actionType = Conts.FOLLOW_UP_INFO_EFFECTIVE;
         afterDays = 1;
@@ -301,7 +300,8 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
         }
     }
 
-    private void fillData(OrderItemModel orderItemModel) {
+    private void fillData(DetailResModel detailResModel) {
+        OrderItemModel orderItemModel = detailResModel.getOrderItem();
         binding.llShowName.tvItemSelectContent.setText(orderItemModel.getCustomerName());
         binding.llShowType.tvItemSelectContent.setText(Conts.getOrderTypeMap().get(orderItemModel.getOrderType()));
         binding.llShowPhoneNumber.tvItemSelectContent.setText(orderItemModel.getOrderPhone());
@@ -317,6 +317,8 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
         binding.llShowTime.tvItemSelectContent.setText(heldTimeContent);
 
         binding.tvShowNote.setText(orderItemModel.getOrderDesc());
+        initBottomView(detailResModel.getHandleNote());
+
     }
 
 
@@ -339,7 +341,7 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
 
                 detailResModel = GsonConverter.decode(resultModel.data, DetailResModel.class);
-                fillData(detailResModel.getOrderItem());
+                fillData(detailResModel);
             } else {
                 showToast(resultModel.message);
             }
@@ -388,7 +390,7 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
 
     }
 
-    private void initBottomView() {
+    private void initBottomView(String content) {
         switch (orderStatus) {
             case 1:
                 binding.llReviewProgress.setVisibility(View.GONE);
@@ -397,28 +399,33 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
             case 2:
                 binding.llReviewProgress.setVisibility(View.VISIBLE);
                 binding.llToFollow.setVisibility(View.GONE);
-                binding.tvMessage.setText(getString(R.string.to_review_message));
+//                binding.tvMessage.setText(getString(R.string.to_review_message));
+                binding.tvMessage.setText(content);
                 break;
             case 3:
                 binding.llReviewProgress.setVisibility(View.VISIBLE);
                 binding.llToFollow.setVisibility(View.GONE);
-                binding.tvMessage.setText(getString(R.string.reviewed_message));
+//                binding.tvMessage.setText(getString(R.string.reviewed_message));
+                binding.tvMessage.setText(content);
                 break;
             case 4:
                 binding.llReviewProgress.setVisibility(View.VISIBLE);
                 binding.llToFollow.setVisibility(View.GONE);
-                binding.tvMessage.setText(getString(R.string.settlemented_message));
+//                binding.tvMessage.setText(getString(R.string.settlemented_message));
+                binding.tvMessage.setText(content);
                 break;
             case 5:
                 binding.llReviewProgress.setVisibility(View.VISIBLE);
                 binding.llToFollow.setVisibility(View.GONE);
                 binding.tvModifyAndSubmit.setVisibility(View.VISIBLE);
-                binding.tvMessage.setText("一段审核日志");
+//                binding.tvMessage.setText("一段审核日志");
+                binding.tvMessage.setText(content);
                 break;
             case 6:
                 binding.llReviewProgress.setVisibility(View.VISIBLE);
                 binding.llToFollow.setVisibility(View.GONE);
-                binding.tvMessage.setText(getString(R.string.fail_message));
+//                binding.tvMessage.setText(getString(R.string.fail_message));
+                binding.tvMessage.setText(content);
                 break;
         }
     }
