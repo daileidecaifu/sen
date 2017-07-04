@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.main.activity.HotelDetailActivity;
 import sen.wedding.com.weddingsen.main.activity.HotelDistinctActivity;
 import sen.wedding.com.weddingsen.main.activity.HotelShowActivity;
+import sen.wedding.com.weddingsen.main.activity.InfoProvideActivity;
 import sen.wedding.com.weddingsen.main.adapter.HotelsAdapter;
 import sen.wedding.com.weddingsen.main.model.HotelShowModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
@@ -46,7 +48,7 @@ import sen.wedding.com.weddingsen.utils.GsonConverter;
 public class HotelShowFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>, AdapterView.OnItemClickListener, View.OnClickListener {
 
     ListView listView;
-    TextView ivRecommend;
+    TextView tvRecommend;
     LoadingView loadingView;
 
     HotelsAdapter hotelsAdapter;
@@ -74,10 +76,9 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
 
         View view = inflater.inflate(R.layout.fragment_hotel_show, null);
         listView = (ListView) view.findViewById(R.id.lv_hotels);
-        ivRecommend = (TextView) view.findViewById(R.id.tv_recommend);
+        tvRecommend = (TextView) view.findViewById(R.id.tv_recommend);
         loadingView = (LoadingView) view.findViewById(R.id.loading_view);
 
-        ivRecommend.setOnClickListener(this);
 
         loadingView.setLoadingViewClickListener(new LoadingView.OnLoadingViewClickListener() {
             @Override
@@ -93,11 +94,23 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
             }
         });
         initTitle(view);
+        initComponents();
         initListView();
         initData();
         loadingView.showLoading();
         getHotelList("");
         return view;
+
+    }
+
+    private void initComponents() {
+        if (TextUtils.isEmpty(BasePreference.getToken())
+                || BasePreference.getUserType().equals(Conts.LOGIN_MODEL_FIRST_SALE)
+                || BasePreference.getUserType().equals(Conts.LOGIN_MODEL_SECOND_SALE)) {
+            tvRecommend.setVisibility(View.GONE);
+        } else {
+            tvRecommend.setOnClickListener(this);
+        }
 
     }
 
@@ -218,8 +231,8 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-     Intent intent = new Intent(getActivity(),HotelDetailActivity.class);
-        intent.putExtra("hotel_id",hotelShowModels.get(position).getHotelId());
+        Intent intent = new Intent(getActivity(), HotelDetailActivity.class);
+        intent.putExtra("hotel_id", hotelShowModels.get(position).getHotelId());
 //        jumpToOtherActivity(HotelDetailActivity.class);
         startActivity(intent);
     }
@@ -228,7 +241,12 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_recommend:
-                showToast("Z");
+                switch (BasePreference.getUserType()) {
+                    case Conts.LOGIN_MODEL_PHONE:
+                    case Conts.LOGIN_MODEL_ACCOUNT:
+                        jumpToOtherActivity(InfoProvideActivity.class);
+                        break;
+                }
                 break;
         }
     }
@@ -284,12 +302,11 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String shId ="";
+        String shId = "";
 
         if (data != null) {
             shId = data.getStringExtra("sh_id");
-            if(!TextUtils.isEmpty(shId))
-            {
+            if (!TextUtils.isEmpty(shId)) {
                 loadingView.showLoading();
                 getHotelList(shId);
             }

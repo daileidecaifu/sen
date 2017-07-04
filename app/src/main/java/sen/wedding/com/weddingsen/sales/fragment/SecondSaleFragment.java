@@ -11,6 +11,10 @@ import android.widget.ListView;
 
 import com.dinuscxj.refresh.RecyclerRefreshLayout;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -35,6 +39,7 @@ import sen.wedding.com.weddingsen.sales.adapter.SecondSaleAdapter;
 import sen.wedding.com.weddingsen.sales.model.SecondSaleInfoModel;
 import sen.wedding.com.weddingsen.sales.model.SecondSaleInfosResModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
+import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 public class SecondSaleFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>,
         AdapterView.OnItemClickListener, RecyclerRefreshLayout.OnRefreshListener,
@@ -68,8 +73,29 @@ public class SecondSaleFragment extends BaseFragment implements RequestHandler<A
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         currentStatus = getArguments().getInt("order_status");
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainReceiver(EventIntent eventIntent) {
+        if (eventIntent.getActionId() == Conts.EVENT_SECOND_SALE_LIST_REFRESH) {
+            switch (currentStatus) {
+                case 1:
+                case 2:
+                    loadingView.showLoading();
+                    getFirstSaleList();
+                    break;
+            }
+        }
     }
 
     @Override
@@ -200,6 +226,7 @@ public class SecondSaleFragment extends BaseFragment implements RequestHandler<A
                 model = GsonConverter.decode(resultModel.data, SecondSaleInfosResModel.class);
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     loadingView.dismiss();
+                    ((SecondSaleListFragment) (SecondSaleFragment.this.getParentFragment())).updateTitle(model.getCount(), currentStatus);
 
                     secondSaleAdapter.notifyDataChanged(model.getOrderList());
                     if (model.getCount() < 10) {
@@ -209,6 +236,8 @@ public class SecondSaleFragment extends BaseFragment implements RequestHandler<A
                     }
                 } else {
                     loadingView.showLoadingEmpty();
+                    ((SecondSaleListFragment) (SecondSaleFragment.this.getParentFragment())).updateTitle(0, currentStatus);
+
                 }
 
             } else {

@@ -13,6 +13,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +41,7 @@ import sen.wedding.com.weddingsen.utils.DateUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.StringUtil;
 import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
+import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 /**
  * Created by lorin on 17/5/22.
@@ -378,9 +381,9 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
 //                        jumpToOtherActivity(ContractInfoActivity.class);
                         Intent intent = new Intent(getActivity(), FirstSaleContractActivity.class);
                         intent.putExtra("order_id", orderId);
-                        intent.putExtra("held_time",heldTime);
-                        intent.putExtra("held_time_content",heldTimeContent);
-                        getActivity().startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
+                        intent.putExtra("held_time", heldTime);
+                        intent.putExtra("held_time_content", heldTimeContent);
+                        startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
 
                         break;
                 }
@@ -434,8 +437,10 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Conts.TO_SUBMIT_CONTRACT_REVIEW) {
-            if (resultCode == Activity.RESULT_OK)
+            if (resultCode == Activity.RESULT_OK) {
+                EventBus.getDefault().post(new EventIntent(Conts.EVENT_FIRST_SALE_LIST_REFRESH, ""));
                 getActivity().finish();
+            }
         }
     }
 }

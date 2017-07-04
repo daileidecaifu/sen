@@ -97,7 +97,6 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
             switch (currentStatus) {
                 case 1:
                 case 2:
-                    showToast("123");
                     loadingView.showLoading();
                     getFollowInfoList();
                     break;

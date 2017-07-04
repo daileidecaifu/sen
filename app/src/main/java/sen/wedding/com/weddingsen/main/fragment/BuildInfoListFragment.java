@@ -32,7 +32,9 @@ import sen.wedding.com.weddingsen.utils.model.EventIntent;
  * Created by lorin on 17/5/8.
  */
 
-public class BuildInfoListFragment extends BaseFragment implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener{
+public class BuildInfoListFragment extends BaseFragment implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+
+    SlidingTabLayout slidingTabLayout;
 
     public static BuildInfoListFragment newInstance() {
 
@@ -74,7 +76,7 @@ public class BuildInfoListFragment extends BaseFragment implements NavigationVie
         viewPager.setOffscreenPageLimit(6);
 
         int selectColor = ContextCompat.getColor(getActivity(), R.color.theme_color);
-        SlidingTabLayout slidingTabLayout = (SlidingTabLayout) linearLayoutMain.findViewById(R.id.sliding_tabs);
+        slidingTabLayout = (SlidingTabLayout) linearLayoutMain.findViewById(R.id.sliding_tabs);
         slidingTabLayout.setTabTitleTextSize(14);//标题字体大小
         slidingTabLayout.setTitleTextColor(selectColor, ContextCompat.getColor(getActivity(), R.color.text_common));//标题字体颜色
         slidingTabLayout.setTabStripWidth(70);//滑动条宽度
@@ -90,6 +92,10 @@ public class BuildInfoListFragment extends BaseFragment implements NavigationVie
         linearLayoutMain.setOnClickListener(this);
         //空数据状态
 //        mainActivityBinding.llAppBarMain.llListEmpty.setVisibility(View.GONE);
+    }
+
+    public void updateTitle(int count, int index) {
+        slidingTabLayout.updateTitle(Conts.getOrderStatusMap().get(index) + "(" + count + ")", index);
     }
 
     @Override

@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +41,7 @@ import sen.wedding.com.weddingsen.utils.DateUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.StringUtil;
 import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
+import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 /**
  * Created by lorin on 17/5/22.
@@ -321,14 +324,14 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
                         Intent intent = new Intent(getActivity(), SecondSaleContractActivity.class);
                         intent.putExtra("order_id", orderId);
                         intent.putExtra("action_type", actionType);
-                        getActivity().startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
+                        startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
                         break;
 
                     case Conts.SECOND_FOLLOW_UP_MODIFY:
                         Intent intent2 = new Intent(getActivity(), ModifyRestTimeActivity.class);
                         intent2.putExtra("order_id", orderId);
-                        intent2.putExtra("original_time",orginTime);
-                        getActivity().startActivityForResult(intent2, Conts.TO_SUBMIT_CONTRACT_REVIEW);
+                        intent2.putExtra("original_time", orginTime);
+                        startActivityForResult(intent2, Conts.TO_SUBMIT_CONTRACT_REVIEW);
                         break;
                 }
 
@@ -369,8 +372,10 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Conts.TO_SUBMIT_CONTRACT_REVIEW) {
-            if (resultCode == Activity.RESULT_OK)
+            if (resultCode == Activity.RESULT_OK) {
+                EventBus.getDefault().post(new EventIntent(Conts.EVENT_SECOND_SALE_LIST_REFRESH, ""));
                 getActivity().finish();
+            }
         }
     }
 }

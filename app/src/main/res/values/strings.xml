@@ -148,11 +148,13 @@
     <string name="confirm_sign">确认签单</string>
     <string name="contract_certificate">合同凭证</string>
     <string name="next_time_pay_time">下次支付时间</string>
+    <string name="middle_pay_time">中款支付时间</string>
     <string name="contract_certificate_pic_tip">在此上传（合同）与（收据）照片</string>
     <string name="contract_time">合同时间</string>
     <string name="contract_money">合同金额</string>
     <string name="middle_money">中款金额</string>
     <string name="tail_money">尾款金额</string>
+    <string name="tail_time">尾款时间</string>
     <string name="additional_money">附加款金额</string>
     <string name="first_sale_amount">首付金额</string>
     <string name="first_sale_amount_hit">请输入首付金额</string>

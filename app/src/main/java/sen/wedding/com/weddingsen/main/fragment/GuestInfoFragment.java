@@ -196,6 +196,7 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
                 model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     loadingView.dismiss();
+                    ((GuestInfoListFragment) (GuestInfoFragment.this.getParentFragment())).updateTitle(model.getCount(), currentStatus);
 
                     guestInfoAdapter.notifyDataChanged(model.getOrderList());
                     if (model.getCount() < 10) {
@@ -205,6 +206,8 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
                     }
                 } else {
                     loadingView.showLoadingEmpty();
+                    ((GuestInfoListFragment) (GuestInfoFragment.this.getParentFragment())).updateTitle(0, currentStatus);
+
                 }
 
             } else {

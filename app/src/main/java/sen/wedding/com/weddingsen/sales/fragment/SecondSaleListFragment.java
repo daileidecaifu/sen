@@ -96,6 +96,10 @@ public class SecondSaleListFragment extends BaseFragment implements NavigationVi
 //        });
     }
 
+    public void updateTitle(int count, int index) {
+        slidingTabLayout.updateTitle(Conts.getSecondSaleStatusMap().get(index) + "(" + count + ")", index);
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;

@@ -63,30 +63,30 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
     private PhotoAdapter photoAdapter;
     private ArrayList<String> selectedPhotos = new ArrayList<>();
 
-    //举办时间
-    private long heldTime;
-    private String heldTimeContent;
+    //尾款时间
+    private long tailTime;
+    private String tailTimeContent;
 
     //首付时间
     private long selectFirstPayTime;
-    private String selectFirstPayTimeContent;
+//    private String selectFirstPayTimeContent;
 
     //下次支付时间
     private long selectNextPayTime;
     private String selectNextPayTimeContent;
 
     private int selectDataType;
-    private final int dateFirstPayType = 1;
+    private final int dateTailType = 1;
     private final int dateNextPayType = 2;
 
     private OSS oss;
     private int orderId;
     private ApiRequest submitCertificateRequest;
-    private DatePickerDialog firstSaleDpd;
+    private DatePickerDialog tailSaleDpd;
     private DatePickerDialog nextPayDpd;
 
 
-//    private long signTime;
+    //    private long signTime;
     private int uploadSuccess = 10000;
     private int uploadFail = 9999;
     private Handler handler = new Handler() {
@@ -131,7 +131,8 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
         getTitleBar().setRightClickEvent(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                setResult(RESULT_OK);
+                finish();
 
             }
         });
@@ -152,13 +153,13 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
         binding.llContractMoney.etItemEditInput.setHint(getString(R.string.contract_money_tip));
         binding.llContractMoney.etItemEditInput.setInputType(8194);
 
-        //举办时间
-        binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.held_time));
+        //尾款时间
+        binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.tail_time));
         binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
         binding.llSignUpTime.setClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFirstSaleDate();
+                showTailDate();
             }
         });
         //首付金额
@@ -179,17 +180,18 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
                 showNextPayDate();
             }
         });
-//        long currentTimestamp = System.currentTimeMillis();
-//        signTime = currentTimestamp / 1000;
-        binding.llFirstSaleTime.tvItemSelectContent.setText(heldTimeContent);
+        long currentTimestamp = System.currentTimeMillis();
+        selectFirstPayTime = currentTimestamp / 1000;
+        binding.llFirstSaleTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
+
         FileIOUtil.deleteFile(new File(Conts.COMPRESS_IMG_PATH));
 
     }
 
     private void getInfo() {
         orderId = getIntent().getIntExtra("order_id", -1);
-        heldTime  = getIntent().getLongExtra("held_time",0);
-        heldTimeContent = getIntent().getStringExtra("held_time_content");
+//        heldTime = getIntent().getLongExtra("held_time", 0);
+//        heldTimeContent = getIntent().getStringExtra("held_time_content");
     }
 
     @Override
@@ -294,7 +296,7 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
             param.put("access_token", BasePreference.getToken());
             param.put("user_dajian_order_id", orderId + "");
             param.put("order_money", binding.llContractMoney.etItemEditInput.getText().toString());
-            param.put("sign_using_time", heldTime + "");
+            param.put("sign_using_time", tailTime + "");
             param.put("first_order_money", binding.llFirstSaleAmount.etItemEditInput.getText().toString());
             param.put("first_order_using_time", selectFirstPayTime + "");
             param.put("next_pay_time", selectNextPayTime + "");
@@ -307,19 +309,19 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
         }
     }
 
-    private void showFirstSaleDate() {
+    private void showTailDate() {
 
-        selectDataType = dateFirstPayType;
-        if (firstSaleDpd == null) {
+        selectDataType = dateTailType;
+        if (tailSaleDpd == null) {
             Calendar now = Calendar.getInstance();
-            firstSaleDpd = DatePickerDialog.newInstance(this,
+            tailSaleDpd = DatePickerDialog.newInstance(this,
                     now.get(Calendar.YEAR),
                     now.get(Calendar.MONTH),
                     now.get(Calendar.DAY_OF_MONTH)
             );
-            firstSaleDpd.setAccentColor(getResources().getColor(R.color.theme_color));
+            tailSaleDpd.setAccentColor(getResources().getColor(R.color.theme_color));
         }
-        firstSaleDpd.show(getFragmentManager(), "Datepickerdialog");
+        tailSaleDpd.show(getFragmentManager(), "Datepickerdialog");
 
     }
 
@@ -343,13 +345,12 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
 
-        switch (selectDataType)
-        {
-            case dateFirstPayType:
-                selectFirstPayTimeContent = year + "-" + DateUtil.formatValue(monthOfYear + 1) + "-" + dayOfMonth;
+        switch (selectDataType) {
+            case dateTailType:
+                tailTimeContent = year + "-" + DateUtil.formatValue(monthOfYear + 1) + "-" + dayOfMonth;
                 //除以1000是为了符合php时间戳长度
-                selectFirstPayTime = DateUtil.convertStringToDate(selectFirstPayTimeContent, DateUtil.FORMAT_COMMON_Y_M_D).getTime() / 1000;
-                binding.llFirstSaleTime.tvItemSelectContent.setText(selectFirstPayTimeContent);
+                tailTime = DateUtil.convertStringToDate(tailTimeContent, DateUtil.FORMAT_COMMON_Y_M_D).getTime() / 1000;
+                binding.llSignUpTime.tvItemSelectContent.setText(tailTimeContent);
                 break;
 
             case dateNextPayType:

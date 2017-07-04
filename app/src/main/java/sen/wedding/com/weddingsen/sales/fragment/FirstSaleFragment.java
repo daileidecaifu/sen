@@ -11,6 +11,10 @@ import android.widget.ListView;
 
 import com.dinuscxj.refresh.RecyclerRefreshLayout;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,10 +32,13 @@ import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.main.adapter.FollowUpAdapter;
+import sen.wedding.com.weddingsen.main.fragment.GuestInfoFragment;
+import sen.wedding.com.weddingsen.main.fragment.GuestInfoListFragment;
 import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.sales.activity.FirstSaleDetailActivity;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
+import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 public class FirstSaleFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>,
         AdapterView.OnItemClickListener, RecyclerRefreshLayout.OnRefreshListener,
@@ -65,7 +72,15 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         currentStatus = getArguments().getInt("order_status");
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
 
     }
 
@@ -76,6 +91,19 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
         initViews(view);
         return view;
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainReceiver(EventIntent eventIntent) {
+        if (eventIntent.getActionId() == Conts.EVENT_FIRST_SALE_LIST_REFRESH) {
+            switch (currentStatus) {
+                case 1:
+                case 2:
+                    loadingView.showLoading();
+                    getFirstSaleList();
+                    break;
+            }
+        }
     }
 
     private void initViews(View view) {
@@ -197,6 +225,7 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
                 model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     loadingView.dismiss();
+                    ((FirstSaleListFragment) (FirstSaleFragment.this.getParentFragment())).updateTitle(model.getCount(), currentStatus);
 
                     followUpAdapter.notifyDataChanged(model.getOrderList());
                     if (model.getCount() < 10) {
@@ -206,6 +235,8 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
                     }
                 } else {
                     loadingView.showLoadingEmpty();
+                    ((FirstSaleListFragment) (FirstSaleFragment.this.getParentFragment())).updateTitle(0, currentStatus);
+
                 }
 
             } else {
