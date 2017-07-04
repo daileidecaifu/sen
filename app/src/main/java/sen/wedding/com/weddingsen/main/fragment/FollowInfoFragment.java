@@ -8,8 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.dinuscxj.refresh.RecyclerRefreshLayout;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +36,7 @@ import sen.wedding.com.weddingsen.main.adapter.FollowUpAdapter;
 import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
+import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 public class FollowInfoFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>,
         AdapterView.OnItemClickListener, RecyclerRefreshLayout.OnRefreshListener,
@@ -64,8 +70,15 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         currentStatus = getArguments().getInt("order_status");
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -75,6 +88,21 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
         initViews(view);
         return view;
 
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainReceiver(EventIntent eventIntent) {
+        if (eventIntent.getActionId() == Conts.EVENT_KEZI_LIST_REFRESH) {
+            switch (currentStatus) {
+                case 1:
+                case 2:
+                    showToast("123");
+                    loadingView.showLoading();
+                    getFollowInfoList();
+                    break;
+            }
+        }
     }
 
     private void initViews(View view) {
@@ -197,6 +225,8 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
                     loadingView.dismiss();
 
+                    ((FollowListFragment) (FollowInfoFragment.this.getParentFragment())).updateTitle(model.getCount(), currentStatus);
+
                     followUpAdapter.notifyDataChanged(model.getOrderList());
                     if (model.getCount() < 10) {
                         loadMoreView.showNoMoreInFirst();
@@ -205,6 +235,8 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
                     }
                 } else {
                     loadingView.showLoadingEmpty();
+                    ((FollowListFragment) (FollowInfoFragment.this.getParentFragment())).updateTitle(0, currentStatus);
+
                 }
 
             } else {
@@ -255,7 +287,6 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
             Intent intent = new Intent(getActivity(), FollowUpDetailActivity.class);
             intent.putExtra("order_id", followUpAdapter.getList().get(position).getId());
             intent.putExtra("order_status", currentStatus);
-
             getActivity().startActivity(intent);
         }
     }

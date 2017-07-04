@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +41,7 @@ import sen.wedding.com.weddingsen.utils.DateUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.StringUtil;
 import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
+import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 /**
  * Created by lorin on 17/5/22.
@@ -383,7 +386,7 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
 //                        jumpToOtherActivity(ContractInfoActivity.class);
                         Intent intent = new Intent(getActivity(), ContractInfoActivity.class);
                         intent.putExtra("order_id", orderId);
-                        getActivity().startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
+                        startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
 
                         break;
                 }
@@ -441,6 +444,7 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Conts.TO_SUBMIT_CONTRACT_REVIEW) {
             if (resultCode == Activity.RESULT_OK)
+                EventBus.getDefault().post(new EventIntent(Conts.EVENT_KEZI_LIST_REFRESH,""));
                 getActivity().finish();
         }
     }

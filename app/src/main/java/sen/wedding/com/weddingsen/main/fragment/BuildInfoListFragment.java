@@ -45,20 +45,13 @@ public class BuildInfoListFragment extends BaseFragment implements NavigationVie
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
 
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
 
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMainReceiver(EventIntent eventIntent) {
-        Toast.makeText(getActivity(),eventIntent.getData(),Toast.LENGTH_LONG).show();
     }
 
     @Override

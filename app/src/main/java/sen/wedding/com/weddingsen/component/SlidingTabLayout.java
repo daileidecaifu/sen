@@ -203,11 +203,10 @@ public class SlidingTabLayout extends HorizontalScrollView {
         return textView;
     }
 
-    public void utpdateTitles(String[] titles) {
-        for (int i = 0; i < textViewList.size(); i++) {
-            textViewList.get(i).setText(titles[i]);
-        }
+    public void updateTitle(String title, int index) {
+        textViewList.get(index - 1).setText(title);
     }
+
     private void populateTabStrip() {
         final PagerAdapter adapter = mViewPager.getAdapter();
         frgCount = adapter.getCount();

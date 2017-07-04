@@ -235,4 +235,8 @@ public class Conts {
     public final static int KEZI_DETAIL_SOURCE_PROVIDER = 1;
     public final static int KEZI_DETAIL_SOURCE_FOLLOWER = 2;
 
+    //EventBus的ID集合
+    public final static int EVENT_KEZI_LIST_REFRESH = 1;
+
+
 }

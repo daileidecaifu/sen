@@ -125,7 +125,8 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
 
-
+                setResult(RESULT_OK);
+                finish();
             }
         });
         getTitleBar().setLeftClickEvent(new View.OnClickListener() {
