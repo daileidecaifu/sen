@@ -29,7 +29,7 @@ import sen.wedding.com.weddingsen.utils.ScreenUtil;
  * Created by lorin on 17/5/25.
  */
 
-public class HotelShowActivity extends BaseActivity implements View.OnClickListener{
+public class HotelShowActivity extends BaseActivity implements View.OnClickListener {
 
     HotelShowBinding binding;
     DrawerLayout drawer;
@@ -52,8 +52,7 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
 
     private void initSildMenu() {
 
-        if(TextUtils.isEmpty(BasePreference.getToken()))
-        {
+        if (TextUtils.isEmpty(BasePreference.getToken())) {
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
 
@@ -61,18 +60,26 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
             case Conts.LOGIN_MODEL_PHONE:
                 binding.llSliderMenu.llInfoFollow.setVisibility(View.GONE);
                 binding.llSliderMenu.llPasswordReset.setVisibility(View.GONE);
-//                ViewGroup.LayoutParams para = binding.llSliderMenu.vLogoutMarginTop.getLayoutParams();
-//                para.height = ScreenUtil.dip2px(this, 180);
-//                binding.llSliderMenu.vLogoutMarginTop.setLayoutParams(para);
+                binding.llSliderMenu.ivAvatar.setImageResource(R.mipmap.avator_tg);
+                binding.llSliderMenu.tvUserType.setText("（" + getString(R.string.provider) + "）");
                 break;
 
             case Conts.LOGIN_MODEL_FIRST_SALE:
+                binding.llSliderMenu.llInfoProvide.setVisibility(View.GONE);
+                binding.llSliderMenu.llPersonInfo.setVisibility(View.GONE);
+                binding.llSliderMenu.ivAvatar.setImageResource(R.mipmap.avator_sx);
+                binding.llSliderMenu.tvUserType.setText("（" + getString(R.string.shou_xiao) + "）");
+                break;
             case Conts.LOGIN_MODEL_SECOND_SALE:
                 binding.llSliderMenu.llInfoProvide.setVisibility(View.GONE);
                 binding.llSliderMenu.llPersonInfo.setVisibility(View.GONE);
-//                ViewGroup.LayoutParams para2 = binding.llSliderMenu.vLogoutMarginTop.getLayoutParams();
-//                para2.height = ScreenUtil.dip2px(this, 180);
-//                binding.llSliderMenu.vLogoutMarginTop.setLayoutParams(para2);
+                binding.llSliderMenu.ivAvatar.setImageResource(R.mipmap.avator_erxiao);
+                binding.llSliderMenu.tvUserType.setText("（" + getString(R.string.er_xiao) + "）");
+                break;
+            case Conts.LOGIN_MODEL_ACCOUNT:
+                binding.llSliderMenu.ivAvatar.setImageResource(R.mipmap.avator_gz);
+                binding.llSliderMenu.tvUserType.setText("（" + getString(R.string.follower) + "）");
+
                 break;
         }
 
@@ -138,6 +145,7 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
     public void openMenu() {
         drawer.openDrawer(GravityCompat.START);
     }
+
     private void logout() {
         BasePreference.clearAll();
         jumpToOtherActivity(LoginActivity.class);
@@ -147,7 +155,7 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
 
-        if (System.currentTimeMillis()- currentBackPressedTime > BACK_PRESSED_INTERVAL) {
+        if (System.currentTimeMillis() - currentBackPressedTime > BACK_PRESSED_INTERVAL) {
 
             currentBackPressedTime = System.currentTimeMillis();
             showToast("再按一次返回键退出程序");

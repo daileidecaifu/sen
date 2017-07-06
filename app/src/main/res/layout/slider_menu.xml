@@ -26,16 +26,23 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginTop="50dp"
-            android:background="@mipmap/logo"
             android:gravity="center" />
 
         <TextView
             android:id="@+id/tv_phone_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="20dp"
             android:textColor="@color/text_common"
-            android:textSize="@dimen/text_size_l" />
+            android:textSize="@dimen/text_size_xxl" />
+
+        <TextView
+            android:id="@+id/tv_user_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/gray_2"
+            android:textSize="@dimen/text_size_s" />
 
         <View
             android:layout_width="match_parent"

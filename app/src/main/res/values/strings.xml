@@ -233,6 +233,9 @@
     <string name="tail_pay_detail_tip">尾款明细与凭证</string>
     <string name="addtional_pay_detail_tip">附加款明细与凭证</string>
     <string name="tail_pay_modify_tip">尾款时间变更</string>
+    <string name="shou_xiao">首销</string>
+    <string name="er_xiao">二销</string>
+    <string name="provider">提供者</string>
 
 
 </resources>
