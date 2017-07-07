@@ -216,6 +216,7 @@ public class Conts {
     //StartActivity Request Code
     public final static int TO_SUBMIT_CONTRACT_REVIEW = 0;
     public final static int TO_BIND_ACCOUNT_INFO = 1;
+    public final static int TO_MODIFY_DATA = 2;
 
     //压缩图片目录
     public final static String COMPRESS_IMG_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/sen/pic/compress";
@@ -223,6 +224,7 @@ public class Conts {
     //验证来源
     public final static int SOURCE_VERIFY_KEZI = 0;
     public final static int SOURCE_VERIFY_BUILD = 1;
+    public final static int SOURCE_MODIFY = 2;
 
     //二销跟踪操作类型
     public final static int SECOND_FOLLOW_UP_MIDDLE = 1;

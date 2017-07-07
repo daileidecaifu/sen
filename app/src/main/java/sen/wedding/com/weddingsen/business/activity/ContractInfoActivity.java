@@ -46,6 +46,7 @@ import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.business.adapter.PhotoAdapter;
+import sen.wedding.com.weddingsen.business.model.ContractReviewModel;
 import sen.wedding.com.weddingsen.business.model.DetailResModel;
 import sen.wedding.com.weddingsen.business.model.OSSImageInfoModel;
 import sen.wedding.com.weddingsen.business.model.OSSResultModel;
@@ -74,10 +75,12 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
     ContractInfoBinding binding;
     private PhotoAdapter photoAdapter;
     private ArrayList<String> selectedPhotos = new ArrayList<>();
+    private ContractReviewModel contractReviewModel;
 
     private OSS oss;
     private int orderId;
-    private ApiRequest submitCertificateRequest;
+    private int type;
+    private ApiRequest submitCertificateRequest, getContractReviewRequest;
 
     private long signTime;
     private int uploadSuccess = 10000;
@@ -155,10 +158,31 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
         FileIOUtil.deleteFile(new File(Conts.COMPRESS_IMG_PATH));
 
+        if (type == Conts.SOURCE_MODIFY) {
+            showProgressDialog(false);
+//            getFollowUp();
+        }
+
     }
 
     private void getInfo() {
         orderId = getIntent().getIntExtra("order_id", -1);
+        type = getIntent().getIntExtra("type", -1);
+
+    }
+
+    private void getFollowUp() {
+        showProgressDialog(false);
+        if (orderId != -1) {
+            getContractReviewRequest = new ApiRequest(URLCollection.URL_SHOW_ORDER_SIGN_DETAIL, HttpMethod.POST);
+            HashMap<String, String> param = new HashMap<>();
+            param.put("access_token", BasePreference.getToken());
+            param.put("user_kezi_order_id", orderId + "");
+            getContractReviewRequest.setParams(param);
+            getApiService().exec(getContractReviewRequest, this);
+        } else {
+            showToast("Order ID WRONG!");
+        }
     }
 
     @Override
@@ -307,6 +331,22 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
+    private void fillData(ContractReviewModel model) {
+
+        if (null != model.getSignUsingTime()) {
+            long currentTimestamp = Long.parseLong(model.getSignUsingTime()) * 1000;
+            binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
+        }
+        binding.llContractMoney.etItemEditInput.setText(model.getOrderMoney());
+
+        String[] imgs = model.getSignPic().split(",");
+        for (String str : imgs) {
+            selectedPhotos.add(str);
+        }
+        photoAdapter.notifyDataSetChanged();
+
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -333,6 +373,19 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
                 showToast(getString(R.string.action_success));
                 setResult(RESULT_OK);
                 finish();
+            } else {
+                showToast(resultModel.message);
+            }
+        }else if (req == getContractReviewRequest) {
+            if (resultModel.status == Conts.REQUEST_SUCCESS) {
+                contractReviewModel = GsonConverter.decode(resultModel.data, ContractReviewModel.class);
+                if(contractReviewModel!=null)
+                {
+                    fillData(contractReviewModel);
+                }else
+                {
+                    showToast(getString(R.string.data_error_tip));
+                }
             } else {
                 showToast(resultModel.message);
             }

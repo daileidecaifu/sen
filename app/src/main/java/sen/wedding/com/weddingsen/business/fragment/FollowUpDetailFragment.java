@@ -427,6 +427,15 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
                 binding.llReviewProgress.setVisibility(View.VISIBLE);
                 binding.llToFollow.setVisibility(View.GONE);
                 binding.tvModifyAndSubmit.setVisibility(View.VISIBLE);
+                binding.tvModifyAndSubmit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), ContractInfoActivity.class);
+                        intent.putExtra("order_id", orderId);
+                        intent.putExtra("type", Conts.SOURCE_MODIFY);
+                        startActivityForResult(intent, Conts.TO_MODIFY_DATA);
+                    }
+                });
                 binding.tvMessage.setText(content);
                 break;
             case 6:
@@ -444,8 +453,8 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Conts.TO_SUBMIT_CONTRACT_REVIEW) {
             if (resultCode == Activity.RESULT_OK)
-                EventBus.getDefault().post(new EventIntent(Conts.EVENT_KEZI_LIST_REFRESH,""));
-                getActivity().finish();
+                EventBus.getDefault().post(new EventIntent(Conts.EVENT_KEZI_LIST_REFRESH, ""));
+            getActivity().finish();
         }
     }
 }

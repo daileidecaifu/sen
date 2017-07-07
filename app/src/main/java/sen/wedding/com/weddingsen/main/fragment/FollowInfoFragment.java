@@ -25,7 +25,9 @@ import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BaseFragment;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
+import sen.wedding.com.weddingsen.base.DBaseCallback;
 import sen.wedding.com.weddingsen.base.URLCollection;
+import sen.wedding.com.weddingsen.business.activity.ContractInfoActivity;
 import sen.wedding.com.weddingsen.business.activity.FollowUpDetailActivity;
 import sen.wedding.com.weddingsen.component.LoadingView;
 import sen.wedding.com.weddingsen.component.LoadMoreView;
@@ -40,7 +42,7 @@ import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 public class FollowInfoFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>,
         AdapterView.OnItemClickListener, RecyclerRefreshLayout.OnRefreshListener,
-        LoadMoreView.OnLoadMoreListener {
+        LoadMoreView.OnLoadMoreListener, DBaseCallback {
 
     ListView listView;
     FollowUpAdapter followUpAdapter;
@@ -106,7 +108,7 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
 
     private void initViews(View view) {
         listView = (ListView) view.findViewById(R.id.listView);
-        followUpAdapter = new FollowUpAdapter(getActivity(), currentStatus);
+        followUpAdapter = new FollowUpAdapter(getActivity(), currentStatus, this);
         listView.setAdapter(followUpAdapter);
         listView.setOnItemClickListener(this);
 //        listView.setOnScrollListener(this);
@@ -306,5 +308,13 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
     @Override
     public void onLoadMore() {
         loadMoreInfoList();
+    }
+
+    @Override
+    public void process(int data) {
+        Intent intent = new Intent(getActivity(), ContractInfoActivity.class);
+        intent.putExtra("order_id", data);
+        intent.putExtra("type", Conts.SOURCE_MODIFY);
+        startActivityForResult(intent, Conts.TO_MODIFY_DATA);
     }
 }

@@ -1,6 +1,8 @@
 package sen.wedding.com.weddingsen.main.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -14,6 +16,8 @@ import java.util.Date;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.Conts;
+import sen.wedding.com.weddingsen.base.DBaseCallback;
+import sen.wedding.com.weddingsen.business.activity.ContractInfoActivity;
 import sen.wedding.com.weddingsen.databinding.MainInfoBinding;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.utils.DateUtil;
@@ -25,11 +29,13 @@ public class FollowUpAdapter extends BaseAdapter {
     private Context currentContext;
     //默认type为跟踪中
     private int infoType = 3;
+    private DBaseCallback callback;
 
-    public FollowUpAdapter(Context context, int type) {
+    public FollowUpAdapter(Context context, int type, DBaseCallback callback) {
         this.currentContext = context;
         this.list = new ArrayList<>();
         this.infoType = type;
+        this.callback = callback;
     }
 
     public void clearData() {
@@ -80,7 +86,7 @@ public class FollowUpAdapter extends BaseAdapter {
         } else {
             binding = DataBindingUtil.getBinding(convertView);
         }
-        OrderInfoModel model = list.get(position);
+        final OrderInfoModel model = list.get(position);
 
         if (position == 0) {
             binding.vReviewPlaceholderHead.setVisibility(View.VISIBLE);
@@ -118,6 +124,12 @@ public class FollowUpAdapter extends BaseAdapter {
             case 5:
                 binding.llTip.setVisibility(View.VISIBLE);
                 binding.tvTip.setText(currentContext.getString(R.string.modify_and_resubmit));
+                binding.tvTip.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        callback.process(model.getId());
+                    }
+                });
                 binding.tvTip.setTextColor(currentContext.getResources().getColor(R.color.theme_color));
                 break;
 
