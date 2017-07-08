@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -109,10 +110,11 @@ public class SecondSaleDetailActivity extends BaseActivity {
         TextView textViewLeft = (TextView) linearLayoutTitle.findViewById(R.id.tv_left);
         TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
         TextView textViewTitle = (TextView) linearLayoutTitle.findViewById(R.id.tv_title_title);
-
+        LinearLayout layoutRight = (LinearLayout) linearLayoutTitle.findViewById(R.id.ll_right);
+        LinearLayout layoutLeft = (LinearLayout) linearLayoutTitle.findViewById(R.id.ll_left);
         textViewRight.setText(getString(R.string.follow_log));
         textViewTitle.setText(getString(R.string.build_info_detail));
-        textViewRight.setOnClickListener(new View.OnClickListener() {
+        layoutRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SecondSaleDetailActivity.this, BuildLogInfoActivity.class);
@@ -121,7 +123,7 @@ public class SecondSaleDetailActivity extends BaseActivity {
             }
         });
 
-        textViewLeft.setOnClickListener(new View.OnClickListener() {
+        layoutLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 finish();            }

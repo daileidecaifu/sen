@@ -17,28 +17,42 @@
         android:orientation="vertical"
         android:soundEffectsEnabled="false">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center_horizontal|bottom"
-            android:orientation="vertical">
+            android:layout_weight="2">
 
-            <TextView
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:background="@mipmap/logo" />
+            <ImageView
+                android:id="@+id/tv_down_back"
+                android:layout_width="35dp"
+                android:onClick="@{clickListener}"
+                android:src="@mipmap/icons_dropdown"
+                android:padding="5dp"
+                android:layout_height="35dp" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center_horizontal"
-                android:text="@string/login_prompt"
-                android:textColor="@color/theme_color"
-                android:textSize="@dimen/text_size_m" />
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal|bottom"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:background="@mipmap/login_icon" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/login_prompt"
+                    android:textColor="@color/theme_color"
+                    android:textSize="@dimen/text_size_m" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -147,8 +161,8 @@
                     android:gravity="center_vertical"
                     android:hint="@string/verification_code_hint"
                     android:inputType="number"
-                    android:maxLines="1"
                     android:maxLength="4"
+                    android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@color/text_common"
                     android:textColorHint="@color/gray_1"
@@ -189,8 +203,9 @@
                     android:layout_weight="1"
                     android:background="#00000000"
                     android:gravity="center_vertical"
-                    android:hint="@string/password_hint"
                     android:inputType="textPassword"
+                    android:digits="0123456789abcdefghigklmnopqrstuvwxyz"
+                    android:hint="@string/password_hint"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@color/text_common"
@@ -227,8 +242,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
-                android:gravity="center"
                 android:layout_marginBottom="10dp"
+                android:gravity="center"
                 android:onClick="@{clickListener}"
                 android:text="@string/employee_login_mode"
                 android:textColor="@color/tip_color" />

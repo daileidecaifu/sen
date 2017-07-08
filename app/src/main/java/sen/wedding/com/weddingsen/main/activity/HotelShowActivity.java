@@ -11,6 +11,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.account.activity.FeedbackActivity;
 import sen.wedding.com.weddingsen.account.activity.LoginActivity;
@@ -24,6 +28,7 @@ import sen.wedding.com.weddingsen.databinding.HotelShowBinding;
 import sen.wedding.com.weddingsen.main.fragment.HotelShowFragment;
 import sen.wedding.com.weddingsen.sales.activity.BuildFollowAcrivity;
 import sen.wedding.com.weddingsen.utils.ScreenUtil;
+import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 /**
  * Created by lorin on 17/5/25.
@@ -42,49 +47,84 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_hotel_show);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         fragmentManager = getSupportFragmentManager();
-        userType = BasePreference.getUserType();
+        binding.llSliderMenu.setClickListener(this);
         initSildMenu();
         addFragmentView();
     }
 
-    private void initSildMenu() {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
 
-        if (TextUtils.isEmpty(BasePreference.getToken())) {
-            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainReceiver(EventIntent eventIntent) {
+        if (eventIntent.getActionId() == Conts.EVENT_INIT_MAIN_SLIDE) {
+            initSildMenu();
         }
+    }
 
+    private void initSildMenu() {
+        userType = BasePreference.getUserType();
+        if (TextUtils.isEmpty(userType)) {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        } else {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        }
+        hideAllSlideItem();
         switch (userType) {
             case Conts.LOGIN_MODEL_PHONE:
-                binding.llSliderMenu.llInfoFollow.setVisibility(View.GONE);
-                binding.llSliderMenu.llPasswordReset.setVisibility(View.GONE);
+                binding.llSliderMenu.llInfoProvide.setVisibility(View.VISIBLE);
+                binding.llSliderMenu.llPersonInfo.setVisibility(View.VISIBLE);
+                binding.llSliderMenu.llUserFeedback.setVisibility(View.VISIBLE);
                 binding.llSliderMenu.ivAvatar.setImageResource(R.mipmap.avator_tg);
                 binding.llSliderMenu.tvUserType.setText("（" + getString(R.string.provider) + "）");
                 break;
 
             case Conts.LOGIN_MODEL_FIRST_SALE:
-                binding.llSliderMenu.llInfoProvide.setVisibility(View.GONE);
-                binding.llSliderMenu.llPersonInfo.setVisibility(View.GONE);
+                binding.llSliderMenu.llInfoFollow.setVisibility(View.VISIBLE);
+                binding.llSliderMenu.llPasswordReset.setVisibility(View.VISIBLE);
+                binding.llSliderMenu.llUserFeedback.setVisibility(View.VISIBLE);
+
                 binding.llSliderMenu.ivAvatar.setImageResource(R.mipmap.avator_sx);
                 binding.llSliderMenu.tvUserType.setText("（" + getString(R.string.shou_xiao) + "）");
                 break;
             case Conts.LOGIN_MODEL_SECOND_SALE:
-                binding.llSliderMenu.llInfoProvide.setVisibility(View.GONE);
-                binding.llSliderMenu.llPersonInfo.setVisibility(View.GONE);
+                binding.llSliderMenu.llInfoFollow.setVisibility(View.VISIBLE);
+                binding.llSliderMenu.llPasswordReset.setVisibility(View.VISIBLE);
+                binding.llSliderMenu.llUserFeedback.setVisibility(View.VISIBLE);
                 binding.llSliderMenu.ivAvatar.setImageResource(R.mipmap.avator_erxiao);
                 binding.llSliderMenu.tvUserType.setText("（" + getString(R.string.er_xiao) + "）");
                 break;
             case Conts.LOGIN_MODEL_ACCOUNT:
+                binding.llSliderMenu.llInfoProvide.setVisibility(View.VISIBLE);
+                binding.llSliderMenu.llInfoFollow.setVisibility(View.VISIBLE);
+                binding.llSliderMenu.llPersonInfo.setVisibility(View.VISIBLE);
+                binding.llSliderMenu.llPasswordReset.setVisibility(View.VISIBLE);
+                binding.llSliderMenu.llUserFeedback.setVisibility(View.VISIBLE);
                 binding.llSliderMenu.ivAvatar.setImageResource(R.mipmap.avator_gz);
                 binding.llSliderMenu.tvUserType.setText("（" + getString(R.string.follower) + "）");
 
                 break;
         }
 
-        binding.llSliderMenu.setClickListener(this);
         binding.llSliderMenu.tvPhoneNumber.setText(BasePreference.getUserName());
+    }
+
+    private void hideAllSlideItem()
+    {
+        binding.llSliderMenu.llInfoProvide.setVisibility(View.GONE);
+        binding.llSliderMenu.llInfoFollow.setVisibility(View.GONE);
+        binding.llSliderMenu.llPersonInfo.setVisibility(View.GONE);
+        binding.llSliderMenu.llPasswordReset.setVisibility(View.GONE);
+        binding.llSliderMenu.llUserFeedback.setVisibility(View.GONE);
+
     }
 
     private void addFragmentView() {
@@ -148,8 +188,8 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
 
     private void logout() {
         BasePreference.clearAll();
+        initSildMenu();
         jumpToOtherActivity(LoginActivity.class);
-        finish();
     }
 
     @Override

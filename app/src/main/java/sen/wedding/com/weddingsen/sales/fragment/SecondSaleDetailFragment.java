@@ -258,12 +258,12 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         binding.llShowBudget.tvItemSelectContent.setText(orderItemModel.getOrderMoney());
 
         long time = Long.parseLong(orderItemModel.getCreateTime()) * 1000;
-        binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
+        binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
 
         binding.tvShowNote.setText(orderItemModel.getOrderDesc());
 
         long heldTime = Long.parseLong(orderItemModel.getUseDate()) * 1000;
-        orginTime = DateUtil.convertDateToString(new Date(heldTime), DateUtil.FORMAT_COMMON_Y_M_D);
+        orginTime = DateUtil.convertDateToString(new Date(heldTime), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S);
         binding.llFollowUpTime.tvItemSelectContent.setText(orginTime);
 
         initBottomView(detailResModel.getHandleNote());

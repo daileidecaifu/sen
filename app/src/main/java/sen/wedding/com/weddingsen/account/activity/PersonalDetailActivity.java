@@ -96,6 +96,11 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
 
             }
         });
+
+        if(BasePreference.getUserType().equals(Conts.LOGIN_MODEL_ACCOUNT))
+        {
+            binding.llSynchronize.setVisibility(View.VISIBLE);
+        }
     }
 
     private void getPersonInfo() {

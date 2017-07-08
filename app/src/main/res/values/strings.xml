@@ -94,6 +94,7 @@
     <string name="feedback_success">反馈成功</string>
     <string name="name_empty_hint">姓名不能为空</string>
     <string name="area_or_hotel_not_select">区域或酒店未选择</string>
+    <string name="note_can_not_be_empty">备注不能为空</string>
     <string name="create_success">创建成功</string>
     <string name="guest_info_processing">客资信息正在处理，请耐心等候</string>
     <string name="kezi_info_detail">客资详情</string>
@@ -141,6 +142,7 @@
     <string name="process_schedule">处理进度</string>
     <string name="process_time">处理时间</string>
     <string name="no_data">暂无数据，点击重试</string>
+    <string name="distinct_no_hotel">区域暂无酒店数据</string>
     <string name="contact_clients">联系客户</string>
     <string name="select_next_follow_up">请选择天数</string>
     <string name="submit_certificate">提交凭证</string>

@@ -7,6 +7,8 @@ import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.HashMap;
 
 import sen.wedding.com.weddingsen.R;
@@ -25,6 +27,8 @@ import sen.wedding.com.weddingsen.main.activity.MainActivity;
 import sen.wedding.com.weddingsen.utils.AppLog;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
+import sen.wedding.com.weddingsen.utils.StringUtil;
+import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 /**
  * Created by lorin on 17/3/20.
@@ -64,6 +68,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_down_back:
+                finish();
+                break;
             case R.id.tv_get_verification:
 //                Toast.makeText(this, "123", Toast.LENGTH_SHORT).show();
 
@@ -111,12 +118,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     private void getVerificationCode() {
 
-        if (TextUtils.isEmpty(binding.etUserName.getText().toString().trim())) {
-            showToast(getString(R.string.phone_number_can_not_empty));
-            return;
-        }
+//        if (TextUtils.isEmpty(binding.etUserName.getText().toString().trim())) {
+//            showToast(getString(R.string.phone_number_can_not_empty));
+//            return;
+//        }
 
-        if (binding.etUserName.getText().toString().trim().length() != 11) {
+        if (!StringUtil.isPhoneFormat(binding.etUserName.getText().toString())) {
             showToast(getString(R.string.phone_number_wrong_format));
             return;
         }
@@ -203,6 +210,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (req == getVerificationCodeRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 showToast(getString(R.string.verification_send_success));
+                binding.etVerification.requestFocus();
             } else {
                 showToast(resultModel.message);
             }
@@ -211,11 +219,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 accountInfoModel = GsonConverter.decode(resultModel.data, AccountInfoModel.class);
                 //保存token和username数据
                 BasePreference.saveToken(accountInfoModel.getAccessToken());
-                if(TextUtils.isEmpty(accountInfoModel.getNikeName()))
-                {
+                if (TextUtils.isEmpty(accountInfoModel.getNikeName())) {
                     BasePreference.saveUserName(binding.etAccount.getText().toString());
-                }else
-                {
+                } else {
                     BasePreference.saveUserName(accountInfoModel.getNikeName());//返回nikename，实为username
                 }
                 BasePreference.saveUserType(accountInfoModel.getUserType());
@@ -226,22 +232,27 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 BasePreference.saveHotelArea(accountInfoModel.getHotelArea());
 
                 showToast(getString(R.string.login_success));
+                EventBus.getDefault().post(new EventIntent(Conts.EVENT_INIT_MAIN_SLIDE, ""));
 
-                if (TextUtils.isEmpty(accountInfoModel.getAlipayAccount())&&
-                        TextUtils.isEmpty(accountInfoModel.getBankAccount())) {
-                    jumpToPersonSetView();
+
+                if (accountInfoModel.getUserType().equals(Conts.LOGIN_MODEL_PHONE)
+                        || accountInfoModel.getUserType().equals(Conts.LOGIN_MODEL_ACCOUNT)) {
+                    if (TextUtils.isEmpty(accountInfoModel.getAlipayAccount()) &&
+                            TextUtils.isEmpty(accountInfoModel.getBankAccount())) {
+                        jumpToPersonSetView();
+                    } else {
+                        finish();
+                    }
                 } else {
-                    jumpToOtherActivity(HotelShowActivity.class);
                     finish();
-
                 }
-
-            } else {
-                showToast(resultModel.message);
             }
-        }
 
+        } else {
+            showToast(resultModel.message);
+        }
     }
+
 
     @Override
     public void onRequestFailed(ApiRequest req, ApiResponse resp) {

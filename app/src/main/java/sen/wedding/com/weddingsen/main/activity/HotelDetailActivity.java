@@ -2,7 +2,9 @@ package sen.wedding.com.weddingsen.main.activity;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -25,6 +27,7 @@ import sen.wedding.com.weddingsen.main.adapter.BallroomAdapter;
 import sen.wedding.com.weddingsen.main.adapter.BanquetMenuAdapter;
 import sen.wedding.com.weddingsen.main.model.HotelDetailModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
+import sen.wedding.com.weddingsen.utils.StringUtil;
 
 /**
  * Created by lorin on 17/5/28.
@@ -84,6 +87,17 @@ public class HotelDetailActivity extends BaseActivity implements RequestHandler<
         //电话
         binding.llHotelPhoneNumber.tvItemSelectTitle.setText(getString(R.string.phone));
         binding.llHotelPhoneNumber.tvItemSelectIcon.setVisibility(View.INVISIBLE);
+        binding.llHotelPhoneNumber.tvItemSelectRightIcon.setVisibility(View.VISIBLE);
+        binding.llHotelPhoneNumber.tvItemSelectRightIcon.setBackgroundResource(R.mipmap.icon_call);
+        binding.llHotelPhoneNumber.tvItemSelectRightIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!TextUtils.isEmpty(hotelDetailModel.getHotelPhone()))
+                {
+                    call(StringUtil.selectNumber(hotelDetailModel.getHotelPhone()));
+                }
+            }
+        });
 
     }
 
@@ -207,5 +221,11 @@ public class HotelDetailActivity extends BaseActivity implements RequestHandler<
     public void onRequestFailed(ApiRequest req, ApiResponse resp) {
         if (req == getHotelDetailRequest) {
         }
+    }
+
+    private void call(String phone) {
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+phone));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

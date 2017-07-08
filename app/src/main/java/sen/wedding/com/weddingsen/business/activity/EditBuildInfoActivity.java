@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.google.gson.reflect.TypeToken;
@@ -135,7 +136,6 @@ public class EditBuildInfoActivity extends BaseActivity implements View.OnClickL
         //预算
         binding.llEditBudget.tvItemEditTitle.setText(getString(R.string.budget));
         binding.llEditBudget.etItemEditInput.setHint(getString(R.string.budget_hint));
-        binding.llEditBudget.etItemEditInput.setInputType(8194);
 
         //时间
         binding.llSelectTime.tvItemSelectTitle.setText(getString(R.string.time));
@@ -191,10 +191,10 @@ public class EditBuildInfoActivity extends BaseActivity implements View.OnClickL
 
     private void createGusetInfo() {
 
-//        if (selectAreaList == null && selectHotelList == null) {
-//            showToast(getString(R.string.area_or_hotel_not_select));
-//            return;
-//        }
+        if (TextUtils.isEmpty(binding.etEditNote.getText().toString())) {
+            showToast(getString(R.string.note_can_not_be_empty));
+            return;
+        }
 
         createGuestInfoRequest = new ApiRequest(URLCollection.URL_CREATE_BUILD_INFO, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
@@ -228,7 +228,7 @@ public class EditBuildInfoActivity extends BaseActivity implements View.OnClickL
 
         selectTimeContent = year + "-" + DateUtil.formatValue(monthOfYear + 1) + "-" + dayOfMonth;
         //除以1000是为了符合php时间戳长度
-        selectTime = DateUtil.convertStringToDate(selectTimeContent, DateUtil.FORMAT_COMMON_Y_M_D).getTime() / 1000;
+        selectTime = DateUtil.convertStringToDate(selectTimeContent, DateUtil.FORMAT_COMMON_Y_M_D_H_M_S).getTime() / 1000;
         binding.llSelectTime.tvItemSelectContent.setText(selectTimeContent);
     }
 

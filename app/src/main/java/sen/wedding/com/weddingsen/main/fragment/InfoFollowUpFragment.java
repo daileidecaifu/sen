@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -57,12 +58,12 @@ public class InfoFollowUpFragment extends BaseFragment implements View.OnClickLi
         TextView textViewLeft = (TextView) linearLayoutTitle.findViewById(R.id.tv_left);
         TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
         TextView textViewTitle = (TextView) linearLayoutTitle.findViewById(R.id.tv_title_title);
-
+        LinearLayout layoutLeft = (LinearLayout) linearLayoutTitle.findViewById(R.id.ll_left);
         textViewRight.setVisibility(View.GONE);
 
         textViewTitle.setText(getString(R.string.kezi_follow));
 
-        textViewLeft.setOnClickListener(new View.OnClickListener() {
+        layoutLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().finish();

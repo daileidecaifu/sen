@@ -96,7 +96,7 @@ public class GuestInfoAdapter extends BaseAdapter {
         //testFake
 //        binding.tvOrderTime.setText(model.getCreateTime());
         long time = Long.parseLong(model.getCreateTime()) * 1000;
-        binding.tvOrderTime.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
+        binding.tvOrderTime.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
         binding.tvOrderStatus.setText(Conts.getOrderStatusMap().get(model.getOrderStatus()));
         binding.tvContantPersonPhone.setText(model.getOrderPhone());
         binding.tvFollowerFaction.setText(model.getWatchUser());

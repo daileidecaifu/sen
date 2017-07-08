@@ -7,15 +7,21 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +46,7 @@ import sen.wedding.com.weddingsen.main.activity.InfoProvideActivity;
 import sen.wedding.com.weddingsen.main.adapter.HotelsAdapter;
 import sen.wedding.com.weddingsen.main.model.HotelShowModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
+import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 /**
  * Created by lorin on 17/5/25.
@@ -56,6 +63,7 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
     ArrayList<HotelShowModel> hotelShowModels = new ArrayList<>();
 
     private ApiRequest getHotelListRequest;
+    TextView textViewLeft;
 
     public static HotelShowFragment newInstance() {
 
@@ -68,6 +76,14 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
 
     }
 
@@ -104,8 +120,7 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
     }
 
     private void initComponents() {
-        if (TextUtils.isEmpty(BasePreference.getToken())
-                || BasePreference.getUserType().equals(Conts.LOGIN_MODEL_FIRST_SALE)
+        if (BasePreference.getUserType().equals(Conts.LOGIN_MODEL_FIRST_SALE)
                 || BasePreference.getUserType().equals(Conts.LOGIN_MODEL_SECOND_SALE)) {
             tvRecommend.setVisibility(View.GONE);
         } else {
@@ -119,34 +134,61 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
         //头部title
         RelativeLayout linearLayoutTitle = (RelativeLayout) view.findViewById(R.id.title_bar);
 
-        TextView textViewLeft = (TextView) linearLayoutTitle.findViewById(R.id.tv_left);
+        textViewLeft = (TextView) linearLayoutTitle.findViewById(R.id.tv_left);
         TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
         TextView textViewTitle = (TextView) linearLayoutTitle.findViewById(R.id.tv_title_title);
-
-        textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_my_center));
+        LinearLayout layoutRight = (LinearLayout) linearLayoutTitle.findViewById(R.id.ll_right);
+        LinearLayout layoutLeft = (LinearLayout) linearLayoutTitle.findViewById(R.id.ll_left);
+        initLeftTopIcon();
         textViewRight.setBackgroundDrawable(getResources().getDrawable(R.mipmap.to_select));
 
         textViewTitle.setText(getString(R.string.sen));
-        textViewRight.setOnClickListener(new View.OnClickListener() {
+        layoutRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showHotelSort();
             }
         });
 
-        textViewLeft.setOnClickListener(new View.OnClickListener() {
+        layoutLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(BasePreference.getToken())) {
 
                     jumpToOtherActivity(LoginActivity.class);
-                    getActivity().finish();
                 } else {
                     ((HotelShowActivity) getActivity()).openMenu();
                 }
             }
         });
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainReceiver(EventIntent eventIntent) {
+        if (eventIntent.getActionId() == Conts.EVENT_INIT_MAIN_SLIDE) {
+            initLeftTopIcon();
+        }
+    }
+
+    private void initLeftTopIcon() {
+        switch (BasePreference.getUserType()) {
+            case Conts.LOGIN_MODEL_PHONE:
+                textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_w_tg));
+                break;
+            case Conts.LOGIN_MODEL_FIRST_SALE:
+                textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_w_sx));
+                break;
+            case Conts.LOGIN_MODEL_SECOND_SALE:
+                textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_w_ex));
+                break;
+            case Conts.LOGIN_MODEL_ACCOUNT:
+                textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_w_gz));
+                break;
+            default:
+                textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_my_center));
+                break;
+        }
     }
 
     private void initListView() {
@@ -174,11 +216,11 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
 
                 switch (which) {
                     case 0:
-                        showToast("0");
+                        loadingView.showLoading();
+                        getHotelList("");
                         break;
 
                     case 1:
-                        showToast("1");
                         Intent intent = new Intent(getActivity(), HotelDistinctActivity.class);
                         startActivityForResult(intent, 10000);
 //                        jumpToOtherActivity(HotelDistinctActivity.class);
@@ -246,6 +288,9 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
                     case Conts.LOGIN_MODEL_ACCOUNT:
                         jumpToOtherActivity(InfoProvideActivity.class);
                         break;
+                    case "":
+                        jumpToOtherActivity(LoginActivity.class);
+                        break;
                 }
                 break;
         }
@@ -279,11 +324,11 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
                     if (hotelShowModels != null && hotelShowModels.size() > 0) {
                         hotelsAdapter.notifyDataChanged(hotelShowModels);
                     } else {
-                        loadingView.showLoadingEmpty();
+                        loadingView.showEmptyWithNoAction(getString(R.string.distinct_no_hotel));
                     }
 
                 } else {
-                    loadingView.showLoadingEmpty();
+                    loadingView.showEmptyWithNoAction(getString(R.string.distinct_no_hotel));
                 }
 
             } else {

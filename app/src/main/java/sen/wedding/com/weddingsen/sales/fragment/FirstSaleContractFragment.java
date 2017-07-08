@@ -114,16 +114,16 @@ public class FirstSaleContractFragment extends BaseFragment implements RequestHa
 
     private void fillData(FirstSaleSignDetailModel model) {
         long currentTimestamp = Long.parseLong(model.getSignUsingTime()) * 1000;
-        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
+        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
 
         binding.llContractMoney.tvItemSelectContent.setText(model.getOrderMoney());
         binding.llFirstSaleAmount.tvItemSelectContent.setText(model.getFirstOrderMoney());
 
         long firstSaleTime = Long.parseLong(model.getFirstOrderUsingTime()) * 1000;
-        binding.llFirstSaleTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(firstSaleTime), DateUtil.FORMAT_COMMON_Y_M_D));
+        binding.llFirstSaleTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(firstSaleTime), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
 
         long nextPayTime = Long.parseLong(model.getNextPayTime()) * 1000;
-        binding.llNextPayTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(nextPayTime), DateUtil.FORMAT_COMMON_Y_M_D));
+        binding.llNextPayTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(nextPayTime), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
 
         for (String str : model.getSignPic() ) {
             selectedPhotos.add(str);

@@ -26,6 +26,7 @@ import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
+import sen.wedding.com.weddingsen.utils.StringUtil;
 import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
 
 /**
@@ -100,12 +101,13 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
     }
 
     private void verifyGuest() {
-        if (TextUtils.isEmpty(binding.llEditGuestPhone.etItemEditInput.getText().toString().trim())) {
-            showToast(getString(R.string.phone_number_can_not_empty));
-            return;
-        }
+//        if (TextUtils.isEmpty(binding.llEditGuestPhone.etItemEditInput.getText().toString().trim())) {
+//            showToast(getString(R.string.phone_number_can_not_empty));
+//            return;
+//        }
 
-        if (binding.llEditGuestPhone.etItemEditInput.getText().toString().trim().length() != 11) {
+
+        if (!StringUtil.isPhoneFormat(binding.llEditGuestPhone.etItemEditInput.getText().toString())) {
             showToast(getString(R.string.phone_number_wrong_format));
             return;
         }
@@ -122,12 +124,12 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
     }
 
     private void verifyBuild() {
-        if (TextUtils.isEmpty(binding.llEditGuestPhone.etItemEditInput.getText().toString().trim())) {
-            showToast(getString(R.string.phone_number_can_not_empty));
-            return;
-        }
+//        if (TextUtils.isEmpty(binding.llEditGuestPhone.etItemEditInput.getText().toString().trim())) {
+//            showToast(getString(R.string.phone_number_can_not_empty));
+//            return;
+//        }
 
-        if (binding.llEditGuestPhone.etItemEditInput.getText().toString().trim().length() != 11) {
+        if (!StringUtil.isPhoneFormat(binding.llEditGuestPhone.etItemEditInput.getText().toString())) {
             showToast(getString(R.string.phone_number_wrong_format));
             return;
         }

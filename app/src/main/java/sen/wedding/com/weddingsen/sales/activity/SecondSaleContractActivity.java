@@ -136,7 +136,7 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
 
         long currentTimestamp = System.currentTimeMillis();
         signTime = currentTimestamp / 1000;
-        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
+        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
         FileIOUtil.deleteFile(new File(Conts.COMPRESS_IMG_PATH));
 
         if(actionType!=-1)
@@ -303,8 +303,8 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
             param.put("sign_type", actionType + "");
             param.put("user_dajian_order_id", orderId + "");
             param.put("order_money", binding.llContractMoney.etItemEditInput.getText().toString());
-            param.put("sign_using_time", signTime + "");
-            param.put("sign_pic", imageUrls);
+            param.put("order_time", signTime + "");
+            param.put("order_sign_pic", imageUrls);
 
             submitCertificateRequest.setParams(param);
             getApiService().exec(submitCertificateRequest, this);

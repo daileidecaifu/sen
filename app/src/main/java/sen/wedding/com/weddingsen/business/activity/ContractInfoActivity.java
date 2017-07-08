@@ -155,7 +155,7 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
 
         long currentTimestamp = System.currentTimeMillis();
         signTime = currentTimestamp / 1000;
-        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
+        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
         FileIOUtil.deleteFile(new File(Conts.COMPRESS_IMG_PATH));
 
         if (type == Conts.SOURCE_MODIFY) {
@@ -335,7 +335,7 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
 
         if (null != model.getSignUsingTime()) {
             long currentTimestamp = Long.parseLong(model.getSignUsingTime()) * 1000;
-            binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
+            binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
         }
         binding.llContractMoney.etItemEditInput.setText(model.getOrderMoney());
 

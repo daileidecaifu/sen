@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -121,12 +122,13 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
         TextView textViewLeft = (TextView) linearLayoutTitle.findViewById(R.id.tv_left);
         TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
         TextView textViewTitle = (TextView) linearLayoutTitle.findViewById(R.id.tv_title_title);
-
+        LinearLayout layoutRight = (LinearLayout) linearLayoutTitle.findViewById(R.id.ll_right);
+        LinearLayout layoutLeft = (LinearLayout) linearLayoutTitle.findViewById(R.id.ll_left);
 //        textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_my_center));
         textViewRight.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_create));
 
         textViewTitle.setText(getString(R.string.guest_info_list));
-        textViewRight.setOnClickListener(new View.OnClickListener() {
+        layoutRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), VerifyGuestInfoActivity.class);
@@ -136,7 +138,7 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
             }
         });
 
-        textViewLeft.setOnClickListener(new View.OnClickListener() {
+        layoutLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().finish();

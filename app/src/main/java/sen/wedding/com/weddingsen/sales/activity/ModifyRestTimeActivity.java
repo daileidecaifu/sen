@@ -99,7 +99,7 @@ public class ModifyRestTimeActivity extends BaseActivity implements  View.OnClic
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("user_dajian_order_id", orderId + "");
-            param.put("sign_using_time", selectTime + "");
+            param.put("order_time", selectTime + "");
             param.put("sign_type", signType);
 
             submitRequest.setParams(param);

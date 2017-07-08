@@ -315,7 +315,7 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
         binding.llShowBudget.tvItemSelectContent.setText(orderItemModel.getOrderMoney());
 
         heldTime = Long.parseLong(orderItemModel.getUseDate()) * 1000;
-        heldTimeContent = DateUtil.convertDateToString(new Date(heldTime), DateUtil.FORMAT_COMMON_Y_M_D);
+        heldTimeContent = DateUtil.convertDateToString(new Date(heldTime), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S);
 
         binding.llShowTime.tvItemSelectContent.setText(heldTimeContent);
 

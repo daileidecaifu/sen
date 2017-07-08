@@ -137,6 +137,21 @@ public class LoadingView extends FrameLayout implements View.OnClickListener {
         setVisibility(View.VISIBLE);
     }
 
+    public void showEmptyWithNoAction(String str) {
+        setVisibility(VISIBLE);
+        currentStatus = STATUS_EMPTY;
+        removeAllViews();
+        LayoutInflater.from(getContext()).inflate(R.layout.loading_kezi_unnormal_layout, this, true);
+
+        TextView title = (TextView) findViewById(R.id.tv_title);
+        TextView click = ((TextView) findViewById(R.id.tv_action));
+
+        click.setVisibility(GONE);
+        title.setText(str);
+
+        setVisibility(View.VISIBLE);
+    }
+
     public void dismiss() {
         if (dismissClickListener != null) {
             dismissClickListener.OnLoadingDismissClick(this);

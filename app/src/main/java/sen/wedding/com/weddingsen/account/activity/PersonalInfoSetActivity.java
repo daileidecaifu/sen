@@ -193,7 +193,8 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_skip:
-                jumpToOtherActivity(HotelShowActivity.class);
+//                jumpToOtherActivity(HotelShowActivity.class);
+                finish();
                 break;
             case R.id.ll_right:
                 setAlipayAccount();
@@ -251,7 +252,7 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
                 BasePreference.saveAlipayAccount(req.getParams().get("alipay"));
                 BasePreference.saveBankAccount(req.getParams().get("bank_account"));
                 if (fromTag == Conts.FROM_LOGIN) {
-                    jumpToOtherActivity(MainActivity.class);
+//                    jumpToOtherActivity(MainActivity.class);
                     finish();
                 } else if (fromTag == Conts.FROM_MAIN) {
                     finish();
