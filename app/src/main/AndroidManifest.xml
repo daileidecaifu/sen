@@ -175,8 +175,8 @@
 
         <activity
             android:name=".sales.activity.ModifyRestTimeActivity"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
 
         <activity
             android:name=".sales.activity.PayRecordLogActivity"
@@ -186,9 +186,15 @@
 
         <activity
             android:name=".main.activity.BallroomAlbumActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"></activity>
 
-        </activity>
+        <activity
+            android:name=".base.acitivity.DebugCrashDetailActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".base.acitivity.DebugCrashListActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

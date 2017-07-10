@@ -14,6 +14,7 @@ import sen.wedding.com.weddingsen.MyEventBusIndex;
 import sen.wedding.com.weddingsen.account.activity.LoginActivity;
 import sen.wedding.com.weddingsen.http.service.HttpService;
 import sen.wedding.com.weddingsen.utils.NineGlideLoader;
+import sen.wedding.com.weddingsen.utils.crash.CrashManager;
 
 /**
  * Created by lorin on 17/4/2.
@@ -31,7 +32,7 @@ public class SenApplication extends Application {
         super.onCreate();
         EventBus.builder().addIndex(new MyEventBusIndex()).installDefaultEventBus();
         NineGridView.setImageLoader(new NineGlideLoader());
-
+        CrashManager.init();
 
     }
 

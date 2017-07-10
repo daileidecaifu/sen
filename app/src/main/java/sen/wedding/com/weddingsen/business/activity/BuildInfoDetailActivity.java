@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 
 import java.util.Date;
@@ -55,7 +56,7 @@ public class BuildInfoDetailActivity extends BaseActivity implements View.OnClic
     private DetailResModel detailResModel;
 
     private int orderId;
-
+    OrderItemModel orderItemModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,12 +150,22 @@ public class BuildInfoDetailActivity extends BaseActivity implements View.OnClic
     }
 
     private void fillData(DetailResModel detailResModel) {
-        OrderItemModel orderItemModel = detailResModel.getOrderItem();
+        orderItemModel = detailResModel.getOrderItem();
         LogInfoModel logInfoModel = detailResModel.getOrderFollow();
         binding.llShowName.tvItemSelectContent.setText(orderItemModel.getCustomerName());
         binding.llShowType.tvItemSelectContent.setText(Conts.getOrderTypeMap().get(orderItemModel.getOrderType()));
 
         binding.llShowPhoneNumber.tvItemSelectContent.setText(orderItemModel.getOrderPhone());
+        binding.llShowPhoneNumber.tvItemSelectRightIcon.setVisibility(View.VISIBLE);
+        binding.llShowPhoneNumber.tvItemSelectRightIcon.setBackgroundResource(R.mipmap.icon_call);
+        binding.llShowPhoneNumber.tvItemSelectRightIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(orderItemModel.getOrderPhone())) {
+                    call(StringUtil.selectNumber(orderItemModel.getOrderPhone()));
+                }
+            }
+        });
         binding.llShowSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemDistrict.toString()));
 
         binding.llShowSpecifyItem.tvItemSelectContent.setText(orderItemModel.getOrderAreaHotelName());

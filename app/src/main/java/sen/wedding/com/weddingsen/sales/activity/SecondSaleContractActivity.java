@@ -136,7 +136,7 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
 
         long currentTimestamp = System.currentTimeMillis();
         signTime = currentTimestamp / 1000;
-        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
         FileIOUtil.deleteFile(new File(Conts.COMPRESS_IMG_PATH));
 
         if(actionType!=-1)

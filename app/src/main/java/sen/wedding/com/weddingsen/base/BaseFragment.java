@@ -2,6 +2,7 @@ package sen.wedding.com.weddingsen.base;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
@@ -48,6 +49,12 @@ public class BaseFragment extends Fragment{
     protected void jumpToOtherActivity(Class<?> cls) {
         Intent intent = new Intent(getActivity(), cls);
         getActivity().startActivity(intent);
+    }
+
+    protected void call(String phone) {
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+phone));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
 }

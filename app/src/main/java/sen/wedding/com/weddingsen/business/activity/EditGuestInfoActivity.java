@@ -288,11 +288,6 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
             return;
         }
 
-        if (TextUtils.isEmpty(binding.etEditNote.getText().toString())) {
-            showToast(getString(R.string.note_can_not_be_empty));
-            return;
-        }
-
         createGuestInfoRequest = new ApiRequest(URLCollection.URL_CREATE_GUEST_INFO, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
@@ -343,7 +338,7 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
 
         selectTimeContent = year + "-" + DateUtil.formatValue(monthOfYear + 1) + "-" + dayOfMonth;
         //除以1000是为了符合php时间戳长度
-        selectTime = DateUtil.convertStringToDate(selectTimeContent, DateUtil.FORMAT_COMMON_Y_M_D_H_M_S).getTime() / 1000;
+        selectTime = DateUtil.convertStringToDate(selectTimeContent, DateUtil.FORMAT_COMMON_Y_M_D).getTime() / 1000;
         binding.llSelectTime.tvItemSelectContent.setText(selectTimeContent);
     }
 

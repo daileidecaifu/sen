@@ -160,7 +160,7 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
 
         if (type == Conts.SOURCE_MODIFY) {
             showProgressDialog(false);
-//            getFollowUp();
+            getFollowUp();
         }
 
     }

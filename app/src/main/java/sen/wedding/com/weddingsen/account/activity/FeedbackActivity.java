@@ -14,6 +14,7 @@ import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
+import sen.wedding.com.weddingsen.base.acitivity.DebugCrashListActivity;
 import sen.wedding.com.weddingsen.business.activity.EditGuestInfoActivity;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.FeedbackBinding;
@@ -31,6 +32,7 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
     FeedbackBinding binding;
 
     private ApiRequest feedbackRequest;
+    int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,20 +42,28 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
 
         initTitleBar(binding.titleBar, TitleBar.Type.COMMON);
         getTitleBar().setTitle(getString(R.string.user_feedback));
-        getTitleBar().setRightVisibility(View.GONE);
         getTitleBar().setLeftClickEvent(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
+        getTitleBar().setCommonRightText("         ");
+        getTitleBar().setRightClickEvent(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                count = count + 1;
+                if (count == 3) {
+                    jumpToOtherActivity(DebugCrashListActivity.class);;
+                    count = 0;
+                }
+            }
+        });
         initComponents();
 
     }
 
-    private void initComponents()
-    {
+    private void initComponents() {
         binding.etFeedbackPhone.setText(BasePreference.getUserName());
     }
 

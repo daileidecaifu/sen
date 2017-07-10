@@ -182,7 +182,7 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
         });
         long currentTimestamp = System.currentTimeMillis();
         selectFirstPayTime = currentTimestamp / 1000;
-        binding.llFirstSaleTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+        binding.llFirstSaleTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
 
         FileIOUtil.deleteFile(new File(Conts.COMPRESS_IMG_PATH));
 
@@ -349,14 +349,14 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
             case dateTailType:
                 tailTimeContent = year + "-" + DateUtil.formatValue(monthOfYear + 1) + "-" + dayOfMonth;
                 //除以1000是为了符合php时间戳长度
-                tailTime = DateUtil.convertStringToDate(tailTimeContent, DateUtil.FORMAT_COMMON_Y_M_D_H_M_S).getTime() / 1000;
+                tailTime = DateUtil.convertStringToDate(tailTimeContent, DateUtil.FORMAT_COMMON_Y_M_D).getTime() / 1000;
                 binding.llSignUpTime.tvItemSelectContent.setText(tailTimeContent);
                 break;
 
             case dateNextPayType:
                 selectNextPayTimeContent = year + "-" + DateUtil.formatValue(monthOfYear + 1) + "-" + dayOfMonth;
                 //除以1000是为了符合php时间戳长度
-                selectNextPayTime = DateUtil.convertStringToDate(selectNextPayTimeContent, DateUtil.FORMAT_COMMON_Y_M_D_H_M_S).getTime() / 1000;
+                selectNextPayTime = DateUtil.convertStringToDate(selectNextPayTimeContent, DateUtil.FORMAT_COMMON_Y_M_D).getTime() / 1000;
                 binding.llNextPayTime.tvItemSelectContent.setText(selectNextPayTimeContent);
                 break;
         }

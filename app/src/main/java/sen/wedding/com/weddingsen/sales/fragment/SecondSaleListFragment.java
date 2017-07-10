@@ -111,13 +111,13 @@ public class SecondSaleListFragment extends BaseFragment implements NavigationVi
                 Conts.getSecondSaleStatusMap().get(1),
                 Conts.getSecondSaleStatusMap().get(2),
                 Conts.getSecondSaleStatusMap().get(3),
-                Conts.getSecondSaleStatusMap().get(4)};
+                Conts.getSecondSaleStatusMap().get(5)};
         private Context mContext;
         private Fragment[] fragments = new Fragment[]{
                 SecondSaleFragment.newInstance(1),
                 SecondSaleFragment.newInstance(2),
                 SecondSaleFragment.newInstance(3),
-                SecondSaleFragment.newInstance(4)
+                SecondSaleFragment.newInstance(5)
         };
 
         public TabViewPagerAdapter(FragmentManager fm, Context context) {

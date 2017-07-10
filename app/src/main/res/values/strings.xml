@@ -238,6 +238,7 @@
     <string name="shou_xiao">首销</string>
     <string name="er_xiao">二销</string>
     <string name="provider">提供者</string>
+    <string name="app_crash">应用遇到问题了，=。=！</string>
 
 
 </resources>

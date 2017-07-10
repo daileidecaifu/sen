@@ -247,9 +247,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     finish();
                 }
             }
+            else {
+                showToast(resultModel.message);
 
-        } else {
-            showToast(resultModel.message);
+            }
+
         }
     }
 

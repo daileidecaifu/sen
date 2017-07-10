@@ -3,6 +3,7 @@ package sen.wedding.com.weddingsen.business.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
@@ -68,7 +69,7 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
     private DetailResModel detailResModel;
 
     private int orderId;
-
+    OrderItemModel orderItemModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -170,12 +171,21 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
     }
 
     private void fillData(DetailResModel detailResModel) {
-        OrderItemModel orderItemModel = detailResModel.getOrderItem();
+        orderItemModel = detailResModel.getOrderItem();
 //        LogInfoModel logInfoModel = detailResModel.getOrderFollow();
         binding.llShowName.tvItemSelectContent.setText(orderItemModel.getCustomerName());
         binding.llShowType.tvItemSelectContent.setText(Conts.getOrderTypeMap().get(orderItemModel.getOrderType()));
         binding.llShowPhoneNumber.tvItemSelectContent.setText(orderItemModel.getOrderPhone());
-
+        binding.llShowPhoneNumber.tvItemSelectRightIcon.setVisibility(View.VISIBLE);
+        binding.llShowPhoneNumber.tvItemSelectRightIcon.setBackgroundResource(R.mipmap.icon_call);
+        binding.llShowPhoneNumber.tvItemSelectRightIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(orderItemModel.getOrderPhone())) {
+                    call(StringUtil.selectNumber(orderItemModel.getOrderPhone()));
+                }
+            }
+        });
         switch (orderItemModel.getOrderAreaHotelType()) {
             case Conts.OPTION_DISTRICT_SELECT:
                 binding.llShowSpecifyType.tvItemSelectContent.setText(specifyModels.get(0).getValue());
@@ -193,7 +203,7 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
 
         if (!TextUtils.isEmpty(orderItemModel.getUseDate()) && !orderItemModel.getUseDate().equals("0")) {
             long time = Long.parseLong(orderItemModel.getUseDate()) * 1000;
-            binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+            binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
         }
         binding.tvShowNote.setText(orderItemModel.getOrderDesc());
 
@@ -221,12 +231,12 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
 //            }
 //
 //            long processTime = Long.parseLong(logInfoModel.getOrderFollowTime()) * 1000;
-//            binding.llProcessTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(processTime), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+//            binding.llProcessTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(processTime), DateUtil.FORMAT_COMMON_Y_M_D));
 //        }
 
         binding.llProcessSchedule.tvItemSelectContent.setText(detailResModel.getHandleNote());
         long processTime = Long.parseLong(detailResModel.getHandleTime()) * 1000;
-        binding.llProcessTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(processTime), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+        binding.llProcessTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(processTime), DateUtil.FORMAT_COMMON_Y_M_D));
 
     }
 
@@ -282,4 +292,5 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
         closeProgressDialog();
         showToast(getString(R.string.request_error_tip));
     }
+
 }

@@ -223,9 +223,4 @@ public class HotelDetailActivity extends BaseActivity implements RequestHandler<
         }
     }
 
-    private void call(String phone) {
-        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+phone));
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -67,6 +68,7 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
     private int orderStatus;
     private int afterDays = -1;
     private Map<Integer, String> typeMap;
+    OrderItemModel orderItemModel;
 
     public static FollowUpDetailFragment newInstance(int orderId, int orderStatus) {
         Bundle args = new Bundle();
@@ -138,14 +140,7 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
         //手机号
         binding.llShowPhoneNumber.tvItemSelectTitle.setText(getString(R.string.phone_number));
         binding.llShowPhoneNumber.tvItemSelectIcon.setVisibility(View.GONE);
-        binding.llShowPhoneNumber.tvItemSelectRightText.setVisibility(View.VISIBLE);
-        binding.llShowPhoneNumber.tvItemSelectRightText.setText(getString(R.string.contact_clients));
-        binding.llShowPhoneNumber.tvItemSelectRightText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showToast("Call");
-            }
-        });
+
         //指定类型
         binding.llShowSpecifyType.tvItemSelectTitle.setText(Html.fromHtml(sbType.toString()));
         binding.llShowSpecifyType.tvItemSelectIcon.setVisibility(View.INVISIBLE);
@@ -206,6 +201,13 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
     }
 
     private void submitFollowUp() {
+
+
+        if (TextUtils.isEmpty(binding.etEditNote.getText().toString())) {
+            showToast(getString(R.string.note_can_not_be_empty));
+            return;
+        }
+
         if (orderId != -1) {
             submitFollowRequest = new ApiRequest(URLCollection.URL_ORDER_FOLLOW, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
@@ -299,11 +301,20 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
 
     private void fillData(DetailResModel detailResModel) {
 
-        OrderItemModel orderItemModel = detailResModel.getOrderItem();
+        orderItemModel = detailResModel.getOrderItem();
         binding.llShowName.tvItemSelectContent.setText(orderItemModel.getCustomerName());
         binding.llShowType.tvItemSelectContent.setText(Conts.getOrderStatusMap().get(orderItemModel.getOrderStatus()));
         binding.llShowPhoneNumber.tvItemSelectContent.setText(orderItemModel.getOrderPhone());
-
+        binding.llShowPhoneNumber.tvItemSelectRightIcon.setVisibility(View.VISIBLE);
+        binding.llShowPhoneNumber.tvItemSelectRightIcon.setBackgroundResource(R.mipmap.icon_call);
+        binding.llShowPhoneNumber.tvItemSelectRightIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(orderItemModel.getOrderPhone())) {
+                    call(StringUtil.selectNumber(orderItemModel.getOrderPhone()));
+                }
+            }
+        });
         switch (orderItemModel.getOrderAreaHotelType()) {
             case Conts.OPTION_DISTRICT_SELECT:
                 binding.llShowSpecifyType.tvItemSelectContent.setText(specifyModels.get(0).getValue());
@@ -457,4 +468,6 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
             getActivity().finish();
         }
     }
+
+
 }

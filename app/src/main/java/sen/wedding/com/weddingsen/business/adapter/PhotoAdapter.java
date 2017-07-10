@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -67,18 +68,30 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
     public void onBindViewHolder(final PhotoViewHolder holder, final int position) {
 
         if (getItemViewType(position) == TYPE_PHOTO) {
-            Uri uri = Uri.fromFile(new File(photoPaths.get(position)));
 
-            boolean canLoadImage = AndroidLifecycleUtils.canLoadImage(holder.ivPhoto.getContext());
-
-            if (canLoadImage) {
+            if(photoPaths.get(position).startsWith("http"))
+            {
                 Glide.with(mContext)
-                        .load(uri)
+                        .load(photoPaths.get(position))
                         .centerCrop()
-                        .thumbnail(0.1f)
-                        .placeholder(R.drawable.__picker_ic_photo_black_48dp)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .error(R.drawable.__picker_ic_broken_image_black_48dp)
+                        .crossFade()
                         .into(holder.ivPhoto);
+            }else {
+                Uri uri = Uri.fromFile(new File(photoPaths.get(position)));
+
+                boolean canLoadImage = AndroidLifecycleUtils.canLoadImage(holder.ivPhoto.getContext());
+
+                if (canLoadImage) {
+                    Glide.with(mContext)
+                            .load(uri)
+                            .centerCrop()
+                            .thumbnail(0.1f)
+                            .placeholder(R.drawable.__picker_ic_photo_black_48dp)
+                            .error(R.drawable.__picker_ic_broken_image_black_48dp)
+                            .into(holder.ivPhoto);
+                }
             }
 
             holder.ivPhoto.setOnClickListener(new View.OnClickListener() {

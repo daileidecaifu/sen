@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -70,7 +71,7 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
 
     private long heldTime;
     private String heldTimeContent;
-
+    OrderItemModel orderItemModel;
     public static FirstSaleDetailFragment newInstance(int orderId, int orderStatus) {
         Bundle args = new Bundle();
         FirstSaleDetailFragment fragment = new FirstSaleDetailFragment();
@@ -153,14 +154,6 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
         //手机号
         binding.llShowPhoneNumber.tvItemSelectTitle.setText(getString(R.string.phone_number));
         binding.llShowPhoneNumber.tvItemSelectIcon.setVisibility(View.GONE);
-        binding.llShowPhoneNumber.tvItemSelectRightText.setVisibility(View.VISIBLE);
-        binding.llShowPhoneNumber.tvItemSelectRightText.setText(getString(R.string.contact_clients));
-        binding.llShowPhoneNumber.tvItemSelectRightText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showToast("Call");
-            }
-        });
 
         //指定item
         binding.llShowSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemDistrict.toString()));
@@ -304,12 +297,22 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
     }
 
     private void fillData(DetailResModel detailResModel) {
-        OrderItemModel orderItemModel = detailResModel.getOrderItem();
+        orderItemModel = detailResModel.getOrderItem();
         binding.llShowName.tvItemSelectContent.setText(orderItemModel.getCustomerName());
         binding.llShowType.tvItemSelectContent.setText(Conts.getOrderTypeMap().get(orderItemModel.getOrderType()));
         binding.llShowPhoneNumber.tvItemSelectContent.setText(orderItemModel.getOrderPhone());
-        binding.llShowSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemDistrict.toString()));
+        binding.llShowPhoneNumber.tvItemSelectRightIcon.setVisibility(View.VISIBLE);
+        binding.llShowPhoneNumber.tvItemSelectRightIcon.setBackgroundResource(R.mipmap.icon_call);
+        binding.llShowPhoneNumber.tvItemSelectRightIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(orderItemModel.getOrderPhone())) {
+                    call(StringUtil.selectNumber(orderItemModel.getOrderPhone()));
+                }
+            }
+        });
 
+        binding.llShowSpecifyItem.tvItemSelectTitle.setText(Html.fromHtml(sbItemDistrict.toString()));
 
         binding.llShowSpecifyItem.tvItemSelectContent.setText(orderItemModel.getOrderAreaHotelName());
         binding.llShowBudget.tvItemSelectContent.setText(orderItemModel.getOrderMoney());

@@ -62,8 +62,8 @@ public class OSSUploader {
             OSSAsyncTask task = oss.asyncPutObject(putObject, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
                 @Override
                 public void onSuccess(PutObjectRequest request, PutObjectResult result) {
-                    resultCount = resultCount+1;
-                    OSSImageInfoModel ossImageInfoModel =new OSSImageInfoModel();
+                    resultCount = resultCount + 1;
+                    OSSImageInfoModel ossImageInfoModel = new OSSImageInfoModel();
                     ossImageInfoModel.setStatus("success");
                     ossImageInfoModel.setRemoteUrl(Conts.OSS_REMOTE_URL + putObject.getObjectKey());
                     ossImageInfoModel.setOriginalPath(putObject.getUploadFilePath());
@@ -84,8 +84,8 @@ public class OSSUploader {
                 @Override
                 public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
 
-                    resultCount = resultCount+1;
-                    OSSImageInfoModel ossImageInfoModel =new OSSImageInfoModel();
+                    resultCount = resultCount + 1;
+                    OSSImageInfoModel ossImageInfoModel = new OSSImageInfoModel();
                     ossImageInfoModel.setStatus("fail");
                     failList.add(ossImageInfoModel);
 

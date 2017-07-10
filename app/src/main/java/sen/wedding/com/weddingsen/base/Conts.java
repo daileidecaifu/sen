@@ -78,7 +78,7 @@ public class Conts {
             secondSaleStatusMap.put(1, "待处理");
             secondSaleStatusMap.put(2, "待审核");
             secondSaleStatusMap.put(3, "已完结");
-            secondSaleStatusMap.put(4, "已驳回");
+            secondSaleStatusMap.put(5, "已驳回");
 
         }
         return secondSaleStatusMap;
