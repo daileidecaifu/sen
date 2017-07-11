@@ -134,9 +134,18 @@ public class FollowUpAdapter extends BaseAdapter {
                 break;
 
             case 6:
+//                binding.llTip.setVisibility(View.VISIBLE);
+//                binding.tvTip.setText(currentContext.getString(R.string.tip_order_cancel));
+//                binding.tvTip.setTextColor(currentContext.getResources().getColor(R.color.gray_2));
                 binding.llTip.setVisibility(View.VISIBLE);
-                binding.tvTip.setText(currentContext.getString(R.string.tip_order_cancel));
-                binding.tvTip.setTextColor(currentContext.getResources().getColor(R.color.gray_2));
+                binding.tvTip.setText(currentContext.getString(R.string.modify_and_resubmit));
+                binding.tvTip.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        callback.process(model.getId());
+                    }
+                });
+                binding.tvTip.setTextColor(currentContext.getResources().getColor(R.color.theme_color));
                 break;
         }
 

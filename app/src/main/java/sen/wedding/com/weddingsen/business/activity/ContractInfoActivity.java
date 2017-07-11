@@ -65,6 +65,7 @@ import sen.wedding.com.weddingsen.utils.DateUtil;
 import sen.wedding.com.weddingsen.utils.FileIOUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.OSSUploader;
+import sen.wedding.com.weddingsen.utils.StringUtil;
 
 /**
  * Created by lorin on 17/5/2.
@@ -269,20 +270,39 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (resultCode == RESULT_OK) {
+            List<String> photos = null;
+
+            switch (requestCode) {
+                case PhotoPicker.REQUEST_CODE:
+                    if (data != null) {
+                        photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+                    }
+                    List<String> tempUrlArray = StringUtil.filterUrlImgArray(selectedPhotos);
+                    selectedPhotos.clear();
+                    selectedPhotos.addAll(tempUrlArray);
+                    if (photos != null) {
+                        selectedPhotos.addAll(photos);
+                    }
+                    photoAdapter.notifyDataSetChanged();
+                    break;
+
+                case PhotoPreview.REQUEST_CODE:
+                    if (data != null) {
+                        photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+                    }
+                    selectedPhotos.clear();
+
+                    if (photos != null) {
+                        selectedPhotos.addAll(photos);
+                    }
+                    photoAdapter.notifyDataSetChanged();
+                    break;
+            }
+        }
         if (resultCode == RESULT_OK &&
                 (requestCode == PhotoPicker.REQUEST_CODE || requestCode == PhotoPreview.REQUEST_CODE)) {
 
-            List<String> photos = null;
-            if (data != null) {
-                photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
-            }
-            selectedPhotos.clear();
-
-            if (photos != null) {
-
-                selectedPhotos.addAll(photos);
-            }
-            photoAdapter.notifyDataSetChanged();
 
         }
     }
@@ -301,12 +321,22 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         List<PutObjectRequest> uploadPuts = new ArrayList<>();
         if (selectedPhotos != null && selectedPhotos.size() > 0) {
             for (String oldPath : selectedPhotos) {
-                File oldFile = new File(oldPath);
-                File newFile = CompressHelper.getDefault(getApplicationContext()).compressToFile(oldFile);
-                String newPath = newFile.getAbsolutePath();
-                AppLog.e(String.format("Size : %s", getReadableFileSize(newFile.length())) + "\n" + newFile.getAbsolutePath());
-                PutObjectRequest put = new PutObjectRequest(Conts.OSS_BUCKET, Conts.OSS_UPLOAD_PREFIX + System.currentTimeMillis() + ".jpg", newPath);
-                uploadPuts.add(put);
+
+                if(oldPath.startsWith("http"))
+                {
+                    PutObjectRequest put = new PutObjectRequest(Conts.OSS_BUCKET, Conts.OSS_UPLOAD_PREFIX + System.currentTimeMillis() + ".jpg", oldPath);
+                    uploadPuts.add(put);
+
+                }else
+                {
+                    File oldFile = new File(oldPath);
+                    File newFile = CompressHelper.getDefault(getApplicationContext()).compressToFile(oldFile);
+                    String newPath = newFile.getAbsolutePath();
+                    AppLog.e(String.format("Size : %s", getReadableFileSize(newFile.length())) + "\n" + newFile.getAbsolutePath());
+                    PutObjectRequest put = new PutObjectRequest(Conts.OSS_BUCKET, Conts.OSS_UPLOAD_PREFIX + System.currentTimeMillis() + ".jpg", newPath);
+                    uploadPuts.add(put);
+                }
+
             }
 
         }
@@ -376,14 +406,12 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
             } else {
                 showToast(resultModel.message);
             }
-        }else if (req == getContractReviewRequest) {
+        } else if (req == getContractReviewRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 contractReviewModel = GsonConverter.decode(resultModel.data, ContractReviewModel.class);
-                if(contractReviewModel!=null)
-                {
+                if (contractReviewModel != null) {
                     fillData(contractReviewModel);
-                }else
-                {
+                } else {
                     showToast(getString(R.string.data_error_tip));
                 }
             } else {

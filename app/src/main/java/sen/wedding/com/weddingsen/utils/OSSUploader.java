@@ -31,7 +31,10 @@ public class OSSUploader {
 
     private OSSResultFeedback ossResultFeedback = null;
     private OSS oss;
-    List<PutObjectRequest> puts;
+    List<PutObjectRequest> waitForUploadPuts;
+    List<PutObjectRequest> oPuts;
+
+    List<OSSImageInfoModel> urlImageList = new ArrayList<>();
     List<OSSImageInfoModel> successList = new ArrayList<>();
     List<OSSImageInfoModel> failList = new ArrayList<>();
     private int resultCount;
@@ -41,14 +44,25 @@ public class OSSUploader {
         super();
         this.ossResultFeedback = ossResultFeedback;
         this.oss = client;
-        this.puts = puts;
+        this.oPuts = puts;
+        for (PutObjectRequest put : oPuts) {
+            if (put.getUploadFilePath().startsWith("http")) {
+                OSSImageInfoModel ossImageInfoModel = new OSSImageInfoModel();
+                ossImageInfoModel.setStatus("success");
+                ossImageInfoModel.setRemoteUrl(put.getUploadFilePath());
+                ossImageInfoModel.setOriginalPath(put.getUploadFilePath());
+                urlImageList.add(ossImageInfoModel);
+            } else {
+                waitForUploadPuts.add(put);
+            }
+        }
     }
 
     public void toUpload() {
         resultCount = 0;
         successList.clear();
         failList.clear();
-        for (final PutObjectRequest putObject : puts) {
+        for (final PutObjectRequest putObject : waitForUploadPuts) {
 
             // 异步上传时可以设置进度回调
 //            put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
@@ -69,11 +83,14 @@ public class OSSUploader {
                     ossImageInfoModel.setOriginalPath(putObject.getUploadFilePath());
                     successList.add(ossImageInfoModel);
 
-                    if (resultCount == puts.size()) {
+                    if (resultCount == waitForUploadPuts.size()) {
                         OSSResultModel ossResultModel = new OSSResultModel();
                         ossResultModel.setFaillist(failList);
-                        ossResultModel.setSuccesslist(successList);
-                        ossResultModel.setPuts(puts);
+                        List<OSSImageInfoModel> allEffectivelist = new ArrayList<>();
+                        allEffectivelist.addAll(urlImageList);
+                        allEffectivelist.addAll(successList);
+                        ossResultModel.setSuccesslist(allEffectivelist);
+                        ossResultModel.setPuts(oPuts);
                         AppLog.e("result", GsonConverter.toJson(ossResultModel));
                         ossResultFeedback.onComplete(ossResultModel);
 
@@ -89,11 +106,13 @@ public class OSSUploader {
                     ossImageInfoModel.setStatus("fail");
                     failList.add(ossImageInfoModel);
 
-                    if (resultCount == puts.size()) {
+                    if (resultCount == waitForUploadPuts.size()) {
                         OSSResultModel ossResultModel = new OSSResultModel();
-                        ossResultModel.setFaillist(failList);
-                        ossResultModel.setSuccesslist(successList);
-                        ossResultModel.setPuts(puts);
+                        List<OSSImageInfoModel> allEffectivelist = new ArrayList<>();
+                        allEffectivelist.addAll(urlImageList);
+                        allEffectivelist.addAll(successList);
+                        ossResultModel.setSuccesslist(allEffectivelist);
+                        ossResultModel.setPuts(oPuts);
                         AppLog.e("result", GsonConverter.toJson(ossResultModel));
                         ossResultFeedback.onComplete(ossResultModel);
                     }

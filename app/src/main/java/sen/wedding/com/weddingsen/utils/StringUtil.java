@@ -1,5 +1,8 @@
 package sen.wedding.com.weddingsen.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by lorin on 17/4/6.
  */
@@ -31,7 +34,7 @@ public class StringUtil {
             return false;
         }
 
-        boolean isPhoneLength = phone.length()==11;
+        boolean isPhoneLength = phone.length() == 11;
 
         if (!isPhoneLength) {
             return false;
@@ -40,4 +43,36 @@ public class StringUtil {
         return true;
     }
 
+    public static ArrayList<String> filterLocalImgArray(List<String> oArray) {
+        ArrayList<String> results = new ArrayList<>();
+
+        for (String str : oArray) {
+            if (!str.startsWith("http")) {
+                results.add(str);
+            }
+        }
+        return results;
+    }
+
+    public static ArrayList<String> filterUrlImgArray(List<String> oArray) {
+        ArrayList<String> results = new ArrayList<>();
+
+        for (String str : oArray) {
+            if (str.startsWith("http")) {
+                results.add(str);
+            }
+        }
+        return results;
+    }
+
+    public static int filterUrlImgSize(List<String> oArray) {
+        List<String> results = new ArrayList<>();
+
+        for (String str : oArray) {
+            if (str.startsWith("http")) {
+                results.add(str);
+            }
+        }
+        return results.size();
+    }
 }
