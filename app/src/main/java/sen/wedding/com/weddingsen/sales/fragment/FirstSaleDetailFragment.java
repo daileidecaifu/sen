@@ -33,7 +33,6 @@ import sen.wedding.com.weddingsen.business.adapter.ReviewInfoAdapter;
 import sen.wedding.com.weddingsen.business.model.DetailResModel;
 import sen.wedding.com.weddingsen.business.model.OrderItemModel;
 import sen.wedding.com.weddingsen.databinding.FirstSaleDetailBinding;
-import sen.wedding.com.weddingsen.databinding.FollowUpFragmentBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
@@ -384,8 +383,6 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
 //                        jumpToOtherActivity(ContractInfoActivity.class);
                         Intent intent = new Intent(getActivity(), FirstSaleContractActivity.class);
                         intent.putExtra("order_id", orderId);
-                        intent.putExtra("held_time", heldTime);
-                        intent.putExtra("held_time_content", heldTimeContent);
                         startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
 
                         break;
@@ -424,6 +421,15 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
                 binding.llReviewProgress.setVisibility(View.VISIBLE);
                 binding.llToFollow.setVisibility(View.GONE);
                 binding.tvModifyAndSubmit.setVisibility(View.VISIBLE);
+                binding.tvModifyAndSubmit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), FirstSaleContractActivity.class);
+                        intent.putExtra("order_id", orderId);
+                        intent.putExtra("type", Conts.SOURCE_MODIFY);
+                        startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
+                    }
+                });
 //                binding.tvMessage.setText("一段审核日志");
                 binding.tvMessage.setText(content);
                 break;

@@ -37,6 +37,7 @@ import sen.wedding.com.weddingsen.main.fragment.GuestInfoFragment;
 import sen.wedding.com.weddingsen.main.fragment.GuestInfoListFragment;
 import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
+import sen.wedding.com.weddingsen.sales.activity.FirstSaleContractActivity;
 import sen.wedding.com.weddingsen.sales.activity.FirstSaleDetailActivity;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.model.EventIntent;
@@ -313,6 +314,9 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
 
     @Override
     public void process(int data) {
-
+        Intent intent = new Intent(getActivity(), FirstSaleContractActivity.class);
+        intent.putExtra("order_id", data);
+        intent.putExtra("type", Conts.SOURCE_MODIFY);
+        startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
     }
 }

@@ -204,6 +204,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
     }
 
     public void updateTitle(String title, int index) {
+
         textViewList.get(index - 1).setText(title);
     }
 

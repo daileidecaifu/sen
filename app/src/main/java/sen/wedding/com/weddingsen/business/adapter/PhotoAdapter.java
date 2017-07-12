@@ -22,8 +22,6 @@ import me.iwf.photopicker.PhotoPreview;
 import me.iwf.photopicker.utils.AndroidLifecycleUtils;
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.Conts;
-import sen.wedding.com.weddingsen.business.activity.ContractInfoActivity;
-import sen.wedding.com.weddingsen.business.utils.RecyclerItemClickListener;
 import sen.wedding.com.weddingsen.utils.FileIOUtil;
 import sen.wedding.com.weddingsen.utils.StringUtil;
 

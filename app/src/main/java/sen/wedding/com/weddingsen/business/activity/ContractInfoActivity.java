@@ -300,11 +300,7 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
                     break;
             }
         }
-        if (resultCode == RESULT_OK &&
-                (requestCode == PhotoPicker.REQUEST_CODE || requestCode == PhotoPreview.REQUEST_CODE)) {
 
-
-        }
     }
 
 

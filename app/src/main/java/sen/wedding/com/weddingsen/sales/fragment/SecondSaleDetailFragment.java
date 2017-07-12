@@ -30,12 +30,10 @@ import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.business.adapter.ReviewInfoAdapter;
 import sen.wedding.com.weddingsen.business.model.DetailResModel;
 import sen.wedding.com.weddingsen.business.model.OrderItemModel;
-import sen.wedding.com.weddingsen.databinding.FirstSaleDetailBinding;
 import sen.wedding.com.weddingsen.databinding.SecondSaleDetailBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
-import sen.wedding.com.weddingsen.sales.activity.FirstSaleContractActivity;
 import sen.wedding.com.weddingsen.sales.activity.ModifyRestTimeActivity;
 import sen.wedding.com.weddingsen.sales.activity.SecondSaleContractActivity;
 import sen.wedding.com.weddingsen.utils.DateUtil;
@@ -68,6 +66,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
     private int afterDays = -1;
     private String orginTime;
     OrderItemModel orderItemModel;
+    private int finishMiddle = 2;
 
     public static SecondSaleDetailFragment newInstance(int orderId, int orderStatus) {
         Bundle args = new Bundle();
@@ -213,6 +212,11 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
 
     private void switchShowAction(int type) {
         binding.llActionType.tvItemSelectContent.setText(typeArray[type]);
+
+        if (finishMiddle == 1) {
+            type = type + 1;
+        }
+
         switch (type) {
             case 0:
                 binding.llFollowUpTime.getRoot().setVisibility(View.VISIBLE);
@@ -270,6 +274,13 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         orginTime = DateUtil.convertDateToString(new Date(heldTime), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S);
         binding.llFollowUpTime.tvItemSelectContent.setText(orginTime);
 
+
+        finishMiddle = 1;
+        if (finishMiddle == 1) {
+            String[] temp = {typeArray[1], typeArray[2], typeArray[3]};
+            typeArray = temp;
+        }
+        binding.llActionType.tvItemSelectContent.setText(typeArray[0]);
         initBottomView(detailResModel.getHandleNote());
 
 

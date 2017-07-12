@@ -2,6 +2,7 @@ package sen.wedding.com.weddingsen.sales.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -30,6 +31,7 @@ import sen.wedding.com.weddingsen.component.SlidingTabLayout;
 public class SecondSaleListFragment extends BaseFragment implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     SlidingTabLayout slidingTabLayout;
+    private Handler handler = new Handler();
 
     public static SecondSaleListFragment newInstance() {
 
@@ -65,7 +67,7 @@ public class SecondSaleListFragment extends BaseFragment implements NavigationVi
 
         int selectColor = ContextCompat.getColor(getActivity(), R.color.theme_color);
         slidingTabLayout = (SlidingTabLayout) linearLayoutMain.findViewById(R.id.sliding_tabs);
-        slidingTabLayout.setTabTitleTextSize(14);//标题字体大小
+        slidingTabLayout.setTabTitleTextSize(13);//标题字体大小
         slidingTabLayout.setTitleTextColor(selectColor, ContextCompat.getColor(getActivity(), R.color.text_common));//标题字体颜色
         slidingTabLayout.setTabStripWidth(70);//滑动条宽度
         slidingTabLayout.setSelectedIndicatorColors(selectColor);//滑动条颜色
@@ -97,7 +99,13 @@ public class SecondSaleListFragment extends BaseFragment implements NavigationVi
     }
 
     public void updateTitle(int count, int index) {
-        slidingTabLayout.updateTitle(Conts.getSecondSaleStatusMap().get(index) + "(" + count + ")", index);
+        int position = index;
+        if(index== 5)
+        {
+            position = 4;
+        }
+        slidingTabLayout.updateTitle(Conts.getSecondSaleStatusMap().get(index) + "（" + count + "）", position);
+
     }
 
     @Override

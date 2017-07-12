@@ -20,6 +20,9 @@ public class DetailResModel {
     @SerializedName("handle_time")
     private String handleTime;
 
+    @SerializedName("finish_middle")
+    private int finishMiddle;
+
     public OrderItemModel getOrderItem() {
         return orderItem;
     }
@@ -50,5 +53,13 @@ public class DetailResModel {
 
     public void setHandleTime(String handleTime) {
         this.handleTime = handleTime;
+    }
+
+    public int getFinishMiddle() {
+        return finishMiddle;
+    }
+
+    public void setFinishMiddle(int finishMiddle) {
+        this.finishMiddle = finishMiddle;
     }
 }

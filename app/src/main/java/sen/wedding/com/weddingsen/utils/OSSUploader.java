@@ -31,7 +31,7 @@ public class OSSUploader {
 
     private OSSResultFeedback ossResultFeedback = null;
     private OSS oss;
-    List<PutObjectRequest> waitForUploadPuts;
+    List<PutObjectRequest> waitForUploadPuts =new ArrayList<>();
     List<PutObjectRequest> oPuts;
 
     List<OSSImageInfoModel> urlImageList = new ArrayList<>();

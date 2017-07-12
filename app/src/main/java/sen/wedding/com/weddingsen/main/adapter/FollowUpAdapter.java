@@ -17,7 +17,6 @@ import java.util.Date;
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.DBaseCallback;
-import sen.wedding.com.weddingsen.business.activity.ContractInfoActivity;
 import sen.wedding.com.weddingsen.databinding.MainInfoBinding;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.utils.DateUtil;
@@ -124,7 +123,7 @@ public class FollowUpAdapter extends BaseAdapter {
             case 5:
                 binding.llTip.setVisibility(View.VISIBLE);
                 binding.tvTip.setText(currentContext.getString(R.string.modify_and_resubmit));
-                binding.tvTip.setOnClickListener(new View.OnClickListener() {
+                binding.llTip.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         callback.process(model.getId());
@@ -134,18 +133,10 @@ public class FollowUpAdapter extends BaseAdapter {
                 break;
 
             case 6:
-//                binding.llTip.setVisibility(View.VISIBLE);
-//                binding.tvTip.setText(currentContext.getString(R.string.tip_order_cancel));
-//                binding.tvTip.setTextColor(currentContext.getResources().getColor(R.color.gray_2));
                 binding.llTip.setVisibility(View.VISIBLE);
-                binding.tvTip.setText(currentContext.getString(R.string.modify_and_resubmit));
-                binding.tvTip.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        callback.process(model.getId());
-                    }
-                });
-                binding.tvTip.setTextColor(currentContext.getResources().getColor(R.color.theme_color));
+                binding.tvTip.setText(currentContext.getString(R.string.tip_order_cancel));
+                binding.tvTip.setTextColor(currentContext.getResources().getColor(R.color.gray_2));
+
                 break;
         }
 
