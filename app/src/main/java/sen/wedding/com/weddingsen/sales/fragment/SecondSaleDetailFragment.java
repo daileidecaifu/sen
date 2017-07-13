@@ -66,7 +66,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
     private int afterDays = -1;
     private String orginTime;
     OrderItemModel orderItemModel;
-    private int finishMiddle = 2;
+    private int finishMiddle = 2;//未支付
 
     public static SecondSaleDetailFragment newInstance(int orderId, int orderStatus) {
         Bundle args = new Bundle();
@@ -170,7 +170,6 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         binding.llFollowUpTime.tvItemSelectTitle.setText(getString(R.string.original_time));
         binding.llFollowUpTime.tvItemSelectIcon.setVisibility(View.GONE);
 
-        actionType = Conts.SECOND_FOLLOW_UP_MIDDLE;
         afterDays = 1;
     }
 
@@ -275,11 +274,16 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         binding.llFollowUpTime.tvItemSelectContent.setText(orginTime);
 
 
-        finishMiddle = 1;
+        finishMiddle = detailResModel.getFinishMiddle();
         if (finishMiddle == 1) {
             String[] temp = {typeArray[1], typeArray[2], typeArray[3]};
             typeArray = temp;
+            actionType = Conts.SECOND_FOLLOW_UP_ADDITIONAL;
+        }else
+        {
+            actionType = Conts.SECOND_FOLLOW_UP_MIDDLE;
         }
+
         binding.llActionType.tvItemSelectContent.setText(typeArray[0]);
         initBottomView(detailResModel.getHandleNote());
 

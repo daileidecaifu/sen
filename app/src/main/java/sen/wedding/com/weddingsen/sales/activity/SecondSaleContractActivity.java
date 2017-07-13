@@ -145,14 +145,16 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
             {
                 case Conts.SECOND_FOLLOW_UP_MIDDLE:
                     binding.llContractMoney.tvItemEditTitle.setText(getString(R.string.middle_money));
-
+                    getTitleBar().setTitle(getString(R.string.middle_pay));
                     break;
                 case Conts.SECOND_FOLLOW_UP_REST:
                     binding.llContractMoney.tvItemEditTitle.setText(getString(R.string.tail_money));
+                    getTitleBar().setTitle(getString(R.string.rest_pay));
 
                     break;
                 case Conts.SECOND_FOLLOW_UP_ADDITIONAL:
                     binding.llContractMoney.tvItemEditTitle.setText(getString(R.string.additional_money));
+                    getTitleBar().setTitle(getString(R.string.addtional_pay));
 
                     break;
 

@@ -67,7 +67,7 @@ public class SecondSaleListFragment extends BaseFragment implements NavigationVi
 
         int selectColor = ContextCompat.getColor(getActivity(), R.color.theme_color);
         slidingTabLayout = (SlidingTabLayout) linearLayoutMain.findViewById(R.id.sliding_tabs);
-        slidingTabLayout.setTabTitleTextSize(13);//标题字体大小
+        slidingTabLayout.setTabTitleTextSize(14);//标题字体大小
         slidingTabLayout.setTitleTextColor(selectColor, ContextCompat.getColor(getActivity(), R.color.text_common));//标题字体颜色
         slidingTabLayout.setTabStripWidth(70);//滑动条宽度
         slidingTabLayout.setSelectedIndicatorColors(selectColor);//滑动条颜色
@@ -104,7 +104,7 @@ public class SecondSaleListFragment extends BaseFragment implements NavigationVi
         {
             position = 4;
         }
-        slidingTabLayout.updateTitle(Conts.getSecondSaleStatusMap().get(index) + "（" + count + "）", position);
+        slidingTabLayout.updateTitle(Conts.getSecondSaleStatusMap().get(index) + "(" + count + ")", position);
 
     }
 
