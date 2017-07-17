@@ -53,8 +53,13 @@ public class HotelDistinctActivity extends BaseActivity implements RequestHandle
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+
+            String jsonResult = msg.obj.toString();
+            HotelDistinctModel hotelDistinctModel = GsonConverter.fromJson(jsonResult,HotelDistinctModel.class);
             Intent intent = new Intent();
-            intent.putExtra("sh_id", msg.obj.toString());
+            intent.putExtra("select_id", hotelDistinctModel.getDistinctId());
+            intent.putExtra("select_title", hotelDistinctModel.getTitle());
+
             setResult(RESULT_OK, intent);
             finish();
         }

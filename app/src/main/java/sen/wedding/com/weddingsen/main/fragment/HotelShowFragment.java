@@ -64,6 +64,9 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
 
     private ApiRequest getHotelListRequest;
     TextView textViewLeft;
+    int yourChoice = 0;
+    String selectDistinctTitle;
+    String selectDistinctId;
 
     public static HotelShowFragment newInstance() {
 
@@ -205,14 +208,17 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
 
     private void showHotelSort() {
 
+
         //dialog参数设置
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());  //先得到构造器
-        builder.setTitle("提示"); //设置标题
         //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
+        builder.setSingleChoiceItems(items, yourChoice,
+                null);
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                yourChoice = which;
 
                 switch (which) {
                     case 0:
@@ -324,11 +330,11 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
                     if (hotelShowModels != null && hotelShowModels.size() > 0) {
                         hotelsAdapter.notifyDataChanged(hotelShowModels);
                     } else {
-                        loadingView.showEmptyWithNoAction(getString(R.string.distinct_no_hotel));
+                        loadingView.showEmptyWithNoAction(selectDistinctTitle + getString(R.string.distinct_no_hotel));
                     }
 
                 } else {
-                    loadingView.showEmptyWithNoAction(getString(R.string.distinct_no_hotel));
+                    loadingView.showEmptyWithNoAction(selectDistinctTitle + getString(R.string.distinct_no_hotel));
                 }
 
             } else {
@@ -347,13 +353,14 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String shId = "";
 
         if (data != null) {
-            shId = data.getStringExtra("sh_id");
-            if (!TextUtils.isEmpty(shId)) {
+            selectDistinctId = data.getStringExtra("select_id");
+            selectDistinctTitle = data.getStringExtra("select_title");
+
+            if (!TextUtils.isEmpty(selectDistinctId)) {
                 loadingView.showLoading();
-                getHotelList(shId);
+                getHotelList(selectDistinctId);
             }
         }
     }

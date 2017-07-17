@@ -6,5 +6,5 @@ package sen.wedding.com.weddingsen.base;
 
 public interface DBaseCallback {
 
-    public void process(int data);
+    public void process(int data,String jsonStr);
 }

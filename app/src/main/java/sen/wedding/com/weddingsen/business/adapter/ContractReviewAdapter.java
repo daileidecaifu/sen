@@ -57,6 +57,18 @@ public class ContractReviewAdapter extends RecyclerView.Adapter<ContractReviewAd
                 .error(R.drawable.__picker_ic_broken_image_black_48dp)
                 .into(holder.ivPhoto);
 
+        holder.ivPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PhotoPreview.builder()
+                        .setPhotos((ArrayList<String>) photoPaths)
+                        .setCurrentItem(position).setShowDeleteButton(false)
+                        .start((Activity) mContext);
+
+
+            }
+        });
+
     }
 
 

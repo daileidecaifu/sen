@@ -23,6 +23,12 @@ public class DetailResModel {
     @SerializedName("finish_middle")
     private int finishMiddle;
 
+    @SerializedName("sign_using_time")
+    private String sighUsingTime;
+
+    @SerializedName("next_pay_time")
+    private String nextPayTime;
+
     public OrderItemModel getOrderItem() {
         return orderItem;
     }
@@ -61,5 +67,21 @@ public class DetailResModel {
 
     public void setFinishMiddle(int finishMiddle) {
         this.finishMiddle = finishMiddle;
+    }
+
+    public String getSighUsingTime() {
+        return sighUsingTime;
+    }
+
+    public void setSighUsingTime(String sighUsingTime) {
+        this.sighUsingTime = sighUsingTime;
+    }
+
+    public String getNextPayTime() {
+        return nextPayTime;
+    }
+
+    public void setNextPayTime(String nextPayTime) {
+        this.nextPayTime = nextPayTime;
     }
 }

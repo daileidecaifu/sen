@@ -69,6 +69,7 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
     private int afterDays = -1;
     private Map<Integer, String> typeMap;
     OrderItemModel orderItemModel;
+    private int yourActionChoice,yourAfterDaysChoice = 0;
 
     public static FollowUpDetailFragment newInstance(int orderId, int orderStatus) {
         Bundle args = new Bundle();
@@ -183,6 +184,12 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
         binding.llFollowUpTime.tvItemSelectContent.setText(nextFollowUpItems[0]);
         actionType = Conts.FOLLOW_UP_INFO_EFFECTIVE;
         afterDays = 1;
+
+        StringBuffer sb= new StringBuffer();
+        sb.append(StringUtil.createHtml(getString(R.string.note), "#313133"));
+        sb.append(StringUtil.createHtml("*", "#fa4b4b"));
+        binding.tvFollowNote.setText(Html.fromHtml(sb.toString()));
+
     }
 
     private void getFollowUp() {
@@ -230,11 +237,13 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
     private void showActionType() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());  //先得到构造器
-        builder.setTitle(getString(R.string.hint)); //设置标题
+        builder.setSingleChoiceItems(typeArray, yourActionChoice,
+                null);
         //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
         builder.setItems(typeArray, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                yourActionChoice = which;
                 dialog.dismiss();
                 switchShowAction(which);
 
@@ -254,11 +263,14 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
         //dialog参数设置
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());  //先得到构造器
         builder.setTitle(getString(R.string.select_next_follow_up)); //设置标题
+        builder.setSingleChoiceItems(typeArray, yourAfterDaysChoice,
+                null);
         //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
         builder.setItems(nextFollowUpItems, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                yourAfterDaysChoice = which;
                 afterDays = which + 1;
                 binding.llFollowUpTime.tvItemSelectContent.setText(nextFollowUpItems[which]);
 

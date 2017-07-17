@@ -126,7 +126,7 @@ public class FollowUpAdapter extends BaseAdapter {
                 binding.llTip.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        callback.process(model.getId());
+                        callback.process(model.getId(),"");
                     }
                 });
                 binding.tvTip.setTextColor(currentContext.getResources().getColor(R.color.theme_color));

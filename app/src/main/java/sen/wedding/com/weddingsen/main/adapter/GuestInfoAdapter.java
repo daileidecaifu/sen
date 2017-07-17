@@ -102,21 +102,21 @@ public class GuestInfoAdapter extends BaseAdapter {
         binding.tvFollowerFaction.setText(model.getWatchUser());
 
         switch (infoType) {
-            case 3:
+            case 1:
                 binding.llTip.setVisibility(View.GONE);
                 break;
 
-            case 4:
+            case 2:
                 binding.llTip.setVisibility(View.VISIBLE);
                 binding.tvTip.setText(currentContext.getString(R.string.tip_order_waiting_for_settlement));
                 break;
 
-            case 5:
+            case 3:
                 binding.llTip.setVisibility(View.VISIBLE);
                 binding.tvTip.setText(currentContext.getString(R.string.tip_order_settlemented));
                 break;
 
-            case 6:
+            case 4:
                 binding.llTip.setVisibility(View.VISIBLE);
                 binding.tvTip.setText(currentContext.getString(R.string.tip_order_cancel));
                 break;

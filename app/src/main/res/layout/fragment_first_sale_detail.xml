@@ -184,12 +184,11 @@
                             android:text="@string/modify_and_resubmit"
                             android:gravity="center_vertical"
                             android:visibility="gone"
-                            android:textColor="@color/white"
+                            android:textColor="@color/theme_color"
                             android:layout_marginRight="5dp"
                             android:paddingLeft="3dp"
                             android:paddingRight="3dp"
                             android:textSize="@dimen/text_size_ss"
-                            android:background="@drawable/buttom_common_background"
                             android:layout_height="25dp" />
                     </LinearLayout>
 
@@ -257,6 +256,7 @@
                         android:paddingTop="13dp">
 
                         <TextView
+                            android:id="@+id/tv_follow_note"
                             android:layout_width="90dp"
                             android:layout_height="wrap_content"
                             android:text="@string/note"

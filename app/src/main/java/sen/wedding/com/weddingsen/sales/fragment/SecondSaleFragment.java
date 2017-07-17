@@ -24,6 +24,7 @@ import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BaseFragment;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
+import sen.wedding.com.weddingsen.base.DBaseCallback;
 import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.component.LoadMoreView;
 import sen.wedding.com.weddingsen.component.LoadingView;
@@ -32,6 +33,8 @@ import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
+import sen.wedding.com.weddingsen.sales.activity.ModifyRestTimeActivity;
+import sen.wedding.com.weddingsen.sales.activity.SecondSaleContractActivity;
 import sen.wedding.com.weddingsen.sales.activity.SecondSaleDetailActivity;
 import sen.wedding.com.weddingsen.sales.adapter.SecondSaleAdapter;
 import sen.wedding.com.weddingsen.sales.model.SecondSaleInfoModel;
@@ -41,7 +44,7 @@ import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 public class SecondSaleFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>,
         AdapterView.OnItemClickListener, RecyclerRefreshLayout.OnRefreshListener,
-        LoadMoreView.OnLoadMoreListener {
+        LoadMoreView.OnLoadMoreListener,DBaseCallback {
 
     ListView listView;
     SecondSaleAdapter secondSaleAdapter;
@@ -107,7 +110,7 @@ public class SecondSaleFragment extends BaseFragment implements RequestHandler<A
 
     private void initViews(View view) {
         listView = (ListView) view.findViewById(R.id.listView);
-        secondSaleAdapter = new SecondSaleAdapter(getActivity(), currentStatus);
+        secondSaleAdapter = new SecondSaleAdapter(getActivity(), currentStatus,this);
         listView.setAdapter(secondSaleAdapter);
         listView.setOnItemClickListener(this);
 //        listView.setOnScrollListener(this);
@@ -307,5 +310,29 @@ public class SecondSaleFragment extends BaseFragment implements RequestHandler<A
     @Override
     public void onLoadMore() {
         loadMoreFirstSaleList();
+    }
+
+    @Override
+    public void process(int data,String json) {
+        SecondSaleInfoModel model = GsonConverter.fromJson(json,SecondSaleInfoModel.class);
+        switch (model.getErxiaoSignType()) {
+            case Conts.SECOND_FOLLOW_UP_MIDDLE:
+            case Conts.SECOND_FOLLOW_UP_ADDITIONAL:
+            case Conts.SECOND_FOLLOW_UP_REST:
+                Intent intent = new Intent(getActivity(), SecondSaleContractActivity.class);
+                intent.putExtra("order_id", data);
+                intent.putExtra("action_type", model.getErxiaoSignType());
+                intent.putExtra("type", Conts.SOURCE_MODIFY);
+                startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
+                break;
+
+            case Conts.SECOND_FOLLOW_UP_MODIFY:
+                Intent intent2 = new Intent(getActivity(), ModifyRestTimeActivity.class);
+                intent2.putExtra("order_id", data);
+                intent2.putExtra("original_time", "");
+                intent2.putExtra("type", Conts.SOURCE_MODIFY);
+                startActivityForResult(intent2, Conts.TO_SUBMIT_CONTRACT_REVIEW);
+                break;
+        }
     }
 }

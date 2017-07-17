@@ -311,7 +311,7 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
     }
 
     @Override
-    public void process(int data) {
+    public void process(int data,String json) {
         Intent intent = new Intent(getActivity(), ContractInfoActivity.class);
         intent.putExtra("order_id", data);
         intent.putExtra("type", Conts.SOURCE_MODIFY);

@@ -47,6 +47,7 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
     private boolean isAlipay = true;
     private String[] accountType;
     private PersonInfoModel personInfoModel;
+    int yourChoice = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,11 +168,13 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
         AlertDialog.Builder builder = new AlertDialog.Builder(this);  //先得到构造器
         builder.setTitle(getString(R.string.select_order_type_hint)); //设置标题
         //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
+        builder.setSingleChoiceItems(accountType, yourChoice,
+                null);
         builder.setItems(accountType, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-
+                yourChoice = which;
                 if (which == 0) {
                     isAlipay = true;
                 } else {

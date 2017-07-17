@@ -71,6 +71,8 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
     private long heldTime;
     private String heldTimeContent;
     OrderItemModel orderItemModel;
+    private int yourChoice, yourAfterDaysChoice = 0;
+
     public static FirstSaleDetailFragment newInstance(int orderId, int orderStatus) {
         Bundle args = new Bundle();
         FirstSaleDetailFragment fragment = new FirstSaleDetailFragment();
@@ -188,6 +190,11 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
         binding.llFollowUpTime.tvItemSelectContent.setText(nextFollowUpItems[0]);
         actionType = Conts.FOLLOW_UP_INFO_EFFECTIVE;
         afterDays = 1;
+
+        StringBuffer sb = new StringBuffer();
+        sb.append(StringUtil.createHtml(getString(R.string.note), "#313133"));
+        sb.append(StringUtil.createHtml("*", "#fa4b4b"));
+        binding.tvFollowNote.setText(Html.fromHtml(sb.toString()));
     }
 
     private void getFollowUp() {
@@ -204,6 +211,12 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
     }
 
     private void submitFollowUp() {
+
+        if (TextUtils.isEmpty(binding.etEditNote.getText().toString())) {
+            showToast(getString(R.string.note_can_not_be_empty));
+            return;
+        }
+
         if (orderId != -1) {
             submitFollowRequest = new ApiRequest(URLCollection.URL_FIRST_SALE_FOLLOW, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
@@ -226,11 +239,13 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
     private void showActionType() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());  //先得到构造器
-        builder.setTitle(getString(R.string.hint)); //设置标题
+        builder.setSingleChoiceItems(typeArray, yourChoice,
+                null);
         //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
         builder.setItems(typeArray, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                yourChoice = which;
                 dialog.dismiss();
                 switchShowAction(which);
 
@@ -250,11 +265,14 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
         //dialog参数设置
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());  //先得到构造器
         builder.setTitle(getString(R.string.select_next_follow_up)); //设置标题
+        builder.setSingleChoiceItems(nextFollowUpItems, yourAfterDaysChoice,
+                null);
         //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
         builder.setItems(nextFollowUpItems, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                yourAfterDaysChoice = which;
                 afterDays = which + 1;
                 binding.llFollowUpTime.tvItemSelectContent.setText(nextFollowUpItems[which]);
 
@@ -316,11 +334,11 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
         binding.llShowSpecifyItem.tvItemSelectContent.setText(orderItemModel.getOrderAreaHotelName());
         binding.llShowBudget.tvItemSelectContent.setText(orderItemModel.getOrderMoney());
 
-        heldTime = Long.parseLong(orderItemModel.getUseDate()) * 1000;
-        heldTimeContent = DateUtil.convertDateToString(new Date(heldTime), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S);
-
-        binding.llShowTime.tvItemSelectContent.setText(heldTimeContent);
-
+        if (orderItemModel.getUseDate() != null && !orderItemModel.getUseDate().equals("0")) {
+            heldTime = Long.parseLong(orderItemModel.getUseDate()) * 1000;
+            heldTimeContent = DateUtil.convertDateToString(new Date(heldTime), DateUtil.FORMAT_COMMON_Y_M_D);
+            binding.llShowTime.tvItemSelectContent.setText(heldTimeContent);
+        }
         binding.tvShowNote.setText(orderItemModel.getOrderDesc());
         initBottomView(detailResModel.getHandleNote());
 

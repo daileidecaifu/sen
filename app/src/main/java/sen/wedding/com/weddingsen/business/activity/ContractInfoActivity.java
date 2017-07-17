@@ -124,15 +124,16 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
 
         initTitleBar(binding.titleBar, TitleBar.Type.COMMON);
         getTitleBar().setTitle(getString(R.string.confirm_sign));
-        getTitleBar().setCommonRightText("UPLOAD");
-        getTitleBar().setRightClickEvent(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                setResult(RESULT_OK);
-                finish();
-            }
-        });
+        getTitleBar().setRightVisibility(View.GONE);
+//        getTitleBar().setCommonRightText("UPLOAD");
+//        getTitleBar().setRightClickEvent(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                setResult(RESULT_OK);
+//                finish();
+//            }
+//        });
         getTitleBar().setLeftClickEvent(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

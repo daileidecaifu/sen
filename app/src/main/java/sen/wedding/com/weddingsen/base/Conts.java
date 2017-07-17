@@ -31,11 +31,13 @@ public class Conts {
     public static BaseTypeModel SPECIFY_HOTEL = new BaseTypeModel("hotel", "指定酒店", 2);
     public static List<BaseTypeModel> specifyModels;
     //客资类型
-    public static BaseTypeModel EXHIBITION = new BaseTypeModel("exhibition", "布展", 4);
+    public static BaseTypeModel EXHIBITION = new BaseTypeModel("exhibition", "布展", 1);
     public static List<BaseTypeModel> buildModels;
 
     //订单类型
     public static Map<Integer, String> orderTypeMap;
+    //搭建类型
+    public static Map<Integer, String> buildTypeMap;
     //订单状态
     public static Map<Integer, String> orderStatusMap;
 
@@ -104,6 +106,15 @@ public class Conts {
 
         }
         return orderTypeMap;
+    }
+
+    public static Map<Integer, String> getBuildTypeMap() {
+        if (buildTypeMap == null) {
+            buildTypeMap = new HashMap<>();
+            buildTypeMap.put(1, "会展");
+
+        }
+        return buildTypeMap;
     }
 
     /**

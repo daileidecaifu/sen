@@ -13,10 +13,12 @@ import java.util.Date;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.Conts;
+import sen.wedding.com.weddingsen.base.DBaseCallback;
 import sen.wedding.com.weddingsen.databinding.MainInfoBinding;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.sales.model.SecondSaleInfoModel;
 import sen.wedding.com.weddingsen.utils.DateUtil;
+import sen.wedding.com.weddingsen.utils.GsonConverter;
 
 
 public class SecondSaleAdapter extends BaseAdapter {
@@ -25,11 +27,14 @@ public class SecondSaleAdapter extends BaseAdapter {
     private Context currentContext;
     //默认type为跟踪中
     private int infoType = 1;
+    private DBaseCallback callback;
 
-    public SecondSaleAdapter(Context context, int type) {
+
+    public SecondSaleAdapter(Context context, int type, DBaseCallback callback) {
         this.currentContext = context;
         this.list = new ArrayList<>();
         this.infoType = type;
+        this.callback = callback;
     }
 
     public void clearData() {
@@ -80,7 +85,7 @@ public class SecondSaleAdapter extends BaseAdapter {
         } else {
             binding = DataBindingUtil.getBinding(convertView);
         }
-        SecondSaleInfoModel model = list.get(position);
+        final SecondSaleInfoModel model = list.get(position);
 
         if (position == 0) {
             binding.vReviewPlaceholderHead.setVisibility(View.VISIBLE);
@@ -114,10 +119,16 @@ public class SecondSaleAdapter extends BaseAdapter {
                 binding.tvTip.setTextColor(currentContext.getResources().getColor(R.color.gray_2));
                 break;
 
-            case 4:
+            case 5:
                 binding.llTip.setVisibility(View.VISIBLE);
                 binding.tvTip.setText(currentContext.getString(R.string.modify_and_resubmit));
                 binding.tvTip.setTextColor(currentContext.getResources().getColor(R.color.theme_color));
+                binding.llTip.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        callback.process(model.getId(), GsonConverter.toJson(model));
+                    }
+                });
                 break;
         }
 

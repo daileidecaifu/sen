@@ -313,7 +313,7 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
     }
 
     @Override
-    public void process(int data) {
+    public void process(int data,String json) {
         Intent intent = new Intent(getActivity(), FirstSaleContractActivity.class);
         intent.putExtra("order_id", data);
         intent.putExtra("type", Conts.SOURCE_MODIFY);

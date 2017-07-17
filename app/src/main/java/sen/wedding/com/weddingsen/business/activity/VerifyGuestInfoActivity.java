@@ -40,7 +40,7 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
     private List<BaseTypeModel> modelList;
     private BaseTypeModel selectOrderTypeModel;
     private ApiRequest verifyGuestRequest, verifyBuildRequest;
-    private int source;
+    private int source,yourChoice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,11 +164,14 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
         //dialog参数设置
         AlertDialog.Builder builder = new AlertDialog.Builder(this);  //先得到构造器
         builder.setTitle(getString(R.string.select_order_type_hint)); //设置标题
+        builder.setSingleChoiceItems(items, yourChoice,
+                null);
         //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                yourChoice = which;
                 selectOrderTypeModel = models.get(which);
                 binding.llSelectType.tvItemSelectContent.setText(selectOrderTypeModel.getValue());
             }

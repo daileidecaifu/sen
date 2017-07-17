@@ -21,6 +21,7 @@ import me.iwf.photopicker.PhotoPagerActivity;
 import me.iwf.photopicker.PhotoPreview;
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.main.model.HotelDistinctModel;
+import sen.wedding.com.weddingsen.utils.GsonConverter;
 
 import static me.iwf.photopicker.PhotoPreview.EXTRA_PHOTOS;
 import static me.iwf.photopicker.PhotoPreview.EXTRA_SHOW_DELETE;
@@ -72,7 +73,8 @@ public class HotelDistinctAdapter extends RecyclerView.Adapter<HotelDistinctAdap
 //                intent.putExtra(PhotoPreview.EXTRA_SHOW_DELETE,false);
 //                mContext.startActivity(intent);
                 Message message = new Message();
-                message.obj = distinctModels.get(position).getDistinctId();
+
+                message.obj = GsonConverter.toJson(distinctModels.get(position));
                 handler.sendMessage(message);
             }
         });

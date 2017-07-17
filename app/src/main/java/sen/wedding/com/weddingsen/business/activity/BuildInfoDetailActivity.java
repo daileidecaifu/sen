@@ -153,7 +153,8 @@ public class BuildInfoDetailActivity extends BaseActivity implements View.OnClic
         orderItemModel = detailResModel.getOrderItem();
         LogInfoModel logInfoModel = detailResModel.getOrderFollow();
         binding.llShowName.tvItemSelectContent.setText(orderItemModel.getCustomerName());
-        binding.llShowType.tvItemSelectContent.setText(Conts.getOrderTypeMap().get(orderItemModel.getOrderType()));
+        String aaa = Conts.getBuildTypeMap().get(orderItemModel.getOrderType());
+        binding.llShowType.tvItemSelectContent.setText(Conts.getBuildTypeMap().get(orderItemModel.getOrderType()));
 
         binding.llShowPhoneNumber.tvItemSelectContent.setText(orderItemModel.getOrderPhone());
         binding.llShowPhoneNumber.tvItemSelectRightIcon.setVisibility(View.VISIBLE);

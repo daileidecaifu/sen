@@ -64,6 +64,7 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
 
     private long selectTime;
     private String selectTimeContent;
+    int yourChoice = 0;
 
     private DatePickerDialog dpd;
 
@@ -232,12 +233,14 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
         final String[] items = Conts.getShowContentArray(districts);
         //dialog参数设置
         AlertDialog.Builder builder = new AlertDialog.Builder(this);  //先得到构造器
-        builder.setTitle("提示"); //设置标题
+        builder.setSingleChoiceItems(items, yourChoice,
+                null);
         //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                yourChoice = which;
                 binding.llSelectSpecifyType.tvItemSelectContent.setText(items[which]);
                 BaseTypeModel tempTypeModel = specifyModels.get(which);
                 //必须将选项和districts array一一按照顺序匹配

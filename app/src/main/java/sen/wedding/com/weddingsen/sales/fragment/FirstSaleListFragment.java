@@ -29,6 +29,13 @@ import sen.wedding.com.weddingsen.component.SlidingTabLayout;
 public class FirstSaleListFragment extends BaseFragment implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     SlidingTabLayout slidingTabLayout;
+    private String[] mTabTitle = new String[]{
+            Conts.getFollowStatusMap().get(1),
+            Conts.getFollowStatusMap().get(2),
+            Conts.getFollowStatusMap().get(3),
+            Conts.getFollowStatusMap().get(4),
+            Conts.getFollowStatusMap().get(5),
+            Conts.getFollowStatusMap().get(6)};
 
     public static FirstSaleListFragment newInstance() {
 
@@ -75,6 +82,8 @@ public class FirstSaleListFragment extends BaseFragment implements NavigationVie
          * 自定义tabview，设置左右padding可实现滑动，当前通过layout为wrap，且设置tabview的margin来动态设置
          */
         slidingTabLayout.setCustomTabView(R.layout.tv_tab_custom, 0);
+//        slidingTabLayout.setCustomTabView(R.layout.ll_tv_tab, R.id.tabText);
+
         slidingTabLayout.setViewPager(viewPager);//最后调用此方
 
         linearLayoutMain.setOnClickListener(this);
@@ -83,7 +92,18 @@ public class FirstSaleListFragment extends BaseFragment implements NavigationVie
     }
 
     public void updateTitle(int count, int index) {
-        slidingTabLayout.updateTitle(Conts.getFollowStatusMap().get(index) + "(" + count + ")", index);
+//        slidingTabLayout.updateTitle(Conts.getFollowStatusMap().get(index) + "(" + count + ")", index);
+        String[] temp = mTabTitle;
+        mTabTitle = new String[6];
+        for (int i = 0; i < temp.length; i++) {
+            if ((index - 1) == i) {
+                mTabTitle[i] = Conts.getFollowStatusMap().get(index) + "(" + count + ")";
+            } else {
+                mTabTitle[i] = temp[i];
+            }
+        }
+
+        slidingTabLayout.updateText(mTabTitle);
     }
 
     @Override
@@ -93,13 +113,7 @@ public class FirstSaleListFragment extends BaseFragment implements NavigationVie
 
     private class TabViewPagerAdapter extends FragmentPagerAdapter {
 
-        private String[] mTabTitle = new String[]{
-                Conts.getFollowStatusMap().get(1),
-                Conts.getFollowStatusMap().get(2),
-                Conts.getFollowStatusMap().get(3),
-                Conts.getFollowStatusMap().get(4),
-                Conts.getFollowStatusMap().get(5),
-                Conts.getFollowStatusMap().get(6)};
+
         private Context mContext;
         private Fragment[] fragments = new Fragment[]{
                 FirstSaleFragment.newInstance(1),

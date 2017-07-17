@@ -113,7 +113,7 @@ public class SecondSaleContractFragment extends BaseFragment implements RequestH
         binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
         binding.llSignUpTime.tvItemSelectTitle.setText(model.getSecondInputNote());
         long timestamp = Long.parseLong(model.getSecondInputContent()) * 1000;
-        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timestamp), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timestamp), DateUtil.FORMAT_COMMON_Y_M_D));
 
         if (model.getThirdInputContent() != null) {
             selectedPhotos.clear();

@@ -67,6 +67,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
     private String orginTime;
     OrderItemModel orderItemModel;
     private int finishMiddle = 2;//未支付
+    private int yourChoice = 0;
 
     public static SecondSaleDetailFragment newInstance(int orderId, int orderStatus) {
         Bundle args = new Bundle();
@@ -189,12 +190,14 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
     private void showActionType() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());  //先得到构造器
-        builder.setTitle(getString(R.string.hint)); //设置标题
+        builder.setSingleChoiceItems(typeArray, yourChoice,
+                null);
         //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
         builder.setItems(typeArray, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                yourChoice = which;
                 switchShowAction(which);
 
             }
@@ -264,14 +267,12 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         binding.llShowSpecifyItem.tvItemSelectContent.setText(orderItemModel.getOrderAreaHotelName());
         binding.llShowBudget.tvItemSelectContent.setText(orderItemModel.getOrderMoney());
 
-        long time = Long.parseLong(orderItemModel.getCreateTime()) * 1000;
-        binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
 
         binding.tvShowNote.setText(orderItemModel.getOrderDesc());
-
-        long heldTime = Long.parseLong(orderItemModel.getUseDate()) * 1000;
-        orginTime = DateUtil.convertDateToString(new Date(heldTime), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S);
-        binding.llFollowUpTime.tvItemSelectContent.setText(orginTime);
+        if (orderItemModel.getUseDate() != null && !orderItemModel.getUseDate().equals("0")) {
+            long time = Long.parseLong(orderItemModel.getUseDate()) * 1000;
+            binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
+        }
 
 
         finishMiddle = detailResModel.getFinishMiddle();
@@ -279,9 +280,16 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
             String[] temp = {typeArray[1], typeArray[2], typeArray[3]};
             typeArray = temp;
             actionType = Conts.SECOND_FOLLOW_UP_ADDITIONAL;
-        }else
-        {
+            long heldTime = Long.parseLong(detailResModel.getSighUsingTime()) * 1000;
+            orginTime = DateUtil.convertDateToString(new Date(heldTime), DateUtil.FORMAT_COMMON_Y_M_D);
+            binding.llFollowUpTime.tvItemSelectContent.setText(orginTime);
+        } else {
+            String[] temp = {typeArray[0], typeArray[1], typeArray[2]};
+            typeArray = temp;
             actionType = Conts.SECOND_FOLLOW_UP_MIDDLE;
+            long heldTime = Long.parseLong(detailResModel.getNextPayTime()) * 1000;
+            orginTime = DateUtil.convertDateToString(new Date(heldTime), DateUtil.FORMAT_COMMON_Y_M_D);
+            binding.llFollowUpTime.tvItemSelectContent.setText(orginTime);
         }
 
         binding.llActionType.tvItemSelectContent.setText(typeArray[0]);
@@ -377,7 +385,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
 //                binding.tvMessage.setText(getString(R.string.reviewed_message));
                 binding.tvMessage.setText(content);
                 break;
-            case 4:
+            case 5:
                 binding.llReviewProgress.setVisibility(View.VISIBLE);
                 binding.llToFollow.setVisibility(View.GONE);
                 binding.tvModifyAndSubmit.setVisibility(View.VISIBLE);

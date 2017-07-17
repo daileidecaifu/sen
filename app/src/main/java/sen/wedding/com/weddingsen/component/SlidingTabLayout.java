@@ -187,7 +187,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
         TextView textView = new TextView(context);
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP);
-        textView.setTypeface(Typeface.DEFAULT_BOLD);
+//        textView.setTypeface(Typeface.DEFAULT_BOLD);
         textView.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
@@ -206,6 +206,13 @@ public class SlidingTabLayout extends HorizontalScrollView {
     public void updateTitle(String title, int index) {
 
         textViewList.get(index - 1).setText(title);
+    }
+
+    public void updateText(CharSequence[] Titles) {
+        for (int i = 0; i < mTabStrip.getChildCount(); i++) {
+            TextView text = (TextView)mTabStrip.getChildAt(i);
+            text.setText(Titles[i]);
+        }
     }
 
     private void populateTabStrip() {

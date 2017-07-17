@@ -142,7 +142,7 @@
     <string name="process_schedule">处理进度</string>
     <string name="process_time">处理时间</string>
     <string name="no_data">暂无数据，点击重试</string>
-    <string name="distinct_no_hotel">区域暂无酒店数据</string>
+    <string name="distinct_no_hotel">暂无酒店数据</string>
     <string name="contact_clients">联系客户</string>
     <string name="select_next_follow_up">请选择天数</string>
     <string name="submit_certificate">提交凭证</string>

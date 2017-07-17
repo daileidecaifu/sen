@@ -15,6 +15,7 @@ import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.common.OSSLog;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
+import com.alibaba.sdk.android.oss.model.GetObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 
 import java.io.File;
@@ -43,10 +44,13 @@ import sen.wedding.com.weddingsen.databinding.SecondSaleContractBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
+import sen.wedding.com.weddingsen.sales.model.SecondSaleContractResModel;
 import sen.wedding.com.weddingsen.utils.AppLog;
 import sen.wedding.com.weddingsen.utils.DateUtil;
 import sen.wedding.com.weddingsen.utils.FileIOUtil;
+import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.OSSUploader;
+import sen.wedding.com.weddingsen.utils.StringUtil;
 
 //import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -62,9 +66,10 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
 
     private OSS oss;
     private int orderId;
-    private ApiRequest submitCertificateRequest;
+    private ApiRequest submitCertificateRequest,getContractReviewRequest;
 
     private int actionType;
+    private int type;
     private long signTime;
     private int uploadSuccess = 10000;
     private int uploadFail = 9999;
@@ -81,6 +86,7 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
         }
     };
 
+    private SecondSaleContractResModel secondSaleContractResModel;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -106,14 +112,15 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
 
         initTitleBar(binding.titleBar, TitleBar.Type.COMMON);
         getTitleBar().setTitle(getString(R.string.confirm_sign));
-        getTitleBar().setCommonRightText("UPLOAD");
-        getTitleBar().setRightClickEvent(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-            }
-        });
+        getTitleBar().setRightVisibility(View.GONE);
+//        getTitleBar().setCommonRightText("UPLOAD");
+//        getTitleBar().setRightClickEvent(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//
+//            }
+//        });
         getTitleBar().setLeftClickEvent(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,11 +168,31 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
             }
         }
 
+        if (type == Conts.SOURCE_MODIFY) {
+            showProgressDialog(false);
+            getFollowUp();
+        }
+
+    }
+
+    private void getFollowUp() {
+        showProgressDialog(false);
+        if (orderId != -1) {
+            getContractReviewRequest = new ApiRequest(URLCollection.URL_SHOW_OTHER_ORDER_SIGN_DETAIL, HttpMethod.POST);
+            HashMap<String, String> param = new HashMap<>();
+            param.put("access_token", BasePreference.getToken());
+            param.put("user_dajian_order_id", orderId + "");
+            getContractReviewRequest.setParams(param);
+            getApiService().exec(getContractReviewRequest, this);
+        } else {
+            showToast("Order ID WRONG!");
+        }
     }
 
     private void getInfo() {
         orderId = getIntent().getIntExtra("order_id", -1);
         actionType = getIntent().getIntExtra("action_type",-1);
+        type = getIntent().getIntExtra("type",-1);
     }
 
     @Override
@@ -252,21 +279,35 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK &&
-                (requestCode == PhotoPicker.REQUEST_CODE || requestCode == PhotoPreview.REQUEST_CODE)) {
-
+        if (resultCode == RESULT_OK) {
             List<String> photos = null;
-            if (data != null) {
-                photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+
+            switch (requestCode) {
+                case PhotoPicker.REQUEST_CODE:
+                    if (data != null) {
+                        photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+                    }
+                    List<String> tempUrlArray = StringUtil.filterUrlImgArray(selectedPhotos);
+                    selectedPhotos.clear();
+                    selectedPhotos.addAll(tempUrlArray);
+                    if (photos != null) {
+                        selectedPhotos.addAll(photos);
+                    }
+                    photoAdapter.notifyDataSetChanged();
+                    break;
+
+                case PhotoPreview.REQUEST_CODE:
+                    if (data != null) {
+                        photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+                    }
+                    selectedPhotos.clear();
+
+                    if (photos != null) {
+                        selectedPhotos.addAll(photos);
+                    }
+                    photoAdapter.notifyDataSetChanged();
+                    break;
             }
-            selectedPhotos.clear();
-
-            if (photos != null) {
-
-                selectedPhotos.addAll(photos);
-            }
-            photoAdapter.notifyDataSetChanged();
-
         }
     }
 
@@ -284,12 +325,22 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
         List<PutObjectRequest> uploadPuts = new ArrayList<>();
         if (selectedPhotos != null && selectedPhotos.size() > 0) {
             for (String oldPath : selectedPhotos) {
-                File oldFile = new File(oldPath);
-                File newFile = CompressHelper.getDefault(getApplicationContext()).compressToFile(oldFile);
-                String newPath = newFile.getAbsolutePath();
-                AppLog.e(String.format("Size : %s", getReadableFileSize(newFile.length())) + "\n" + newFile.getAbsolutePath());
-                PutObjectRequest put = new PutObjectRequest(Conts.OSS_BUCKET, Conts.OSS_UPLOAD_PREFIX + System.currentTimeMillis() + ".jpg", newPath);
-                uploadPuts.add(put);
+
+                if(oldPath.startsWith("http"))
+                {
+                    PutObjectRequest put = new PutObjectRequest(Conts.OSS_BUCKET, Conts.OSS_UPLOAD_PREFIX + System.currentTimeMillis() + ".jpg", oldPath);
+                    uploadPuts.add(put);
+
+                }else
+                {
+                    File oldFile = new File(oldPath);
+                    File newFile = CompressHelper.getDefault(getApplicationContext()).compressToFile(oldFile);
+                    String newPath = newFile.getAbsolutePath();
+                    AppLog.e(String.format("Size : %s", getReadableFileSize(newFile.length())) + "\n" + newFile.getAbsolutePath());
+                    PutObjectRequest put = new PutObjectRequest(Conts.OSS_BUCKET, Conts.OSS_UPLOAD_PREFIX + System.currentTimeMillis() + ".jpg", newPath);
+                    uploadPuts.add(put);
+                }
+
             }
 
         }
@@ -312,6 +363,26 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
             getApiService().exec(submitCertificateRequest, this);
         } else {
             showToast("Order ID WRONG!");
+        }
+    }
+
+    private void fillData(SecondSaleContractResModel model) {
+
+//        binding.tvTitle.setText(model.getTitle());
+//        binding.tvImgTitle.setText(model.getThirdInputNote());
+
+        binding.llContractMoney.tvItemEditTitle.setText(model.getFristInputNote());
+        binding.llContractMoney.etItemEditInput.setText(model.getFirstInputContent());
+
+        binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
+        binding.llSignUpTime.tvItemSelectTitle.setText(model.getSecondInputNote());
+        long timestamp = Long.parseLong(model.getSecondInputContent()) * 1000;
+        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timestamp), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+
+        if (model.getThirdInputContent() != null) {
+            selectedPhotos.clear();
+            selectedPhotos.addAll(model.getThirdInputContent());
+            photoAdapter.notifyDataSetChanged();
         }
     }
 
@@ -341,6 +412,13 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
                 showToast(getString(R.string.action_success));
                 setResult(RESULT_OK);
                 finish();
+            } else {
+                showToast(resultModel.message);
+            }
+        }else if (req == getContractReviewRequest) {
+            if (resultModel.status == Conts.REQUEST_SUCCESS) {
+                secondSaleContractResModel = GsonConverter.decode(resultModel.data, SecondSaleContractResModel.class);
+                fillData(secondSaleContractResModel);
             } else {
                 showToast(resultModel.message);
             }

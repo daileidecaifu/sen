@@ -277,6 +277,7 @@
                         android:paddingTop="13dp">
 
                         <TextView
+                            android:id="@+id/tv_follow_note"
                             android:layout_width="90dp"
                             android:layout_height="wrap_content"
                             android:text="@string/note"

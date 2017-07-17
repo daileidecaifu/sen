@@ -35,6 +35,8 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
     private GuestInfoListFragment guestInfoListFragment;
     private BuildInfoListFragment buildInfoListFragment;
 
+    private int yourChoice = 0;
+
     public static InfoProvideFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -208,9 +210,12 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
                         getActivity().getString(R.string.create_build_info)};
         //dialog参数设置
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());  //先得到构造器
+        builder.setSingleChoiceItems(items, yourChoice,
+                null);
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                yourChoice = which;
 
                 switch (which) {
                     case Conts.SOURCE_VERIFY_KEZI:
