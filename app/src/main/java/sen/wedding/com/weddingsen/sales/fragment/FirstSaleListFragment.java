@@ -30,12 +30,12 @@ public class FirstSaleListFragment extends BaseFragment implements NavigationVie
 
     SlidingTabLayout slidingTabLayout;
     private String[] mTabTitle = new String[]{
-            Conts.getFollowStatusMap().get(1),
-            Conts.getFollowStatusMap().get(2),
-            Conts.getFollowStatusMap().get(3),
-            Conts.getFollowStatusMap().get(4),
-            Conts.getFollowStatusMap().get(5),
-            Conts.getFollowStatusMap().get(6)};
+            Conts.getFollowStatusMap().get(1)+"(" + 13 + ")",
+            Conts.getFollowStatusMap().get(2)+"(" + 103 + ")",
+            Conts.getFollowStatusMap().get(3)+"("+0+")",
+            Conts.getFollowStatusMap().get(4)+"("+0+")",
+            Conts.getFollowStatusMap().get(5)+"("+0+")",
+            Conts.getFollowStatusMap().get(6)+"("+0+")",};
 
     public static FirstSaleListFragment newInstance() {
 
@@ -72,7 +72,7 @@ public class FirstSaleListFragment extends BaseFragment implements NavigationVie
 
         int selectColor = ContextCompat.getColor(getActivity(), R.color.theme_color);
         slidingTabLayout = (SlidingTabLayout) linearLayoutMain.findViewById(R.id.sliding_tabs);
-        slidingTabLayout.setTabTitleTextSize(14);//标题字体大小
+        slidingTabLayout.setTabTitleTextSize(13);//标题字体大小
         slidingTabLayout.setTitleTextColor(selectColor, ContextCompat.getColor(getActivity(), R.color.text_common));//标题字体颜色
         slidingTabLayout.setTabStripWidth(70);//滑动条宽度
         slidingTabLayout.setSelectedIndicatorColors(selectColor);//滑动条颜色
@@ -93,17 +93,17 @@ public class FirstSaleListFragment extends BaseFragment implements NavigationVie
 
     public void updateTitle(int count, int index) {
 //        slidingTabLayout.updateTitle(Conts.getFollowStatusMap().get(index) + "(" + count + ")", index);
-        String[] temp = mTabTitle;
-        mTabTitle = new String[6];
-        for (int i = 0; i < temp.length; i++) {
-            if ((index - 1) == i) {
-                mTabTitle[i] = Conts.getFollowStatusMap().get(index) + "(" + count + ")";
-            } else {
-                mTabTitle[i] = temp[i];
-            }
-        }
-
-        slidingTabLayout.updateText(mTabTitle);
+//        String[] temp = mTabTitle;
+//        mTabTitle = new String[6];
+//        for (int i = 0; i < temp.length; i++) {
+//            if ((index - 1) == i) {
+//                mTabTitle[i] = Conts.getFollowStatusMap().get(index) + "(" + count + ")";
+//            } else {
+//                mTabTitle[i] = temp[i];
+//            }
+//        }
+//
+//        slidingTabLayout.updateText(mTabTitle);
     }
 
     @Override

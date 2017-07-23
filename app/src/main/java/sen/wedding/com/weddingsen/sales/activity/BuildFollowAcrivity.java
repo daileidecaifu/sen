@@ -87,7 +87,7 @@ public class BuildFollowAcrivity extends BaseActivity implements View.OnClickLis
 
         initTitleBar(binding.titleBar, TitleBar.Type.COMMON);
         getTitleBar().setRightVisibility(View.GONE);
-        getTitleBar().setTitle(getString(R.string.build_follow)+"X");
+        getTitleBar().setTitle(getString(R.string.build_follow));
         getTitleBar().setLeftClickEvent(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
