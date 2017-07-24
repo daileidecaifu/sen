@@ -30,12 +30,12 @@ public class FirstSaleListFragment extends BaseFragment implements NavigationVie
 
     SlidingTabLayout slidingTabLayout;
     private String[] mTabTitle = new String[]{
-            Conts.getFollowStatusMap().get(1)+"(" + 13 + ")",
-            Conts.getFollowStatusMap().get(2)+"(" + 103 + ")",
-            Conts.getFollowStatusMap().get(3)+"("+0+")",
-            Conts.getFollowStatusMap().get(4)+"("+0+")",
-            Conts.getFollowStatusMap().get(5)+"("+0+")",
-            Conts.getFollowStatusMap().get(6)+"("+0+")",};
+            Conts.getFollowStatusMap().get(1),
+            Conts.getFollowStatusMap().get(2),
+            Conts.getFollowStatusMap().get(3),
+            Conts.getFollowStatusMap().get(4),
+            Conts.getFollowStatusMap().get(5),
+            Conts.getFollowStatusMap().get(6)};
 
     public static FirstSaleListFragment newInstance() {
 
@@ -92,7 +92,7 @@ public class FirstSaleListFragment extends BaseFragment implements NavigationVie
     }
 
     public void updateTitle(int count, int index) {
-//        slidingTabLayout.updateTitle(Conts.getFollowStatusMap().get(index) + "(" + count + ")", index);
+        slidingTabLayout.updateTitle(Conts.getFollowStatusMap().get(index) + "(" + count + ")", index);
 //        String[] temp = mTabTitle;
 //        mTabTitle = new String[6];
 //        for (int i = 0; i < temp.length; i++) {

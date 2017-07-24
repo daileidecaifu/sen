@@ -35,6 +35,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import sen.wedding.com.weddingsen.utils.DensityUtil;
+
 /**
  * 这个滑动条控件通过ViewPager被用来提供一个选项卡指示功能，当用户滑动时提供反馈。
  * 使用这个组件时，把它加到视图层即可。
@@ -210,7 +212,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
     public void updateText(CharSequence[] Titles) {
         for (int i = 0; i < mTabStrip.getChildCount(); i++) {
-            TextView text = (TextView)mTabStrip.getChildAt(i);
+            TextView text = (TextView) mTabStrip.getChildAt(i);
             text.setText(Titles[i]);
         }
     }
@@ -246,7 +248,9 @@ public class SlidingTabLayout extends HorizontalScrollView {
             CharSequence title = adapter.getPageTitle(i);
             tabTitleView.setText(title);
             tabTitleView.setTextSize(tabTitleTextSize);
-            tabTitleView.setWidth(250);
+            int textWidth = (int) DensityUtil.getTextViewLength(tabTitleView, "待处理(100)");
+            textWidth = textWidth +15;
+            tabTitleView.setWidth(textWidth);
             tabTitleView.setMaxLines(1);
             tabView.setOnClickListener(new TabClickListener());
             String desc = mContentDescriptions.get(i, null);
