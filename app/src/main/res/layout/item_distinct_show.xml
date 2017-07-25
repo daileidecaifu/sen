@@ -8,8 +8,8 @@
     <TextView
         android:id="@+id/tv_show"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@drawable/bg_item_photo"
+        android:layout_height="35dp"
+        android:background="@drawable/bg_item_round"
         android:gravity="center" />
 
 </LinearLayout>

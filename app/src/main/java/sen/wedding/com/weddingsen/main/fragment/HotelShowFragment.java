@@ -3,9 +3,14 @@ package sen.wedding.com.weddingsen.main.fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +31,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.account.activity.LoginActivity;
@@ -43,7 +49,10 @@ import sen.wedding.com.weddingsen.main.activity.HotelDetailActivity;
 import sen.wedding.com.weddingsen.main.activity.HotelDistinctActivity;
 import sen.wedding.com.weddingsen.main.activity.HotelShowActivity;
 import sen.wedding.com.weddingsen.main.activity.InfoProvideActivity;
+import sen.wedding.com.weddingsen.main.adapter.HotelDistinctAdapter;
+import sen.wedding.com.weddingsen.main.adapter.HotelTypeAdapter;
 import sen.wedding.com.weddingsen.main.adapter.HotelsAdapter;
+import sen.wedding.com.weddingsen.main.model.HotelDistinctModel;
 import sen.wedding.com.weddingsen.main.model.HotelShowModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.model.EventIntent;
@@ -57,16 +66,49 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
     ListView listView;
     TextView tvRecommend;
     LoadingView loadingView;
+    RelativeLayout rlSelectShow;
+    RecyclerView rvDistinct;
+    LinearLayout llDistinct;
+    ListView lvType;
+    LinearLayout llType;
 
     HotelsAdapter hotelsAdapter;
-    String[] items;
-    ArrayList<HotelShowModel> hotelShowModels = new ArrayList<>();
+    private HotelDistinctAdapter hotelDistinctAdapter;
+    HotelTypeAdapter hotelTypeAdapter;
 
-    private ApiRequest getHotelListRequest;
+    String[] items;
+    String[] types;
+    List<String> hotelTypes = new ArrayList<>();
+    ArrayList<HotelShowModel> hotelShowModels = new ArrayList<>();
+    private ArrayList<HotelDistinctModel> selectedDistincts = new ArrayList<>();
+
+    private ApiRequest getHotelListRequest, getDistinctRequest;
     TextView textViewLeft;
     int yourChoice = 0;
     String selectDistinctTitle;
     String selectDistinctId;
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            String jsonResult = msg.obj.toString();
+            HotelDistinctModel hotelDistinctModel = GsonConverter.fromJson(jsonResult, HotelDistinctModel.class);
+            if (hotelDistinctModel != null) {
+
+                selectDistinctId = hotelDistinctModel.getDistinctId();
+                selectDistinctTitle = hotelDistinctModel.getTitle();
+                if (!TextUtils.isEmpty(selectDistinctId)) {
+                    rlSelectShow.setVisibility(View.GONE);
+                    loadingView.showLoading();
+                    getHotelList(selectDistinctId);
+                }
+
+            }
+
+        }
+    };
 
     public static HotelShowFragment newInstance() {
 
@@ -87,6 +129,7 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        handler = null;
 
     }
 
@@ -97,7 +140,15 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
         listView = (ListView) view.findViewById(R.id.lv_hotels);
         tvRecommend = (TextView) view.findViewById(R.id.tv_recommend);
         loadingView = (LoadingView) view.findViewById(R.id.loading_view);
+        rlSelectShow = (RelativeLayout) view.findViewById(R.id.rl_select_show);
+        rvDistinct = (RecyclerView) view.findViewById(R.id.rv_dictinct_show);
+        llDistinct = (LinearLayout) view.findViewById(R.id.ll_distinct);
+        llType = (LinearLayout) view.findViewById(R.id.ll_type);
+        lvType = (ListView) view.findViewById(R.id.lv_type);
 
+        llDistinct.setOnClickListener(this);
+        llType.setOnClickListener(this);
+        rlSelectShow.setOnClickListener(this);
 
         loadingView.setLoadingViewClickListener(new LoadingView.OnLoadingViewClickListener() {
             @Override
@@ -118,6 +169,7 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
         initData();
         loadingView.showLoading();
         getHotelList("");
+        getDistincts();
         return view;
 
     }
@@ -130,6 +182,18 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
             tvRecommend.setOnClickListener(this);
         }
 
+        hotelDistinctAdapter = new HotelDistinctAdapter(getContext(), selectedDistincts, handler);
+        rvDistinct.setLayoutManager(new StaggeredGridLayoutManager(4, OrientationHelper.VERTICAL));
+        rvDistinct.setAdapter(hotelDistinctAdapter);
+
+        hotelTypeAdapter = new HotelTypeAdapter(getContext());
+        types = getResources().getStringArray(R.array.hotel_type);
+
+        lvType.setAdapter(hotelTypeAdapter);
+        for (String str : types) {
+            hotelTypes.add(str);
+        }
+        hotelTypeAdapter.notifyDataChanged(hotelTypes);
     }
 
     private void initTitle(View view) {
@@ -259,6 +323,14 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
 
     }
 
+    private void getDistincts() {
+        getDistinctRequest = new ApiRequest(URLCollection.URL_DISTINCTS, HttpMethod.POST);
+        HashMap<String, String> param = new HashMap<>();
+
+        getDistinctRequest.setParams(param);
+        getApiService().exec(getDistinctRequest, this);
+
+    }
 
 //    private ArrayList<HotelShowModel> getFakeData() {
 //
@@ -298,6 +370,22 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
                         jumpToOtherActivity(LoginActivity.class);
                         break;
                 }
+                break;
+            case R.id.ll_distinct:
+                rlSelectShow.setVisibility(View.VISIBLE);
+                rvDistinct.setVisibility(View.VISIBLE);
+                lvType.setVisibility(View.GONE);
+                break;
+
+            case R.id.ll_type:
+                rlSelectShow.setVisibility(View.VISIBLE);
+                rvDistinct.setVisibility(View.GONE);
+                lvType.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.rl_select_show:
+                rlSelectShow.setVisibility(View.GONE);
+
                 break;
         }
     }
@@ -340,6 +428,38 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
             } else {
                 showToast(resultModel.message);
             }
+        } else if (req == getDistinctRequest) {
+            if (resultModel.status == Conts.REQUEST_SUCCESS) {
+                //testFake
+//                model = getFakeData();
+
+                if (resultModel.data != null) {
+                    loadingView.dismiss();
+                    Map<String, String> logMap = GsonConverter.fromJson(resultModel.data.toString(),
+                            new TypeToken<Map<String, String>>() {
+                            }.getType());
+                    selectedDistincts.clear();
+                    for (Map.Entry<String, String> entry : logMap.entrySet()) {
+                        HotelDistinctModel model = new HotelDistinctModel();
+                        model.setDistinctId(entry.getKey());
+                        model.setTitle(entry.getValue());
+                        selectedDistincts.add(model);
+                    }
+                    if (selectedDistincts != null && selectedDistincts.size() > 0) {
+                        hotelDistinctAdapter.notifyDataSetChanged();
+                    } else {
+                        loadingView.showLoadingEmpty();
+                    }
+
+                } else {
+                    loadingView.showLoadingEmpty();
+                }
+
+            } else {
+                showToast(resultModel.message);
+                loadingView.showGuestInfoLoadingFailed();
+
+            }
         }
     }
 
@@ -354,14 +474,14 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (data != null) {
-            selectDistinctId = data.getStringExtra("select_id");
-            selectDistinctTitle = data.getStringExtra("select_title");
-
-            if (!TextUtils.isEmpty(selectDistinctId)) {
-                loadingView.showLoading();
-                getHotelList(selectDistinctId);
-            }
-        }
+//        if (data != null) {
+//            selectDistinctId = data.getStringExtra("select_id");
+//            selectDistinctTitle = data.getStringExtra("select_title");
+//
+//            if (!TextUtils.isEmpty(selectDistinctId)) {
+//                loadingView.showLoading();
+//                getHotelList(selectDistinctId);
+//            }
+//        }
     }
 }

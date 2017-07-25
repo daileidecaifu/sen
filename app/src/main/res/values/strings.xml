@@ -242,6 +242,8 @@
     <string name="middle_pay">中款支付</string>
     <string name="rest_pay">尾款支付</string>
     <string name="addtional_pay">附加款支付</string>
+    <string name="featured_areas">精选区域</string>
+    <string name="all_type">全部类型</string>
 
 
 </resources>
