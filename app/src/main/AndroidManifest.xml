@@ -195,6 +195,10 @@
         <activity
             android:name=".base.acitivity.DebugCrashListActivity"
             android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".main.activity.SearchHotelActivity"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

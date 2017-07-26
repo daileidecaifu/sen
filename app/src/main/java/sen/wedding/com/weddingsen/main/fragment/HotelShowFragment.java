@@ -49,9 +49,11 @@ import sen.wedding.com.weddingsen.main.activity.HotelDetailActivity;
 import sen.wedding.com.weddingsen.main.activity.HotelDistinctActivity;
 import sen.wedding.com.weddingsen.main.activity.HotelShowActivity;
 import sen.wedding.com.weddingsen.main.activity.InfoProvideActivity;
+import sen.wedding.com.weddingsen.main.activity.SearchHotelActivity;
 import sen.wedding.com.weddingsen.main.adapter.HotelDistinctAdapter;
 import sen.wedding.com.weddingsen.main.adapter.HotelTypeAdapter;
 import sen.wedding.com.weddingsen.main.adapter.HotelsAdapter;
+import sen.wedding.com.weddingsen.main.adapter.SearchHistoryAdapter;
 import sen.wedding.com.weddingsen.main.model.HotelDistinctModel;
 import sen.wedding.com.weddingsen.main.model.HotelShowModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
@@ -213,7 +215,9 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
         layoutRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showHotelSort();
+//                showHotelSort();
+
+                jumpToOtherActivity(SearchHotelActivity.class);
             }
         });
 
