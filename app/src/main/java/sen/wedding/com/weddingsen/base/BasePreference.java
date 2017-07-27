@@ -18,6 +18,8 @@ public class BasePreference {
     private final static String KEY_AREA_ID = "area_id";
     private final static String KEY_HOTEL_AREA = "hotel_area";
 
+    private final static String KEY_HOTEL_HISTORY = "hotel_history";
+
     public static void saveToken(String token) {
         PreferenceUtils.setPrefString(SenApplication.getInstance(), KEY_TOKEN, token);
     }
@@ -89,6 +91,15 @@ public class BasePreference {
     public static String getHotelArea() {
         return PreferenceUtils.getPrefString(SenApplication.getInstance(), KEY_HOTEL_AREA, "");
     }
+
+    public static void saveHotelSearchHistory(String history) {
+        PreferenceUtils.setPrefString(SenApplication.getInstance(), KEY_HOTEL_HISTORY, history);
+    }
+
+    public static String getHotelSearchHistory() {
+        return PreferenceUtils.getPrefString(SenApplication.getInstance(), KEY_HOTEL_HISTORY, "");
+    }
+
 
     public static void clearAll() {
         saveToken("");

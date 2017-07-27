@@ -34,6 +34,7 @@
                 android:paddingRight="10dp"
                 android:singleLine="true"
                 android:paddingLeft="8dp"
+                android:imeOptions="actionSearch"
                 android:layout_weight="1"
                 android:textColor="@color/white"
                 android:textColorHint="#90ffffff"
@@ -95,7 +96,9 @@
                         android:gravity="center"
                         android:layout_marginBottom="25dp"
                         android:layout_marginTop="25dp"
+                        android:id="@+id/tv_clear"
                         android:textSize="@dimen/text_size_ss"
+                        android:onClick="@{clickListener}"
                         android:text="@string/clear_search_history"
                         android:textColor="@color/text_common"
                         android:layout_height="30dp" />

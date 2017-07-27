@@ -41,6 +41,12 @@ public class SearchHistoryAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void notifyDataClear() {
+
+        list.clear();
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
