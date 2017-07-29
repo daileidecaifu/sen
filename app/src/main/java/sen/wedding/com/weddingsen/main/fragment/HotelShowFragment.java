@@ -41,6 +41,7 @@ import sen.wedding.com.weddingsen.base.BaseFragment;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
+import sen.wedding.com.weddingsen.business.model.AreaModel;
 import sen.wedding.com.weddingsen.component.LoadingView;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
@@ -75,7 +76,7 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
     LinearLayout llType;
 
     HotelsAdapter hotelsAdapter;
-    private HotelDistinctAdapter hotelDistinctAdapter;
+    HotelDistinctAdapter hotelDistinctAdapter;
     HotelTypeAdapter hotelTypeAdapter;
 
     String[] items;
@@ -89,6 +90,7 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
     int yourChoice = 0;
     String selectDistinctTitle;
     String selectDistinctId;
+    String selectType;
 
     private Handler handler = new Handler() {
         @Override
@@ -104,6 +106,7 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
                 if (!TextUtils.isEmpty(selectDistinctId)) {
                     rlSelectShow.setVisibility(View.GONE);
                     loadingView.showLoading();
+
                     getHotelList(selectDistinctId);
                 }
 
@@ -196,6 +199,18 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
             hotelTypes.add(str);
         }
         hotelTypeAdapter.notifyDataChanged(hotelTypes);
+        lvType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (parent.getAdapter().getItem(position) instanceof String) {
+                    hotelTypeAdapter.notifySelectChanged(position);
+                    rlSelectShow.setVisibility(View.GONE);
+                    selectType = hotelTypes.get(position);
+                    loadingView.showLoading();
+                    getHotelListByType((position+1)+"");
+                }
+            }
+        });
     }
 
     private void initTitle(View view) {
@@ -321,6 +336,17 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
         } else {
             param.put("list_type", "1");
         }
+
+        getHotelListRequest.setParams(param);
+        getApiService().exec(getHotelListRequest, this);
+
+    }
+
+    private void getHotelListByType(String type) {
+        getHotelListRequest = new ApiRequest(URLCollection.URL_GET_HOTEL_LIST, HttpMethod.POST);
+        HashMap<String, String> param = new HashMap<>();
+        param.put("list_type", "2");
+        param.put("hotel_type", type);
 
         getHotelListRequest.setParams(param);
         getApiService().exec(getHotelListRequest, this);

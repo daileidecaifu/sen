@@ -23,6 +23,7 @@ public class HotelTypeAdapter extends BaseAdapter {
 
     List<String> list;
     private Context currentContext;
+    private int selectPosition = 0;
 
     public HotelTypeAdapter(Context context) {
         this.currentContext = context;
@@ -38,6 +39,12 @@ public class HotelTypeAdapter extends BaseAdapter {
 
         list.clear();
         list.addAll(dataList);
+        notifyDataSetChanged();
+    }
+
+    public void notifySelectChanged(int selectPosition) {
+
+        this.selectPosition = selectPosition;
         notifyDataSetChanged();
     }
 
@@ -69,7 +76,16 @@ public class HotelTypeAdapter extends BaseAdapter {
         } else {
             binding = DataBindingUtil.getBinding(convertView);
         }
+        if(selectPosition == position)
+        {
+            binding.tvShow.setTextColor(currentContext.getResources().getColor(R.color.theme_color));
+            binding.tvShow.setBackgroundResource(R.drawable.bg_item_round_blue);
+        }else
+        {
+            binding.tvShow.setTextColor(currentContext.getResources().getColor(R.color.text_common));
+            binding.tvShow.setBackgroundResource(R.drawable.bg_item_round);
 
+        }
         binding.tvShow.setText(list.get(position));
 
         return binding.getRoot();

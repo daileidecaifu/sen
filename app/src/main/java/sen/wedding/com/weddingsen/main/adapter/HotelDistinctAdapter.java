@@ -2,6 +2,7 @@ package sen.wedding.com.weddingsen.main.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import me.iwf.photopicker.PhotoPagerActivity;
 import me.iwf.photopicker.PhotoPreview;
@@ -35,6 +37,7 @@ public class HotelDistinctAdapter extends RecyclerView.Adapter<HotelDistinctAdap
     private LayoutInflater inflater;
     private Handler handler;
     private Context mContext;
+    private int selectPosition = 0;
 
     public HotelDistinctAdapter(Context mContext, ArrayList<HotelDistinctModel> distinctModels, Handler handler) {
         this.distinctModels = distinctModels;
@@ -42,6 +45,12 @@ public class HotelDistinctAdapter extends RecyclerView.Adapter<HotelDistinctAdap
         this.handler = handler;
         inflater = LayoutInflater.from(mContext);
 
+    }
+
+    public void notifySelectChanged(int selectPosition) {
+
+        this.selectPosition = selectPosition;
+        notifyDataSetChanged();
     }
 
 
@@ -56,6 +65,17 @@ public class HotelDistinctAdapter extends RecyclerView.Adapter<HotelDistinctAdap
     public void onBindViewHolder(final PhotoViewHolder holder, final int position) {
 
         HotelDistinctModel hotelDistinctModel = distinctModels.get(position);
+
+        if(selectPosition == position)
+        {
+            holder.tvTitle.setTextColor(mContext.getResources().getColor(R.color.theme_color));
+            holder.tvTitle.setBackgroundResource(R.drawable.bg_item_round_blue);
+        }else
+        {
+            holder.tvTitle.setTextColor(mContext.getResources().getColor(R.color.text_common));
+            holder.tvTitle.setBackgroundResource(R.drawable.bg_item_round);
+        }
+
         holder.tvTitle.setText(hotelDistinctModel.getTitle());
         holder.tvTitle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +92,7 @@ public class HotelDistinctAdapter extends RecyclerView.Adapter<HotelDistinctAdap
 //                intent.putStringArrayListExtra(PhotoPreview.EXTRA_PHOTOS,images);
 //                intent.putExtra(PhotoPreview.EXTRA_SHOW_DELETE,false);
 //                mContext.startActivity(intent);
+                notifySelectChanged(position);
                 Message message = new Message();
 
                 message.obj = GsonConverter.toJson(distinctModels.get(position));
