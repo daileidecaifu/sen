@@ -176,12 +176,12 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
                 binding.llSelectType.tvItemSelectContent.setText(selectOrderTypeModel.getValue());
             }
         });
-        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+//        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
         builder.create().show();
     }
 

@@ -59,6 +59,19 @@ public class OSSUploader {
     }
 
     public void toUpload() {
+
+        if(waitForUploadPuts.size()==0)
+        {
+            OSSResultModel ossResultModel = new OSSResultModel();
+            ossResultModel.setFaillist(failList);
+            List<OSSImageInfoModel> allEffectivelist = new ArrayList<>();
+            allEffectivelist.addAll(urlImageList);
+            allEffectivelist.addAll(successList);
+            ossResultModel.setSuccesslist(allEffectivelist);
+            ossResultModel.setPuts(oPuts);
+            AppLog.e("result", GsonConverter.toJson(ossResultModel));
+            ossResultFeedback.onComplete(ossResultModel);
+        }
         resultCount = 0;
         successList.clear();
         failList.clear();
@@ -108,6 +121,7 @@ public class OSSUploader {
 
                     if (resultCount == waitForUploadPuts.size()) {
                         OSSResultModel ossResultModel = new OSSResultModel();
+                        ossResultModel.setFaillist(failList);
                         List<OSSImageInfoModel> allEffectivelist = new ArrayList<>();
                         allEffectivelist.addAll(urlImageList);
                         allEffectivelist.addAll(successList);

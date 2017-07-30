@@ -1,18 +1,14 @@
 package sen.wedding.com.weddingsen.main.fragment;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,21 +37,19 @@ import sen.wedding.com.weddingsen.base.BaseFragment;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
-import sen.wedding.com.weddingsen.business.model.AreaModel;
 import sen.wedding.com.weddingsen.component.LoadingView;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.main.activity.HotelDetailActivity;
-import sen.wedding.com.weddingsen.main.activity.HotelDistinctActivity;
 import sen.wedding.com.weddingsen.main.activity.HotelShowActivity;
 import sen.wedding.com.weddingsen.main.activity.InfoProvideActivity;
 import sen.wedding.com.weddingsen.main.activity.SearchHotelActivity;
 import sen.wedding.com.weddingsen.main.adapter.HotelDistinctAdapter;
 import sen.wedding.com.weddingsen.main.adapter.HotelTypeAdapter;
 import sen.wedding.com.weddingsen.main.adapter.HotelsAdapter;
-import sen.wedding.com.weddingsen.main.adapter.SearchHistoryAdapter;
-import sen.wedding.com.weddingsen.main.model.HotelDistinctModel;
+import sen.wedding.com.weddingsen.main.model.HotelOptionModel;
+import sen.wedding.com.weddingsen.main.model.HotelOptionResModel;
 import sen.wedding.com.weddingsen.main.model.HotelShowModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.model.EventIntent;
@@ -74,23 +68,26 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
     LinearLayout llDistinct;
     ListView lvType;
     LinearLayout llType;
+    TextView tvDistinct;
+    TextView tvType;
 
     HotelsAdapter hotelsAdapter;
     HotelDistinctAdapter hotelDistinctAdapter;
     HotelTypeAdapter hotelTypeAdapter;
 
     String[] items;
-    String[] types;
-    List<String> hotelTypes = new ArrayList<>();
+    //    String[] types;
+    List<HotelOptionModel> hotelTypes = new ArrayList<>();
     ArrayList<HotelShowModel> hotelShowModels = new ArrayList<>();
-    private ArrayList<HotelDistinctModel> selectedDistincts = new ArrayList<>();
+    private ArrayList<HotelOptionModel> selectedDistincts = new ArrayList<>();
 
     private ApiRequest getHotelListRequest, getDistinctRequest;
     TextView textViewLeft;
-    int yourChoice = 0;
+    //    int yourChoice = 0;
     String selectDistinctTitle;
     String selectDistinctId;
     String selectType;
+    String selectTypeId;
 
     private Handler handler = new Handler() {
         @Override
@@ -98,15 +95,15 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
             super.handleMessage(msg);
 
             String jsonResult = msg.obj.toString();
-            HotelDistinctModel hotelDistinctModel = GsonConverter.fromJson(jsonResult, HotelDistinctModel.class);
+            HotelOptionModel hotelDistinctModel = GsonConverter.fromJson(jsonResult, HotelOptionModel.class);
             if (hotelDistinctModel != null) {
 
-                selectDistinctId = hotelDistinctModel.getDistinctId();
+                selectDistinctId = hotelDistinctModel.getId();
                 selectDistinctTitle = hotelDistinctModel.getTitle();
                 if (!TextUtils.isEmpty(selectDistinctId)) {
+                    tvDistinct.setText(selectDistinctTitle);
                     rlSelectShow.setVisibility(View.GONE);
                     loadingView.showLoading();
-
                     getHotelList(selectDistinctId);
                 }
 
@@ -150,6 +147,8 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
         llDistinct = (LinearLayout) view.findViewById(R.id.ll_distinct);
         llType = (LinearLayout) view.findViewById(R.id.ll_type);
         lvType = (ListView) view.findViewById(R.id.lv_type);
+        tvDistinct = (TextView) view.findViewById(R.id.tv_distinct);
+        tvType = (TextView) view.findViewById(R.id.tv_type);
 
         llDistinct.setOnClickListener(this);
         llType.setOnClickListener(this);
@@ -192,22 +191,19 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
         rvDistinct.setAdapter(hotelDistinctAdapter);
 
         hotelTypeAdapter = new HotelTypeAdapter(getContext());
-        types = getResources().getStringArray(R.array.hotel_type);
-
         lvType.setAdapter(hotelTypeAdapter);
-        for (String str : types) {
-            hotelTypes.add(str);
-        }
-        hotelTypeAdapter.notifyDataChanged(hotelTypes);
+
         lvType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getAdapter().getItem(position) instanceof String) {
+                if (parent.getAdapter().getItem(position) instanceof HotelOptionModel) {
                     hotelTypeAdapter.notifySelectChanged(position);
                     rlSelectShow.setVisibility(View.GONE);
-                    selectType = hotelTypes.get(position);
+                    selectType = hotelTypes.get(position).getTitle();
+                    selectTypeId = hotelTypes.get(position).getId();
+                    tvType.setText(selectType);
                     loadingView.showLoading();
-                    getHotelListByType((position+1)+"");
+                    getHotelListByType(selectTypeId);
                 }
             }
         });
@@ -224,7 +220,7 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
         LinearLayout layoutRight = (LinearLayout) linearLayoutTitle.findViewById(R.id.ll_right);
         LinearLayout layoutLeft = (LinearLayout) linearLayoutTitle.findViewById(R.id.ll_left);
         initLeftTopIcon();
-        textViewRight.setBackgroundDrawable(getResources().getDrawable(R.mipmap.to_select));
+        textViewRight.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_search));
 
         textViewTitle.setText(getString(R.string.sen));
         layoutRight.setOnClickListener(new View.OnClickListener() {
@@ -257,7 +253,7 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
         }
     }
 
-    private void initLeftTopIcon() {
+    public void initLeftTopIcon() {
         switch (BasePreference.getUserType()) {
             case Conts.LOGIN_MODEL_PHONE:
                 textViewLeft.setBackgroundDrawable(getResources().getDrawable(R.mipmap.icon_w_tg));
@@ -289,43 +285,43 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
 
     }
 
-    private void showHotelSort() {
-
-
-        //dialog参数设置
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());  //先得到构造器
-        //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
-        builder.setSingleChoiceItems(items, yourChoice,
-                null);
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                yourChoice = which;
-
-                switch (which) {
-                    case 0:
-                        loadingView.showLoading();
-                        getHotelList("");
-                        break;
-
-                    case 1:
-                        Intent intent = new Intent(getActivity(), HotelDistinctActivity.class);
-                        startActivityForResult(intent, 10000);
-//                        jumpToOtherActivity(HotelDistinctActivity.class);
-                        break;
-                }
-
-            }
-        });
-        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.create().show();
-    }
+//    private void showHotelSort() {
+//
+//
+//        //dialog参数设置
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());  //先得到构造器
+//        //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
+//        builder.setSingleChoiceItems(items, yourChoice,
+//                null);
+//        builder.setItems(items, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//                yourChoice = which;
+//
+//                switch (which) {
+//                    case 0:
+//                        loadingView.showLoading();
+//                        getHotelList("");
+//                        break;
+//
+//                    case 1:
+//                        Intent intent = new Intent(getActivity(), HotelDistinctActivity.class);
+//                        startActivityForResult(intent, 10000);
+////                        jumpToOtherActivity(HotelDistinctActivity.class);
+//                        break;
+//                }
+//
+//            }
+//        });
+//        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
+//        builder.create().show();
+//    }
 
     private void getHotelList(String shId) {
         getHotelListRequest = new ApiRequest(URLCollection.URL_GET_HOTEL_LIST, HttpMethod.POST);
@@ -333,6 +329,7 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
         if (!TextUtils.isEmpty(shId)) {
             param.put("list_type", "2");
             param.put("area_sh_id", shId);
+            param.put("hotel_type", selectTypeId);
         } else {
             param.put("list_type", "1");
         }
@@ -342,11 +339,12 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
 
     }
 
-    private void getHotelListByType(String type) {
+    private void getHotelListByType(String typeId) {
         getHotelListRequest = new ApiRequest(URLCollection.URL_GET_HOTEL_LIST, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("list_type", "2");
-        param.put("hotel_type", type);
+        param.put("hotel_type", typeId);
+        param.put("area_sh_id", selectDistinctId);
 
         getHotelListRequest.setParams(param);
         getApiService().exec(getHotelListRequest, this);
@@ -402,15 +400,28 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
                 }
                 break;
             case R.id.ll_distinct:
-                rlSelectShow.setVisibility(View.VISIBLE);
-                rvDistinct.setVisibility(View.VISIBLE);
-                lvType.setVisibility(View.GONE);
+                if (rvDistinct.getVisibility() == View.VISIBLE) {
+                    rvDistinct.setVisibility(View.GONE);
+                    rlSelectShow.setVisibility(View.GONE);
+                } else {
+                    rlSelectShow.setVisibility(View.VISIBLE);
+                    rvDistinct.setVisibility(View.VISIBLE);
+                    lvType.setVisibility(View.GONE);
+                }
+
                 break;
 
             case R.id.ll_type:
-                rlSelectShow.setVisibility(View.VISIBLE);
-                rvDistinct.setVisibility(View.GONE);
-                lvType.setVisibility(View.VISIBLE);
+                if (lvType.getVisibility() == View.VISIBLE) {
+                    rlSelectShow.setVisibility(View.GONE);
+                    lvType.setVisibility(View.GONE);
+
+                } else {
+                    rlSelectShow.setVisibility(View.VISIBLE);
+                    rvDistinct.setVisibility(View.GONE);
+                    lvType.setVisibility(View.VISIBLE);
+                }
+
                 break;
 
             case R.id.rl_select_show:
@@ -462,27 +473,36 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 //testFake
 //                model = getFakeData();
-
                 if (resultModel.data != null) {
-                    loadingView.dismiss();
-                    Map<String, String> logMap = GsonConverter.fromJson(resultModel.data.toString(),
-                            new TypeToken<Map<String, String>>() {
-                            }.getType());
+                    HotelOptionResModel hotelOptionModel = GsonConverter.decode(resultModel.data, HotelOptionResModel.class);
+
                     selectedDistincts.clear();
-                    for (Map.Entry<String, String> entry : logMap.entrySet()) {
-                        HotelDistinctModel model = new HotelDistinctModel();
-                        model.setDistinctId(entry.getKey());
+                    for (Map.Entry<String, String> entry : hotelOptionModel.getShArea().entrySet()) {
+                        HotelOptionModel model = new HotelOptionModel();
+                        model.setId(entry.getKey());
                         model.setTitle(entry.getValue());
                         selectedDistincts.add(model);
                     }
                     if (selectedDistincts != null && selectedDistincts.size() > 0) {
+                        selectDistinctTitle = selectedDistincts.get(0).getTitle();
+                        selectDistinctId = selectedDistincts.get(0).getId();
+                        tvDistinct.setText(selectedDistincts.get(0).getTitle());
                         hotelDistinctAdapter.notifyDataSetChanged();
-                    } else {
-                        loadingView.showLoadingEmpty();
                     }
 
-                } else {
-                    loadingView.showLoadingEmpty();
+                    for (Map.Entry<String, String> entry : hotelOptionModel.getHotelLevel().entrySet()) {
+                        HotelOptionModel model = new HotelOptionModel();
+                        model.setId(entry.getKey());
+                        model.setTitle(entry.getValue());
+                        hotelTypes.add(model);
+                    }
+
+                    if (hotelTypes != null && hotelTypes.size() > 0) {
+                        selectType = hotelTypes.get(0).getTitle();
+                        selectTypeId = hotelTypes.get(0).getId();
+                        tvType.setText(hotelTypes.get(0).getTitle());
+                        hotelTypeAdapter.notifyDataChanged(hotelTypes);
+                    }
                 }
 
             } else {

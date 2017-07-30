@@ -40,13 +40,12 @@
                 layout="@layout/view_item_edit_divide" />
 
             <include
-                android:id="@+id/ll_bank_account"
-                layout="@layout/view_item_edit_divide" />
-
-            <include
                 android:id="@+id/ll_open_bank"
                 layout="@layout/view_item_edit_divide" />
 
+            <include
+                android:id="@+id/ll_bank_account"
+                layout="@layout/view_item_edit_divide" />
 
             <include
                 android:id="@+id/ll_user_name"
@@ -72,6 +71,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="25dp"
             android:gravity="center"
+            android:textColor="@color/theme_color"
             android:onClick="@{clickListener}"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"

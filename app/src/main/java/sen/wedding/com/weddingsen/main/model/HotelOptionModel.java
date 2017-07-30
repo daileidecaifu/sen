@@ -4,18 +4,18 @@ package sen.wedding.com.weddingsen.main.model;
  * Created by lorin on 17/6/5.
  */
 
-public class HotelDistinctModel {
+public class HotelOptionModel {
 
-    private String distinctId;
+    private String id;
 
     private String title;
 
-    public String getDistinctId() {
-        return distinctId;
+    public String getId() {
+        return id;
     }
 
-    public void setDistinctId(String distinctId) {
-        this.distinctId = distinctId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {

@@ -187,8 +187,12 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void logout() {
+
         BasePreference.clearAll();
         initSildMenu();
+        if(hotelShowFragment!=null) {
+            hotelShowFragment.initLeftTopIcon();
+        }
         jumpToOtherActivity(LoginActivity.class);
     }
 

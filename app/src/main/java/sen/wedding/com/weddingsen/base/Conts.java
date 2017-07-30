@@ -254,5 +254,8 @@ public class Conts {
     public final static int EVENT_SECOND_SALE_LIST_REFRESH = 3;
     public final static int EVENT_INIT_MAIN_SLIDE = 4;
 
+    //同步类型
+    public final static String AUTO_TYPE_SYNCHRONIZE_CLOSE = "1";
+    public final static String AUTO_TYPE_SYNCHRONIZE_OPEN = "2";
 
 }

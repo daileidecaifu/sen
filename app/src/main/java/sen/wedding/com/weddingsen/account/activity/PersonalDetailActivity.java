@@ -20,6 +20,7 @@ import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
+import sen.wedding.com.weddingsen.component.SwitchCheckView;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.PersonDetailBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
@@ -35,7 +36,7 @@ import sen.wedding.com.weddingsen.utils.GsonConverter;
 public class PersonalDetailActivity extends BaseActivity implements View.OnClickListener, RequestHandler<ApiRequest, ApiResponse> {
 
     PersonDetailBinding binding;
-    private ApiRequest getPersonDetail;
+    private ApiRequest getPersonDetail, setSynchronizeRequest;
     private PersonDetailModel personDetailModel;
 
     @Override
@@ -88,23 +89,45 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
         binding.llUserName.tvItemSelectIcon.setVisibility(View.GONE);
         binding.llUserName.tvItemSelectContent.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
 
-        binding.scvAysn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean isOpened = binding.scvAysn.isOpened();
-                showToast("" + isOpened);
-
-            }
-        });
-
-        if(BasePreference.getUserType().equals(Conts.LOGIN_MODEL_ACCOUNT))
-        {
+        if (BasePreference.getUserType().equals(Conts.LOGIN_MODEL_ACCOUNT)) {
             binding.llSynchronize.setVisibility(View.VISIBLE);
+
+            if (BasePreference.getAutoType().equals(Conts.AUTO_TYPE_SYNCHRONIZE_OPEN)) {
+                binding.scvAysn.setOpened(true);
+            } else {
+                binding.scvAysn.setOpened(false);
+            }
+
+            binding.scvAysn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean isOpened = binding.scvAysn.isOpened();
+                    if (isOpened) {
+                        setSynchronize(Conts.AUTO_TYPE_SYNCHRONIZE_OPEN);
+                    } else {
+                        setSynchronize(Conts.AUTO_TYPE_SYNCHRONIZE_CLOSE);
+                    }
+
+                }
+            });
         }
+
+    }
+
+    private void setSynchronize(String autoType) {
+
+        setSynchronizeRequest = new ApiRequest(URLCollection.URL_SYNCHRONIZE, HttpMethod.POST);
+        HashMap<String, String> param = new HashMap<>();
+        param.put("access_token", BasePreference.getToken());
+        param.put("auto_type", autoType);
+
+        setSynchronizeRequest.setParams(param);
+        getApiService().exec(setSynchronizeRequest, this);
+
     }
 
     private void getPersonInfo() {
-
+        showProgressDialog(false);
         getPersonDetail = new ApiRequest(URLCollection.URL_PERSON_DETAIL, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
@@ -115,16 +138,25 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
 
     }
 
-    private void swtichShowType(PersonInfoModel personInfoModel)
-    {
-        if(personInfoModel==null)
-        {
+    private void swtichShowType(PersonInfoModel personInfoModel) {
+        if (personInfoModel == null) {
             return;
         }
 
+        if (!TextUtils.isEmpty(personInfoModel.getBankAccount())) {
+            binding.llAccount.setVisibility(View.VISIBLE);
 
-        if(!TextUtils.isEmpty(personInfoModel.getAlipay()))
-        {
+            binding.llAlipayAccount.getRoot().setVisibility(View.GONE);
+
+            binding.llBankAccount.getRoot().setVisibility(View.VISIBLE);
+            binding.llOpenBank.getRoot().setVisibility(View.VISIBLE);
+            binding.llUserName.getRoot().setVisibility(View.VISIBLE);
+            binding.tvAccountTitle.setText(getString(R.string.receipt_account_bank));
+            binding.llBankAccount.tvItemSelectContent.setText(personInfoModel.getBankAccount());
+            binding.llOpenBank.tvItemSelectContent.setText(personInfoModel.getBankName());
+            binding.llUserName.tvItemSelectContent.setText(personInfoModel.getBankUser());
+
+        } else {
             binding.llAccount.setVisibility(View.VISIBLE);
 
             binding.llBankAccount.getRoot().setVisibility(View.GONE);
@@ -134,20 +166,6 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
             binding.llAlipayAccount.getRoot().setVisibility(View.VISIBLE);
             binding.tvAccountTitle.setText(getString(R.string.receipt_account_alipay));
             binding.llAlipayAccount.tvItemSelectContent.setText(personInfoModel.getAlipay());
-        }else if(!TextUtils.isEmpty(personInfoModel.getBankAccount()))
-        {
-            binding.llAccount.setVisibility(View.VISIBLE);
-
-            binding.llAlipayAccount.getRoot().setVisibility(View.GONE);
-
-            binding.llBankAccount.getRoot().setVisibility(View.VISIBLE);
-            binding.llOpenBank.getRoot().setVisibility(View.VISIBLE);
-            binding.llUserName.getRoot().setVisibility(View.VISIBLE);
-            binding.tvAccountTitle.setText(getString(R.string.receipt_account_bank));
-        }else
-        {
-            binding.llAccount.setVisibility(View.GONE);
-
         }
     }
 
@@ -162,8 +180,9 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
 //                    isAlipay = true;
 //                }
 //                swtichShowType();
-                Intent intent = new Intent(this,PersonalInfoSetActivity.class);
+                Intent intent = new Intent(this, PersonalInfoSetActivity.class);
                 intent.putExtra("bind_info", GsonConverter.toJson(personDetailModel.getMyAccount()));
+                intent.putExtra("from", Conts.FROM_MAIN);
                 startActivityForResult(intent, Conts.TO_BIND_ACCOUNT_INFO);
 
                 break;
@@ -174,8 +193,7 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
         }
     }
 
-    private void fillData(PersonDetailModel personDetailModel)
-    {
+    private void fillData(PersonDetailModel personDetailModel) {
 
         binding.llTotalCommission.tvItemSelectContent.setText(personDetailModel.getMyMoney().getAll());
         binding.llReleased.tvItemSelectContent.setText(personDetailModel.getMyMoney().getPay());
@@ -187,6 +205,20 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case Conts.TO_BIND_ACCOUNT_INFO:
+
+                if (resultCode == RESULT_OK) {
+                    getPersonInfo();
+                }
+
+                break;
+
+            default:
+                break;
+        }
+
     }
 
     @Override
@@ -204,9 +236,18 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
         ResultModel resultModel = resp.getResultModel();
 
         if (req == getPersonDetail) {
+            closeProgressDialog();
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 personDetailModel = GsonConverter.decode(resultModel.data, PersonDetailModel.class);
                 fillData(personDetailModel);
+            } else {
+                showToast(resultModel.message);
+            }
+        } else if (req == setSynchronizeRequest) {
+            if (resultModel.status == Conts.REQUEST_SUCCESS) {
+                String currentAutoType = ((ApiRequest) req).getParams().get("auto_type");
+                BasePreference.saveAutoType(currentAutoType);
+                showToast(getString(R.string.update_success));
             } else {
                 showToast(resultModel.message);
             }

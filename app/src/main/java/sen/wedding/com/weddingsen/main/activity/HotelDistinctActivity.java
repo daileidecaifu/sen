@@ -32,7 +32,7 @@ import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.main.adapter.HotelDistinctAdapter;
 import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
-import sen.wedding.com.weddingsen.main.model.HotelDistinctModel;
+import sen.wedding.com.weddingsen.main.model.HotelOptionModel;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 
@@ -45,7 +45,7 @@ public class HotelDistinctActivity extends BaseActivity implements RequestHandle
     HotelDistinctBinding binding;
     private HotelDistinctAdapter hotelDistinctAdapter;
 
-    private ArrayList<HotelDistinctModel> selectedDistincts = new ArrayList<>();
+    private ArrayList<HotelOptionModel> selectedDistincts = new ArrayList<>();
     private ApiRequest getDistinctRequest;
     private LoadingView loadingView;
 
@@ -55,9 +55,9 @@ public class HotelDistinctActivity extends BaseActivity implements RequestHandle
             super.handleMessage(msg);
 
             String jsonResult = msg.obj.toString();
-            HotelDistinctModel hotelDistinctModel = GsonConverter.fromJson(jsonResult,HotelDistinctModel.class);
+            HotelOptionModel hotelDistinctModel = GsonConverter.fromJson(jsonResult,HotelOptionModel.class);
             Intent intent = new Intent();
-            intent.putExtra("select_id", hotelDistinctModel.getDistinctId());
+            intent.putExtra("select_id", hotelDistinctModel.getId());
             intent.putExtra("select_title", hotelDistinctModel.getTitle());
 
             setResult(RESULT_OK, intent);
@@ -112,8 +112,8 @@ public class HotelDistinctActivity extends BaseActivity implements RequestHandle
     private void getFakeData() {
 
         for (int i = 0; i < 15; i++) {
-            HotelDistinctModel hotelDistinctModel = new HotelDistinctModel();
-            hotelDistinctModel.setDistinctId(i + "");
+            HotelOptionModel hotelDistinctModel = new HotelOptionModel();
+            hotelDistinctModel.setId(i + "");
             hotelDistinctModel.setTitle("title" + i);
             selectedDistincts.add(hotelDistinctModel);
         }
@@ -156,8 +156,8 @@ public class HotelDistinctActivity extends BaseActivity implements RequestHandle
                             }.getType());
                     selectedDistincts.clear();
                     for (Map.Entry<String, String> entry : logMap.entrySet()) {
-                        HotelDistinctModel model = new HotelDistinctModel();
-                        model.setDistinctId(entry.getKey());
+                        HotelOptionModel model = new HotelOptionModel();
+                        model.setId(entry.getKey());
                         model.setTitle(entry.getValue());
                         selectedDistincts.add(model);
                     }

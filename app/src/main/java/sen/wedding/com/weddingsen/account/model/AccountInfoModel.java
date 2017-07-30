@@ -35,6 +35,9 @@ public class AccountInfoModel {
     @SerializedName("area_id")
     private String areaId;
 
+    @SerializedName("auto_type")
+    private String autoType;
+
     public String getAccessToken() {
         return accessToken;
     }
@@ -105,5 +108,13 @@ public class AccountInfoModel {
 
     public void setAreaId(String areaId) {
         this.areaId = areaId;
+    }
+
+    public String getAutoType() {
+        return autoType;
+    }
+
+    public void setAutoType(String autoType) {
+        this.autoType = autoType;
     }
 }

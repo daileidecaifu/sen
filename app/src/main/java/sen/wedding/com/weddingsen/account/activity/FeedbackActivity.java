@@ -64,23 +64,20 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initComponents() {
-        binding.etFeedbackPhone.setText(BasePreference.getUserName());
+        if(BasePreference.getUserType().equals(Conts.LOGIN_MODEL_PHONE)) {
+            binding.etFeedbackPhone.setText(BasePreference.getUserName());
+        }
     }
 
     private void submitFeedback() {
 
-        if (TextUtils.isEmpty(binding.etFeedbackPhone.getText().toString().trim())) {
-            showToast(getString(R.string.phone_number_can_not_empty));
-            return;
-        }
-
-        if (binding.etFeedbackPhone.getText().toString().trim().length() != 11) {
-            showToast(getString(R.string.phone_number_wrong_format));
-            return;
-        }
-
         if (TextUtils.isEmpty(binding.etFeedbackContent.getText().toString().trim())) {
             showToast(getString(R.string.feedback_content_empty));
+            return;
+        }
+
+        if (!TextUtils.isEmpty(binding.etFeedbackPhone.getText().toString())&&binding.etFeedbackPhone.getText().toString().trim().length() != 11) {
+            showToast(getString(R.string.phone_number_wrong_format));
             return;
         }
 

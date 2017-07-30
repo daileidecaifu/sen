@@ -260,12 +260,12 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
 
             }
         });
-        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+//        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
         builder.create().show();
     }
 

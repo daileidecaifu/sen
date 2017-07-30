@@ -68,6 +68,7 @@ public class SearchHotelActivity extends BaseActivity implements View.OnClickLis
 //                showToast(position+"");
                 showHotelView(selectHistoryList.get(position));
                 binding.etSearch.setText(selectHistoryList.get(position));
+                binding.etSearch.setSelection(selectHistoryList.get(position).length());
             }
         });
 
@@ -112,6 +113,8 @@ public class SearchHotelActivity extends BaseActivity implements View.OnClickLis
             }
         });
 
+        binding.etSearch.setDeleteIcon(R.mipmap.icon_white_clear);
+
     }
 
     @Override
@@ -134,24 +137,31 @@ public class SearchHotelActivity extends BaseActivity implements View.OnClickLis
 
         switch (actionId) {
             case EditorInfo.IME_ACTION_SEARCH:
-
-                if(binding.etSearch.getText().toString().equals(""))
+                String searchText = binding.etSearch.getText().toString();
+                if(searchText.equals(""))
                 {
                     return false;
                 }
 
-                selectHistoryList.clear();
-                List<String> localHistory = getLocalData();
-                if (localHistory.size() == 10) {
-                    localHistory.remove(9);
+                for(int i=0;i<selectHistoryList.size();i++)
+                {
+                    if(searchText.equals(selectHistoryList.get(i))){
+                        selectHistoryList.remove(i);
+                    }
                 }
-                selectHistoryList.add(binding.etSearch.getText().toString());
-                selectHistoryList.addAll(localHistory);
-                BasePreference.saveHotelSearchHistory(GsonConverter.toJson(selectHistoryList));
-                searchHistoryAdapter.notifyDataChanged(selectHistoryList);
+
+                List<String> tempHistory = new ArrayList<>();
+                if (selectHistoryList.size() == 10) {
+                    selectHistoryList.remove(9);
+                }
+                tempHistory.add(searchText);
+                tempHistory.addAll(selectHistoryList);
+                BasePreference.saveHotelSearchHistory(GsonConverter.toJson(tempHistory));
+                searchHistoryAdapter.notifyDataChanged(getLocalData());
                 hideSoftKeyboard();
 
                 showHotelView(binding.etSearch.getText().toString());
+                binding.etSearch.setClearIconVisible(true);
                 break;
 
         }
@@ -188,6 +198,7 @@ public class SearchHotelActivity extends BaseActivity implements View.OnClickLis
                     new TypeToken<List<String>>() {
                     }.getType());
         }
+        selectHistoryList.clear();
         selectHistoryList.addAll(tempList);
         return tempList;
     }
@@ -204,6 +215,7 @@ public class SearchHotelActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void clearHistory() {
+        selectHistoryList.clear();
         BasePreference.saveHotelSearchHistory("");
         searchHistoryAdapter.notifyDataClear();
 

@@ -17,11 +17,12 @@ import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.databinding.BallroomItemBinding;
 import sen.wedding.com.weddingsen.databinding.HotelTypeItemBinding;
 import sen.wedding.com.weddingsen.main.model.BallroomModel;
+import sen.wedding.com.weddingsen.main.model.HotelOptionModel;
 
 
 public class HotelTypeAdapter extends BaseAdapter {
 
-    List<String> list;
+    List<HotelOptionModel> list;
     private Context currentContext;
     private int selectPosition = 0;
 
@@ -35,7 +36,7 @@ public class HotelTypeAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void notifyDataChanged(List<String> dataList) {
+    public void notifyDataChanged(List<HotelOptionModel> dataList) {
 
         list.clear();
         list.addAll(dataList);
@@ -86,13 +87,13 @@ public class HotelTypeAdapter extends BaseAdapter {
             binding.tvShow.setBackgroundResource(R.drawable.bg_item_round);
 
         }
-        binding.tvShow.setText(list.get(position));
+        binding.tvShow.setText(list.get(position).getTitle());
 
         return binding.getRoot();
 
     }
 
-    public List<String> getList() {
+    public List<HotelOptionModel> getList() {
         return list;
     }
 

@@ -22,9 +22,9 @@
         <LinearLayout
             android:id="@+id/ll_distinct"
             android:layout_width="match_parent"
-            android:background="@color/white"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/white"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -53,10 +53,10 @@
 
         <LinearLayout
             android:id="@+id/ll_type"
-            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/white"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -98,12 +98,42 @@
 
             <ListView
                 android:id="@+id/lv_hotels"
+                android:overScrollMode="never"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:divider="@null"></ListView>
 
         </LinearLayout>
 
+        <RelativeLayout
+            android:id="@+id/rl_select_show"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#90000000"
+            android:visibility="gone">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_dictinct_show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:visibility="gone"
+                android:overScrollMode="never"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp" />
+
+            <ListView
+                android:id="@+id/lv_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:divider="@null"
+                android:listSelector="@android:color/transparent"
+                android:overScrollMode="never"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
+                android:visibility="gone"></ListView>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_recommend"
@@ -115,36 +145,6 @@
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
             android:background="@mipmap/recommoned_zoom" />
-
-        <RelativeLayout
-            android:id="@+id/rl_select_show"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            android:background="#90000000"
-            >
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_dictinct_show"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                android:background="@color/white"
-                android:paddingBottom="15dp"
-                android:paddingTop="15dp" />
-
-            <ListView
-                android:id="@+id/lv_type"
-                android:visibility="gone"
-                android:divider="@null"
-                android:listSelector="@android:color/transparent"
-                android:paddingTop="15dp"
-                android:overScrollMode="never"
-                android:paddingBottom="15dp"
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></ListView>
-        </RelativeLayout>
     </RelativeLayout>
 
 </LinearLayout>

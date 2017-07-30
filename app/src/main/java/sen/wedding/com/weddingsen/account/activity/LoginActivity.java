@@ -226,10 +226,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 }
                 BasePreference.saveUserType(accountInfoModel.getUserType());
                 BasePreference.saveAlipayAccount(accountInfoModel.getAlipayAccount());
+                BasePreference.saveBankAccount(accountInfoModel.getBankAccount());
                 BasePreference.saveHotelId(accountInfoModel.getHotelId());
                 BasePreference.saveHotelName(accountInfoModel.getHotelName());
                 BasePreference.saveAreaId(accountInfoModel.getAreaId());
                 BasePreference.saveHotelArea(accountInfoModel.getHotelArea());
+                BasePreference.saveAutoType(accountInfoModel.getAutoType());
 
                 showToast(getString(R.string.login_success));
                 EventBus.getDefault().post(new EventIntent(Conts.EVENT_INIT_MAIN_SLIDE, ""));

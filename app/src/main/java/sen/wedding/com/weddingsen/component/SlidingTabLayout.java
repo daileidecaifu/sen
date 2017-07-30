@@ -249,7 +249,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
             tabTitleView.setText(title);
             tabTitleView.setTextSize(tabTitleTextSize);
             int textWidth = (int) DensityUtil.getTextViewLength(tabTitleView, "待处理(100)");
-            textWidth = textWidth +15;
+            textWidth = textWidth + 30;
             tabTitleView.setWidth(textWidth);
             tabTitleView.setMaxLines(1);
             tabView.setOnClickListener(new TabClickListener());

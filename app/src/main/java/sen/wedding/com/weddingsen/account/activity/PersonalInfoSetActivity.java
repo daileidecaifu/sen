@@ -1,5 +1,6 @@
 package sen.wedding.com.weddingsen.account.activity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -126,14 +127,22 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
 
     }
 
-    private void initData()
-    {
-        if(!TextUtils.isEmpty(personInfoModel.getAlipay()))
+    private void initData() {
+        if(fromTag==Conts.FROM_LOGIN)
         {
             isAlipay = true;
+            yourChoice = 0;
         }else
         {
-            isAlipay = false;
+            if (!TextUtils.isEmpty(personInfoModel.getBankAccount())) {
+                isAlipay = false;
+                yourChoice = 1;
+
+            } else {
+                isAlipay = true;
+                yourChoice = 0;
+
+            }
         }
 
         binding.llAlipayAccount.etItemEditInput.setText(personInfoModel.getAlipay());
@@ -183,12 +192,12 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
                 swtichShowType();
             }
         });
-        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+//        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
         builder.create().show();
     }
 
@@ -200,7 +209,7 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
                 finish();
                 break;
             case R.id.ll_right:
-                setAlipayAccount();
+                setAccount();
                 break;
             case R.id.ll_left:
                 finish();
@@ -208,23 +217,30 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
         }
     }
 
-    private void setAlipayAccount() {
+    private void setAccount() {
 
-        if (TextUtils.isEmpty(binding.llAlipayAccount.etItemEditInput.getText().toString().trim())) {
+        if (isAlipay && TextUtils.isEmpty(binding.llAlipayAccount.etItemEditInput.getText().toString().trim())) {
             showToast(getString(R.string.alipay_empty));
+            return;
+        }
+
+        if (!isAlipay
+                && TextUtils.isEmpty(binding.llOpenBank.etItemEditInput.getText().toString().trim())
+                && TextUtils.isEmpty(binding.llUserName.etItemEditInput.getText().toString().trim())
+                && TextUtils.isEmpty(binding.llBankAccount.etItemEditInput.getText().toString().trim())) {
+            showToast(getString(R.string.bank_info_empty));
             return;
         }
 
         bindAlipayRequest = new ApiRequest(URLCollection.URL_BIND_ALIPAY, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
-        if(isAlipay) {
+        if (isAlipay) {
             param.put("alipay", binding.llAlipayAccount.etItemEditInput.getText().toString().trim());
             param.put("bank_name", "");
             param.put("bank_user", "");
             param.put("bank_account", "");
-        }else
-        {
+        } else {
             param.put("alipay", "");
             param.put("bank_name", binding.llOpenBank.etItemEditInput.getText().toString());
             param.put("bank_user", binding.llUserName.etItemEditInput.getText().toString());
@@ -258,6 +274,7 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
 //                    jumpToOtherActivity(MainActivity.class);
                     finish();
                 } else if (fromTag == Conts.FROM_MAIN) {
+                    setResult(RESULT_OK);
                     finish();
                 }
             } else {

@@ -84,10 +84,13 @@
     <string name="code_wrong_format">验证码格式错误</string>
     <string name="save">保存</string>
     <string name="alipay_empty">支付宝账号不能为空</string>
+    <string name="bank_info_empty">银行信息不能为空不能为空</string>
+
     <string name="request_error_tip">请求异常，请稍后再试</string>
     <string name="data_error_tip">返回数据错误</string>
 
     <string name="bind_success">绑定成功</string>
+    <string name="update_success">更新成功</string>
     <string name="select_order_type_hint">请选择类型</string>
     <string name="verify_guest_phone">验证受访者手机</string>
     <string name="verify_success">验证成功</string>

@@ -18,7 +18,7 @@ import sen.wedding.com.weddingsen.R;
  * Created by lorin on 17/4/2.
  */
 
-public class ClearEditText extends EditText implements View.OnFocusChangeListener, TextWatcher {
+public class  ClearEditText extends EditText implements View.OnFocusChangeListener, TextWatcher {
     // OnFocusChangeListener的回调接口
     public interface FocusChangeInterface {
         // 回调方法
@@ -122,7 +122,7 @@ public class ClearEditText extends EditText implements View.OnFocusChangeListene
      *
      * @param visible
      */
-    protected void setClearIconVisible(boolean visible) {
+    public void setClearIconVisible(boolean visible) {
         Drawable right = visible ? mClearDrawable : null;
         setCompoundDrawables(getCompoundDrawables()[0], getCompoundDrawables()[1], right,
                 getCompoundDrawables()[3]);

@@ -22,7 +22,7 @@ import java.util.List;
 import me.iwf.photopicker.PhotoPagerActivity;
 import me.iwf.photopicker.PhotoPreview;
 import sen.wedding.com.weddingsen.R;
-import sen.wedding.com.weddingsen.main.model.HotelDistinctModel;
+import sen.wedding.com.weddingsen.main.model.HotelOptionModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 
 import static me.iwf.photopicker.PhotoPreview.EXTRA_PHOTOS;
@@ -33,13 +33,13 @@ import static me.iwf.photopicker.PhotoPreview.EXTRA_SHOW_DELETE;
  */
 public class HotelDistinctAdapter extends RecyclerView.Adapter<HotelDistinctAdapter.PhotoViewHolder> {
 
-    private ArrayList<HotelDistinctModel> distinctModels = new ArrayList<HotelDistinctModel>();
+    private ArrayList<HotelOptionModel> distinctModels = new ArrayList<HotelOptionModel>();
     private LayoutInflater inflater;
     private Handler handler;
     private Context mContext;
     private int selectPosition = 0;
 
-    public HotelDistinctAdapter(Context mContext, ArrayList<HotelDistinctModel> distinctModels, Handler handler) {
+    public HotelDistinctAdapter(Context mContext, ArrayList<HotelOptionModel> distinctModels, Handler handler) {
         this.distinctModels = distinctModels;
         this.mContext = mContext;
         this.handler = handler;
@@ -64,7 +64,7 @@ public class HotelDistinctAdapter extends RecyclerView.Adapter<HotelDistinctAdap
     @Override
     public void onBindViewHolder(final PhotoViewHolder holder, final int position) {
 
-        HotelDistinctModel hotelDistinctModel = distinctModels.get(position);
+        HotelOptionModel hotelDistinctModel = distinctModels.get(position);
 
         if(selectPosition == position)
         {
