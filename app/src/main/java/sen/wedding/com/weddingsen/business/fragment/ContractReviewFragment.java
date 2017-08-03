@@ -21,7 +21,6 @@ import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.business.adapter.ContractReviewAdapter;
-import sen.wedding.com.weddingsen.business.adapter.PhotoAdapter;
 import sen.wedding.com.weddingsen.business.model.ContractReviewModel;
 import sen.wedding.com.weddingsen.databinding.ContractReviceBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;

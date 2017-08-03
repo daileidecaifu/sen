@@ -44,7 +44,7 @@ import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 public class SecondSaleFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>,
         AdapterView.OnItemClickListener, RecyclerRefreshLayout.OnRefreshListener,
-        LoadMoreView.OnLoadMoreListener,DBaseCallback {
+        LoadMoreView.OnLoadMoreListener, DBaseCallback {
 
     ListView listView;
     SecondSaleAdapter secondSaleAdapter;
@@ -96,6 +96,15 @@ public class SecondSaleFragment extends BaseFragment implements RequestHandler<A
                     getFirstSaleList();
                     break;
             }
+        } else if (eventIntent.getActionId() == Conts.EVENT_SECOND_SALE_UPDATE_FRESH) {
+            switch (currentStatus) {
+
+                case 2:
+                case 5:
+                    loadingView.showLoading();
+                    getFirstSaleList();
+                    break;
+            }
         }
     }
 
@@ -110,7 +119,7 @@ public class SecondSaleFragment extends BaseFragment implements RequestHandler<A
 
     private void initViews(View view) {
         listView = (ListView) view.findViewById(R.id.listView);
-        secondSaleAdapter = new SecondSaleAdapter(getActivity(), currentStatus,this);
+        secondSaleAdapter = new SecondSaleAdapter(getActivity(), currentStatus, this);
         listView.setAdapter(secondSaleAdapter);
         listView.setOnItemClickListener(this);
 //        listView.setOnScrollListener(this);
@@ -313,8 +322,8 @@ public class SecondSaleFragment extends BaseFragment implements RequestHandler<A
     }
 
     @Override
-    public void process(int data,String json) {
-        SecondSaleInfoModel model = GsonConverter.fromJson(json,SecondSaleInfoModel.class);
+    public void process(int data, String json) {
+        SecondSaleInfoModel model = GsonConverter.fromJson(json, SecondSaleInfoModel.class);
         switch (model.getErxiaoSignType()) {
             case Conts.SECOND_FOLLOW_UP_MIDDLE:
             case Conts.SECOND_FOLLOW_UP_ADDITIONAL:

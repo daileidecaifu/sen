@@ -44,7 +44,7 @@ import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 public class FirstSaleFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>,
         AdapterView.OnItemClickListener, RecyclerRefreshLayout.OnRefreshListener,
-        LoadMoreView.OnLoadMoreListener,DBaseCallback {
+        LoadMoreView.OnLoadMoreListener, DBaseCallback {
 
     ListView listView;
     FollowUpAdapter followUpAdapter;
@@ -105,12 +105,20 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
                     getFirstSaleList();
                     break;
             }
+        } else if (eventIntent.getActionId() == Conts.EVENT_FIRST_SALE_UPDATE_FRESH) {
+            switch (currentStatus) {
+                case 2:
+                case 5:
+                    loadingView.showLoading();
+                    getFirstSaleList();
+                    break;
+            }
         }
     }
 
     private void initViews(View view) {
         listView = (ListView) view.findViewById(R.id.listView);
-        followUpAdapter = new FollowUpAdapter(getActivity(), currentStatus,this);
+        followUpAdapter = new FollowUpAdapter(getActivity(), currentStatus, this);
         listView.setAdapter(followUpAdapter);
         listView.setOnItemClickListener(this);
 //        listView.setOnScrollListener(this);
@@ -313,7 +321,7 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
     }
 
     @Override
-    public void process(int data,String json) {
+    public void process(int data, String json) {
         Intent intent = new Intent(getActivity(), FirstSaleContractActivity.class);
         intent.putExtra("order_id", data);
         intent.putExtra("type", Conts.SOURCE_MODIFY);

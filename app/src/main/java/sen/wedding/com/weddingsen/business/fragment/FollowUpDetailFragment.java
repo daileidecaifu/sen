@@ -249,12 +249,12 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
 
             }
         });
-        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+//        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
         builder.create().show();
     }
 
@@ -475,9 +475,9 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Conts.TO_SUBMIT_CONTRACT_REVIEW) {
-            if (resultCode == Activity.RESULT_OK)
-                EventBus.getDefault().post(new EventIntent(Conts.EVENT_KEZI_LIST_REFRESH, ""));
-            getActivity().finish();
+            if (resultCode == Activity.RESULT_OK) {
+                getActivity().finish();
+            }
         }
     }
 

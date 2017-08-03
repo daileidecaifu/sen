@@ -34,6 +34,7 @@ import sen.wedding.com.weddingsen.databinding.SecondSaleDetailBinding;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
+import sen.wedding.com.weddingsen.sales.activity.FirstSaleContractActivity;
 import sen.wedding.com.weddingsen.sales.activity.ModifyRestTimeActivity;
 import sen.wedding.com.weddingsen.sales.activity.SecondSaleContractActivity;
 import sen.wedding.com.weddingsen.utils.DateUtil;
@@ -389,6 +390,33 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
                 binding.llReviewProgress.setVisibility(View.VISIBLE);
                 binding.llToFollow.setVisibility(View.GONE);
                 binding.tvModifyAndSubmit.setVisibility(View.VISIBLE);
+                binding.tvModifyAndSubmit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // TODO: 17/8/4 需要知道二销的状态
+
+//                        switch (model.getErxiaoSignType()) {
+//                            case Conts.SECOND_FOLLOW_UP_MIDDLE:
+//                            case Conts.SECOND_FOLLOW_UP_ADDITIONAL:
+//                            case Conts.SECOND_FOLLOW_UP_REST:
+//                                Intent intent = new Intent(getActivity(), SecondSaleContractActivity.class);
+//                                intent.putExtra("order_id", data);
+//                                intent.putExtra("action_type", model.getErxiaoSignType());
+//                                intent.putExtra("type", Conts.SOURCE_MODIFY);
+//                                startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
+//                                break;
+//
+//                            case Conts.SECOND_FOLLOW_UP_MODIFY:
+//                                Intent intent2 = new Intent(getActivity(), ModifyRestTimeActivity.class);
+//                                intent2.putExtra("order_id", data);
+//                                intent2.putExtra("original_time", "");
+//                                intent2.putExtra("type", Conts.SOURCE_MODIFY);
+//                                startActivityForResult(intent2, Conts.TO_SUBMIT_CONTRACT_REVIEW);
+//                                break;
+//                        }
+
+                    }
+                });
 //                binding.tvMessage.setText(getString(R.string.settlemented_message));
                 binding.tvMessage.setText(content);
                 break;
@@ -400,7 +428,6 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Conts.TO_SUBMIT_CONTRACT_REVIEW) {
             if (resultCode == Activity.RESULT_OK) {
-                EventBus.getDefault().post(new EventIntent(Conts.EVENT_SECOND_SALE_LIST_REFRESH, ""));
                 getActivity().finish();
             }
         }

@@ -25,6 +25,8 @@ import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 
 //import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -66,6 +68,7 @@ import sen.wedding.com.weddingsen.utils.FileIOUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.OSSUploader;
 import sen.wedding.com.weddingsen.utils.StringUtil;
+import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 /**
  * Created by lorin on 17/5/2.
@@ -319,13 +322,11 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         if (selectedPhotos != null && selectedPhotos.size() > 0) {
             for (String oldPath : selectedPhotos) {
 
-                if(oldPath.startsWith("http"))
-                {
+                if (oldPath.startsWith("http")) {
                     PutObjectRequest put = new PutObjectRequest(Conts.OSS_BUCKET, Conts.OSS_UPLOAD_PREFIX + System.currentTimeMillis() + ".jpg", oldPath);
                     uploadPuts.add(put);
 
-                }else
-                {
+                } else {
                     File oldFile = new File(oldPath);
                     File newFile = CompressHelper.getDefault(getApplicationContext()).compressToFile(oldFile);
                     String newPath = newFile.getAbsolutePath();
@@ -397,6 +398,13 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
 
         if (req == submitCertificateRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
+
+                if (type == Conts.SOURCE_MODIFY) {
+                    EventBus.getDefault().post(new EventIntent(Conts.EVENT_KEZI_LIST_UPDATE_FRESH, ""));
+                } else {
+                    EventBus.getDefault().post(new EventIntent(Conts.EVENT_KEZI_LIST_REFRESH, ""));
+                }
+
                 showToast(getString(R.string.action_success));
                 setResult(RESULT_OK);
                 finish();

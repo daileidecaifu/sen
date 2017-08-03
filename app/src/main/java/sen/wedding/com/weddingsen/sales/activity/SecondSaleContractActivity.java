@@ -18,6 +18,8 @@ import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvide
 import com.alibaba.sdk.android.oss.model.GetObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -51,6 +53,7 @@ import sen.wedding.com.weddingsen.utils.FileIOUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.OSSUploader;
 import sen.wedding.com.weddingsen.utils.StringUtil;
+import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 //import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -409,6 +412,12 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
 
         if (req == submitCertificateRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
+
+                if (type == Conts.SOURCE_MODIFY) {
+                    EventBus.getDefault().post(new EventIntent(Conts.EVENT_SECOND_SALE_LIST_REFRESH, ""));
+                } else {
+                    EventBus.getDefault().post(new EventIntent(Conts.EVENT_SECOND_SALE_UPDATE_FRESH, ""));
+                }
                 showToast(getString(R.string.action_success));
                 setResult(RESULT_OK);
                 finish();

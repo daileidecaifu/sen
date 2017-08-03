@@ -18,6 +18,8 @@ import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvide
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -53,6 +55,7 @@ import sen.wedding.com.weddingsen.utils.FileIOUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.OSSUploader;
 import sen.wedding.com.weddingsen.utils.StringUtil;
+import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 //import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -458,6 +461,13 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
 
         if (req == submitCertificateRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
+
+                if (type == Conts.SOURCE_MODIFY) {
+                    EventBus.getDefault().post(new EventIntent(Conts.EVENT_FIRST_SALE_UPDATE_FRESH, ""));
+                } else {
+                    EventBus.getDefault().post(new EventIntent(Conts.EVENT_FIRST_SALE_LIST_REFRESH, ""));
+                }
+
                 showToast(getString(R.string.action_success));
                 setResult(RESULT_OK);
                 finish();

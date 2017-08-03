@@ -28,7 +28,6 @@ import sen.wedding.com.weddingsen.base.BaseFragment;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
-import sen.wedding.com.weddingsen.business.activity.ContractInfoActivity;
 import sen.wedding.com.weddingsen.business.adapter.ReviewInfoAdapter;
 import sen.wedding.com.weddingsen.business.model.DetailResModel;
 import sen.wedding.com.weddingsen.business.model.OrderItemModel;
@@ -465,7 +464,6 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Conts.TO_SUBMIT_CONTRACT_REVIEW) {
             if (resultCode == Activity.RESULT_OK) {
-                EventBus.getDefault().post(new EventIntent(Conts.EVENT_FIRST_SALE_LIST_REFRESH, ""));
                 getActivity().finish();
             }
         }

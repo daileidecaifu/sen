@@ -103,6 +103,14 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
                     getFollowInfoList();
                     break;
             }
+        } else if (eventIntent.getActionId() == Conts.EVENT_KEZI_LIST_UPDATE_FRESH) {
+            switch (currentStatus) {
+                case 2:
+                case 5:
+                    loadingView.showLoading();
+                    getFollowInfoList();
+                    break;
+            }
         }
     }
 
@@ -311,7 +319,7 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
     }
 
     @Override
-    public void process(int data,String json) {
+    public void process(int data, String json) {
         Intent intent = new Intent(getActivity(), ContractInfoActivity.class);
         intent.putExtra("order_id", data);
         intent.putExtra("type", Conts.SOURCE_MODIFY);
