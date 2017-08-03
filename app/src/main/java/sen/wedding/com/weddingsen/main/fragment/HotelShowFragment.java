@@ -250,7 +250,15 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
     public void onMainReceiver(EventIntent eventIntent) {
         if (eventIntent.getActionId() == Conts.EVENT_INIT_MAIN_SLIDE) {
             initLeftTopIcon();
+            if (BasePreference.getUserType().equals(Conts.LOGIN_MODEL_FIRST_SALE)
+                    || BasePreference.getUserType().equals(Conts.LOGIN_MODEL_SECOND_SALE)) {
+                tvRecommend.setVisibility(View.GONE);
+            } else {
+                tvRecommend.setVisibility(View.VISIBLE);
+                tvRecommend.setOnClickListener(this);
+            }
         }
+
     }
 
     public void initLeftTopIcon() {
