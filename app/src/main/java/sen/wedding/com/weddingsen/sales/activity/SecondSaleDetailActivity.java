@@ -31,6 +31,7 @@ public class SecondSaleDetailActivity extends BaseActivity {
     private FollowUpDetailBinding binding;
     private int orderId;
     private int orderStatus;
+    private int erXiaoType;
     private FragmentManager fragmentManager;
     private SecondSaleContractFragment secondSaleContractFragment;
     private SecondSaleDetailFragment secondSaleDetailFragment;
@@ -44,6 +45,7 @@ public class SecondSaleDetailActivity extends BaseActivity {
 
         orderId = getIntent().getIntExtra("order_id", -1);
         orderStatus = getIntent().getIntExtra("order_status", 1);
+        erXiaoType = getIntent().getIntExtra("er_xiao_type", -1);
         checkTitle();
         setTabSelection(0);
 //        checkTitle();
@@ -126,7 +128,8 @@ public class SecondSaleDetailActivity extends BaseActivity {
         layoutLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-finish();            }
+                finish();
+            }
         });
 
         linearLayoutTitle.setVisibility(View.VISIBLE);
@@ -144,7 +147,7 @@ finish();            }
 
                 if (secondSaleDetailFragment == null) {
                     // 如果MessageFragment为空，则创建一个并添加到界面上
-                    secondSaleDetailFragment = SecondSaleDetailFragment.newInstance(orderId, orderStatus);
+                    secondSaleDetailFragment = SecondSaleDetailFragment.newInstance(orderId, orderStatus,erXiaoType);
                     transaction.add(R.id.fl_content, secondSaleDetailFragment);
                 } else {
                     // 如果MessageFragment不为空，则直接将它显示出来

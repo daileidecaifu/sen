@@ -68,12 +68,12 @@
             android:name=".main.activity.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <activity
@@ -199,6 +199,11 @@
         <activity android:name=".main.activity.SearchHotelActivity"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".base.acitivity.TestCompressActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
     </application>
 
 </manifest>

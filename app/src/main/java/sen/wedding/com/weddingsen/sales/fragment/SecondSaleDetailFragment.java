@@ -64,17 +64,19 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
     private int actionType;
     private int orderId;
     private int orderStatus;
+    private int erXiaoType;
     private int afterDays = -1;
     private String orginTime;
     OrderItemModel orderItemModel;
     private int finishMiddle = 2;//未支付
     private int yourChoice = 0;
 
-    public static SecondSaleDetailFragment newInstance(int orderId, int orderStatus) {
+    public static SecondSaleDetailFragment newInstance(int orderId, int orderStatus,int erXiaoType) {
         Bundle args = new Bundle();
         SecondSaleDetailFragment fragment = new SecondSaleDetailFragment();
         args.putInt("order_id", orderId);
         args.putInt("order_status", orderStatus);
+        args.putInt("er_xiao_type", erXiaoType);
 
         fragment.setArguments(args);
         return fragment;
@@ -85,6 +87,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         super.onCreate(savedInstanceState);
         orderId = getArguments().getInt("order_id");
         orderStatus = getArguments().getInt("order_status");
+        erXiaoType = getArguments().getInt("er_xiao_type");
     }
 
     @Override
@@ -393,27 +396,26 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
                 binding.tvModifyAndSubmit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // TODO: 17/8/4 需要知道二销的状态
 
-//                        switch (model.getErxiaoSignType()) {
-//                            case Conts.SECOND_FOLLOW_UP_MIDDLE:
-//                            case Conts.SECOND_FOLLOW_UP_ADDITIONAL:
-//                            case Conts.SECOND_FOLLOW_UP_REST:
-//                                Intent intent = new Intent(getActivity(), SecondSaleContractActivity.class);
-//                                intent.putExtra("order_id", data);
-//                                intent.putExtra("action_type", model.getErxiaoSignType());
-//                                intent.putExtra("type", Conts.SOURCE_MODIFY);
-//                                startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
-//                                break;
-//
-//                            case Conts.SECOND_FOLLOW_UP_MODIFY:
-//                                Intent intent2 = new Intent(getActivity(), ModifyRestTimeActivity.class);
-//                                intent2.putExtra("order_id", data);
-//                                intent2.putExtra("original_time", "");
-//                                intent2.putExtra("type", Conts.SOURCE_MODIFY);
-//                                startActivityForResult(intent2, Conts.TO_SUBMIT_CONTRACT_REVIEW);
-//                                break;
-//                        }
+                        switch (erXiaoType) {
+                            case Conts.SECOND_FOLLOW_UP_MIDDLE:
+                            case Conts.SECOND_FOLLOW_UP_ADDITIONAL:
+                            case Conts.SECOND_FOLLOW_UP_REST:
+                                Intent intent = new Intent(getActivity(), SecondSaleContractActivity.class);
+                                intent.putExtra("order_id", orderId);
+                                intent.putExtra("action_type", actionType);
+                                intent.putExtra("type", Conts.SOURCE_MODIFY);
+                                startActivityForResult(intent, Conts.TO_SUBMIT_CONTRACT_REVIEW);
+                                break;
+
+                            case Conts.SECOND_FOLLOW_UP_MODIFY:
+                                Intent intent2 = new Intent(getActivity(), ModifyRestTimeActivity.class);
+                                intent2.putExtra("order_id", orderId);
+                                intent2.putExtra("original_time", orginTime);
+                                intent2.putExtra("type", Conts.SOURCE_MODIFY);
+                                startActivityForResult(intent2, Conts.TO_SUBMIT_CONTRACT_REVIEW);
+                                break;
+                        }
 
                     }
                 });

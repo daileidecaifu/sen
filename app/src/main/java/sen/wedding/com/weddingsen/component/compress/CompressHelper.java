@@ -26,11 +26,11 @@ public class CompressHelper {
     /**
      * 最大宽度，默认为720
      */
-    private float maxWidth = 960.0f;
+    private float maxWidth = 1280.0f;
     /**
      * 最大高度,默认为960
      */
-    private float maxHeight = 1280.0f;
+    private float maxHeight = 1440.0f;
     /**
      * 默认压缩后的方式为JPEG
      */
@@ -43,7 +43,7 @@ public class CompressHelper {
     /**
      * 默认压缩质量为80
      */
-    private int quality = 80;
+    private int quality = 90;
     /**
      * 存储路径
      */

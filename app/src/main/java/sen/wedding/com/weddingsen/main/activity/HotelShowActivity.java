@@ -1,10 +1,14 @@
 package sen.wedding.com.weddingsen.main.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v13.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
@@ -15,6 +19,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import me.iwf.photopicker.utils.PermissionsConstant;
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.account.activity.FeedbackActivity;
 import sen.wedding.com.weddingsen.account.activity.LoginActivity;
@@ -29,6 +34,8 @@ import sen.wedding.com.weddingsen.main.fragment.HotelShowFragment;
 import sen.wedding.com.weddingsen.sales.activity.BuildFollowAcrivity;
 import sen.wedding.com.weddingsen.utils.ScreenUtil;
 import sen.wedding.com.weddingsen.utils.model.EventIntent;
+
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 /**
  * Created by lorin on 17/5/25.
@@ -54,6 +61,7 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
         binding.llSliderMenu.setClickListener(this);
         initSildMenu();
         addFragmentView();
+        checkWriteStoragePermission();
     }
 
     @Override
@@ -117,8 +125,7 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
         binding.llSliderMenu.tvPhoneNumber.setText(BasePreference.getUserName());
     }
 
-    private void hideAllSlideItem()
-    {
+    private void hideAllSlideItem() {
         binding.llSliderMenu.llInfoProvide.setVisibility(View.GONE);
         binding.llSliderMenu.llInfoFollow.setVisibility(View.GONE);
         binding.llSliderMenu.llPersonInfo.setVisibility(View.GONE);
@@ -190,7 +197,7 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
 
         BasePreference.clearAll();
         initSildMenu();
-        if(hotelShowFragment!=null) {
+        if (hotelShowFragment != null) {
             hotelShowFragment.initLeftTopIcon();
         }
         jumpToOtherActivity(LoginActivity.class);
@@ -211,6 +218,20 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
             finish();
 
         }
+    }
+
+    private boolean checkWriteStoragePermission() {
+
+        int writeStoragePermissionState =
+                ContextCompat.checkSelfPermission(HotelShowActivity.this, WRITE_EXTERNAL_STORAGE);
+
+        boolean writeStoragePermissionGranted = writeStoragePermissionState == PackageManager.PERMISSION_GRANTED;
+
+        if (!writeStoragePermissionGranted) {
+            ActivityCompat.requestPermissions(HotelShowActivity.this, PermissionsConstant.PERMISSIONS_EXTERNAL_WRITE,
+                    PermissionsConstant.REQUEST_EXTERNAL_WRITE);
+        }
+        return writeStoragePermissionGranted;
     }
 
 }

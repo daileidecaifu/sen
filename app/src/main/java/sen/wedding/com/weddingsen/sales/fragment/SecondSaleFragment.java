@@ -298,6 +298,7 @@ public class SecondSaleFragment extends BaseFragment implements RequestHandler<A
             Intent intent = new Intent(getActivity(), SecondSaleDetailActivity.class);
             intent.putExtra("order_id", secondSaleAdapter.getList().get(position).getId());
             intent.putExtra("order_status", currentStatus);
+            intent.putExtra("er_xiao_type", model.getOrderList().get(position).getErxiaoSignType());
 
             getActivity().startActivity(intent);
         }
