@@ -250,6 +250,7 @@
     <string name="all_type">全部类型</string>
     <string name="search_history">搜索历史</string>
     <string name="clear_search_history">清空搜索历史</string>
+    <string name="imgs_can_not_empty">上传图片不能为空</string>
 
 
 </resources>

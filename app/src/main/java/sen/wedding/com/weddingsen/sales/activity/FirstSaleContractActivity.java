@@ -50,6 +50,7 @@ import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.sales.model.FirstSaleSignDetailModel;
 import sen.wedding.com.weddingsen.utils.AppLog;
+import sen.wedding.com.weddingsen.utils.DLUtil;
 import sen.wedding.com.weddingsen.utils.DateUtil;
 import sen.wedding.com.weddingsen.utils.FileIOUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
@@ -216,6 +217,8 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
         switch (v.getId()) {
             case R.id.tv_submit_review:
 
+                submitVerification();
+
                 showProgressDialog(false);
 
                 OSSUploader ossUploader = new OSSUploader(oss, prepareUploadRequests(), new OSSResultFeedback() {
@@ -253,6 +256,13 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
                 ossUploader.toUpload();
 
                 break;
+        }
+    }
+
+    private void submitVerification() {
+        if (!DLUtil.isArrayEffective(selectedPhotos)) {
+            showToast(getString(R.string.imgs_can_not_empty));
+            return;
         }
     }
 

@@ -48,6 +48,7 @@ import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.sales.model.SecondSaleContractResModel;
 import sen.wedding.com.weddingsen.utils.AppLog;
+import sen.wedding.com.weddingsen.utils.DLUtil;
 import sen.wedding.com.weddingsen.utils.DateUtil;
 import sen.wedding.com.weddingsen.utils.FileIOUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
@@ -204,6 +205,8 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
         switch (v.getId()) {
             case R.id.tv_submit_review:
 
+                submitVerification();
+                
                 showProgressDialog(false);
 
                 OSSUploader ossUploader = new OSSUploader(oss, prepareUploadRequests(), new OSSResultFeedback() {
@@ -275,6 +278,13 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
 
 
                 break;
+        }
+    }
+
+    private void submitVerification() {
+        if (!DLUtil.isArrayEffective(selectedPhotos)) {
+            showToast(getString(R.string.imgs_can_not_empty));
+            return;
         }
     }
 
