@@ -173,12 +173,12 @@ public class BuildInfoDetailActivity extends BaseActivity implements View.OnClic
         binding.llShowBudget.tvItemSelectContent.setText(orderItemModel.getOrderMoney());
 
         long time = Long.parseLong(orderItemModel.getUseDate()) * 1000;
-        binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+        binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
 
         binding.tvShowNote.setText(orderItemModel.getOrderDesc());
 
         long processTime = Long.parseLong(detailResModel.getHandleTime()) * 1000;
-        binding.llProcessTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(processTime), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+        binding.llProcessTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(processTime), DateUtil.FORMAT_COMMON_Y_M_D));
 
         binding.llProcessSchedule.tvItemSelectContent.setText(detailResModel.getHandleNote());
 

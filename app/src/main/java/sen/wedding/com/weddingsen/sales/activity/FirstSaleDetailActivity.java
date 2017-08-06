@@ -74,18 +74,18 @@ public class FirstSaleDetailActivity extends BaseActivity {
         TextView textViewLeft = (TextView) linearLayoutTitle.findViewById(R.id.tv_left);
         TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
         SwitchButton switchButton = (SwitchButton) linearLayoutTitle.findViewById(R.id.sb_main_follower);
+        LinearLayout layoutRight = (LinearLayout) linearLayoutTitle.findViewById(R.id.ll_right);
 
         textViewRight.setText(getString(R.string.follow_log));
         switchButton.setText(tabTextList);
         switchButton.setOnSwitchListener(new SwitchButton.OnSwitchListener() {
             @Override
             public void onSwitch(int position, String tabText) {
-                showToast("" + position);
                 setTabSelection(position);
             }
         });
 
-        textViewRight.setOnClickListener(new View.OnClickListener() {
+        layoutRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(FirstSaleDetailActivity.this, BuildLogInfoActivity.class);
@@ -112,10 +112,9 @@ public class FirstSaleDetailActivity extends BaseActivity {
         TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
         TextView textViewTitle = (TextView) linearLayoutTitle.findViewById(R.id.tv_title_title);
         LinearLayout layoutRight = (LinearLayout) linearLayoutTitle.findViewById(R.id.ll_right);
-        LinearLayout layoutLeft = (LinearLayout) linearLayoutTitle.findViewById(R.id.ll_left);
         textViewRight.setText(getString(R.string.follow_log));
         textViewTitle.setText(getString(R.string.build_detail));
-        layoutLeft.setOnClickListener(new View.OnClickListener() {
+        layoutRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(FirstSaleDetailActivity.this, BuildLogInfoActivity.class);

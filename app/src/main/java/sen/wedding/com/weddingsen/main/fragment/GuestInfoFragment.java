@@ -11,6 +11,10 @@ import android.widget.ListView;
 
 import com.dinuscxj.refresh.RecyclerRefreshLayout;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -31,6 +35,7 @@ import sen.wedding.com.weddingsen.main.adapter.GuestInfoAdapter;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
+import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 public class GuestInfoFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>,
         AdapterView.OnItemClickListener, RecyclerRefreshLayout.OnRefreshListener,
@@ -65,7 +70,27 @@ public class GuestInfoFragment extends BaseFragment implements RequestHandler<Ap
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         currentStatus = getArguments().getInt("order_status");
+        EventBus.getDefault().register(this);
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainReceiver(EventIntent eventIntent) {
+        if (eventIntent.getActionId() == Conts.EVENT_KEZI_CREATE_LIST_REFRESH) {
+            switch (currentStatus) {
+                case 1:
+                    loadingView.showLoading();
+                    getGuestInfoList();
+                    break;
+            }
+        }
     }
 
     @Override

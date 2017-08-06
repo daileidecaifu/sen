@@ -108,6 +108,7 @@ public class HotelDetailActivity extends BaseActivity implements RequestHandler<
         binding.tvHotelName.setText(hotelDetailModel.getHotelName());
         binding.tvExtraInfo.setText("(" + getString(R.string.rmb_symbol) + hotelDetailModel.getHotelLow() + "-" + hotelDetailModel.getHotelHigh() + "/"
                 + getString(R.string.table)
+                +"\t"
                 + getString(R.string.table_count_colon)
                 + hotelDetailModel.getHotelMaxDesk()
                 + ")");

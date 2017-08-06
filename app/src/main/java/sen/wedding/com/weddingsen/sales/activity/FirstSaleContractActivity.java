@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.alibaba.sdk.android.oss.ClientConfiguration;
@@ -71,7 +72,7 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
     private ArrayList<String> selectedPhotos = new ArrayList<>();
 
     //尾款时间
-    private long tailTime;
+    private long tailTime = 0;
     private String tailTimeContent;
     private int type;
     private FirstSaleSignDetailModel firstSaleSignDetailModel;
@@ -90,7 +91,7 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
 
     private OSS oss;
     private int orderId;
-    private ApiRequest submitCertificateRequest,getContractReviewRequest;
+    private ApiRequest submitCertificateRequest, getContractReviewRequest;
     private DatePickerDialog tailSaleDpd;
     private DatePickerDialog nextPayDpd;
 
@@ -165,6 +166,7 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
 
         //尾款时间
         binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.tail_time));
+        binding.llSignUpTime.tvItemSelectContent.setHint(getString(R.string.tail_time_hit));
         binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
         binding.llSignUpTime.setClickListener(new View.OnClickListener() {
             @Override
@@ -182,7 +184,7 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
         binding.llFirstSaleTime.tvItemSelectIcon.setVisibility(View.GONE);
 
         //支付时间
-        binding.llNextPayTime.tvItemSelectTitle.setText(getString(R.string.pay_time));
+        binding.llNextPayTime.tvItemSelectTitle.setText(getString(R.string.middle_time));
         binding.llNextPayTime.tvItemSelectIcon.setVisibility(View.GONE);
         binding.llNextPayTime.setClickListener(new View.OnClickListener() {
             @Override
@@ -217,7 +219,30 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
         switch (v.getId()) {
             case R.id.tv_submit_review:
 
-                submitVerification();
+                if (TextUtils.isEmpty(binding.llContractMoney.etItemEditInput.getText().toString().trim())) {
+                    showToast(getString(R.string.contract_money_can_not_empey));
+                    return;
+                }
+
+                if (tailTime == 0) {
+                    showToast(getString(R.string.tail_time_can_not_empty));
+                    return;
+                }
+
+                if (TextUtils.isEmpty(binding.llFirstSaleAmount.etItemEditInput.getText().toString().trim())) {
+                    showToast(getString(R.string.first_sale_money_can_not_empey));
+                    return;
+                }
+
+                if (!DLUtil.isArrayEffective(selectedPhotos)) {
+                    showToast(getString(R.string.imgs_can_not_empty));
+                    return;
+                }
+
+                if (selectNextPayTime == 0) {
+                    showToast(getString(R.string.middle_time_can_not_empty));
+                    return;
+                }
 
                 showProgressDialog(false);
 
@@ -256,13 +281,6 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
                 ossUploader.toUpload();
 
                 break;
-        }
-    }
-
-    private void submitVerification() {
-        if (!DLUtil.isArrayEffective(selectedPhotos)) {
-            showToast(getString(R.string.imgs_can_not_empty));
-            return;
         }
     }
 
@@ -317,13 +335,11 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
         if (selectedPhotos != null && selectedPhotos.size() > 0) {
             for (String oldPath : selectedPhotos) {
 
-                if(oldPath.startsWith("http"))
-                {
+                if (oldPath.startsWith("http")) {
                     PutObjectRequest put = new PutObjectRequest(Conts.OSS_BUCKET, Conts.OSS_UPLOAD_PREFIX + System.currentTimeMillis() + ".jpg", oldPath);
                     uploadPuts.add(put);
 
-                }else
-                {
+                } else {
                     File oldFile = new File(oldPath);
                     File newFile = CompressHelper.getDefault(getApplicationContext()).compressToFile(oldFile);
                     String newPath = newFile.getAbsolutePath();
@@ -408,18 +424,20 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
 
     private void fillData(FirstSaleSignDetailModel model) {
         long currentTimestamp = Long.parseLong(model.getSignUsingTime()) * 1000;
-        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
+        tailTime = currentTimestamp;
 
         binding.llContractMoney.etItemEditInput.setText(model.getOrderMoney());
         binding.llFirstSaleAmount.etItemEditInput.setText(model.getFirstOrderMoney());
 
         long firstSaleTime = Long.parseLong(model.getFirstOrderUsingTime()) * 1000;
-        binding.llFirstSaleTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(firstSaleTime), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+        binding.llFirstSaleTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(firstSaleTime), DateUtil.FORMAT_COMMON_Y_M_D));
 
         long nextPayTime = Long.parseLong(model.getNextPayTime()) * 1000;
-        binding.llNextPayTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(nextPayTime), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+        binding.llNextPayTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(nextPayTime), DateUtil.FORMAT_COMMON_Y_M_D));
+        selectNextPayTime = nextPayTime;
 
-        for (String str : model.getSignPic() ) {
+        for (String str : model.getSignPic()) {
             selectedPhotos.add(str);
 
         }
@@ -432,14 +450,14 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
 
         switch (selectDataType) {
             case dateTailType:
-                tailTimeContent = year + "-" + DateUtil.formatValue(monthOfYear + 1) + "-" + dayOfMonth;
+                tailTimeContent = year + "-" + DateUtil.formatSingleValue(monthOfYear + 1) + "-" + DateUtil.formatSingleValue(dayOfMonth);
                 //除以1000是为了符合php时间戳长度
                 tailTime = DateUtil.convertStringToDate(tailTimeContent, DateUtil.FORMAT_COMMON_Y_M_D).getTime() / 1000;
                 binding.llSignUpTime.tvItemSelectContent.setText(tailTimeContent);
                 break;
 
             case dateNextPayType:
-                selectNextPayTimeContent = year + "-" + DateUtil.formatValue(monthOfYear + 1) + "-" + dayOfMonth;
+                selectNextPayTimeContent = year + "-" + DateUtil.formatSingleValue(monthOfYear + 1) + "-" + DateUtil.formatSingleValue(dayOfMonth);
                 //除以1000是为了符合php时间戳长度
                 selectNextPayTime = DateUtil.convertStringToDate(selectNextPayTimeContent, DateUtil.FORMAT_COMMON_Y_M_D).getTime() / 1000;
                 binding.llNextPayTime.tvItemSelectContent.setText(selectNextPayTimeContent);
@@ -484,7 +502,7 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
             } else {
                 showToast(resultModel.message);
             }
-        }else if (req == getContractReviewRequest) {
+        } else if (req == getContractReviewRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 firstSaleSignDetailModel = GsonConverter.decode(resultModel.data, FirstSaleSignDetailModel.class);
                 fillData(firstSaleSignDetailModel);

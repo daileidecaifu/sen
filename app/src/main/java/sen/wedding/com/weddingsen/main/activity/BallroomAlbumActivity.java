@@ -62,8 +62,8 @@ public class BallroomAlbumActivity extends BaseActivity {
             binding.tvBallroomInfo.setText(getString(R.string.best_table_count_colon) + ballroomModel.getRoomBestDesk() + getString(R.string.table) + "\n"
                     + getString(R.string.max_table_count_colon) + ballroomModel.getRoomMaxDesk() + getString(R.string.table) + "\n"
                     + getString(R.string.min_table_count_colon) + ballroomModel.getRoomMinDesk() + getString(R.string.table) + "\n"
-                    + getString(R.string.high_level_colon) + ballroomModel.getRoomHigh() + "M" + "\n"
-                    + getString(R.string.area_colon) + ballroomModel.getRoomM() + "M2" + "\n"
+                    + getString(R.string.high_level_colon) + ballroomModel.getRoomHigh() + "\n"
+                    + getString(R.string.area_colon) + ballroomModel.getRoomM() +  "\n"
                     + getString(R.string.column_colon) + ballroomModel.getRoomLz() + "\n");
 
             hotelPagerAdapter = new HotelPagerAdapter(ballroomModel.getRoomImage(), this);

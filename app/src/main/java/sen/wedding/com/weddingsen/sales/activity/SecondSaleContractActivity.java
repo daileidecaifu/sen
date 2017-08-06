@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.alibaba.sdk.android.oss.ClientConfiguration;
@@ -70,7 +71,7 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
 
     private OSS oss;
     private int orderId;
-    private ApiRequest submitCertificateRequest,getContractReviewRequest;
+    private ApiRequest submitCertificateRequest, getContractReviewRequest;
 
     private int actionType;
     private int type;
@@ -91,6 +92,7 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
     };
 
     private SecondSaleContractResModel secondSaleContractResModel;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -150,10 +152,8 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
         binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
         FileIOUtil.deleteFile(new File(Conts.COMPRESS_IMG_PATH));
 
-        if(actionType!=-1)
-        {
-            switch (actionType)
-            {
+        if (actionType != -1) {
+            switch (actionType) {
                 case Conts.SECOND_FOLLOW_UP_MIDDLE:
                     binding.llContractMoney.tvItemEditTitle.setText(getString(R.string.middle_money));
                     getTitleBar().setTitle(getString(R.string.middle_pay));
@@ -195,8 +195,8 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
 
     private void getInfo() {
         orderId = getIntent().getIntExtra("order_id", -1);
-        actionType = getIntent().getIntExtra("action_type",-1);
-        type = getIntent().getIntExtra("type",-1);
+        actionType = getIntent().getIntExtra("action_type", -1);
+        type = getIntent().getIntExtra("type", -1);
     }
 
     @Override
@@ -205,8 +205,15 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
         switch (v.getId()) {
             case R.id.tv_submit_review:
 
-                submitVerification();
-                
+                if (TextUtils.isEmpty(binding.llContractMoney.etItemEditInput.getText().toString().trim())) {
+                    showToast(getString(R.string.money_can_not_empty));
+                    return;
+                }
+
+                if (!DLUtil.isArrayEffective(selectedPhotos)) {
+                    showToast(getString(R.string.imgs_can_not_empty));
+                    return;
+                }
                 showProgressDialog(false);
 
                 OSSUploader ossUploader = new OSSUploader(oss, prepareUploadRequests(), new OSSResultFeedback() {
@@ -243,48 +250,7 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
                 });
                 ossUploader.toUpload();
 
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                        OSSUploadTask ossUploadTask = new OSSUploadTask(oss, prepareUploadRequests(), new OSSUploadResult() {
-//
-//                            @Override
-//                            public void onComplete(OSSUploadModel result) {
-//                                if (result != null && result.isSuccess()) {
-////                                    closeProgressDialog();
-//                                    StringBuffer sb = new StringBuffer();
-//                                    ossImageUrls = "";
-//
-//                                    for (int i = 0; i < result.getList().size(); i++) {
-//                                        if (i != 0) {
-//                                            sb.append(",");
-//                                        }
-//                                        sb.append(result.getList().get(i).getRemoteUrl());
-//
-//                                    }
-//                                    ossImageUrls = sb.toString();
-//                                    AppLog.e(ossImageUrls);
-//                                    submitertificate();
-//                                } else {
-//                                    closeProgressDialog();
-//                                }
-//                            }
-//                        });
-//                        ossUploadTask.execute();
-//
-//                    }
-//                },50);
-
-
                 break;
-        }
-    }
-
-    private void submitVerification() {
-        if (!DLUtil.isArrayEffective(selectedPhotos)) {
-            showToast(getString(R.string.imgs_can_not_empty));
-            return;
         }
     }
 
@@ -339,13 +305,11 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
         if (selectedPhotos != null && selectedPhotos.size() > 0) {
             for (String oldPath : selectedPhotos) {
 
-                if(oldPath.startsWith("http"))
-                {
+                if (oldPath.startsWith("http")) {
                     PutObjectRequest put = new PutObjectRequest(Conts.OSS_BUCKET, Conts.OSS_UPLOAD_PREFIX + System.currentTimeMillis() + ".jpg", oldPath);
                     uploadPuts.add(put);
 
-                }else
-                {
+                } else {
                     File oldFile = new File(oldPath);
                     File newFile = CompressHelper.getDefault(getApplicationContext()).compressToFile(oldFile);
                     String newPath = newFile.getAbsolutePath();
@@ -390,12 +354,34 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
         binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
         binding.llSignUpTime.tvItemSelectTitle.setText(model.getSecondInputNote());
         long timestamp = Long.parseLong(model.getSecondInputContent()) * 1000;
-        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timestamp), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timestamp), DateUtil.FORMAT_COMMON_Y_M_D));
 
         if (model.getThirdInputContent() != null) {
             selectedPhotos.clear();
             selectedPhotos.addAll(model.getThirdInputContent());
             photoAdapter.notifyDataSetChanged();
+        }
+
+        actionType = Integer.parseInt(model.getSignType());
+
+        if (actionType != -1) {
+            switch (actionType) {
+                case Conts.SECOND_FOLLOW_UP_MIDDLE:
+                    binding.llContractMoney.tvItemEditTitle.setText(getString(R.string.middle_money));
+                    getTitleBar().setTitle(getString(R.string.middle_pay));
+                    break;
+                case Conts.SECOND_FOLLOW_UP_REST:
+                    binding.llContractMoney.tvItemEditTitle.setText(getString(R.string.tail_money));
+                    getTitleBar().setTitle(getString(R.string.rest_pay));
+
+                    break;
+                case Conts.SECOND_FOLLOW_UP_ADDITIONAL:
+                    binding.llContractMoney.tvItemEditTitle.setText(getString(R.string.additional_money));
+                    getTitleBar().setTitle(getString(R.string.addtional_pay));
+
+                    break;
+
+            }
         }
     }
 
@@ -434,7 +420,7 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
             } else {
                 showToast(resultModel.message);
             }
-        }else if (req == getContractReviewRequest) {
+        } else if (req == getContractReviewRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 secondSaleContractResModel = GsonConverter.decode(resultModel.data, SecondSaleContractResModel.class);
                 fillData(secondSaleContractResModel);

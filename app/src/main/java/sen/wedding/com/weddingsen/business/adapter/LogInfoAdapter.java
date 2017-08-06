@@ -94,29 +94,16 @@ public class LogInfoAdapter extends BaseAdapter {
                 break;
 
             case "2":
-                //提交审核
-                binding.tvTitle.setText(currentContext.getString(R.string.submit_review));
+                //已取消
+                binding.tvTitle.setText(currentContext.getString(R.string.has_canceled));
                 break;
 
             case "3":
-                //提交结算
-                binding.tvTitle.setText(currentContext.getString(R.string.submit_settlement));
+                //签单
+//                binding.tvTitle.setText(currentContext.getString(R.string.submit_settlement));
                 break;
 
-            case "4":
-                //已经结算
-                binding.tvTitle.setText(currentContext.getString(R.string.has_settlemented));
-                break;
 
-            case "5":
-                //已经驳回
-                binding.tvTitle.setText(currentContext.getString(R.string.has_rejected));
-                break;
-
-            case "6":
-                //已经取消
-                binding.tvTitle.setText(currentContext.getString(R.string.has_canceled));
-                break;
 
         }
 

@@ -14,6 +14,9 @@ public class SecondSaleContractResModel{
 
     private String title;
 
+    @SerializedName("sign_type")
+    private String signType;
+
     @SerializedName("first_input_note")
     private String fristInputNote;
 
@@ -86,5 +89,13 @@ public class SecondSaleContractResModel{
 
     public void setThirdInputContent(List<String> thirdInputContent) {
         this.thirdInputContent = thirdInputContent;
+    }
+
+    public String getSignType() {
+        return signType;
+    }
+
+    public void setSignType(String signType) {
+        this.signType = signType;
     }
 }

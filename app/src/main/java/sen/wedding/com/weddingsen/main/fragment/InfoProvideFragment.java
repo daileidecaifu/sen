@@ -14,6 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,6 +28,7 @@ import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.component.SwitchButton;
 import sen.wedding.com.weddingsen.main.activity.MainActivity;
+import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 /**
  * Created by lorin on 17/5/8.
@@ -48,7 +53,24 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainReceiver(EventIntent eventIntent) {
+        if (eventIntent.getActionId() == Conts.EVENT_KEZI_CREATE_LIST_REFRESH) {
+            setTabSelection(0);
+        }else if(eventIntent.getActionId() == Conts.EVENT_BUILD_CREATE_LIST_REFRESH)
+        {
+            setTabSelection(1);
+        }
     }
 
     @Override
@@ -92,7 +114,6 @@ public class InfoProvideFragment extends BaseFragment implements View.OnClickLis
         switchButton.setOnSwitchListener(new SwitchButton.OnSwitchListener() {
             @Override
             public void onSwitch(int position, String tabText) {
-                showToast(""+position);
                 setTabSelection(position);
 
             }

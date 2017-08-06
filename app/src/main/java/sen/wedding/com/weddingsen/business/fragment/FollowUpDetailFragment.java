@@ -344,7 +344,7 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
 
         if (!TextUtils.isEmpty(orderItemModel.getUseDate()) && !orderItemModel.getUseDate().equals("0")) {
             long time = Long.parseLong(orderItemModel.getUseDate()) * 1000;
-            binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+            binding.llShowTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
         }
         binding.tvShowNote.setText(orderItemModel.getOrderDesc());
 

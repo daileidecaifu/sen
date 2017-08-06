@@ -11,6 +11,10 @@ import android.widget.ListView;
 
 import com.dinuscxj.refresh.RecyclerRefreshLayout;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -31,6 +35,7 @@ import sen.wedding.com.weddingsen.main.adapter.GuestInfoAdapter;
 import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
+import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 public class BuildInfoFragment extends BaseFragment implements RequestHandler<ApiRequest, ApiResponse>,
         AdapterView.OnItemClickListener, RecyclerRefreshLayout.OnRefreshListener,
@@ -64,8 +69,27 @@ public class BuildInfoFragment extends BaseFragment implements RequestHandler<Ap
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         currentStatus = getArguments().getInt("order_status");
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainReceiver(EventIntent eventIntent) {
+        if (eventIntent.getActionId() == Conts.EVENT_BUILD_CREATE_LIST_REFRESH) {
+            switch (currentStatus) {
+                case 1:
+                    loadingView.showLoading();
+                    getBuildInfoList();
+                    break;
+            }
+        }
     }
 
     @Override
@@ -97,7 +121,7 @@ public class BuildInfoFragment extends BaseFragment implements RequestHandler<Ap
             @Override
             public void OnLoadingFailedClick(View view) {
                 loadingView.showLoading();
-                getGuestInfoList();
+                getBuildInfoList();
             }
 
             @Override
@@ -105,12 +129,12 @@ public class BuildInfoFragment extends BaseFragment implements RequestHandler<Ap
 //                Intent intent = new Intent(getActivity(), VerifyGuestInfoActivity.class);
 //                getActivity().startActivity(intent);
                 loadingView.showLoading();
-                getGuestInfoList();
+                getBuildInfoList();
             }
         });
 
         loadingView.showLoading();
-        getGuestInfoList();
+        getBuildInfoList();
     }
 
 //    @Override
@@ -148,7 +172,7 @@ public class BuildInfoFragment extends BaseFragment implements RequestHandler<Ap
         return guestInfosResModel;
     }
 
-    private void getGuestInfoList() {
+    private void getBuildInfoList() {
         currentPage = 1;
         getListRequest = new ApiRequest(URLCollection.URL_GET_BUILD_INFO_LIST, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
@@ -263,7 +287,7 @@ public class BuildInfoFragment extends BaseFragment implements RequestHandler<Ap
 
     @Override
     public void onRefresh() {
-        getGuestInfoList();
+        getBuildInfoList();
     }
 
     protected void requestComplete() {

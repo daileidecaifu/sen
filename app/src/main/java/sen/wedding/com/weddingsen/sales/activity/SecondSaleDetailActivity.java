@@ -81,7 +81,6 @@ public class SecondSaleDetailActivity extends BaseActivity {
         switchButton.setOnSwitchListener(new SwitchButton.OnSwitchListener() {
             @Override
             public void onSwitch(int position, String tabText) {
-                showToast("" + position);
                 setTabSelection(position);
             }
         });
@@ -109,17 +108,16 @@ public class SecondSaleDetailActivity extends BaseActivity {
         //头部title
         RelativeLayout linearLayoutTitle = (RelativeLayout) findViewById(R.id.title_bar);
 
-        TextView textViewLeft = (TextView) linearLayoutTitle.findViewById(R.id.tv_left);
         TextView textViewRight = (TextView) linearLayoutTitle.findViewById(R.id.tv_right);
         TextView textViewTitle = (TextView) linearLayoutTitle.findViewById(R.id.tv_title_title);
         LinearLayout layoutRight = (LinearLayout) linearLayoutTitle.findViewById(R.id.ll_right);
         LinearLayout layoutLeft = (LinearLayout) linearLayoutTitle.findViewById(R.id.ll_left);
-        textViewRight.setText(getString(R.string.follow_log));
+        textViewRight.setText(getString(R.string.pay_log));
         textViewTitle.setText(getString(R.string.build_info_detail));
         layoutRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SecondSaleDetailActivity.this, BuildLogInfoActivity.class);
+                Intent intent = new Intent(SecondSaleDetailActivity.this, PayRecordLogActivity.class);
                 intent.putExtra("order_id", orderId);
                 startActivity(intent);
             }

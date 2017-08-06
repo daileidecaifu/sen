@@ -77,7 +77,7 @@ public class FirstSaleContractFragment extends BaseFragment implements RequestHa
         binding.llContractMoney.tvItemSelectTitle.setText(getString(R.string.contract_money));
         binding.llContractMoney.tvItemSelectIcon.setVisibility(View.GONE);
         //签单时间
-        binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.sign_up_time));
+        binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.tail_time));
         binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
 
         //首付金额
@@ -90,7 +90,7 @@ public class FirstSaleContractFragment extends BaseFragment implements RequestHa
         binding.llFirstSaleTime.tvItemSelectIcon.setVisibility(View.GONE);
 
         //支付时间
-        binding.llNextPayTime.tvItemSelectTitle.setText(getString(R.string.pay_time));
+        binding.llNextPayTime.tvItemSelectTitle.setText(getString(R.string.middle_time));
         binding.llNextPayTime.tvItemSelectIcon.setVisibility(View.GONE);
 
         contractReviewAdapter = new ContractReviewAdapter(getContext(), selectedPhotos);
@@ -113,24 +113,26 @@ public class FirstSaleContractFragment extends BaseFragment implements RequestHa
     }
 
     private void fillData(FirstSaleSignDetailModel model) {
-        long currentTimestamp = Long.parseLong(model.getSignUsingTime()) * 1000;
-        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
 
-        binding.llContractMoney.tvItemSelectContent.setText(model.getOrderMoney());
-        binding.llFirstSaleAmount.tvItemSelectContent.setText(model.getFirstOrderMoney());
+        if (model != null && model.getOrderMoney() != null) {
+            long currentTimestamp = Long.parseLong(model.getSignUsingTime()) * 1000;
+            binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
 
-        long firstSaleTime = Long.parseLong(model.getFirstOrderUsingTime()) * 1000;
-        binding.llFirstSaleTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(firstSaleTime), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+            binding.llContractMoney.tvItemSelectContent.setText(model.getOrderMoney());
+            binding.llFirstSaleAmount.tvItemSelectContent.setText(model.getFirstOrderMoney());
 
-        long nextPayTime = Long.parseLong(model.getNextPayTime()) * 1000;
-        binding.llNextPayTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(nextPayTime), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+            long firstSaleTime = Long.parseLong(model.getFirstOrderUsingTime()) * 1000;
+            binding.llFirstSaleTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(firstSaleTime), DateUtil.FORMAT_COMMON_Y_M_D));
 
-        for (String str : model.getSignPic() ) {
-            selectedPhotos.add(str);
+            long nextPayTime = Long.parseLong(model.getNextPayTime()) * 1000;
+            binding.llNextPayTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(nextPayTime), DateUtil.FORMAT_COMMON_Y_M_D));
 
+            for (String str : model.getSignPic()) {
+                selectedPhotos.add(str);
+
+            }
+            contractReviewAdapter.notifyDataSetChanged();
         }
-        contractReviewAdapter.notifyDataSetChanged();
-
     }
 
     @Override

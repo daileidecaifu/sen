@@ -39,6 +39,7 @@ import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
 import sen.wedding.com.weddingsen.sales.activity.FirstSaleContractActivity;
 import sen.wedding.com.weddingsen.sales.activity.FirstSaleDetailActivity;
+import sen.wedding.com.weddingsen.sales.adapter.FirstSaleAdapter;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
@@ -47,7 +48,7 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
         LoadMoreView.OnLoadMoreListener, DBaseCallback {
 
     ListView listView;
-    FollowUpAdapter followUpAdapter;
+    FirstSaleAdapter firstSaleAdapter;
     private ApiRequest getListRequest, loadMoreRequest;
 
     private GuestInfosResModel model;
@@ -118,8 +119,8 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
 
     private void initViews(View view) {
         listView = (ListView) view.findViewById(R.id.listView);
-        followUpAdapter = new FollowUpAdapter(getActivity(), currentStatus, this);
-        listView.setAdapter(followUpAdapter);
+        firstSaleAdapter = new FirstSaleAdapter(getActivity(), currentStatus, this);
+        listView.setAdapter(firstSaleAdapter);
         listView.setOnItemClickListener(this);
 //        listView.setOnScrollListener(this);
 
@@ -237,7 +238,7 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
                     loadingView.dismiss();
                     ((FirstSaleListFragment) (FirstSaleFragment.this.getParentFragment())).updateTitle(model.getCount(), currentStatus);
 
-                    followUpAdapter.notifyDataChanged(model.getOrderList());
+                    firstSaleAdapter.notifyDataChanged(model.getOrderList());
                     if (model.getCount() < 10) {
                         loadMoreView.showNoMoreInFirst();
                     } else {
@@ -260,7 +261,7 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
                 model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
                 currentPage = Integer.parseInt(((ApiRequest) req).getParams().get("order_page"));
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
-                    followUpAdapter.notifyMoreDataChanged(model.getOrderList());
+                    firstSaleAdapter.notifyMoreDataChanged(model.getOrderList());
                 }
 
                 if (model.getCount() <= currentPage * 10) {
@@ -283,7 +284,7 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
 
         }
 
-        if (followUpAdapter.isEmpty()) {
+        if (firstSaleAdapter.isEmpty()) {
             loadMoreView.dismissLoading();
         } else {
             loadMoreView.showFailed();
@@ -295,7 +296,7 @@ public class FirstSaleFragment extends BaseFragment implements RequestHandler<Ap
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getAdapter().getItem(position) instanceof OrderInfoModel) {
             Intent intent = new Intent(getActivity(), FirstSaleDetailActivity.class);
-            intent.putExtra("order_id", followUpAdapter.getList().get(position).getId());
+            intent.putExtra("order_id", firstSaleAdapter.getList().get(position).getId());
             intent.putExtra("order_status", currentStatus);
 
             getActivity().startActivity(intent);

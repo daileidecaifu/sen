@@ -70,6 +70,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
     OrderItemModel orderItemModel;
     private int finishMiddle = 2;//未支付
     private int yourChoice = 0;
+    private String tailTimeStr;
 
     public static SecondSaleDetailFragment newInstance(int orderId, int orderStatus,int erXiaoType) {
         Bundle args = new Bundle();
@@ -121,7 +122,6 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         sbItemDistrict.append(StringUtil.createHtml("*", "#fa4b4b"));
 
         specifyModels = Conts.getSpecifyTypeArray();
-
     }
 
     private void initComponents() {
@@ -176,6 +176,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
         binding.llFollowUpTime.tvItemSelectIcon.setVisibility(View.GONE);
 
         afterDays = 1;
+
     }
 
     private void getFollowUp() {
@@ -231,7 +232,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
                 break;
 
             case 1:
-                binding.llFollowUpTime.getRoot().setVisibility(View.VISIBLE);
+                binding.llFollowUpTime.getRoot().setVisibility(View.GONE);
 //                binding.tvFollowUpSubmit.setText(getString(R.string.confirm));
                 actionType = Conts.SECOND_FOLLOW_UP_ADDITIONAL;
                 break;
@@ -286,18 +287,22 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
             actionType = Conts.SECOND_FOLLOW_UP_ADDITIONAL;
             long heldTime = Long.parseLong(detailResModel.getSighUsingTime()) * 1000;
             orginTime = DateUtil.convertDateToString(new Date(heldTime), DateUtil.FORMAT_COMMON_Y_M_D);
+            tailTimeStr = orginTime;
             binding.llFollowUpTime.tvItemSelectContent.setText(orginTime);
         } else {
             String[] temp = {typeArray[0], typeArray[1], typeArray[2]};
             typeArray = temp;
             actionType = Conts.SECOND_FOLLOW_UP_MIDDLE;
             long heldTime = Long.parseLong(detailResModel.getNextPayTime()) * 1000;
+            long tailTime = Long.parseLong(detailResModel.getSighUsingTime()) * 1000;
             orginTime = DateUtil.convertDateToString(new Date(heldTime), DateUtil.FORMAT_COMMON_Y_M_D);
+            tailTimeStr = DateUtil.convertDateToString(new Date(tailTime), DateUtil.FORMAT_COMMON_Y_M_D);
             binding.llFollowUpTime.tvItemSelectContent.setText(orginTime);
         }
 
         binding.llActionType.tvItemSelectContent.setText(typeArray[0]);
         initBottomView(detailResModel.getHandleNote());
+        switchShowAction(0);
 
 
     }
@@ -361,7 +366,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
                     case Conts.SECOND_FOLLOW_UP_MODIFY:
                         Intent intent2 = new Intent(getActivity(), ModifyRestTimeActivity.class);
                         intent2.putExtra("order_id", orderId);
-                        intent2.putExtra("original_time", orginTime);
+                        intent2.putExtra("original_time", tailTimeStr);
                         startActivityForResult(intent2, Conts.TO_SUBMIT_CONTRACT_REVIEW);
                         break;
                 }
@@ -411,7 +416,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
                             case Conts.SECOND_FOLLOW_UP_MODIFY:
                                 Intent intent2 = new Intent(getActivity(), ModifyRestTimeActivity.class);
                                 intent2.putExtra("order_id", orderId);
-                                intent2.putExtra("original_time", orginTime);
+                                intent2.putExtra("original_time", tailTimeStr);
                                 intent2.putExtra("type", Conts.SOURCE_MODIFY);
                                 startActivityForResult(intent2, Conts.TO_SUBMIT_CONTRACT_REVIEW);
                                 break;

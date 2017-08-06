@@ -103,22 +103,25 @@ public class SecondSaleContractFragment extends BaseFragment implements RequestH
 
     private void fillData(SecondSaleContractResModel model) {
 
-        binding.tvTitle.setText(model.getTitle());
-        binding.tvImgTitle.setText(model.getThirdInputNote());
+        if (model != null && model.getTitle() != null) {
 
-        binding.llContractMoney.tvItemSelectIcon.setVisibility(View.GONE);
-        binding.llContractMoney.tvItemSelectTitle.setText(model.getFristInputNote());
-        binding.llContractMoney.tvItemSelectContent.setText(model.getFirstInputContent());
+            binding.tvTitle.setText(model.getTitle());
+            binding.tvImgTitle.setText(model.getThirdInputNote());
 
-        binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
-        binding.llSignUpTime.tvItemSelectTitle.setText(model.getSecondInputNote());
-        long timestamp = Long.parseLong(model.getSecondInputContent()) * 1000;
-        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timestamp), DateUtil.FORMAT_COMMON_Y_M_D));
+            binding.llContractMoney.tvItemSelectIcon.setVisibility(View.GONE);
+            binding.llContractMoney.tvItemSelectTitle.setText(model.getFristInputNote());
+            binding.llContractMoney.tvItemSelectContent.setText(model.getFirstInputContent());
 
-        if (model.getThirdInputContent() != null) {
-            selectedPhotos.clear();
-            selectedPhotos.addAll(model.getThirdInputContent());
-            contractReviewAdapter.notifyDataSetChanged();
+            binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
+            binding.llSignUpTime.tvItemSelectTitle.setText(model.getSecondInputNote());
+            long timestamp = Long.parseLong(model.getSecondInputContent()) * 1000;
+            binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timestamp), DateUtil.FORMAT_COMMON_Y_M_D));
+
+            if (model.getThirdInputContent() != null) {
+                selectedPhotos.clear();
+                selectedPhotos.addAll(model.getThirdInputContent());
+                contractReviewAdapter.notifyDataSetChanged();
+            }
         }
     }
 

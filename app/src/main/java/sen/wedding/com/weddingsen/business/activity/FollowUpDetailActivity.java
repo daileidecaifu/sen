@@ -77,7 +77,6 @@ public class FollowUpDetailActivity extends BaseActivity {
         switchButton.setOnSwitchListener(new SwitchButton.OnSwitchListener() {
             @Override
             public void onSwitch(int position, String tabText) {
-                showToast("" + position);
                 setTabSelection(position);
             }
         });

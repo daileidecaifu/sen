@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
@@ -197,7 +198,16 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.tv_submit_review:
 
-                submitVerification();
+                if(TextUtils.isEmpty(binding.llContractMoney.etItemEditInput.getText().toString().trim()))
+                {
+                    showToast(getString(R.string.contract_money_can_not_empey));
+                    return;
+                }
+
+                if (!DLUtil.isArrayEffective(selectedPhotos)) {
+                    showToast(getString(R.string.imgs_can_not_empty));
+                    return;
+                }
 
                 showProgressDialog(false);
                 OSSUploader ossUploader = new OSSUploader(oss, prepareUploadRequests(), new OSSResultFeedback() {
@@ -233,40 +243,6 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
                     }
                 });
                 ossUploader.toUpload();
-
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                        OSSUploadTask ossUploadTask = new OSSUploadTask(oss, prepareUploadRequests(), new OSSUploadResult() {
-//
-//                            @Override
-//                            public void onComplete(OSSUploadModel result) {
-//                                if (result != null && result.isSuccess()) {
-////                                    closeProgressDialog();
-//                                    StringBuffer sb = new StringBuffer();
-//                                    ossImageUrls = "";
-//
-//                                    for (int i = 0; i < result.getList().size(); i++) {
-//                                        if (i != 0) {
-//                                            sb.append(",");
-//                                        }
-//                                        sb.append(result.getList().get(i).getRemoteUrl());
-//
-//                                    }
-//                                    ossImageUrls = sb.toString();
-//                                    AppLog.e(ossImageUrls);
-//                                    submitertificate();
-//                                } else {
-//                                    closeProgressDialog();
-//                                }
-//                            }
-//                        });
-//                        ossUploadTask.execute();
-//
-//                    }
-//                },50);
-
 
                 break;
         }
@@ -375,13 +351,6 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         }
         photoAdapter.notifyDataSetChanged();
 
-    }
-
-    private void submitVerification() {
-        if (!DLUtil.isArrayEffective(selectedPhotos)) {
-            showToast(getString(R.string.imgs_can_not_empty));
-            return;
-        }
     }
 
     @Override

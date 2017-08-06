@@ -249,13 +249,15 @@ public class Conts {
     public final static int KEZI_DETAIL_SOURCE_FOLLOWER = 2;
 
     //EventBus的ID集合
-    public final static int EVENT_KEZI_LIST_REFRESH = 1;
-    public final static int EVENT_FIRST_SALE_LIST_REFRESH = 2;
-    public final static int EVENT_SECOND_SALE_LIST_REFRESH = 3;
-    public final static int EVENT_INIT_MAIN_SLIDE = 4;
-    public final static int EVENT_KEZI_LIST_UPDATE_FRESH = 5;
-    public final static int EVENT_FIRST_SALE_UPDATE_FRESH = 6;
-    public final static int EVENT_SECOND_SALE_UPDATE_FRESH = 7;
+    public final static int EVENT_KEZI_LIST_REFRESH = 1;//跟踪者跟踪
+    public final static int EVENT_FIRST_SALE_LIST_REFRESH = 2;//首销跟踪
+    public final static int EVENT_SECOND_SALE_LIST_REFRESH = 3;//二销跟踪
+    public final static int EVENT_INIT_MAIN_SLIDE = 4;//登陆刷新
+    public final static int EVENT_KEZI_LIST_UPDATE_FRESH = 5;//跟踪者重新提交
+    public final static int EVENT_FIRST_SALE_UPDATE_FRESH = 6;//首销重新提交
+    public final static int EVENT_SECOND_SALE_UPDATE_FRESH = 7;//二销重新提交
+    public final static int EVENT_KEZI_CREATE_LIST_REFRESH = 8;//客资创建
+    public final static int EVENT_BUILD_CREATE_LIST_REFRESH = 9;//搭建创建
 
     //同步类型
     public final static String AUTO_TYPE_SYNCHRONIZE_CLOSE = "1";

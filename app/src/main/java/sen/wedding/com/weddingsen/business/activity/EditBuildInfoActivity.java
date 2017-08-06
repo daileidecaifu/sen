@@ -14,6 +14,8 @@ import android.view.View;
 import com.google.gson.reflect.TypeToken;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -39,6 +41,7 @@ import sen.wedding.com.weddingsen.utils.DateUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.StringUtil;
 import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
+import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 /**
  * Created by lorin on 17/3/25.
@@ -223,7 +226,7 @@ public class EditBuildInfoActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
 
-        selectTimeContent = year + "-" + DateUtil.formatValue(monthOfYear + 1) + "-" + dayOfMonth;
+        selectTimeContent = year + "-" + DateUtil.formatSingleValue(monthOfYear + 1) + "-" + DateUtil.formatSingleValue(dayOfMonth);
         //除以1000是为了符合php时间戳长度
         selectTime = DateUtil.convertStringToDate(selectTimeContent, DateUtil.FORMAT_COMMON_Y_M_D).getTime() / 1000;
         binding.llSelectTime.tvItemSelectContent.setText(selectTimeContent);
@@ -282,6 +285,7 @@ public class EditBuildInfoActivity extends BaseActivity implements View.OnClickL
 
         if (req == createGuestInfoRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
+                EventBus.getDefault().post(new EventIntent(Conts.EVENT_BUILD_CREATE_LIST_REFRESH, ""));
                 showToast(getString(R.string.create_success));
                 finish();
             } else {

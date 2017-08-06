@@ -102,7 +102,7 @@
     <string name="create_success">创建成功</string>
     <string name="guest_info_processing">客资信息正在处理，请耐心等候</string>
     <string name="kezi_info_detail">客资详情</string>
-    <string name="build_info_detail">客资详情</string>
+    <string name="build_info_detail">搭建详情</string>
     <string name="schedule_loading">努力加载中...</string>
     <string name="loading_failed">数据加载错误，点击重试</string>
     <string name="no_more_data">没有更多订单了</string>
@@ -137,10 +137,13 @@
     <string name="kezi_follow">客资跟进</string>
     <string name="build_info">搭建信息</string>
     <string name="build_detail">搭建详情</string>
-    <string name="tip_order_waiting_for_settlement">客资订单已生效，奖励将通过支付宝发放</string>
+    <string name="tip_order_waiting_for_settlement">客资奖励即将发放，请确保收款账户正确无误</string>
+    <string name="tip_build_waiting_for_settlement">搭建奖励即将发放，请确保收款账户正确无误</string>
     <string name="tip_order_settlemented">客资奖励已发放</string>
+    <string name="tip_build_settlemented">搭建奖励已发放</string>
     <string name="tip_order_finish">客资订单已完结</string>
     <string name="tip_order_cancel">客资信息已终止跟进</string>
+    <string name="tip_build_cancel">搭建信息已终止跟进</string>
     <string name="modify_and_resubmit">修改并重新提交</string>
     <string name="process_status">处理状态</string>
     <string name="process_schedule">处理进度</string>
@@ -158,14 +161,18 @@
     <string name="contract_certificate_pic_tip">在此上传（合同）与（收据）照片</string>
     <string name="contract_time">合同时间</string>
     <string name="contract_money">合同金额</string>
+    <string name="contract_money_can_not_empey">合同金额不能为空</string>
+    <string name="first_sale_money_can_not_empey">首付金额不能为空</string>
     <string name="middle_money">中款金额</string>
     <string name="tail_money">尾款金额</string>
     <string name="tail_time">尾款时间</string>
     <string name="additional_money">附加款金额</string>
-    <string name="first_sale_amount">首付金额</string>
+    <string name="first_sale_amount">首款金额</string>
     <string name="first_sale_amount_hit">请输入首付金额</string>
+    <string name="tail_time_hit">请选择尾款时间</string>
+    <string name="apply_time_hit">请选择申请时间</string>
     <string name="held_time">举办时间</string>
-    <string name="first_sale_time">首付时间</string>
+    <string name="first_sale_time">首款时间</string>
     <string name="pay_time">支付时间</string>
     <string name="contract_money_tip">请输入合同金额</string>
     <string name="input_contract_money_tip">请输入金额</string>
@@ -173,7 +180,7 @@
     <string name="sign_up_time_tip">请输入签单时间</string>
     <string name="review_progress">审核进度</string>
     <string name="to_review_message">该签单信息正在被审核，请耐心等待^_^</string>
-    <string name="reviewed_message">该合同已审核通过！\n相关的奖励后续将经过支付宝转账给您，请确保支付宝账号的有效。</string>
+    <string name="reviewed_message">该合同已审核通过！\n相关的奖励后续将经过支付宝转账给您，请确保收款账号的有效。</string>
     <string name="settlemented_message">相关奖励已经发放！</string>
     <string name="fail_message">你提交的合同审核失败！</string>
     <string name="ballroom">宴会厅</string>
@@ -251,6 +258,10 @@
     <string name="search_history">搜索历史</string>
     <string name="clear_search_history">清空搜索历史</string>
     <string name="imgs_can_not_empty">上传图片不能为空</string>
+    <string name="money_can_not_empty">金额不能为空</string>
+    <string name="tail_time_can_not_empty">尾款时间不能为空</string>
+    <string name="middle_time_can_not_empty">中款时间不能为空</string>
+    <string name="middle_time">中款时间</string>
 
 
 </resources>

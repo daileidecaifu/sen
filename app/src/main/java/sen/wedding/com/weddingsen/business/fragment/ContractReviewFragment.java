@@ -100,7 +100,7 @@ public class ContractReviewFragment extends BaseFragment implements RequestHandl
 
         if (null != model.getSignUsingTime()) {
             long currentTimestamp = Long.parseLong(model.getSignUsingTime()) * 1000;
-            binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+            binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
         }
         binding.llContractMoney.tvItemSelectContent.setText(model.getOrderMoney());
 

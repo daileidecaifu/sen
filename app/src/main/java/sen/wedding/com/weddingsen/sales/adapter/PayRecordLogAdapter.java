@@ -102,36 +102,36 @@ public class PayRecordLogAdapter extends BaseAdapter {
                 binding.ngImage.setVisibility(View.VISIBLE);
 
                 binding.llSelect1.tvItemSelectTitle.setText(currentContext.getString(R.string.contract_money));
-                binding.llSelect2.tvItemSelectTitle.setText(currentContext.getString(R.string.held_time));
+                binding.llSelect2.tvItemSelectTitle.setText(currentContext.getString(R.string.tail_time));
                 binding.llSelect3.tvItemSelectTitle.setText(currentContext.getString(R.string.first_sale_amount));
-                binding.llSelect4.tvItemSelectTitle.setText(currentContext.getString(R.string.pay_time));
+                binding.llSelect4.tvItemSelectTitle.setText(currentContext.getString(R.string.first_sale_time));
 
                 binding.tvItemTitle.setText(currentContext.getString(R.string.first_pay_detail_tip));
 
                 binding.llSelect3.tvItemSelectContent.setText(model.getOrderMoney());
-                long time = Long.parseLong(model.getOrderTime()) * 1000;
+                long time = Long.parseLong(model.getFirstOrderUsingTime()) * 1000;
                 binding.llSelect4.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
                 binding.ngImage.setAdapter(new NineGridViewClickAdapter(currentContext, model.getOrderSignPic()));
                 binding.llSelect1.tvItemSelectContent.setText(model.getFirstOrderMoney());
                 if (!TextUtils.isEmpty(model.getFirstOrderUsingTime())) {
-                    long time1 = Long.parseLong(model.getFirstOrderUsingTime()) * 1000;
+                    long time1 = Long.parseLong(model.getOtherItemWeikuanOldTime()) * 1000;
                     binding.llSelect2.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time1), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
                 }
                 break;
 
             case Conts.SECOND_FOLLOW_UP_MIDDLE:
                 //中款
-                randerCommonItem(binding, model, currentContext.getString(R.string.middle_pay_detail_tip));
+                randerCommonItem(binding, model, currentContext.getString(R.string.middle_pay_detail_tip),currentContext.getString(R.string.middle_money));
                 break;
 
             case Conts.SECOND_FOLLOW_UP_ADDITIONAL:
                 //附加款
-                randerCommonItem(binding, model, currentContext.getString(R.string.addtional_pay_detail_tip));
+                randerCommonItem(binding, model, currentContext.getString(R.string.addtional_pay_detail_tip),currentContext.getString(R.string.additional_money));
                 break;
 
             case Conts.SECOND_FOLLOW_UP_REST:
                 //尾款
-                randerCommonItem(binding, model, currentContext.getString(R.string.addtional_pay_detail_tip));
+                randerCommonItem(binding, model, currentContext.getString(R.string.tail_pay_detail_tip),currentContext.getString(R.string.tail_money));
                 break;
 
             case Conts.SECOND_FOLLOW_UP_MODIFY:
@@ -167,7 +167,7 @@ public class PayRecordLogAdapter extends BaseAdapter {
 
     }
 
-    private void randerCommonItem(PayLogInfoBinding binding, PayRecordLogModel model, String title) {
+    private void randerCommonItem(PayLogInfoBinding binding, PayRecordLogModel model, String title,String moneyTitle) {
         //中款
         binding.llRow1.setVisibility(View.GONE);
         binding.llRow2.setVisibility(View.GONE);
@@ -177,7 +177,7 @@ public class PayRecordLogAdapter extends BaseAdapter {
 
         binding.tvItemTitle.setText(title);
 
-        binding.llSelect3.tvItemSelectTitle.setText(currentContext.getString(R.string.middle_money));
+        binding.llSelect3.tvItemSelectTitle.setText(moneyTitle);
         binding.llSelect4.tvItemSelectTitle.setText(currentContext.getString(R.string.pay_time));
         binding.ngImage.setAdapter(new NineGridViewClickAdapter(currentContext, model.getOrderSignPic()));
 

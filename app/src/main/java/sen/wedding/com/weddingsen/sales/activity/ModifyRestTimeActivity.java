@@ -72,7 +72,8 @@ public class ModifyRestTimeActivity extends BaseActivity implements  View.OnClic
         binding.llOriginTime.tvItemSelectTitle.setText(getString(R.string.original_time));
         binding.llOriginTime.tvItemSelectIcon.setVisibility(View.GONE);
         binding.llOriginTime.tvItemSelectContent.setText(originalTime);
-        binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.original_time));
+        binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.apply_time));
+        binding.llSignUpTime.tvItemSelectContent.setHint(getString(R.string.apply_time_hit));
         binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
         binding.llSignUpTime.setClickListener(new View.OnClickListener() {
             @Override
@@ -137,7 +138,7 @@ public class ModifyRestTimeActivity extends BaseActivity implements  View.OnClic
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        selectTimeContent = year + "-" + DateUtil.formatValue(monthOfYear + 1) + "-" + dayOfMonth;
+        selectTimeContent = year + "-" + DateUtil.formatSingleValue(monthOfYear + 1) + "-" + DateUtil.formatSingleValue(dayOfMonth);
         //除以1000是为了符合php时间戳长度
         selectTime = DateUtil.convertStringToDate(selectTimeContent, DateUtil.FORMAT_COMMON_Y_M_D).getTime() / 1000;
         binding.llSignUpTime.tvItemSelectContent.setText(selectTimeContent);
@@ -157,8 +158,8 @@ public class ModifyRestTimeActivity extends BaseActivity implements  View.OnClic
 
         binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
         binding.llSignUpTime.tvItemSelectTitle.setText(model.getSecondInputNote());
-        long timestamp = Long.parseLong(model.getSecondInputContent()) * 1000;
-        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timestamp), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+        long timestamp = Long.parseLong(model.getFirstInputContent()) * 1000;
+        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timestamp), DateUtil.FORMAT_COMMON_Y_M_D));
 
     }
 
