@@ -358,7 +358,7 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
     private void getFollowUp() {
         showProgressDialog(false);
         if (orderId != -1) {
-            getContractReviewRequest = new ApiRequest(URLCollection.URL_FIRST_SALE_SIGN_DETAIL, HttpMethod.POST);
+            getContractReviewRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_FIRST_SALE_SIGN_DETAIL, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("user_dajian_order_id", orderId + "");
@@ -371,7 +371,7 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
 
     private void submitertificate(String imageUrls) {
         if (orderId != -1) {
-            submitCertificateRequest = new ApiRequest(URLCollection.URL_FIRST_SALE_SIGN, HttpMethod.POST);
+            submitCertificateRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_FIRST_SALE_SIGN, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("user_dajian_order_id", orderId + "");

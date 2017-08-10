@@ -198,7 +198,7 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
 
     private void getFollowUp() {
         if (orderId != -1) {
-            getOrderDetailRequest = new ApiRequest(URLCollection.URL_SHOW_BUILD_INFO_DETAIL, HttpMethod.POST);
+            getOrderDetailRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_SHOW_BUILD_INFO_DETAIL, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("order_id", orderId + "");
@@ -217,7 +217,7 @@ public class FirstSaleDetailFragment extends BaseFragment implements View.OnClic
         }
 
         if (orderId != -1) {
-            submitFollowRequest = new ApiRequest(URLCollection.URL_FIRST_SALE_FOLLOW, HttpMethod.POST);
+            submitFollowRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_FIRST_SALE_FOLLOW, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("user_dajian_order_id", orderId + "");

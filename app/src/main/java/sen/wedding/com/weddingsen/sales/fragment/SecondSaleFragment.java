@@ -190,7 +190,7 @@ public class SecondSaleFragment extends BaseFragment implements RequestHandler<A
 
     private void getFirstSaleList() {
         currentPage = 1;
-        getListRequest = new ApiRequest(URLCollection.URL_GET_BUILD_INFO_LIST, HttpMethod.POST);
+        getListRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_GET_BUILD_INFO_LIST, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("order_status", currentStatus + "");
@@ -204,7 +204,7 @@ public class SecondSaleFragment extends BaseFragment implements RequestHandler<A
     private void loadMoreFirstSaleList() {
         isLoadMore = true;
         int loadmorePage = currentPage + 1;
-        loadMoreRequest = new ApiRequest(URLCollection.URL_GET_BUILD_INFO_LIST, HttpMethod.POST);
+        loadMoreRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_GET_BUILD_INFO_LIST, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("order_status", currentStatus + "");

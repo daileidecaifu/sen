@@ -187,7 +187,7 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
 
     private void getFollowInfoList() {
         currentPage = 1;
-        getListRequest = new ApiRequest(URLCollection.URL_FOLLOW_HANDLER_LIST, HttpMethod.POST);
+        getListRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_FOLLOW_HANDLER_LIST, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("order_status", currentStatus + "");
@@ -201,7 +201,7 @@ public class FollowInfoFragment extends BaseFragment implements RequestHandler<A
     private void loadMoreInfoList() {
         isLoadMore = true;
         int loadmorePage = currentPage + 1;
-        loadMoreRequest = new ApiRequest(URLCollection.URL_FOLLOW_HANDLER_LIST, HttpMethod.POST);
+        loadMoreRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_FOLLOW_HANDLER_LIST, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("order_status", currentStatus + "");

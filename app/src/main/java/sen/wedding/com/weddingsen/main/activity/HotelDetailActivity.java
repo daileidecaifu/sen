@@ -92,8 +92,7 @@ public class HotelDetailActivity extends BaseActivity implements RequestHandler<
         binding.llHotelPhoneNumber.tvItemSelectRightIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!TextUtils.isEmpty(hotelDetailModel.getHotelPhone()))
-                {
+                if (!TextUtils.isEmpty(hotelDetailModel.getHotelPhone())) {
                     call(StringUtil.selectNumber(hotelDetailModel.getHotelPhone()));
                 }
             }
@@ -108,7 +107,7 @@ public class HotelDetailActivity extends BaseActivity implements RequestHandler<
         binding.tvHotelName.setText(hotelDetailModel.getHotelName());
         binding.tvExtraInfo.setText("(" + getString(R.string.rmb_symbol) + hotelDetailModel.getHotelLow() + "-" + hotelDetailModel.getHotelHigh() + "/"
                 + getString(R.string.table)
-                +"\t"
+                + "\t"
                 + getString(R.string.table_count_colon)
                 + hotelDetailModel.getHotelMaxDesk()
                 + ")");
@@ -128,7 +127,7 @@ public class HotelDetailActivity extends BaseActivity implements RequestHandler<
     }
 
     private void getHotelDetail() {
-        getHotelDetailRequest = new ApiRequest(URLCollection.URL_HOTEL_DETAIL, HttpMethod.POST);
+        getHotelDetailRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_HOTEL_DETAIL, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("hotel_id", hotelId);
 

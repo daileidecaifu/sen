@@ -101,8 +101,7 @@ public class SearchHotelActivity extends BaseActivity implements View.OnClickLis
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()==0)
-                {
+                if (s.length() == 0) {
                     binding.llHotel.setVisibility(View.GONE);
                 }
             }
@@ -138,14 +137,12 @@ public class SearchHotelActivity extends BaseActivity implements View.OnClickLis
         switch (actionId) {
             case EditorInfo.IME_ACTION_SEARCH:
                 String searchText = binding.etSearch.getText().toString();
-                if(searchText.equals(""))
-                {
+                if (searchText.equals("")) {
                     return false;
                 }
 
-                for(int i=0;i<selectHistoryList.size();i++)
-                {
-                    if(searchText.equals(selectHistoryList.get(i))){
+                for (int i = 0; i < selectHistoryList.size(); i++) {
+                    if (searchText.equals(selectHistoryList.get(i))) {
                         selectHistoryList.remove(i);
                     }
                 }
@@ -168,15 +165,14 @@ public class SearchHotelActivity extends BaseActivity implements View.OnClickLis
         return false;
     }
 
-    private void showHotelView(String keyword)
-    {
+    private void showHotelView(String keyword) {
         binding.llHotel.setVisibility(View.VISIBLE);
         binding.loadingView.showLoading();
         getHotelList(keyword);
     }
 
     private void getHotelList(String keyword) {
-        getHotelListRequest = new ApiRequest(URLCollection.URL_GET_HOTEL_LIST, HttpMethod.POST);
+        getHotelListRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_GET_HOTEL_LIST, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("list_type", "3");
         param.put("search_input", keyword);

@@ -202,7 +202,10 @@
 
         <activity android:name=".base.acitivity.TestCompressActivity"
             android:screenOrientation="portrait">
+        </activity>
 
+        <activity android:name=".base.acitivity.SenSystemActivity"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

@@ -103,7 +103,7 @@ public class SelectHotelOptionActivity extends BaseActivity implements View.OnCl
     private void searchInfo() {
 
         showProgressDialog(false);
-        searchRequest = new ApiRequest(URLCollection.URL_GET_HOTEL_OR_AREAS, HttpMethod.POST);
+        searchRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_GET_HOTEL_OR_AREAS, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("hotel_area_type", Conts.OPTION_HOTEL_SELECT + "");

@@ -40,7 +40,7 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
     private List<BaseTypeModel> modelList;
     private BaseTypeModel selectOrderTypeModel;
     private ApiRequest verifyGuestRequest, verifyBuildRequest;
-    private int source,yourChoice;
+    private int source, yourChoice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +113,7 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
         }
 
         showProgressDialog(false);
-        verifyGuestRequest = new ApiRequest(URLCollection.URL_VERIFY_GUEST_PHONE, HttpMethod.POST);
+        verifyGuestRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_VERIFY_GUEST_PHONE, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("order_type", selectOrderTypeModel.getType() + "");
@@ -135,7 +135,7 @@ public class VerifyGuestInfoActivity extends BaseActivity implements View.OnClic
         }
 
         showProgressDialog(false);
-        verifyBuildRequest = new ApiRequest(URLCollection.URL_VERIFY_BUILD_PHONE, HttpMethod.POST);
+        verifyBuildRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_VERIFY_BUILD_PHONE, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("order_type", selectOrderTypeModel.getType() + "");

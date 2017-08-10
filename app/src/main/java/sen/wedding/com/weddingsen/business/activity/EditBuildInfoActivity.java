@@ -176,7 +176,6 @@ public class EditBuildInfoActivity extends BaseActivity implements View.OnClickL
 //    }
 
 
-
     private void showSelectDate() {
         if (dpd == null) {
             Calendar now = Calendar.getInstance();
@@ -195,18 +194,17 @@ public class EditBuildInfoActivity extends BaseActivity implements View.OnClickL
     private void createGusetInfo() {
 
 
-
-        createGuestInfoRequest = new ApiRequest(URLCollection.URL_CREATE_BUILD_INFO, HttpMethod.POST);
+        createGuestInfoRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_CREATE_BUILD_INFO, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
-        param.put("order_type", selectOrderTypeModel.getType()+"");
+        param.put("order_type", selectOrderTypeModel.getType() + "");
         param.put("order_phone", verifyPhone);
 
-        param.put("order_area_hotel_type", ""+Conts.OPTION_DISTRICT_SELECT);
+        param.put("order_area_hotel_type", "" + Conts.OPTION_DISTRICT_SELECT);
         param.put("order_area_hotel_id", BasePreference.getAreaId());
 
         param.put("customer_name", binding.llEditName.etItemEditInput.getText().toString());
-        param.put("use_date", selectTime+"");
+        param.put("use_date", selectTime + "");
         param.put("order_money", binding.llEditBudget.etItemEditInput.getText().toString());
         param.put("order_desc", binding.etEditNote.getText().toString());
 

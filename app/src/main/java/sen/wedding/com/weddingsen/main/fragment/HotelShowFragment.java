@@ -332,7 +332,7 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
 //    }
 
     private void getHotelList(String shId) {
-        getHotelListRequest = new ApiRequest(URLCollection.URL_GET_HOTEL_LIST, HttpMethod.POST);
+        getHotelListRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_GET_HOTEL_LIST, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         if (!TextUtils.isEmpty(shId)) {
             param.put("list_type", "2");
@@ -348,7 +348,7 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
     }
 
     private void getHotelListByType(String typeId) {
-        getHotelListRequest = new ApiRequest(URLCollection.URL_GET_HOTEL_LIST, HttpMethod.POST);
+        getHotelListRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_GET_HOTEL_LIST, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("list_type", "2");
         param.put("hotel_type", typeId);
@@ -360,7 +360,7 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
     }
 
     private void getDistincts() {
-        getDistinctRequest = new ApiRequest(URLCollection.URL_DISTINCTS, HttpMethod.POST);
+        getDistinctRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_DISTINCTS, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
 
         getDistinctRequest.setParams(param);

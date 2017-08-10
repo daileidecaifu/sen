@@ -55,7 +55,7 @@ public class HotelDistinctActivity extends BaseActivity implements RequestHandle
             super.handleMessage(msg);
 
             String jsonResult = msg.obj.toString();
-            HotelOptionModel hotelDistinctModel = GsonConverter.fromJson(jsonResult,HotelOptionModel.class);
+            HotelOptionModel hotelDistinctModel = GsonConverter.fromJson(jsonResult, HotelOptionModel.class);
             Intent intent = new Intent();
             intent.putExtra("select_id", hotelDistinctModel.getId());
             intent.putExtra("select_title", hotelDistinctModel.getTitle());
@@ -122,7 +122,7 @@ public class HotelDistinctActivity extends BaseActivity implements RequestHandle
     }
 
     private void getDistincts() {
-        getDistinctRequest = new ApiRequest(URLCollection.URL_DISTINCTS, HttpMethod.POST);
+        getDistinctRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_DISTINCTS, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
 
         getDistinctRequest.setParams(param);

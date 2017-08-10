@@ -69,7 +69,7 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
     private int afterDays = -1;
     private Map<Integer, String> typeMap;
     OrderItemModel orderItemModel;
-    private int yourActionChoice,yourAfterDaysChoice = 0;
+    private int yourActionChoice, yourAfterDaysChoice = 0;
 
     public static FollowUpDetailFragment newInstance(int orderId, int orderStatus) {
         Bundle args = new Bundle();
@@ -185,7 +185,7 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
         actionType = Conts.FOLLOW_UP_INFO_EFFECTIVE;
         afterDays = 1;
 
-        StringBuffer sb= new StringBuffer();
+        StringBuffer sb = new StringBuffer();
         sb.append(StringUtil.createHtml(getString(R.string.note), "#313133"));
         sb.append(StringUtil.createHtml("*", "#fa4b4b"));
         binding.tvFollowNote.setText(Html.fromHtml(sb.toString()));
@@ -194,7 +194,7 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
 
     private void getFollowUp() {
         if (orderId != -1) {
-            getOrderDetailRequest = new ApiRequest(URLCollection.URL_SHOW_GUEST_INFO_DETAIL, HttpMethod.POST);
+            getOrderDetailRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_SHOW_GUEST_INFO_DETAIL, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("order_id", orderId + "");
@@ -216,7 +216,7 @@ public class FollowUpDetailFragment extends BaseFragment implements View.OnClick
         }
 
         if (orderId != -1) {
-            submitFollowRequest = new ApiRequest(URLCollection.URL_ORDER_FOLLOW, HttpMethod.POST);
+            submitFollowRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_ORDER_FOLLOW, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("user_kezi_order_id", orderId + "");

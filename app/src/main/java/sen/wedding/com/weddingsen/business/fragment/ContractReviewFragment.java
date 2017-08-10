@@ -85,7 +85,7 @@ public class ContractReviewFragment extends BaseFragment implements RequestHandl
     private void getFollowUp() {
         showProgressDialog(false);
         if (orderId != -1) {
-            getContractReviewRequest = new ApiRequest(URLCollection.URL_SHOW_ORDER_SIGN_DETAIL, HttpMethod.POST);
+            getContractReviewRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_SHOW_ORDER_SIGN_DETAIL, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("user_kezi_order_id", orderId + "");
@@ -130,11 +130,9 @@ public class ContractReviewFragment extends BaseFragment implements RequestHandl
         if (req == getContractReviewRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 contractReviewModel = GsonConverter.decode(resultModel.data, ContractReviewModel.class);
-                if(contractReviewModel!=null)
-                {
+                if (contractReviewModel != null) {
                     fillData(contractReviewModel);
-                }else
-                {
+                } else {
                     showToast(getString(R.string.data_error_tip));
                 }
             } else {

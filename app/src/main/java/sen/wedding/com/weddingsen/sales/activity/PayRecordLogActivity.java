@@ -110,7 +110,7 @@ public class PayRecordLogActivity extends BaseActivity implements View.OnClickLi
 
     private void getLogs() {
         if (orderId != -1) {
-            getLogRequest = new ApiRequest(URLCollection.URL_BUILD_PAY_LIST, HttpMethod.POST);
+            getLogRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_BUILD_PAY_LIST, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("user_dajian_order_id", orderId + "");

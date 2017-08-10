@@ -15,6 +15,7 @@ import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.URLCollection;
 import sen.wedding.com.weddingsen.base.acitivity.DebugCrashListActivity;
+import sen.wedding.com.weddingsen.base.acitivity.SenSystemActivity;
 import sen.wedding.com.weddingsen.business.activity.EditGuestInfoActivity;
 import sen.wedding.com.weddingsen.component.TitleBar;
 import sen.wedding.com.weddingsen.databinding.FeedbackBinding;
@@ -53,8 +54,8 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 count = count + 1;
-                if (count == 3) {
-                    jumpToOtherActivity(DebugCrashListActivity.class);;
+                if (count == 10) {
+                    jumpToOtherActivity(SenSystemActivity.class);
                     count = 0;
                 }
             }
@@ -64,7 +65,7 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initComponents() {
-        if(BasePreference.getUserType().equals(Conts.LOGIN_MODEL_PHONE)) {
+        if (BasePreference.getUserType().equals(Conts.LOGIN_MODEL_PHONE)) {
             binding.etFeedbackPhone.setText(BasePreference.getUserName());
         }
     }
@@ -76,13 +77,13 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
             return;
         }
 
-        if (!TextUtils.isEmpty(binding.etFeedbackPhone.getText().toString())&&binding.etFeedbackPhone.getText().toString().trim().length() != 11) {
+        if (!TextUtils.isEmpty(binding.etFeedbackPhone.getText().toString()) && binding.etFeedbackPhone.getText().toString().trim().length() != 11) {
             showToast(getString(R.string.phone_number_wrong_format));
             return;
         }
 
         showProgressDialog(false);
-        feedbackRequest = new ApiRequest(URLCollection.URL_FEEDBACK, HttpMethod.POST);
+        feedbackRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_FEEDBACK, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("phone", binding.etFeedbackPhone.getText().toString());
         param.put("content", binding.etFeedbackContent.getText().toString());

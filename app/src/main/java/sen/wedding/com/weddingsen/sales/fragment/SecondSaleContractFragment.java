@@ -90,7 +90,7 @@ public class SecondSaleContractFragment extends BaseFragment implements RequestH
     private void getFollowUp() {
         showProgressDialog(false);
         if (orderId != -1) {
-            getContractReviewRequest = new ApiRequest(URLCollection.URL_SHOW_OTHER_ORDER_SIGN_DETAIL, HttpMethod.POST);
+            getContractReviewRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_SHOW_OTHER_ORDER_SIGN_DETAIL, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("user_dajian_order_id", orderId + "");

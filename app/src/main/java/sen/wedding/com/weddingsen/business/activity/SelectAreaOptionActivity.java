@@ -102,7 +102,7 @@ public class SelectAreaOptionActivity extends BaseActivity implements View.OnCli
     private void searchInfo() {
 
         showProgressDialog(false);
-        searchRequest = new ApiRequest(URLCollection.URL_GET_HOTEL_OR_AREAS, HttpMethod.POST);
+        searchRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_GET_HOTEL_OR_AREAS, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("hotel_area_type", Conts.OPTION_DISTRICT_SELECT + "");
@@ -178,10 +178,9 @@ public class SelectAreaOptionActivity extends BaseActivity implements View.OnCli
                 AreaOrHotelResModel areaOrHotelResModel = GsonConverter.decode(resultModel.data, AreaOrHotelResModel.class);
 
                 list = areaOrHotelResModel.getAreaList();
-                if(list!=null&&list.size()>0) {
+                if (list != null && list.size() > 0) {
                     adapter.notifyDataChanged(list);
-                }else
-                {
+                } else {
                     showToast(getString(R.string.empty_data));
                 }
             } else {

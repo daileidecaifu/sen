@@ -90,7 +90,7 @@ public class ResetPasswordActivity extends BaseActivity implements View.OnClickL
         }
 
         showProgressDialog(false);
-        resetPasswordRequest = new ApiRequest(URLCollection.URL_RESET_PASSWORD, HttpMethod.POST);
+        resetPasswordRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_RESET_PASSWORD, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("old_password", passwordOriginal);

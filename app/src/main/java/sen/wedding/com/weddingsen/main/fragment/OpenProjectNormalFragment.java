@@ -211,7 +211,7 @@ public class OpenProjectNormalFragment extends RecyclerFragment<OrderInfoModel> 
 
     private void getGuestInfoList() {
         currentPage = 1;
-        getListRequest = new ApiRequest(URLCollection.URL_GET_GUEST_INFO_LIST, HttpMethod.POST);
+        getListRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_GET_GUEST_INFO_LIST, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("order_status", currentStatus + "");
@@ -225,7 +225,7 @@ public class OpenProjectNormalFragment extends RecyclerFragment<OrderInfoModel> 
     private void loadMoreInfoList() {
 
         int loadmorePage = currentPage + 1;
-        loadMoreRequest = new ApiRequest(URLCollection.URL_GET_GUEST_INFO_LIST, HttpMethod.POST);
+        loadMoreRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_GET_GUEST_INFO_LIST, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("order_status", currentStatus + "");
@@ -257,7 +257,7 @@ public class OpenProjectNormalFragment extends RecyclerFragment<OrderInfoModel> 
                     mItemList.addAll(model.getOrderList());
                     getHeaderAdapter().notifyDataSetChanged();
                     itemInteractionListener.requestRefreshAciton();
-                }else {
+                } else {
                     itemInteractionListener.showEmpty();
                 }
             } else {

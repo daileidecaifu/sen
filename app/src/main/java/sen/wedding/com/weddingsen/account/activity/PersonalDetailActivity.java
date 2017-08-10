@@ -116,7 +116,7 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
 
     private void setSynchronize(String autoType) {
 
-        setSynchronizeRequest = new ApiRequest(URLCollection.URL_SYNCHRONIZE, HttpMethod.POST);
+        setSynchronizeRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_SYNCHRONIZE, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("auto_type", autoType);
@@ -128,7 +128,7 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
 
     private void getPersonInfo() {
         showProgressDialog(false);
-        getPersonDetail = new ApiRequest(URLCollection.URL_PERSON_DETAIL, HttpMethod.POST);
+        getPersonDetail = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_PERSON_DETAIL, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
 

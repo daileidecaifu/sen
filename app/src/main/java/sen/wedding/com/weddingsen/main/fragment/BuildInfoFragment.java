@@ -103,7 +103,7 @@ public class BuildInfoFragment extends BaseFragment implements RequestHandler<Ap
 
     private void initViews(View view) {
         listView = (ListView) view.findViewById(R.id.listView);
-        guestInfoAdapter = new GuestInfoAdapter(getActivity(),currentStatus);
+        guestInfoAdapter = new GuestInfoAdapter(getActivity(), currentStatus);
         listView.setAdapter(guestInfoAdapter);
         listView.setOnItemClickListener(this);
 //        listView.setOnScrollListener(this);
@@ -174,7 +174,7 @@ public class BuildInfoFragment extends BaseFragment implements RequestHandler<Ap
 
     private void getBuildInfoList() {
         currentPage = 1;
-        getListRequest = new ApiRequest(URLCollection.URL_GET_BUILD_INFO_LIST, HttpMethod.POST);
+        getListRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_GET_BUILD_INFO_LIST, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("order_status", currentStatus + "");
@@ -188,7 +188,7 @@ public class BuildInfoFragment extends BaseFragment implements RequestHandler<Ap
     private void loadMoreInfoList() {
         isLoadMore = true;
         int loadmorePage = currentPage + 1;
-        loadMoreRequest = new ApiRequest(URLCollection.URL_GET_BUILD_INFO_LIST, HttpMethod.POST);
+        loadMoreRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_GET_BUILD_INFO_LIST, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         param.put("order_status", currentStatus + "");

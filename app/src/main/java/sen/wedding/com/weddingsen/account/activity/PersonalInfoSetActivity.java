@@ -128,12 +128,10 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
     }
 
     private void initData() {
-        if(fromTag==Conts.FROM_LOGIN)
-        {
+        if (fromTag == Conts.FROM_LOGIN) {
             isAlipay = true;
             yourChoice = 0;
-        }else
-        {
+        } else {
             if (!TextUtils.isEmpty(personInfoModel.getBankAccount())) {
                 isAlipay = false;
                 yourChoice = 1;
@@ -232,7 +230,7 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
             return;
         }
 
-        bindAlipayRequest = new ApiRequest(URLCollection.URL_BIND_ALIPAY, HttpMethod.POST);
+        bindAlipayRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_BIND_ALIPAY, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
         if (isAlipay) {

@@ -32,11 +32,11 @@ import sen.wedding.com.weddingsen.utils.GsonConverter;
  * Created by lorin on 17/6/19.
  */
 
-public class ModifyRestTimeActivity extends BaseActivity implements  View.OnClickListener, RequestHandler<ApiRequest, ApiResponse> , DatePickerDialog.OnDateSetListener{
+public class ModifyRestTimeActivity extends BaseActivity implements View.OnClickListener, RequestHandler<ApiRequest, ApiResponse>, DatePickerDialog.OnDateSetListener {
 
     ModifyRestTimeBinding binding;
 
-    private ApiRequest submitRequest,getContractReviewRequest;
+    private ApiRequest submitRequest, getContractReviewRequest;
     private int orderId;
     private String originalTime;
     private DatePickerDialog dpd;
@@ -54,9 +54,9 @@ public class ModifyRestTimeActivity extends BaseActivity implements  View.OnClic
         binding = DataBindingUtil.setContentView(this, R.layout.activity_modify_rest_time);
         binding.setClickListener(this);
 
-        orderId = getIntent().getIntExtra("order_id",-1);
+        orderId = getIntent().getIntExtra("order_id", -1);
         originalTime = getIntent().getStringExtra("original_time");
-        type = getIntent().getIntExtra("type",-1);
+        type = getIntent().getIntExtra("type", -1);
 
 
         initTitleBar(binding.titleBar, TitleBar.Type.COMMON);
@@ -106,7 +106,7 @@ public class ModifyRestTimeActivity extends BaseActivity implements  View.OnClic
     private void getFollowUp() {
         showProgressDialog(false);
         if (orderId != -1) {
-            getContractReviewRequest = new ApiRequest(URLCollection.URL_SHOW_OTHER_ORDER_SIGN_DETAIL, HttpMethod.POST);
+            getContractReviewRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_SHOW_OTHER_ORDER_SIGN_DETAIL, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("user_dajian_order_id", orderId + "");
@@ -120,7 +120,7 @@ public class ModifyRestTimeActivity extends BaseActivity implements  View.OnClic
     private void submitModify() {
         showProgressDialog(false);
         if (orderId != -1) {
-            submitRequest = new ApiRequest(URLCollection.URL_SECOND_SALE_SIGN, HttpMethod.POST);
+            submitRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_SECOND_SALE_SIGN, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("user_dajian_order_id", orderId + "");
@@ -186,7 +186,7 @@ public class ModifyRestTimeActivity extends BaseActivity implements  View.OnClic
             } else {
                 showToast(resultModel.message);
             }
-        }else if (req == getContractReviewRequest) {
+        } else if (req == getContractReviewRequest) {
             if (resultModel.status == Conts.REQUEST_SUCCESS) {
                 secondSaleContractResModel = GsonConverter.decode(resultModel.data, SecondSaleContractResModel.class);
                 fillData(secondSaleContractResModel);

@@ -182,7 +182,7 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
     private void getFollowUp() {
         showProgressDialog(false);
         if (orderId != -1) {
-            getContractReviewRequest = new ApiRequest(URLCollection.URL_SHOW_OTHER_ORDER_SIGN_DETAIL, HttpMethod.POST);
+            getContractReviewRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_SHOW_OTHER_ORDER_SIGN_DETAIL, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("user_dajian_order_id", orderId + "");
@@ -327,7 +327,7 @@ public class SecondSaleContractActivity extends BaseActivity implements View.OnC
 
     private void submitertificate(String imageUrls) {
         if (orderId != -1) {
-            submitCertificateRequest = new ApiRequest(URLCollection.URL_SECOND_SALE_SIGN, HttpMethod.POST);
+            submitCertificateRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_SECOND_SALE_SIGN, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("sign_type", actionType + "");

@@ -137,8 +137,7 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
         binding.llSelectPhoneNumber.tvItemSelectIcon.setVisibility(View.INVISIBLE);
         binding.llSelectPhoneNumber.tvItemSelectContent.setText(verifyPhone);
 
-        if(BasePreference.getUserType().equals(Conts.LOGIN_MODEL_ACCOUNT))
-        {
+        if (BasePreference.getUserType().equals(Conts.LOGIN_MODEL_ACCOUNT)) {
             binding.llSelectSpecifyType.tvItemSelectTitle.setText(Html.fromHtml(sbType.toString()));
             binding.llSelectSpecifyType.tvItemSelectContent.setText(selectTypeModel.getValue());
 
@@ -151,8 +150,7 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
             binding.llSelectSpecifyItem.tvItemSelectContent.setText(hotelModel.getHotelName());
 
 
-        }else if(BasePreference.getUserType().equals(Conts.LOGIN_MODEL_PHONE))
-        {
+        } else if (BasePreference.getUserType().equals(Conts.LOGIN_MODEL_PHONE)) {
             //指定类型
             binding.llSelectSpecifyType.tvItemSelectTitle.setText(Html.fromHtml(sbType.toString()));
             binding.llSelectSpecifyType.tvItemSelectContent.setText(selectTypeModel.getValue());
@@ -294,13 +292,13 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
             return;
         }
 
-        createGuestInfoRequest = new ApiRequest(URLCollection.URL_CREATE_GUEST_INFO, HttpMethod.POST);
+        createGuestInfoRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_CREATE_GUEST_INFO, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("access_token", BasePreference.getToken());
-        param.put("order_type", selectOrderTypeModel.getType()+"");
+        param.put("order_type", selectOrderTypeModel.getType() + "");
         param.put("order_phone", verifyPhone);
 
-        param.put("order_area_hotel_type", selectTypeModel.getType()+"");
+        param.put("order_area_hotel_type", selectTypeModel.getType() + "");
 
         switch (selectTypeModel.getType()) {
             case Conts.OPTION_DISTRICT_SELECT:
@@ -322,7 +320,7 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
 
         param.put("customer_name", binding.llEditName.etItemEditInput.getText().toString());
         param.put("desk_count", binding.llEditTableCount.etItemEditInput.getText().toString());
-        param.put("use_date", selectTime+"");
+        param.put("use_date", selectTime + "");
         param.put("order_money", binding.llEditBudget.etItemEditInput.getText().toString());
         param.put("order_desc", binding.etEditNote.getText().toString());
 

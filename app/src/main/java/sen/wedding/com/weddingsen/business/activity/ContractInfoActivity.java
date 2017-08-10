@@ -181,7 +181,7 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
     private void getFollowUp() {
         showProgressDialog(false);
         if (orderId != -1) {
-            getContractReviewRequest = new ApiRequest(URLCollection.URL_SHOW_ORDER_SIGN_DETAIL, HttpMethod.POST);
+            getContractReviewRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_SHOW_ORDER_SIGN_DETAIL, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("user_kezi_order_id", orderId + "");
@@ -198,8 +198,7 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.tv_submit_review:
 
-                if(TextUtils.isEmpty(binding.llContractMoney.etItemEditInput.getText().toString().trim()))
-                {
+                if (TextUtils.isEmpty(binding.llContractMoney.etItemEditInput.getText().toString().trim())) {
                     showToast(getString(R.string.contract_money_can_not_empey));
                     return;
                 }
@@ -322,7 +321,7 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
 
     private void submitertificate(String imageUrls) {
         if (orderId != -1) {
-            submitCertificateRequest = new ApiRequest(URLCollection.URL_ORDER_SIGN, HttpMethod.POST);
+            submitCertificateRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_ORDER_SIGN, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("user_kezi_order_id", orderId + "");

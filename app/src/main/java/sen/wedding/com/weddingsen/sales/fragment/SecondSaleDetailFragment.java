@@ -72,7 +72,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
     private int yourChoice = 0;
     private String tailTimeStr;
 
-    public static SecondSaleDetailFragment newInstance(int orderId, int orderStatus,int erXiaoType) {
+    public static SecondSaleDetailFragment newInstance(int orderId, int orderStatus, int erXiaoType) {
         Bundle args = new Bundle();
         SecondSaleDetailFragment fragment = new SecondSaleDetailFragment();
         args.putInt("order_id", orderId);
@@ -181,7 +181,7 @@ public class SecondSaleDetailFragment extends BaseFragment implements View.OnCli
 
     private void getFollowUp() {
         if (orderId != -1) {
-            getOrderDetailRequest = new ApiRequest(URLCollection.URL_SHOW_BUILD_INFO_DETAIL, HttpMethod.POST);
+            getOrderDetailRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_SHOW_BUILD_INFO_DETAIL, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("order_id", orderId + "");

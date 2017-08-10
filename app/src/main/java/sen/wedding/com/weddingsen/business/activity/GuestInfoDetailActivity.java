@@ -70,6 +70,7 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
 
     private int orderId;
     OrderItemModel orderItemModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -242,7 +243,7 @@ public class GuestInfoDetailActivity extends BaseActivity implements View.OnClic
 
     private void getGuestInfo() {
         if (orderId != -1) {
-            getOrderDetailRequest = new ApiRequest(URLCollection.URL_SHOW_GUEST_INFO_DETAIL, HttpMethod.POST);
+            getOrderDetailRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_SHOW_GUEST_INFO_DETAIL, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("order_id", orderId + "");

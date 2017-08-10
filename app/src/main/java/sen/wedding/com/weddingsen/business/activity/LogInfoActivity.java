@@ -106,7 +106,7 @@ public class LogInfoActivity extends BaseActivity implements View.OnClickListene
 
     private void getLogs() {
         if (orderId != -1) {
-            getLogRequest = new ApiRequest(URLCollection.URL_FOLLOW_LOG_LIST, HttpMethod.POST);
+            getLogRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_FOLLOW_LOG_LIST, HttpMethod.POST);
             HashMap<String, String> param = new HashMap<>();
             param.put("access_token", BasePreference.getToken());
             param.put("user_kezi_order_id", orderId + "");
@@ -136,16 +136,15 @@ public class LogInfoActivity extends BaseActivity implements View.OnClickListene
                 //testFake
 //                model = getFakeData();
 
-                if (resultModel.data != null ) {
+                if (resultModel.data != null) {
                     loadingView.dismiss();
                     logList = GsonConverter.fromJson(resultModel.data.toString(),
                             new TypeToken<List<LogInfoModel>>() {
                             }.getType());
 
-                    if(logList != null && logList.size() > 0)
-                    {
+                    if (logList != null && logList.size() > 0) {
                         adapter.notifyDataChanged(logList);
-                    }else {
+                    } else {
                         loadingView.showLoadingEmpty();
                     }
 

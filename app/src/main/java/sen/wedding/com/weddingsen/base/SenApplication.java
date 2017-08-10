@@ -13,6 +13,7 @@ import java.util.Stack;
 import sen.wedding.com.weddingsen.MyEventBusIndex;
 import sen.wedding.com.weddingsen.account.activity.LoginActivity;
 import sen.wedding.com.weddingsen.http.service.HttpService;
+import sen.wedding.com.weddingsen.main.activity.HotelShowActivity;
 import sen.wedding.com.weddingsen.utils.NineGlideLoader;
 import sen.wedding.com.weddingsen.utils.crash.CrashManager;
 
@@ -100,7 +101,7 @@ public class SenApplication extends Application {
     public void logout() {
         BasePreference.clearAll();
         finishAllActivity();
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, HotelShowActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }

@@ -131,7 +131,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         verificationCountDownTimer.start();
         canSendSMS = false;
         showProgressDialog(false);
-        getVerificationCodeRequest = new ApiRequest(URLCollection.URL_GET_CODE, HttpMethod.POST);
+        getVerificationCodeRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_GET_CODE, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("mobile", binding.etUserName.getText().toString());
         getVerificationCodeRequest.setParams(param);
@@ -162,7 +162,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
 
         showProgressDialog(false);
-        loginRequest = new ApiRequest(URLCollection.URL_LOGIN, HttpMethod.POST);
+        loginRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_LOGIN, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("phone", binding.etUserName.getText().toString());
         param.put("code", binding.etVerification.getText().toString());
@@ -182,7 +182,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
 
         showProgressDialog(false);
-        loginRequest = new ApiRequest(URLCollection.URL_ACCOUNT_LOGIN, HttpMethod.POST);
+        loginRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_ACCOUNT_LOGIN, HttpMethod.POST);
         HashMap<String, String> param = new HashMap<>();
         param.put("user_name", binding.etAccount.getText().toString());
         param.put("password", binding.etPassword.getText().toString());
@@ -248,8 +248,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 } else {
                     finish();
                 }
-            }
-            else {
+            } else {
                 showToast(resultModel.message);
 
             }
