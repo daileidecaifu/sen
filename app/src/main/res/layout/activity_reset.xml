@@ -24,7 +24,7 @@
             android:layout_marginTop="20dp"
             android:orientation="vertical"
             android:background="@color/white"
-            android:paddingLeft="15dp">
+            >
 
             <include
                 android:id="@+id/ll_edit_password_original"

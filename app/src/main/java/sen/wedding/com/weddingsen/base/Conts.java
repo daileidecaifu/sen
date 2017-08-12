@@ -217,7 +217,7 @@ public class Conts {
     public static final String OSS_ACCESS_KEY_SECRET = "b2F0dppgffD0JkAfEW2AHOC4fTF2TL";
 
     public static final String OSS_BUCKET = "sendevimg";
-    public static final String OSS_UPLOAD_PREFIX = "upload/pic/";
+    public static final String OSS_UPLOAD_PREFIX = "upload/user_app/";
 
     //跟踪操作类型
     public final static int FOLLOW_UP_INFO_EFFECTIVE = 1;

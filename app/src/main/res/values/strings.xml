@@ -45,6 +45,7 @@
     <string name="status_colon">状态:</string>
     <string name="please_write_note">请填写备注信息</string>
     <string name="district">区域</string>
+    <string name="item_select_hint">请选择对应信息</string>
     <string name="hotel">酒店</string>
     <string name="table_count">桌数</string>
     <string name="table_count_hint">请输入预计需要的桌数</string>
@@ -170,6 +171,7 @@
     <string name="first_sale_amount">首款金额</string>
     <string name="first_sale_amount_hit">请输入首付金额</string>
     <string name="tail_time_hit">请选择尾款时间</string>
+    <string name="middle_time_hit">请选择中款时间</string>
     <string name="apply_time_hit">请选择申请时间</string>
     <string name="held_time">举办时间</string>
     <string name="first_sale_time">首款时间</string>

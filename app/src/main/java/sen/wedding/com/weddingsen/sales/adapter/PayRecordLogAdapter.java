@@ -110,12 +110,12 @@ public class PayRecordLogAdapter extends BaseAdapter {
 
                 binding.llSelect3.tvItemSelectContent.setText(model.getOrderMoney());
                 long time = Long.parseLong(model.getFirstOrderUsingTime()) * 1000;
-                binding.llSelect4.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+                binding.llSelect4.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time), DateUtil.FORMAT_COMMON_Y_M_D));
                 binding.ngImage.setAdapter(new NineGridViewClickAdapter(currentContext, model.getOrderSignPic()));
                 binding.llSelect1.tvItemSelectContent.setText(model.getFirstOrderMoney());
                 if (!TextUtils.isEmpty(model.getFirstOrderUsingTime())) {
                     long time1 = Long.parseLong(model.getOtherItemWeikuanOldTime()) * 1000;
-                    binding.llSelect2.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time1), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+                    binding.llSelect2.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(time1), DateUtil.FORMAT_COMMON_Y_M_D));
                 }
                 break;
 
@@ -148,10 +148,10 @@ public class PayRecordLogAdapter extends BaseAdapter {
                 binding.llSelect4.tvItemSelectTitle.setText(currentContext.getString(R.string.apply_time));
 
                 long timeO = Long.parseLong(model.getOtherItemWeikuanOldTime()) * 1000;
-                binding.llSelect3.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timeO), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+                binding.llSelect3.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timeO), DateUtil.FORMAT_COMMON_Y_M_D));
 
-                long timeN = Long.parseLong(model.getOtherItemWeikuanOldTime()) * 1000;
-                binding.llSelect4.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timeN), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+                long timeN = Long.parseLong(model.getOtherItemWeikuanNewTime()) * 1000;
+                binding.llSelect4.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timeN), DateUtil.FORMAT_COMMON_Y_M_D));
 
 
                 break;
@@ -183,7 +183,7 @@ public class PayRecordLogAdapter extends BaseAdapter {
 
         binding.llSelect3.tvItemSelectContent.setText(model.getOrderMoney());
         long timeMiddle = Long.parseLong(model.getOrderTime()) * 1000;
-        binding.llSelect4.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timeMiddle), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+        binding.llSelect4.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timeMiddle), DateUtil.FORMAT_COMMON_Y_M_D));
 
     }
 

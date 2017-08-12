@@ -158,9 +158,10 @@ public class ModifyRestTimeActivity extends BaseActivity implements View.OnClick
 
         binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
         binding.llSignUpTime.tvItemSelectTitle.setText(model.getSecondInputNote());
-        long timestamp = Long.parseLong(model.getFirstInputContent()) * 1000;
-        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timestamp), DateUtil.FORMAT_COMMON_Y_M_D));
-
+        long timestamp = Long.parseLong(model.getSecondInputContent());
+        selectTime = timestamp;
+        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(timestamp * 1000), DateUtil.FORMAT_COMMON_Y_M_D));
+        binding.llOriginTime.tvItemSelectContent.setText(model.getFirstInputContent());
     }
 
     @Override

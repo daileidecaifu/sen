@@ -186,6 +186,7 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
         //支付时间
         binding.llNextPayTime.tvItemSelectTitle.setText(getString(R.string.middle_time));
         binding.llNextPayTime.tvItemSelectIcon.setVisibility(View.GONE);
+        binding.llNextPayTime.tvItemSelectContent.setHint(getString(R.string.middle_time_hit));
         binding.llNextPayTime.setClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -423,18 +424,19 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
     }
 
     private void fillData(FirstSaleSignDetailModel model) {
-        long currentTimestamp = Long.parseLong(model.getSignUsingTime()) * 1000;
-        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
+        long currentTimestamp = Long.parseLong(model.getSignUsingTime());
+        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp * 1000), DateUtil.FORMAT_COMMON_Y_M_D));
         tailTime = currentTimestamp;
 
         binding.llContractMoney.etItemEditInput.setText(model.getOrderMoney());
         binding.llFirstSaleAmount.etItemEditInput.setText(model.getFirstOrderMoney());
 
-        long firstSaleTime = Long.parseLong(model.getFirstOrderUsingTime()) * 1000;
-        binding.llFirstSaleTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(firstSaleTime), DateUtil.FORMAT_COMMON_Y_M_D));
+        long firstSaleTime = Long.parseLong(model.getFirstOrderUsingTime());
+        binding.llFirstSaleTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(firstSaleTime * 1000), DateUtil.FORMAT_COMMON_Y_M_D));
+        selectFirstPayTime = firstSaleTime;
 
-        long nextPayTime = Long.parseLong(model.getNextPayTime()) * 1000;
-        binding.llNextPayTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(nextPayTime), DateUtil.FORMAT_COMMON_Y_M_D));
+        long nextPayTime = Long.parseLong(model.getNextPayTime());
+        binding.llNextPayTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(nextPayTime * 1000), DateUtil.FORMAT_COMMON_Y_M_D));
         selectNextPayTime = nextPayTime;
 
         for (String str : model.getSignPic()) {

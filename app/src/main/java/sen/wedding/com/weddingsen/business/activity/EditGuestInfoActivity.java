@@ -184,6 +184,7 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
                 }
             });
         }
+        binding.llSelectSpecifyItem.tvItemSelectContent.setHint(getString(R.string.item_select_hint));
 
         //桌数
         binding.llEditTableCount.tvItemEditTitle.setText(getString(R.string.table_count));

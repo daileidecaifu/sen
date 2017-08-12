@@ -90,7 +90,7 @@ public class LogInfoAdapter extends BaseAdapter {
             case "1":
                 //等待处理
                 long timeNextTime = Long.parseLong(model.getOrderFollowTime()) * 1000;
-                binding.tvNextTime.setText(DateUtil.convertDateToString(new Date(timeNextTime), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+                binding.tvNextTime.setText(DateUtil.convertDateToString(new Date(timeNextTime), DateUtil.FORMAT_COMMON_Y_M_D));
                 break;
 
             case "2":
@@ -109,7 +109,7 @@ public class LogInfoAdapter extends BaseAdapter {
 
         binding.tvNoteContent.setText(model.getOrderFollowDesc());
         long timeFollowCreate = Long.parseLong(model.getOrderFollowCreateTime()) * 1000;
-        binding.tvNoteTime.setText(DateUtil.convertDateToString(new Date(timeFollowCreate), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+        binding.tvNoteTime.setText(DateUtil.convertDateToString(new Date(timeFollowCreate), DateUtil.FORMAT_COMMON_Y_M_D));
 
 
         return binding.getRoot();
