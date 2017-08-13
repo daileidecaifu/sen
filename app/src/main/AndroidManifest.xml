@@ -207,6 +207,9 @@
         <activity android:name=".base.acitivity.SenSystemActivity"
             android:screenOrientation="portrait">
         </activity>
+
+        <service android:name=".component.service.DownloadService">
+        </service>
     </application>
 
 </manifest>

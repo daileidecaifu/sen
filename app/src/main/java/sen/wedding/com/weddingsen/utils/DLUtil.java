@@ -1,5 +1,7 @@
 package sen.wedding.com.weddingsen.utils;
 
+import android.os.Build;
+
 import java.util.List;
 
 
@@ -18,5 +20,7 @@ public class DLUtil {
         return false;
     }
 
-
+    public static boolean hasKitKat() {
+        return Build.VERSION.SDK_INT >= 19;
+    }
 }

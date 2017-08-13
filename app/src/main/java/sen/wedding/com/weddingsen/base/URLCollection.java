@@ -78,5 +78,5 @@ public class URLCollection {
 //
     public final static String URL_SYNCHRONIZE = "/index.php?m=app&c=feedback&f=autoType";
 
-
+    public final static String URL_UPDATE_DATA = "/index.php?m=app&c=sysData&f=updateData";
 }
