@@ -43,6 +43,22 @@ public class StringUtil {
         return true;
     }
 
+    public static boolean isURLFormat(String url) {
+        boolean isPhoneStart = url.startsWith("http");
+
+        if (!isPhoneStart) {
+            return false;
+        }
+
+        boolean isPhoneLength = url.length() > 0;
+
+        if (!isPhoneLength) {
+            return false;
+        }
+
+        return true;
+    }
+
     public static ArrayList<String> filterLocalImgArray(List<String> oArray) {
         ArrayList<String> results = new ArrayList<>();
 

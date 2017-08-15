@@ -10,6 +10,9 @@ public class UpdateStatusModel {
 
     private String version;
 
+    @SerializedName("update_msg")
+    private String updateMsg;
+
     @SerializedName("update_now")
     private String updateNow;
 
@@ -27,5 +30,13 @@ public class UpdateStatusModel {
 
     public void setUpdateNow(String updateNow) {
         this.updateNow = updateNow;
+    }
+
+    public String getUpdateMsg() {
+        return updateMsg;
+    }
+
+    public void setUpdateMsg(String updateMsg) {
+        this.updateMsg = updateMsg;
     }
 }

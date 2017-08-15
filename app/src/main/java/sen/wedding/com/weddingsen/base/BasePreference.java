@@ -120,6 +120,8 @@ public class BasePreference {
         saveBankAccount("");
         saveAreaId("");
         saveHotelArea("");
+        saveHotelSearchHistory("");
+        saveAutoType("");
     }
 
 

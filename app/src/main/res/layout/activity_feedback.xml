@@ -21,119 +21,136 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical"
-            android:background="@color/white"
-            android:layout_height="wrap_content">
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/divider_out"></View>
-            <TextView
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="7dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="15dp"
-                android:textColor="@color/gray_2"
-                android:text="@string/problem_and_advice"
-                android:textSize="@dimen/text_size_mm" />
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider_out"></View>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:text="@string/problem_and_advice"
+                    android:textColor="@color/gray_2"
+                    android:textSize="@dimen/text_size_mm" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:background="@color/divider_color"></View>
+
+                <EditText
+                    android:id="@+id/et_feedback_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:background="@color/transparent"
+                    android:gravity="top|left"
+                    android:hint="@string/feedback_hint"
+                    android:maxLength="500"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="10dp"
+                    android:textColor="@color/text_common"
+                    android:textColorHint="@color/gray_1"
+                    android:textSize="@dimen/text_size_m" />
+
+            </LinearLayout>
+
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginLeft="15dp"
                 android:background="@color/divider_color"></View>
 
-            <EditText
-                android:id="@+id/et_feedback_content"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:background="@color/transparent"
-                android:gravity="top|left"
-                android:paddingBottom="10dp"
-                android:paddingLeft="15dp"
-                android:hint="@string/feedback_hint"
-                android:maxLength="500"
-                android:textColorHint="@color/gray_1"
-                android:paddingRight="15dp"
-                android:textColor="@color/text_common"
-                android:paddingTop="10dp"
-                android:textSize="@dimen/text_size_m" />
 
-        </LinearLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/divider_color"></View>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="5dp"
-            android:background="@color/white"
-            android:layout_height="wrap_content">
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/divider_out"></View>
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="7dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="15dp"
-                android:textColor="@color/gray_2"
-                android:text="@string/your_phone_option"
-                android:textSize="@dimen/text_size_mm" />
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider_out"></View>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:text="@string/your_phone_option"
+                    android:textColor="@color/gray_2"
+                    android:textSize="@dimen/text_size_mm" />
 
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginLeft="15dp"
-                android:background="@color/divider_color"></View>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:background="@color/divider_color"></View>
 
-            <EditText
-                android:id="@+id/et_feedback_phone"
+                <EditText
+                    android:id="@+id/et_feedback_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/transparent"
+                    android:hint="@string/phone_number_hint"
+                    android:maxLines="1"
+                    android:paddingLeft="15dp"
+                    android:singleLine="true"
+                    android:textColor="@color/text_common"
+                    android:textColorHint="@color/gray_1"
+                    android:textSize="@dimen/text_size_m" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider_out"></View>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_feedback_submit"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint="@string/phone_number_hint"
-                android:background="@color/transparent"
-                android:maxLines="1"
-                android:paddingLeft="15dp"
-                android:textColorHint="@color/gray_1"
-                android:textColor="@color/text_common"
-                android:singleLine="true"
-                android:textSize="@dimen/text_size_m" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/divider_out"></View>
-
+                android:layout_marginLeft="45dp"
+                android:layout_marginRight="45dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/buttom_common_background"
+                android:gravity="center"
+                android:onClick="@{clickListener}"
+                android:text="@string/submit_feedback"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_xl"></TextView>
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_feedback_submit"
+            android:id="@+id/tv_show_version"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/buttom_common_background"
             android:gravity="center"
             android:onClick="@{clickListener}"
-            android:text="@string/submit_feedback"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_xl"></TextView>
-
+            android:textColor="@color/gray_2"
+            android:layout_height="40dp" />
     </LinearLayout>
 
 

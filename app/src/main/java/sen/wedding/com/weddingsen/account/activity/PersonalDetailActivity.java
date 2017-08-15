@@ -195,9 +195,9 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
 
     private void fillData(PersonDetailModel personDetailModel) {
 
-        binding.llTotalCommission.tvItemSelectContent.setText(personDetailModel.getMyMoney().getAll());
-        binding.llReleased.tvItemSelectContent.setText(personDetailModel.getMyMoney().getPay());
-        binding.llNotReleased.tvItemSelectContent.setText(personDetailModel.getMyMoney().getUnpay());
+        binding.llTotalCommission.tvItemSelectContent.setText(getString(R.string.yuan)+personDetailModel.getMyMoney().getAll());
+        binding.llReleased.tvItemSelectContent.setText(getString(R.string.yuan)+personDetailModel.getMyMoney().getPay());
+        binding.llNotReleased.tvItemSelectContent.setText(getString(R.string.yuan)+personDetailModel.getMyMoney().getUnpay());
 
         swtichShowType(personDetailModel.getMyAccount());
     }

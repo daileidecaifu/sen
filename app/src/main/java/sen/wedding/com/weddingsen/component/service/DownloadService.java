@@ -53,10 +53,10 @@ public class DownloadService extends Service {
 //    private HttpHandler<File> mDownLoadHelper;
 
     // 文件下载路径
-    private String debug_APK_url = "http://gdown.baidu.com/data/wisegame/a5947fef7e036da5/MagicZither_7.apk";
+    private String apkUrl;
     // 文件保存路径(如果有SD卡就保存SD卡,如果没有SD卡就保存到手机包名下的路径)
-    private String debug_APK_dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/NotificationDemo";
-    private String saveFileName = debug_APK_dir + "/NotificationDemo.apk";
+    private String debug_APK_dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/sen/apk";
+    private String saveFileName = debug_APK_dir + "/sen-release.apk";
 
 
     /**
@@ -96,15 +96,15 @@ public class DownloadService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         System.out.println("onStartCommand");
         // 接收Intent传来的参数:
-//        APK_url = intent.getStringExtra("apk_url");
+        apkUrl = intent.getStringExtra("apk_url");
 
 //        DownFile(APK_url, APK_dir + File.separator + "xxx");
 //        initAPKDir();// 创建保存路径
-        Toast.makeText(DownloadService.this, "start loading!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(DownloadService.this, getString(R.string.start_downloading), Toast.LENGTH_SHORT).show();
         if (!is_processing) {
             new Thread(mdownApkRunnable).start();
         } else {
-            Toast.makeText(DownloadService.this, "Processing!!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(DownloadService.this, getString(R.string.downloading), Toast.LENGTH_SHORT).show();
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -181,20 +181,20 @@ public class DownloadService extends Service {
                         R.mipmap.login_icon);
                 mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 builder = new NotificationCompat.Builder(getApplicationContext());
-                builder.setSmallIcon(R.mipmap.login_icon);
-//                builder.setLargeIcon(btm);
-                builder.setContentTitle("Hello");
+                builder.setSmallIcon(R.mipmap.notification_icon);//小icon
+                builder.setLargeIcon(btm);
+                builder.setContentTitle("Sen");
                 builder.setTicker("It's ready!");
 //                builder.setContentTitle(getApplicationName());
-                builder.setContentText("XXX,请稍后...");
+                builder.setContentText("正在下载,请稍后...");
                 builder.setNumber(0);
                 builder.setProgress(100, 0, false);
                 builder.setContentInfo(getPercent(0, 100));
                 builder.setAutoCancel(true);
                 mNotificationManager.notify(NotificationID, builder.build());
-                System.out.println("NOTIFICATION_FLAG" + debug_APK_url);
+                System.out.println("NOTIFICATION_FLAG" + apkUrl);
 
-                URL url = new URL(debug_APK_url);
+                URL url = new URL(apkUrl);
                 System.out.println("HTTPCONNECTION_FLAG1");
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();

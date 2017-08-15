@@ -27,6 +27,9 @@ public class OrderInfoModel implements CursorModel{
     @SerializedName("watch_user")
     private String watchUser;
 
+    @SerializedName("order_from")
+    private String orderFrom;
+
     public int getId() {
         return id;
     }
@@ -73,6 +76,14 @@ public class OrderInfoModel implements CursorModel{
 
     public void setErxiaoSignType(int erxiaoSignType) {
         this.erxiaoSignType = erxiaoSignType;
+    }
+
+    public String getOrderFrom() {
+        return orderFrom;
+    }
+
+    public void setOrderFrom(String orderFrom) {
+        this.orderFrom = orderFrom;
     }
 
     @Override

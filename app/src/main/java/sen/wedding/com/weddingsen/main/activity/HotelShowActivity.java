@@ -1,5 +1,7 @@
 package sen.wedding.com.weddingsen.main.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -14,10 +16,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.HashMap;
 
 import me.iwf.photopicker.utils.PermissionsConstant;
 import sen.wedding.com.weddingsen.R;
@@ -26,13 +31,23 @@ import sen.wedding.com.weddingsen.account.activity.LoginActivity;
 import sen.wedding.com.weddingsen.account.activity.PersonalDetailActivity;
 import sen.wedding.com.weddingsen.account.activity.PersonalInfoSetActivity;
 import sen.wedding.com.weddingsen.account.activity.ResetPasswordActivity;
+import sen.wedding.com.weddingsen.base.ApiRequest;
+import sen.wedding.com.weddingsen.base.ApiResponse;
 import sen.wedding.com.weddingsen.base.BaseActivity;
 import sen.wedding.com.weddingsen.base.BasePreference;
 import sen.wedding.com.weddingsen.base.Conts;
+import sen.wedding.com.weddingsen.base.URLCollection;
+import sen.wedding.com.weddingsen.base.model.CheckVersionResModel;
+import sen.wedding.com.weddingsen.component.service.DownloadService;
 import sen.wedding.com.weddingsen.databinding.HotelShowBinding;
+import sen.wedding.com.weddingsen.http.base.RequestHandler;
+import sen.wedding.com.weddingsen.http.model.ResultModel;
+import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.main.fragment.HotelShowFragment;
 import sen.wedding.com.weddingsen.sales.activity.BuildFollowAcrivity;
+import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.ScreenUtil;
+import sen.wedding.com.weddingsen.utils.StringUtil;
 import sen.wedding.com.weddingsen.utils.model.EventIntent;
 
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -41,7 +56,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
  * Created by lorin on 17/5/25.
  */
 
-public class HotelShowActivity extends BaseActivity implements View.OnClickListener {
+public class HotelShowActivity extends BaseActivity implements View.OnClickListener, RequestHandler<ApiRequest, ApiResponse> {
 
     HotelShowBinding binding;
     DrawerLayout drawer;
@@ -50,6 +65,8 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
     private FragmentManager fragmentManager;
     private long currentBackPressedTime;
     private final long BACK_PRESSED_INTERVAL = 1500;
+    private ApiRequest checkUpdateRequest;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +79,9 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
         initSildMenu();
         addFragmentView();
         checkWriteStoragePermission();
+        if (!Conts.hadVersionCheck) {
+            checkVersionUpdate();
+        }
     }
 
     @Override
@@ -76,6 +96,15 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
         if (eventIntent.getActionId() == Conts.EVENT_INIT_MAIN_SLIDE) {
             initSildMenu();
         }
+    }
+
+    private void checkVersionUpdate() {
+        checkUpdateRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_UPDATE_DATA, HttpMethod.POST);
+        HashMap<String, String> param = new HashMap<>();
+        param.put("appver", Conts.APP_VERSION);
+        checkUpdateRequest.setParams(param);
+
+        getApiService().exec(checkUpdateRequest, this);
     }
 
     private void initSildMenu() {
@@ -234,4 +263,102 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
         return writeStoragePermissionGranted;
     }
 
+    @Override
+    public void onRequestStart(ApiRequest req) {
+
+    }
+
+    @Override
+    public void onRequestProgress(ApiRequest req, int count, int total) {
+
+    }
+
+    @Override
+    public void onRequestFinish(ApiRequest req, ApiResponse resp) {
+        ResultModel resultModel = resp.getResultModel();
+
+        if (req == checkUpdateRequest) {
+            if (resultModel.status == Conts.REQUEST_SUCCESS) {
+                Conts.hadVersionCheck = true;
+                final CheckVersionResModel checkVersionResModel = GsonConverter.decode(resultModel.data, CheckVersionResModel.class);
+
+                if (checkVersionResModel.getUpdateStatus().getUpdateNow().equals(Conts.APP_UPDATE_FORCED)) {
+                    showAlertDialog(null, checkVersionResModel.getUpdateStatus().getUpdateMsg(), getString(R.string.confirm), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (StringUtil.isURLFormat(checkVersionResModel.getUrl())) {
+                                Intent intent = new Intent(HotelShowActivity.this, DownloadService.class);
+                                intent.putExtra("apk_url", checkVersionResModel.getUrl());
+                                startService(intent);
+                                showAlertDialog(null, "下载中...", null, null);
+                            }
+                        }
+                    });
+                } else if (checkVersionResModel.getUpdateStatus().getUpdateNow().equals(Conts.APP_UPDATE_COMMON)) {
+                    showAlertDialog(null, checkVersionResModel.getUpdateStatus().getUpdateMsg(), getString(R.string.confirm), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (StringUtil.isURLFormat(checkVersionResModel.getUrl())) {
+                                Intent intent = new Intent(HotelShowActivity.this, DownloadService.class);
+                                intent.putExtra("apk_url", checkVersionResModel.getUrl());
+                                startService(intent);
+                            }
+                        }
+                    }, getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }, false);
+                }
+
+
+            }
+        }
+    }
+
+    @Override
+    public void onRequestFailed(ApiRequest req, ApiResponse resp) {
+
+    }
+
+    private void showAlertDialog(String title, String message, String positiveBtnName, DialogInterface.OnClickListener positiveOnClick) {
+        showAlertDialog(title, message, positiveBtnName, positiveOnClick, null, null, false);
+    }
+
+    private void showAlertDialog(String title, String message,
+                                 String positiveBtnName, DialogInterface.OnClickListener positiveOnClick,
+                                 String negativeBtnName, DialogInterface.OnClickListener negativeOnClick,
+                                 boolean cancelable) {
+//        if (alertDialog != null) {
+//            return;
+//        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if (!TextUtils.isEmpty(title)) {
+            builder.setTitle(title);
+        }
+        builder.setMessage(message);
+        if (!TextUtils.isEmpty(positiveBtnName)) {
+
+            builder.setPositiveButton(positiveBtnName, positiveOnClick);
+        }
+        if (!TextUtils.isEmpty(negativeBtnName)) {
+            builder.setNegativeButton(negativeBtnName, negativeOnClick);
+        }
+        builder.setCancelable(cancelable);
+        alertDialog = builder.create();
+//        alertDialog.getWindow().setType(DLUtil.hasKitKat() ? WindowManager.LayoutParams.TYPE_TOAST :
+//                WindowManager.LayoutParams.TYPE_PHONE);
+//        alertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_PHONE);
+
+        alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                alertDialog = null;
+            }
+        });
+
+        alertDialog.show();
+    }
 }

@@ -43,21 +43,11 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
 
         initTitleBar(binding.titleBar, TitleBar.Type.COMMON);
         getTitleBar().setTitle(getString(R.string.user_feedback));
+        getTitleBar().setCommonRightText("");
         getTitleBar().setLeftClickEvent(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
-            }
-        });
-        getTitleBar().setCommonRightText("         ");
-        getTitleBar().setRightClickEvent(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                count = count + 1;
-                if (count == 10) {
-                    jumpToOtherActivity(SenSystemActivity.class);
-                    count = 0;
-                }
             }
         });
         initComponents();
@@ -68,6 +58,8 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
         if (BasePreference.getUserType().equals(Conts.LOGIN_MODEL_PHONE)) {
             binding.etFeedbackPhone.setText(BasePreference.getUserName());
         }
+
+        binding.tvShowVersion.setText("V"+Conts.APP_VERSION);
     }
 
     private void submitFeedback() {
@@ -100,6 +92,13 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
                 submitFeedback();
                 break;
 
+            case R.id.tv_show_version:
+                count = count + 1;
+                if (count == 7) {
+                    jumpToOtherActivity(SenSystemActivity.class);
+                    count = 0;
+                }
+                break;
         }
     }
 

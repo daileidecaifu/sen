@@ -264,6 +264,10 @@
     <string name="tail_time_can_not_empty">尾款时间不能为空</string>
     <string name="middle_time_can_not_empty">中款时间不能为空</string>
     <string name="middle_time">中款时间</string>
+    <string name="start_downloading">开始下载</string>
+    <string name="downloading">下载中...</string>
+    <string name="yuan">￥</string>
+    <string name="source">来源</string>
 
 
 </resources>

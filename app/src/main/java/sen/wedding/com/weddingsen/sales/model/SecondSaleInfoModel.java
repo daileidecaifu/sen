@@ -27,6 +27,9 @@ public class SecondSaleInfoModel implements CursorModel{
     @SerializedName("watch_user")
     private String watchUser;
 
+    @SerializedName("order_from")
+    private String orderFrom;
+
     public int getId() {
         return id;
     }
@@ -73,6 +76,14 @@ public class SecondSaleInfoModel implements CursorModel{
 
     public void setWatchUser(String watchUser) {
         this.watchUser = watchUser;
+    }
+
+    public String getOrderFrom() {
+        return orderFrom;
+    }
+
+    public void setOrderFrom(String orderFrom) {
+        this.orderFrom = orderFrom;
     }
 
     @Override

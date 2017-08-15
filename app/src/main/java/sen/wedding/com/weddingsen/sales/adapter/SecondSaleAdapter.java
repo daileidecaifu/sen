@@ -14,8 +14,7 @@ import java.util.Date;
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.Conts;
 import sen.wedding.com.weddingsen.base.DBaseCallback;
-import sen.wedding.com.weddingsen.databinding.MainInfoBinding;
-import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
+import sen.wedding.com.weddingsen.databinding.MainSaleInfoBinding;
 import sen.wedding.com.weddingsen.sales.model.SecondSaleInfoModel;
 import sen.wedding.com.weddingsen.utils.DateUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
@@ -79,9 +78,9 @@ public class SecondSaleAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-        MainInfoBinding binding;
+        MainSaleInfoBinding binding;
         if (convertView == null) {
-            binding = DataBindingUtil.inflate(LayoutInflater.from(currentContext), R.layout.item_main_info, parent, false);
+            binding = DataBindingUtil.inflate(LayoutInflater.from(currentContext), R.layout.item_main_info_sale, parent, false);
         } else {
             binding = DataBindingUtil.getBinding(convertView);
         }
@@ -101,7 +100,7 @@ public class SecondSaleAdapter extends BaseAdapter {
         binding.tvOrderStatus.setText(getErXiaoStatus(model.getErxiaoSignType())+Conts.getSecondSaleStatusMap().get(model.getOrderStatus()));
         binding.tvContantPersonPhone.setText(model.getOrderPhone());
         binding.tvFollowerFaction.setText(model.getWatchUser());
-
+        binding.tvSource.setText(model.getOrderFrom());
         switch (infoType) {
             case 1:
                 binding.llTip.setVisibility(View.GONE);

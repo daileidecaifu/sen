@@ -532,14 +532,5 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//        if (data != null) {
-//            selectDistinctId = data.getStringExtra("select_id");
-//            selectDistinctTitle = data.getStringExtra("select_title");
-//
-//            if (!TextUtils.isEmpty(selectDistinctId)) {
-//                loadingView.showLoading();
-//                getHotelList(selectDistinctId);
-//            }
-//        }
     }
 }
