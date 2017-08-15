@@ -46,6 +46,7 @@ import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.main.fragment.HotelShowFragment;
 import sen.wedding.com.weddingsen.sales.activity.BuildFollowAcrivity;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
+import sen.wedding.com.weddingsen.utils.PermissionUtil;
 import sen.wedding.com.weddingsen.utils.ScreenUtil;
 import sen.wedding.com.weddingsen.utils.StringUtil;
 import sen.wedding.com.weddingsen.utils.model.EventIntent;
@@ -78,7 +79,7 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
         binding.llSliderMenu.setClickListener(this);
         initSildMenu();
         addFragmentView();
-        checkWriteStoragePermission();
+        PermissionUtil.checkWriteStoragePermission(this);
         if (!Conts.hadVersionCheck) {
             checkVersionUpdate();
         }
@@ -241,27 +242,12 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
             showToast("再按一次返回键退出程序");
 
         } else {
-
-            // 退出
-
             finish();
 
         }
     }
 
-    private boolean checkWriteStoragePermission() {
 
-        int writeStoragePermissionState =
-                ContextCompat.checkSelfPermission(HotelShowActivity.this, WRITE_EXTERNAL_STORAGE);
-
-        boolean writeStoragePermissionGranted = writeStoragePermissionState == PackageManager.PERMISSION_GRANTED;
-
-        if (!writeStoragePermissionGranted) {
-            ActivityCompat.requestPermissions(HotelShowActivity.this, PermissionsConstant.PERMISSIONS_EXTERNAL_WRITE,
-                    PermissionsConstant.REQUEST_EXTERNAL_WRITE);
-        }
-        return writeStoragePermissionGranted;
-    }
 
     @Override
     public void onRequestStart(ApiRequest req) {
@@ -312,6 +298,7 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
                     }, false);
                 }
 
+                PermissionUtil.checkWriteStoragePermission(this);
 
             }
         }
@@ -358,7 +345,7 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
                 alertDialog = null;
             }
         });
-
         alertDialog.show();
+
     }
 }
