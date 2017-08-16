@@ -210,6 +210,16 @@
 
         <service android:name=".component.service.DownloadService">
         </service>
+
+        <provider
+            android:name=".component.SenProvider"
+            android:authorities="sen.wedding.com.weddingsen.fileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

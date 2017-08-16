@@ -11,12 +11,14 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.widget.Toast;
 import java.io.File;
@@ -28,6 +30,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
 
+import sen.wedding.com.weddingsen.BuildConfig;
 import sen.wedding.com.weddingsen.R;
 
 /**
@@ -274,8 +277,19 @@ public class DownloadService extends Service {
                     }
                     Intent installIntent = new Intent(Intent.ACTION_VIEW);
 //                    Uri uri = Uri.fromFile(new File(APK_dir));
-                    installIntent.setDataAndType(Uri.parse("file://" + apkfile.toString()), "application/vnd.android.package-archive");
-                    installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    //判断是否是AndroidN以及更高的版本
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        installIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        Uri contentUri = FileProvider.getUriForFile(DownloadService.this, BuildConfig.APPLICATION_ID + ".fileProvider", new File(saveFileName));
+                        installIntent.setDataAndType(contentUri, "application/vnd.android.package-archive");
+                    } else {
+                        installIntent.setDataAndType(Uri.fromFile(apkfile), "application/vnd.android.package-archive");
+//                        installIntent.setDataAndType(Uri.parse("file://" + apkfile.toString()), "application/vnd.android.package-archive");
+                        installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    }
+
                     PendingIntent mPendingIntent = PendingIntent.getActivity(DownloadService.this, 0, installIntent, 0);
                     builder.setContentText("下载完成,请点击安装");
                     builder.setContentIntent(mPendingIntent);

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v13.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -79,7 +80,6 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
         binding.llSliderMenu.setClickListener(this);
         initSildMenu();
         addFragmentView();
-        PermissionUtil.checkWriteStoragePermission(this);
         if (!Conts.hadVersionCheck) {
             checkVersionUpdate();
         }
@@ -273,10 +273,7 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (StringUtil.isURLFormat(checkVersionResModel.getUrl())) {
-                                Intent intent = new Intent(HotelShowActivity.this, DownloadService.class);
-                                intent.putExtra("apk_url", checkVersionResModel.getUrl());
-                                startService(intent);
-                                showAlertDialog(null, "下载中...", null, null);
+                                startDownloadAction(checkVersionResModel.getUrl(),true);
                             }
                         }
                     });
@@ -285,9 +282,7 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (StringUtil.isURLFormat(checkVersionResModel.getUrl())) {
-                                Intent intent = new Intent(HotelShowActivity.this, DownloadService.class);
-                                intent.putExtra("apk_url", checkVersionResModel.getUrl());
-                                startService(intent);
+                                startDownloadAction(checkVersionResModel.getUrl(),false);
                             }
                         }
                     }, getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -297,8 +292,6 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
                         }
                     }, false);
                 }
-
-                PermissionUtil.checkWriteStoragePermission(this);
 
             }
         }
@@ -347,5 +340,31 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
         });
         alertDialog.show();
 
+    }
+
+    private void startDownloadAction(String url,boolean isForced)
+    {
+        int writeStoragePermissionState =
+                ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE);
+
+        boolean writeStoragePermissionGranted = writeStoragePermissionState == PackageManager.PERMISSION_GRANTED;
+        if(writeStoragePermissionGranted)
+        {
+            Intent intent = new Intent(HotelShowActivity.this, DownloadService.class);
+            intent.putExtra("apk_url", url);
+            startService(intent);
+        }else
+        {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+
+        if(isForced)
+        {
+            showAlertDialog(null, "下载中...", null, null);
+        }
     }
 }

@@ -18,7 +18,7 @@ import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
 public class Conts {
 
     //同步类型
-    public final static String APP_VERSION = "0.0.1";
+    public final static String APP_VERSION = "1.0.0";
 
 
     //更新状态
