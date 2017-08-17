@@ -14,6 +14,7 @@ import com.lzy.ninegrid.NineGridView;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Stack;
 
 import sen.wedding.com.weddingsen.MyEventBusIndex;
@@ -31,18 +32,22 @@ import sen.wedding.com.weddingsen.utils.DLUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
 import sen.wedding.com.weddingsen.utils.NineGlideLoader;
 import sen.wedding.com.weddingsen.utils.StringUtil;
+import sen.wedding.com.weddingsen.utils.crash.CrashInfoModel;
 import sen.wedding.com.weddingsen.utils.crash.CrashManager;
+import sen.wedding.com.weddingsen.utils.crash.DeviceUuidFactory;
 
 /**
  * Created by lorin on 17/4/2.
  */
 
-public class SenApplication extends Application implements RequestHandler<ApiRequest, ApiResponse> {
+public class SenApplication extends Application {
 
     private static SenApplication instance;
     private HttpService httpService;
     private ApiService apiService;
     public Stack<Activity> activityStack;
+    List<CrashInfoModel> crashInfos;
+    private ApiRequest crashUploadRequest;
 
     @Override
     public void onCreate() {
@@ -50,7 +55,7 @@ public class SenApplication extends Application implements RequestHandler<ApiReq
         EventBus.builder().addIndex(new MyEventBusIndex()).installDefaultEventBus();
         NineGridView.setImageLoader(new NineGlideLoader());
         CrashManager.init();
-
+        checkCrashInfos();
     }
 
     public static SenApplication getInstance() {
@@ -122,27 +127,43 @@ public class SenApplication extends Application implements RequestHandler<ApiReq
         startActivity(intent);
     }
 
+    private void checkCrashInfos() {
+        //获取未发送信息
+        crashInfos = CrashManager.getCrashInfoByStatus("" + CrashManager.CRASH_NOT_SENT);
 
+        if (crashInfos != null && crashInfos.size() > 0) {
+            crashUploadRequest = new ApiRequest(URLCollection.URL_DOMAIN + URLCollection.URL_LOG_UPLOAD, HttpMethod.POST);
+            HashMap<String, String> param = new HashMap<>();
+            param.put("content", GsonConverter.toJson(crashInfos));
+            param.put("uuid", BasePreference.getUserName());
+            crashUploadRequest.setParams(param);
+            getApiService().exec(crashUploadRequest, new RequestHandler<ApiRequest, ApiResponse>() {
+                @Override
+                public void onRequestStart(ApiRequest req) {
 
-    @Override
-    public void onRequestStart(ApiRequest req) {
+                }
 
-    }
+                @Override
+                public void onRequestProgress(ApiRequest req, int count, int total) {
 
-    @Override
-    public void onRequestProgress(ApiRequest req, int count, int total) {
+                }
 
-    }
+                @Override
+                public void onRequestFinish(ApiRequest req, ApiResponse resp) {
+                    ResultModel resultModel = resp.getResultModel();
 
-    @Override
-    public void onRequestFinish(ApiRequest req, ApiResponse resp) {
+                    if (resultModel.status == Conts.REQUEST_SUCCESS) {
+                        CrashManager.modeifyInfoSendStatus(crashInfos, CrashManager.CRASH_SENT);
+                    }
 
+                }
 
-    }
+                @Override
+                public void onRequestFailed(ApiRequest req, ApiResponse resp) {
 
-    @Override
-    public void onRequestFailed(ApiRequest req, ApiResponse resp) {
-
+                }
+            });
+        }
     }
 
 }

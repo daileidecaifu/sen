@@ -341,7 +341,7 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         if (null != model.getSignUsingTime()) {
             long currentTimestamp = Long.parseLong(model.getSignUsingTime());
             signTime = currentTimestamp;
-            binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp * 1000), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+            binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp * 1000), DateUtil.FORMAT_COMMON_Y_M_D));
         }
         binding.llContractMoney.etItemEditInput.setText(model.getOrderMoney());
 

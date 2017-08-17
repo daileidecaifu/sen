@@ -2,6 +2,7 @@ package sen.wedding.com.weddingsen.base.acitivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,6 +117,14 @@ public class DebugCrashListActivity extends BaseActivity {
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
+            }
+
+            if(dataList.get(position).getHasSent()==0)
+            {
+                viewHolder.crashInfoTv.setBackgroundColor(Color.parseColor("#178ef6"));
+            }else if(dataList.get(position).getHasSent()==1)
+            {
+                viewHolder.crashInfoTv.setBackgroundColor(Color.parseColor("#FF4081"));
             }
             viewHolder.crashInfoTv.setText(dataList.get(position).getDate());
 

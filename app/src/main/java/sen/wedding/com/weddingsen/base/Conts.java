@@ -273,7 +273,6 @@ public class Conts {
     public final static String AUTO_TYPE_SYNCHRONIZE_CLOSE = "1";
     public final static String AUTO_TYPE_SYNCHRONIZE_OPEN = "2";
 
-
     /**
      * --------------------------------------------------------------------------------
      */

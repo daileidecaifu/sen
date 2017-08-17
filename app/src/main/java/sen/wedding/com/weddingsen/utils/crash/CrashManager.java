@@ -20,6 +20,9 @@ import sen.wedding.com.weddingsen.utils.SystemUtil;
  */
 public class CrashManager {
 
+    public static final int CRASH_NOT_SENT = 0;
+    public static final int CRASH_SENT = 1;
+
     private CrashManager() {
     }
 
@@ -82,7 +85,7 @@ public class CrashManager {
         info.setDev(SystemUtil.getPhoneModel());
         info.setSys("Android");
         info.setSysv(SystemUtil.getAndroidVersion());
-
+        info.setHasSent(CRASH_NOT_SENT);
         String[] strArr = sb.toString().split("\\\n", -1);
         info.setCause(strArr[0]);
 
@@ -133,6 +136,15 @@ public class CrashManager {
      */
     public static List<CrashInfoModel> getAllCrashInfos() {
         return dataClient.queryAllCrashInfos();
+    }
+
+    /**
+     * 获取对应发送状态
+     *
+     * @return List<CrashInfo>
+     */
+    public static void modeifyInfoSendStatus(List<CrashInfoModel> idList, int status) {
+        dataClient.motifyMessageStatus(idList, status);
     }
 
     /**

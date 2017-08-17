@@ -31,6 +31,7 @@ import sen.wedding.com.weddingsen.component.LoadingView;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
+import sen.wedding.com.weddingsen.main.adapter.BuildInfoAdapter;
 import sen.wedding.com.weddingsen.main.adapter.GuestInfoAdapter;
 import sen.wedding.com.weddingsen.main.model.GuestInfosResModel;
 import sen.wedding.com.weddingsen.main.model.OrderInfoModel;
@@ -42,7 +43,7 @@ public class BuildInfoFragment extends BaseFragment implements RequestHandler<Ap
         LoadMoreView.OnLoadMoreListener {
 
     ListView listView;
-    GuestInfoAdapter guestInfoAdapter;
+    BuildInfoAdapter buildInfoAdapter;
     private ApiRequest getListRequest, loadMoreRequest;
 
     private GuestInfosResModel model;
@@ -103,8 +104,8 @@ public class BuildInfoFragment extends BaseFragment implements RequestHandler<Ap
 
     private void initViews(View view) {
         listView = (ListView) view.findViewById(R.id.listView);
-        guestInfoAdapter = new GuestInfoAdapter(getActivity(), currentStatus);
-        listView.setAdapter(guestInfoAdapter);
+        buildInfoAdapter = new BuildInfoAdapter(getActivity(), currentStatus);
+        listView.setAdapter(buildInfoAdapter);
         listView.setOnItemClickListener(this);
 //        listView.setOnScrollListener(this);
 
@@ -222,7 +223,7 @@ public class BuildInfoFragment extends BaseFragment implements RequestHandler<Ap
                     loadingView.dismiss();
                     ((BuildInfoListFragment) (BuildInfoFragment.this.getParentFragment())).updateTitle(model.getCount(), currentStatus);
 
-                    guestInfoAdapter.notifyDataChanged(model.getOrderList());
+                    buildInfoAdapter.notifyDataChanged(model.getOrderList());
                     if (model.getCount() < 10) {
                         loadMoreView.showNoMoreInFirst();
                     } else {
@@ -245,7 +246,7 @@ public class BuildInfoFragment extends BaseFragment implements RequestHandler<Ap
                 model = GsonConverter.decode(resultModel.data, GuestInfosResModel.class);
                 currentPage = Integer.parseInt(((ApiRequest) req).getParams().get("order_page"));
                 if (model.getOrderList() != null && model.getOrderList().size() > 0) {
-                    guestInfoAdapter.notifyMoreDataChanged(model.getOrderList());
+                    buildInfoAdapter.notifyMoreDataChanged(model.getOrderList());
                 }
 
                 if (model.getCount() <= currentPage * 10) {
@@ -268,7 +269,7 @@ public class BuildInfoFragment extends BaseFragment implements RequestHandler<Ap
 
         }
 
-        if (guestInfoAdapter.isEmpty()) {
+        if (buildInfoAdapter.isEmpty()) {
             loadMoreView.dismissLoading();
         } else {
             loadMoreView.showFailed();
@@ -280,7 +281,7 @@ public class BuildInfoFragment extends BaseFragment implements RequestHandler<Ap
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getAdapter().getItem(position) instanceof OrderInfoModel) {
             Intent intent = new Intent(getActivity(), BuildInfoDetailActivity.class);
-            intent.putExtra("order_id", guestInfoAdapter.getList().get(position).getId());
+            intent.putExtra("order_id", buildInfoAdapter.getList().get(position).getId());
             getActivity().startActivity(intent);
         }
     }
