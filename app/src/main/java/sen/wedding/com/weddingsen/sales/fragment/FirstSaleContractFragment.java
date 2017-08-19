@@ -127,11 +127,12 @@ public class FirstSaleContractFragment extends BaseFragment implements RequestHa
             long nextPayTime = Long.parseLong(model.getNextPayTime()) * 1000;
             binding.llNextPayTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(nextPayTime), DateUtil.FORMAT_COMMON_Y_M_D));
 
-            for (String str : model.getSignPic()) {
-                selectedPhotos.add(str);
-
+            if(null!=model.getSignPic()) {
+                for (String str : model.getSignPic()) {
+                    selectedPhotos.add(str);
+                }
+                contractReviewAdapter.notifyDataSetChanged();
             }
-            contractReviewAdapter.notifyDataSetChanged();
         }
     }
 

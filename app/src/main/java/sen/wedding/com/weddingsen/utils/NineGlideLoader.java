@@ -21,6 +21,7 @@ public class NineGlideLoader implements NineGridView.ImageLoader{
         Glide.with(context)
                 .load(url)
                 .centerCrop()
+                .placeholder(R.drawable.__picker_ic_photo_black_48dp)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .error(R.drawable.__picker_ic_broken_image_black_48dp)
                 .crossFade()

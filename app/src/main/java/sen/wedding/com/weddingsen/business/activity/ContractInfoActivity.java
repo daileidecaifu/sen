@@ -162,7 +162,7 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
 
         long currentTimestamp = System.currentTimeMillis();
         signTime = currentTimestamp / 1000;
-        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D_H_M_S));
+        binding.llSignUpTime.tvItemSelectContent.setText(DateUtil.convertDateToString(new Date(currentTimestamp), DateUtil.FORMAT_COMMON_Y_M_D));
         FileIOUtil.deleteFile(new File(Conts.COMPRESS_IMG_PATH));
 
         if (type == Conts.SOURCE_MODIFY) {
@@ -345,12 +345,13 @@ public class ContractInfoActivity extends BaseActivity implements View.OnClickLi
         }
         binding.llContractMoney.etItemEditInput.setText(model.getOrderMoney());
 
-        String[] imgs = model.getSignPic().split(",");
-        for (String str : imgs) {
-            selectedPhotos.add(str);
+        if (null != model.getSignPic()) {
+            String[] imgs = model.getSignPic().split(",");
+            for (String str : imgs) {
+                selectedPhotos.add(str);
+            }
+            photoAdapter.notifyDataSetChanged();
         }
-        photoAdapter.notifyDataSetChanged();
-
     }
 
     @Override

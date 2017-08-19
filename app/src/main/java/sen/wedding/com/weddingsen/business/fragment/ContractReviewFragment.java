@@ -104,12 +104,13 @@ public class ContractReviewFragment extends BaseFragment implements RequestHandl
         }
         binding.llContractMoney.tvItemSelectContent.setText(model.getOrderMoney());
 
-        String[] imgs = model.getSignPic().split(",");
-        for (String str : imgs) {
-            selectedPhotos.add(str);
+        if (null != model.getSignPic()) {
+            String[] imgs = model.getSignPic().split(",");
+            for (String str : imgs) {
+                selectedPhotos.add(str);
+            }
+            contractReviewAdapter.notifyDataSetChanged();
         }
-        contractReviewAdapter.notifyDataSetChanged();
-
     }
 
     @Override
