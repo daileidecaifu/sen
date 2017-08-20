@@ -18,6 +18,7 @@ public class NineGlideLoader implements NineGridView.ImageLoader{
 
     @Override
     public void onDisplayImage(Context context, ImageView imageView, String url) {
+        System.out.print("Loading!!!!! Nine");
         Glide.with(context)
                 .load(url)
                 .centerCrop()

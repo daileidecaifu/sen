@@ -44,7 +44,7 @@ public class ImageAlbumActivity extends Activity {
         } else {
 
             totalCount = infoList.size();
-            tvRight.setText(1 + "/" + totalCount);
+            tvRight.setText((index+1) + "/" + totalCount);
 
             llLeft.setOnClickListener(new View.OnClickListener() {
                 @Override
