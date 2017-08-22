@@ -111,16 +111,19 @@
                 <ImageView
                     android:id="@+id/iv_item2"
                     android:layout_width="match_parent"
+                    android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content" />
                 <ImageView
                     android:id="@+id/iv_item3"
                     android:layout_width="match_parent"
                     android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
                     android:layout_height="wrap_content" />
                 <ImageView
                     android:id="@+id/iv_item4"
                     android:layout_width="match_parent"
+                    android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -138,15 +141,18 @@
                 <ImageView
                     android:id="@+id/iv_item6"
                     android:layout_width="match_parent"
+                    android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content" />
                 <ImageView
                     android:id="@+id/iv_item7"
                     android:layout_width="match_parent"
                     android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
                     android:layout_height="wrap_content" />
                 <ImageView
                     android:id="@+id/iv_item8"
+                    android:layout_marginLeft="5dp"
                     android:layout_width="match_parent"
                     android:layout_weight="1"
                     android:layout_height="wrap_content" />

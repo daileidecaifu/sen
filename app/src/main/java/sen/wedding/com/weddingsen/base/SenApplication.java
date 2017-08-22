@@ -1,15 +1,9 @@
 package sen.wedding.com.weddingsen.base;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Application;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.text.TextUtils;
-import android.view.WindowManager;
-import android.widget.Toast;
 
-import com.lzy.ninegrid.NineGridView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -18,23 +12,14 @@ import java.util.List;
 import java.util.Stack;
 
 import sen.wedding.com.weddingsen.MyEventBusIndex;
-import sen.wedding.com.weddingsen.R;
-import sen.wedding.com.weddingsen.account.activity.LoginActivity;
-import sen.wedding.com.weddingsen.account.model.AccountInfoModel;
-import sen.wedding.com.weddingsen.base.model.CheckVersionResModel;
-import sen.wedding.com.weddingsen.component.service.DownloadService;
 import sen.wedding.com.weddingsen.http.base.RequestHandler;
 import sen.wedding.com.weddingsen.http.model.ResultModel;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.http.service.HttpService;
 import sen.wedding.com.weddingsen.main.activity.HotelShowActivity;
-import sen.wedding.com.weddingsen.utils.DLUtil;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
-import sen.wedding.com.weddingsen.utils.NineGlideLoader;
-import sen.wedding.com.weddingsen.utils.StringUtil;
 import sen.wedding.com.weddingsen.utils.crash.CrashInfoModel;
 import sen.wedding.com.weddingsen.utils.crash.CrashManager;
-import sen.wedding.com.weddingsen.utils.crash.DeviceUuidFactory;
 
 /**
  * Created by lorin on 17/4/2.
@@ -53,7 +38,6 @@ public class SenApplication extends Application {
     public void onCreate() {
         super.onCreate();
         EventBus.builder().addIndex(new MyEventBusIndex()).installDefaultEventBus();
-        NineGridView.setImageLoader(new NineGlideLoader());
         CrashManager.init();
         checkCrashInfos();
     }

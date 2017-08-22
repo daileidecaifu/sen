@@ -268,6 +268,6 @@
     <string name="downloading">下载中...</string>
     <string name="yuan">￥</string>
     <string name="source">来源</string>
-
+    <string name="image_detail">图片详情</string>
 
 </resources>

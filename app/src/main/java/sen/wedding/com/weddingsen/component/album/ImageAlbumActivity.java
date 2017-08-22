@@ -1,4 +1,4 @@
-package com.lzy.ninegrid.album;
+package sen.wedding.com.weddingsen.component.album;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.lzy.ninegrid.R;
-
 import java.util.ArrayList;
+
+import sen.wedding.com.weddingsen.R;
 
 
 /**

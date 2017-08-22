@@ -1,4 +1,4 @@
-package com.lzy.ninegrid.album;
+package sen.wedding.com.weddingsen.component.album;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -8,10 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.lzy.ninegrid.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import sen.wedding.com.weddingsen.R;
 
 
 /**

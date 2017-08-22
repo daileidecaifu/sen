@@ -208,6 +208,9 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity android:name=".component.album.ImageAlbumActivity"
+            android:screenOrientation="portrait"></activity>
+
         <service android:name=".component.service.DownloadService">
         </service>
 

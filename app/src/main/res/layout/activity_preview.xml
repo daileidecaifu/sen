@@ -26,7 +26,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_height="20dp"
                 android:id="@+id/tv_left"
-                android:background="@drawable/back" />
+                android:background="@mipmap/back" />
         </LinearLayout>
 
         <LinearLayout

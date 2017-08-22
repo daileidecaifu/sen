@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.lzy.ninegrid.NineGridViewClickAdapter;
-import com.lzy.ninegrid.album.ImageAlbumActivity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +21,7 @@ import java.util.List;
 
 import sen.wedding.com.weddingsen.R;
 import sen.wedding.com.weddingsen.base.Conts;
+import sen.wedding.com.weddingsen.component.album.ImageAlbumActivity;
 import sen.wedding.com.weddingsen.databinding.PayLogInfoBinding;
 import sen.wedding.com.weddingsen.sales.model.PayRecordLogModel;
 import sen.wedding.com.weddingsen.utils.DateUtil;
@@ -44,7 +43,7 @@ public class PayRecordLogAdapter extends BaseAdapter {
         this.currentContext = context;
         this.list = new ArrayList<>();
         this.screenWidth = ScreenUtil.getScreenWidthPixels(currentContext);
-        this.imageWidth = (screenWidth - ScreenUtil.dip2px(currentContext, 10)) / 4;
+        this.imageWidth = (screenWidth - ScreenUtil.dip2px(currentContext, 25)) / 4;
     }
 
     public void clearData() {
