@@ -118,7 +118,7 @@ public class ApiService implements DataService<ApiRequest, ApiResponse> {
                 }
                 ResultModel resultModel = response.getResultModel();
                 if(handler != null) {
-                    if(resultModel.status==997)
+                    if(resultModel.status==Conts.REQUEST_LOGIN_INVALID)
                     {
                         SenApplication.getInstance().logout();
                     }else

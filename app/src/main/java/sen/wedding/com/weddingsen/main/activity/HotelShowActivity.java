@@ -357,7 +357,7 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
         {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(url));
+            intent.setData(Uri.parse("http://51isen.com"));
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
