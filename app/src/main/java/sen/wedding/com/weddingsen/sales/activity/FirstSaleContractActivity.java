@@ -165,9 +165,8 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
         binding.llContractMoney.etItemEditInput.setInputType(8194);
 
         //尾款时间
-        binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.tail_time));
-        binding.llSignUpTime.tvItemSelectContent.setHint(getString(R.string.tail_time_hit));
-        binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
+        binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.held_time));
+        binding.llSignUpTime.tvItemSelectContent.setHint(getString(R.string.held_time_hint));
         binding.llSignUpTime.setClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,7 +184,6 @@ public class FirstSaleContractActivity extends BaseActivity implements View.OnCl
 
         //支付时间
         binding.llNextPayTime.tvItemSelectTitle.setText(getString(R.string.middle_time));
-        binding.llNextPayTime.tvItemSelectIcon.setVisibility(View.GONE);
         binding.llNextPayTime.tvItemSelectContent.setHint(getString(R.string.middle_time_hit));
         binding.llNextPayTime.setClickListener(new View.OnClickListener() {
             @Override

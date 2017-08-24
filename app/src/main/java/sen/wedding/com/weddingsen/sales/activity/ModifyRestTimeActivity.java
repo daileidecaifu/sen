@@ -60,7 +60,7 @@ public class ModifyRestTimeActivity extends BaseActivity implements View.OnClick
 
 
         initTitleBar(binding.titleBar, TitleBar.Type.COMMON);
-        getTitleBar().setTitle(getString(R.string.apply_modify_rest_time));
+        getTitleBar().setTitle(getString(R.string.apply_modify_held_time));
         getTitleBar().setRightVisibility(View.GONE);
         getTitleBar().setLeftClickEvent(new View.OnClickListener() {
             @Override

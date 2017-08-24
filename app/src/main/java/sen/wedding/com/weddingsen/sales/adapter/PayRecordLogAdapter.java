@@ -145,7 +145,7 @@ public class PayRecordLogAdapter extends BaseAdapter {
                 binding.llImageShow.setVisibility(View.VISIBLE);
 
                 binding.llSelect1.tvItemSelectTitle.setText(currentContext.getString(R.string.contract_money));
-                binding.llSelect2.tvItemSelectTitle.setText(currentContext.getString(R.string.tail_time));
+                binding.llSelect2.tvItemSelectTitle.setText(currentContext.getString(R.string.held_time));
                 binding.llSelect3.tvItemSelectTitle.setText(currentContext.getString(R.string.first_sale_amount));
                 binding.llSelect4.tvItemSelectTitle.setText(currentContext.getString(R.string.first_sale_time));
 
@@ -187,7 +187,7 @@ public class PayRecordLogAdapter extends BaseAdapter {
                 binding.llRow4.setVisibility(View.VISIBLE);
                 binding.llImageShow.setVisibility(View.GONE);
 
-                binding.tvItemTitle.setText(currentContext.getString(R.string.tail_pay_modify_tip));
+                binding.tvItemTitle.setText(currentContext.getString(R.string.held_change_tip));
 
                 binding.llSelect3.tvItemSelectTitle.setText(currentContext.getString(R.string.original_time));
                 binding.llSelect4.tvItemSelectTitle.setText(currentContext.getString(R.string.apply_time));

@@ -36,7 +36,7 @@
     <string-array name="second_sale_detail_action">
         <item>中款支付</item>
         <item>附加款支付</item>
-        <item>申请修改尾款时间</item>
+        <item>申请修改举办时间</item>
         <item>尾款支付</item>
 
     </string-array>

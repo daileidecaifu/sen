@@ -77,7 +77,7 @@ public class FirstSaleContractFragment extends BaseFragment implements RequestHa
         binding.llContractMoney.tvItemSelectTitle.setText(getString(R.string.contract_money));
         binding.llContractMoney.tvItemSelectIcon.setVisibility(View.GONE);
         //签单时间
-        binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.tail_time));
+        binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.held_time));
         binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
 
         //首付金额
