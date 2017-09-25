@@ -74,7 +74,7 @@ public class ModifyRestTimeActivity extends BaseActivity implements View.OnClick
         binding.llOriginTime.tvItemSelectContent.setText(originalTime);
         binding.llSignUpTime.tvItemSelectTitle.setText(getString(R.string.apply_time));
         binding.llSignUpTime.tvItemSelectContent.setHint(getString(R.string.apply_time_hit));
-        binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.GONE);
+        binding.llSignUpTime.tvItemSelectIcon.setVisibility(View.VISIBLE);
         binding.llSignUpTime.setClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -103,6 +103,7 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
                 if (!TextUtils.isEmpty(selectDistinctId)) {
                     tvDistinct.setText(selectDistinctTitle);
                     rlSelectShow.setVisibility(View.GONE);
+                    rvDistinct.setVisibility(View.GONE);
                     loadingView.showLoading();
                     getHotelList(selectDistinctId);
                 }
@@ -199,6 +200,7 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
                 if (parent.getAdapter().getItem(position) instanceof HotelOptionModel) {
                     hotelTypeAdapter.notifySelectChanged(position);
                     rlSelectShow.setVisibility(View.GONE);
+                    lvType.setVisibility(View.GONE);
                     selectType = hotelTypes.get(position).getTitle();
                     selectTypeId = hotelTypes.get(position).getId();
                     tvType.setText(selectType);
@@ -434,6 +436,8 @@ public class HotelShowFragment extends BaseFragment implements RequestHandler<Ap
 
             case R.id.rl_select_show:
                 rlSelectShow.setVisibility(View.GONE);
+                lvType.setVisibility(View.GONE);
+                rvDistinct.setVisibility(View.GONE);
 
                 break;
         }

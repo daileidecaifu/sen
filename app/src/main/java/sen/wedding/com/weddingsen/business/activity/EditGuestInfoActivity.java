@@ -198,7 +198,7 @@ public class EditGuestInfoActivity extends BaseActivity implements View.OnClickL
         //时间
         binding.llSelectTime.tvItemSelectTitle.setText(getString(R.string.time));
         binding.llSelectTime.tvItemSelectContent.setHint(getString(R.string.time_hint));
-        binding.llSelectTime.tvItemSelectIcon.setVisibility(View.INVISIBLE);
+        binding.llSelectTime.tvItemSelectIcon.setVisibility(View.VISIBLE);
         binding.llSelectTime.setClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

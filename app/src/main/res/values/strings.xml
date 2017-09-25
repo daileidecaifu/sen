@@ -245,6 +245,7 @@
     <string name="tail_funds">尾款</string>
     <string name="additional_funds">附加款</string>
     <string name="tail_modify">尾款修改</string>
+    <string name="held_modify">修改举办时间</string>
     <string name="first_pay_detail_tip">首款明细与凭证</string>
     <string name="middle_pay_detail_tip">中款明细与凭证</string>
     <string name="tail_pay_detail_tip">尾款明细与凭证</string>
