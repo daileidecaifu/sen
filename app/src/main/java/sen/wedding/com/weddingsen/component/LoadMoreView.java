@@ -16,7 +16,7 @@ import sen.wedding.com.weddingsen.R;
 
 
 /**
- * Created by sunyun on 16/9/12.
+ * Created by Lorin on 16/9/12.
  */
 public class LoadMoreView extends LinearLayout {
 
