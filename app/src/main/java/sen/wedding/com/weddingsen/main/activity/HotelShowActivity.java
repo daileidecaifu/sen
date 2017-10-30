@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v13.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -69,6 +70,7 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
     private final long BACK_PRESSED_INTERVAL = 1500;
     private ApiRequest checkUpdateRequest;
     private AlertDialog alertDialog;
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,43 +182,49 @@ public class HotelShowActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
-        switch (v.getId()) {
-            case R.id.ll_logout:
-                logout();
-                break;
-
-            case R.id.ll_user_feedback:
-                jumpToOtherActivity(FeedbackActivity.class);
-                break;
-
-            case R.id.ll_person_info:
-                jumpToOtherActivity(PersonalDetailActivity.class);
-                break;
-
-            case R.id.ll_info_provide:
-                jumpToOtherActivity(InfoProvideActivity.class);
-                break;
-            case R.id.ll_info_follow:
-
-                switch (userType) {
-
-                    case Conts.LOGIN_MODEL_FIRST_SALE:
-                    case Conts.LOGIN_MODEL_SECOND_SALE:
-                        jumpToOtherActivity(BuildFollowAcrivity.class);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                switch (v.getId()) {
+                    case R.id.ll_logout:
+                        logout();
                         break;
-                    case Conts.LOGIN_MODEL_ACCOUNT:
-                        jumpToOtherActivity(InfoFollowUpActivity.class);
+
+                    case R.id.ll_user_feedback:
+                        jumpToOtherActivity(FeedbackActivity.class);
+                        break;
+
+                    case R.id.ll_person_info:
+                        jumpToOtherActivity(PersonalDetailActivity.class);
+                        break;
+
+                    case R.id.ll_info_provide:
+                        jumpToOtherActivity(InfoProvideActivity.class);
+                        break;
+                    case R.id.ll_info_follow:
+
+                        switch (userType) {
+
+                            case Conts.LOGIN_MODEL_FIRST_SALE:
+                            case Conts.LOGIN_MODEL_SECOND_SALE:
+                                jumpToOtherActivity(BuildFollowAcrivity.class);
+                                break;
+                            case Conts.LOGIN_MODEL_ACCOUNT:
+                                jumpToOtherActivity(InfoFollowUpActivity.class);
+                                break;
+                        }
+                        break;
+                    case R.id.ll_password_reset:
+                        jumpToOtherActivity(ResetPasswordActivity.class);
                         break;
                 }
-                break;
-            case R.id.ll_password_reset:
-                jumpToOtherActivity(ResetPasswordActivity.class);
-                break;
-        }
+            }
+        },150);
+
     }
 
     public void openMenu() {

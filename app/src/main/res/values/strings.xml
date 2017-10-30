@@ -21,8 +21,8 @@
     <string name="alipay">支付宝</string>
     <string name="alipay_account">支付宝账号</string>
     <string name="bank_card_account">银行卡账号</string>
-    <string name="alipay_hint">请输入支付宝账号</string>
-    <string name="alipay_account_hint">只有绑定账号，才能提成哟</string>
+    <string name="alipay_hint">支付宝账户，姓名(必填)</string>
+    <string name="alipay_account_hint">1.支付宝格式：10000@qq.com，张三丰\n2.只有绑定账号，才能提成哟</string>
     <string name="not_set_now">暂不设置，以后再说</string>
     <string name="person_info">个人信息</string>
     <string name="person_center">个人中心</string>

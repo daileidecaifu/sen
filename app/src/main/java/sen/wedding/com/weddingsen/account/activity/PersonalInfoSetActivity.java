@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -108,7 +109,11 @@ public class PersonalInfoSetActivity extends BaseActivity implements View.OnClic
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1);
         lp.setMargins(ScreenUtil.dip2px(this, 15), 0, 0, 0);
         //支付宝账号
-        binding.llAlipayAccount.tvItemEditTitle.setText(getString(R.string.alipay));
+        StringBuffer sbAliTitle = new StringBuffer();
+        sbAliTitle.append(StringUtil.createHtml(getString(R.string.alipay), "#313133"));
+        sbAliTitle.append(StringUtil.createHtml("*", "#fa4b4b"));
+
+        binding.llAlipayAccount.tvItemEditTitle.setText(Html.fromHtml(sbAliTitle.toString()));
         binding.llAlipayAccount.etItemEditInput.setHint(getString(R.string.alipay_hint));
         //银行账号
         binding.llBankAccount.tvItemEditTitle.setText(getString(R.string.open_band_account));
