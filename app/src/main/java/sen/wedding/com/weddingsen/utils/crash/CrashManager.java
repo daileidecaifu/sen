@@ -77,7 +77,7 @@ public class CrashManager {
         CrashInfoModel info = new CrashInfoModel();
 
         info.setHasSent(0);
-        String uuid = DeviceUuidFactory.getUUID(SenApplication.getInstance());
+        String uuid = SystemUtil.getUniqueIdentification();
         info.setUuid(uuid);
         info.setDate(DateFormat.format("yyyy-MM-dd kk:mm:ss", crashTime).toString());
         info.setApp(SystemUtil.getPackageName(SenApplication.getInstance()));

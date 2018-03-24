@@ -18,6 +18,7 @@ public class BasePreference {
     private final static String KEY_AREA_ID = "area_id";
     private final static String KEY_HOTEL_AREA = "hotel_area";
     private final static String KEY_AUTO_TYPE = "auto_type";
+    private final static String KEY_ZFB_NAME = "zfb_name";
 
     private final static String KEY_HOTEL_HISTORY = "hotel_history";
 
@@ -109,6 +110,14 @@ public class BasePreference {
         return PreferenceUtils.getPrefString(SenApplication.getInstance(), KEY_AUTO_TYPE, "");
     }
 
+    public static void saveZfbName(String zfbName) {
+        PreferenceUtils.setPrefString(SenApplication.getInstance(), KEY_ZFB_NAME, zfbName);
+    }
+
+    public static String getZfbName() {
+        return PreferenceUtils.getPrefString(SenApplication.getInstance(), KEY_ZFB_NAME, "");
+    }
+
 
     public static void clearAll() {
         saveToken("");
@@ -122,6 +131,7 @@ public class BasePreference {
         saveHotelArea("");
         saveHotelSearchHistory("");
         saveAutoType("");
+        saveZfbName("");
     }
 
 

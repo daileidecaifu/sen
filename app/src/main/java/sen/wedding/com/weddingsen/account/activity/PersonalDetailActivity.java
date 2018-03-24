@@ -75,6 +75,11 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
         binding.llAlipayAccount.tvItemSelectIcon.setVisibility(View.GONE);
         binding.llAlipayAccount.tvItemSelectContent.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
 
+        //支付宝账号
+        binding.llZfbName.tvItemSelectTitle.setText(getString(R.string.zfb_name));
+        binding.llZfbName.tvItemSelectIcon.setVisibility(View.GONE);
+        binding.llZfbName.tvItemSelectContent.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
+
         //银行账号
         binding.llBankAccount.tvItemSelectTitle.setText(getString(R.string.open_band_account));
         binding.llBankAccount.tvItemSelectIcon.setVisibility(View.GONE);
@@ -147,6 +152,7 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
             binding.llAccount.setVisibility(View.VISIBLE);
 
             binding.llAlipayAccount.getRoot().setVisibility(View.GONE);
+            binding.llZfbName.getRoot().setVisibility(View.GONE);
 
             binding.llBankAccount.getRoot().setVisibility(View.VISIBLE);
             binding.llOpenBank.getRoot().setVisibility(View.VISIBLE);
@@ -158,6 +164,7 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
 
         } else {
             binding.llAccount.setVisibility(View.VISIBLE);
+            binding.llZfbName.getRoot().setVisibility(View.VISIBLE);
 
             binding.llBankAccount.getRoot().setVisibility(View.GONE);
             binding.llOpenBank.getRoot().setVisibility(View.GONE);
@@ -166,6 +173,8 @@ public class PersonalDetailActivity extends BaseActivity implements View.OnClick
             binding.llAlipayAccount.getRoot().setVisibility(View.VISIBLE);
             binding.tvAccountTitle.setText(getString(R.string.receipt_account_alipay));
             binding.llAlipayAccount.tvItemSelectContent.setText(personInfoModel.getAlipay());
+            binding.llZfbName.tvItemSelectContent.setText(personInfoModel.getAlipayName());
+
         }
     }
 

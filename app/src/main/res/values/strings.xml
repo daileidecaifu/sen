@@ -21,8 +21,9 @@
     <string name="alipay">支付宝</string>
     <string name="alipay_account">支付宝账号</string>
     <string name="bank_card_account">银行卡账号</string>
-    <string name="alipay_hint">支付宝账户，姓名(必填)</string>
-    <string name="alipay_account_hint">1.支付宝格式：10000@qq.com，张三丰\n2.只有绑定账号，才能提成哟</string>
+    <string name="alipay_account_hint">支付宝账户(必填)</string>
+    <string name="alipay_name_hint">支付宝姓名(必填)</string>
+    <string name="alipay_message_hint">1.支付宝账号：10000@qq.com，支付宝姓名：张三丰\n2.只有绑定账号，才能提成哟</string>
     <string name="not_set_now">暂不设置，以后再说</string>
     <string name="person_info">个人信息</string>
     <string name="person_center">个人中心</string>
@@ -34,6 +35,7 @@
     <string name="verify_phone_number_hint">请输入受访者手机号</string>
     <string name="verify_now">立即验证</string>
     <string name="name">姓名</string>
+    <string name="zfb_name">支付宝姓名</string>
     <string name="edit_name_hint">请输入受访者姓名</string>
     <string name="edit_guest_info">填写客资料信息</string>
     <string name="submit_guest_info">提交客资信息</string>
@@ -85,6 +87,7 @@
     <string name="code_wrong_format">验证码格式错误</string>
     <string name="save">保存</string>
     <string name="alipay_empty">支付宝账号不能为空</string>
+    <string name="alipay_info_empty">支付宝信息不能为空</string>
     <string name="bank_info_empty">银行信息不能为空不能为空</string>
 
     <string name="request_error_tip">请求异常，请稍后再试</string>
@@ -260,6 +263,7 @@
     <string name="rest_pay">尾款支付</string>
     <string name="addtional_pay">附加款支付</string>
     <string name="featured_areas">精选区域</string>
+    <string name="all_areas">全部地区</string>
     <string name="all_type">全部类型</string>
     <string name="search_history">搜索历史</string>
     <string name="clear_search_history">清空搜索历史</string>

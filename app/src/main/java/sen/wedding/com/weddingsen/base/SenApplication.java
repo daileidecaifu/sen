@@ -3,6 +3,7 @@ package sen.wedding.com.weddingsen.base;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
+import android.text.TextUtils;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -18,6 +19,7 @@ import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.http.service.HttpService;
 import sen.wedding.com.weddingsen.main.activity.HotelShowActivity;
 import sen.wedding.com.weddingsen.utils.GsonConverter;
+import sen.wedding.com.weddingsen.utils.SystemUtil;
 import sen.wedding.com.weddingsen.utils.crash.CrashInfoModel;
 import sen.wedding.com.weddingsen.utils.crash.CrashManager;
 

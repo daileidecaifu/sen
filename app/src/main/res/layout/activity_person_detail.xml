@@ -104,6 +104,15 @@
                     android:background="@color/white"></View>
 
                 <include
+                    android:id="@+id/ll_zfb_name"
+                    layout="@layout/view_item_select" />
+
+                <View
+                    android:layout_width="15dp"
+                    android:layout_height="1px"
+                    android:background="@color/white"></View>
+
+                <include
                     android:id="@+id/ll_bank_account"
                     layout="@layout/view_item_select" />
 

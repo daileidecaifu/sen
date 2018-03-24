@@ -7,6 +7,7 @@ import sen.wedding.com.weddingsen.http.base.CacheStrategy;
 import sen.wedding.com.weddingsen.http.request.BasicHttpRequest;
 import sen.wedding.com.weddingsen.http.request.HttpMethod;
 import sen.wedding.com.weddingsen.http.request.RequestBody;
+import sen.wedding.com.weddingsen.utils.SystemUtil;
 
 /**
  * Created by lorin on 17/4/2.
@@ -52,6 +53,11 @@ public class ApiRequest extends BasicHttpRequest {
     public void formatRequestParams() {
 
         addHeader("Accept", "application/json");
+        String UID = SystemUtil.getUniqueIdentification();
+        addHeader("APP-DEVICE", UID);//设备唯一识别码
+        long currentTime = System.currentTimeMillis() / 1000;
+        addHeader("APP-TIME", currentTime + "");
+        addHeader("APP-SIGN", SystemUtil.getMD5(Conts.MD5_MARK + UID + currentTime));
 
 //        if (params != null) {
 //            setBody(new RequestBody.JsonBody(params));

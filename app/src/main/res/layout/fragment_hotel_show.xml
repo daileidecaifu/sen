@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
-                android:text="@string/featured_areas"
+                android:text="@string/all_areas"
                 android:textColor="@color/text_common"
                 android:textSize="@dimen/text_size_m" />
 

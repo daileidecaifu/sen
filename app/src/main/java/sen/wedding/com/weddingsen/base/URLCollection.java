@@ -6,7 +6,7 @@ package sen.wedding.com.weddingsen.base;
 
 public class URLCollection {
 
-    public static String URL_DOMAIN = "http://app.51isen.com";
+    public static String URL_DOMAIN = "http://dev.51isen.com";
 
     //正式
     public final static String URL_DOMAIN_APP = "http://app.51isen.com";

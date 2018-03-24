@@ -40,6 +40,10 @@
                 layout="@layout/view_item_edit_divide" />
 
             <include
+                android:id="@+id/ll_alipay_name"
+                layout="@layout/view_item_edit_divide" />
+
+            <include
                 android:id="@+id/ll_open_bank"
                 layout="@layout/view_item_edit_divide" />
 
@@ -56,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:paddingLeft="15dp"
-                android:text="@string/alipay_account_hint"
+                android:text="@string/alipay_message_hint"
                 android:textColor="@color/gray_2"
                 android:textSize="@dimen/text_size_m" />
 

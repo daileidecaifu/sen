@@ -19,6 +19,9 @@ public class PersonInfoModel {
     @SerializedName("bank_account")
     private String bankAccount;
 
+    @SerializedName("zfb_name")
+    private String alipayName;
+
     public String getAlipay() {
         return alipay;
     }
@@ -49,5 +52,13 @@ public class PersonInfoModel {
 
     public void setBankAccount(String bankAccount) {
         this.bankAccount = bankAccount;
+    }
+
+    public String getAlipayName() {
+        return alipayName;
+    }
+
+    public void setAlipayName(String alipayName) {
+        this.alipayName = alipayName;
     }
 }

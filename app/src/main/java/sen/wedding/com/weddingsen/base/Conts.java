@@ -17,15 +17,17 @@ import sen.wedding.com.weddingsen.utils.model.BaseTypeModel;
 
 public class Conts {
 
-    //同步类型
     public final static String APP_VERSION = "1.2.0";
-
 
     //更新状态
     public final static String APP_UPDATE_NO_UPDATE = "1";//无更新
     public final static String APP_UPDATE_FORCED = "2";//强制
     public final static String APP_UPDATE_COMMON = "3";//普通
 
+    public static String MD5_MARK = "51sen";
+
+
+    public static String uniqueIdentification;
 
     public enum GuestInfoType {
         WeddingBanquet, WeddingBanquet_2, WeddingBanquet_3

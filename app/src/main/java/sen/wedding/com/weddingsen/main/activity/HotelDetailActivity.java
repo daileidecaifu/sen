@@ -175,7 +175,7 @@ public class HotelDetailActivity extends BaseActivity implements RequestHandler<
 
     @Override
     public void OnBannerClick(int position) {
-        showToast("Position:" + position);
+//        showToast("Position:" + position);
     }
 
     @Override
