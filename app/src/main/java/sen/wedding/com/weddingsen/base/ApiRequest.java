@@ -58,6 +58,8 @@ public class ApiRequest extends BasicHttpRequest {
         long currentTime = System.currentTimeMillis() / 1000;
         addHeader("APP-TIME", currentTime + "");
         addHeader("APP-SIGN", SystemUtil.getMD5(Conts.MD5_MARK + UID + currentTime));
+        addHeader("version", Conts.APP_VERSION);
+        addHeader("APP-PLATFORM", "android");
 
 //        if (params != null) {
 //            setBody(new RequestBody.JsonBody(params));
